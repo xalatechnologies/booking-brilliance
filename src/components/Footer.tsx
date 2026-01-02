@@ -1,18 +1,37 @@
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Linkedin, Youtube, Mail, Phone, MapPin } from "lucide-react";
 
 const Footer = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleNavClick = (hash: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    if (location.pathname === "/") {
+      const element = document.querySelector(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.history.pushState(null, "", hash);
+      }
+    } else {
+      navigate("/");
+      setTimeout(() => {
+        window.location.hash = hash;
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 50);
+    }
+  };
+
   const footerLinks = {
-    produkt: [
-      { label: "Funksjoner", href: "#funksjoner" },
-      { label: "Priser", href: "#priser" },
-      { label: "Integrasjoner", href: "#integrasjoner" },
-      { label: "Demo", href: "#demo" },
-    ],
-    selskap: [
-      { label: "Om oss", href: "#om-oss" },
-      { label: "Partnere", href: "#partnere" },
-      { label: "Karriere", href: "#karriere" },
-      { label: "Kontakt", href: "#kontakt" },
+    navigasjon: [
+      { label: "Om oss", hash: "#om-oss" },
+      { label: "Funksjoner", hash: "#funksjoner" },
+      { label: "Partnere", hash: "#partnere" },
+      { label: "Kontakt", hash: "#kontakt" },
     ],
     juridisk: [
       { label: "Personvern", href: "#personvern" },
@@ -31,19 +50,19 @@ const Footer = () => {
   return (
     <footer className="bg-secondary/50 border-t border-border/50">
       <div className="container mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <a href="/" className="flex items-center gap-2 mb-6">
+            <Link to="/" className="flex items-center gap-2 mb-6">
               <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center font-bold text-primary-foreground text-xl">
                 D
               </div>
               <span className="text-xl font-bold text-foreground">
                 igi<span className="text-primary">list</span>
               </span>
-            </a>
+            </Link>
             <p className="text-muted-foreground mb-6 max-w-sm">
-              Norges smarteste bookingsystem for lokaler, ressurser og arrangementer.
+              En helhetlig og brukervennlig SaaS-løsning for booking og administrasjon. Utviklet med moderne design, betaling, kalender og rapportering i én plattform.
             </p>
             
             {/* Contact info */}
@@ -65,24 +84,15 @@ const Footer = () => {
 
           {/* Links */}
           <div>
-            <h4 className="font-semibold text-foreground mb-4">Produkt</h4>
+            <h4 className="font-semibold text-foreground mb-4">Navigasjon</h4>
             <ul className="space-y-3">
-              {footerLinks.produkt.map((link, index) => (
+              {footerLinks.navigasjon.map((link, index) => (
                 <li key={index}>
-                  <a href={link.href} className="text-muted-foreground hover:text-foreground transition-colors">
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-semibold text-foreground mb-4">Selskap</h4>
-            <ul className="space-y-3">
-              {footerLinks.selskap.map((link, index) => (
-                <li key={index}>
-                  <a href={link.href} className="text-muted-foreground hover:text-foreground transition-colors">
+                  <a
+                    href={`/${link.hash}`}
+                    onClick={(e) => handleNavClick(link.hash, e)}
+                    className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                  >
                     {link.label}
                   </a>
                 </li>

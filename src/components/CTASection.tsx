@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Mail } from "lucide-react";
 
@@ -10,7 +11,6 @@ const CTASection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
-          <span className="text-sm font-medium text-primary mb-4 block">Kom i gang i dag</span>
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
             Klar til å komme i gang?
           </h2>
@@ -19,19 +19,17 @@ const CTASection = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="hero" size="xl" className="group">
-              Book demo
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <Link to="/book-demo">
+              <Button variant="hero" size="xl" className="group">
+                Book demo
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
             <Button variant="heroOutline" size="xl" className="group">
               <Mail className="w-5 h-5" />
               Ta kontakt
             </Button>
           </div>
-
-          <p className="mt-8 text-muted-foreground text-sm">
-            Gratis demo • Ingen forpliktelser
-          </p>
         </div>
       </div>
     </section>

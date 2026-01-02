@@ -32,10 +32,10 @@ const ComplianceSection = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Klar for anskaffelse i offentlig sektor
+            Tilpasset offentlige krav
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Alle krav dekket for kommuner og kulturhus
+            Dekker krav til sikkerhet, drift, dokumentasjon og etterlevelse
           </p>
         </div>
 

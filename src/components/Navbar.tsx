@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, ArrowRight } from "lucide-react";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,11 +18,37 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { label: "Om oss", href: "#om-oss" },
-    { label: "Funksjoner", href: "#funksjoner" },
-    { label: "Partnere", href: "#partnere" },
-    { label: "Kontakt", href: "#kontakt" },
+    { label: "Om oss", hash: "#om-oss" },
+    { label: "Funksjoner", hash: "#funksjoner" },
+    { label: "Partnere", hash: "#partnere" },
+    { label: "Kontakt", hash: "#kontakt" },
   ];
+
+  const handleNavClick = (hash: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
+    
+    if (location.pathname === "/") {
+      // Already on homepage, just scroll
+      const element = document.querySelector(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+        // Update URL hash
+        window.history.pushState(null, "", hash);
+      }
+    } else {
+      // Navigate to homepage, then set hash
+      navigate("/");
+      // Use setTimeout to ensure navigation completes before setting hash
+      setTimeout(() => {
+        window.location.hash = hash;
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 50);
+    }
+  };
 
   return (
     <nav
@@ -31,22 +60,23 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
         {/* Logo */}
-        <a href="/" className="flex items-center gap-2 group">
+        <Link to="/" className="flex items-center gap-2 group">
           <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center font-bold text-primary-foreground text-xl group-hover:scale-105 transition-transform">
             D
           </div>
           <span className="text-xl font-bold text-foreground">
             igi<span className="text-primary">list</span>
           </span>
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
-              key={link.href}
-              href={link.href}
-              className="text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium"
+              key={link.hash}
+              href={`/${link.hash}`}
+              onClick={(e) => handleNavClick(link.hash, e)}
+              className="text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium cursor-pointer"
             >
               {link.label}
             </a>
@@ -55,10 +85,12 @@ const Navbar = () => {
 
         {/* CTA Button */}
         <div className="hidden md:block">
-          <Button variant="hero" size="lg" className="group">
-            Book Demo
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
+          <Link to="/book-demo">
+            <Button variant="hero" size="lg" className="group">
+              Book Demo
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </Link>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -76,18 +108,20 @@ const Navbar = () => {
           <div className="container mx-auto px-4 py-6 flex flex-col gap-4">
             {navLinks.map((link) => (
               <a
-                key={link.href}
-                href={link.href}
-                className="text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium py-2"
-                onClick={() => setIsMobileMenuOpen(false)}
+                key={link.hash}
+                href={`/${link.hash}`}
+                onClick={(e) => handleNavClick(link.hash, e)}
+                className="text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium py-2 cursor-pointer"
               >
                 {link.label}
               </a>
             ))}
-            <Button variant="hero" size="lg" className="mt-4 group">
-              Book Demo
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <Link to="/book-demo" onClick={() => setIsMobileMenuOpen(false)}>
+              <Button variant="hero" size="lg" className="mt-4 w-full group">
+                Book Demo
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
           </div>
         </div>
       )}

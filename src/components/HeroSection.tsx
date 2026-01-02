@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, CreditCard, Fingerprint } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
@@ -31,28 +32,28 @@ const HeroSection = () => {
           {/* Badge */}
           <div className="animate-fade-in inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 mb-8">
             <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-            <span className="text-sm font-medium text-primary">Norges smarteste bookingsystem</span>
+            <span className="text-sm font-medium text-primary">Smart booking. Enkelt for alle.</span>
           </div>
 
           {/* Heading */}
           <h1 className="animate-slide-up text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
             <span className="text-gradient">Bookingsystem</span>{" "}
-            <span className="text-foreground">for lokaler, ressurser og</span>{" "}
-            <span className="text-gradient">arrangementer</span>
+            <span className="text-foreground">En helhetlig plattform for booking og planlegging</span>
           </h1>
 
           {/* Subtitle */}
           <p className="animate-slide-up text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl" style={{ animationDelay: "0.2s" }}>
-            For kommuner, kulturhus, idrettslag, skoler, bedrifter og organisasjoner. 
-            SaaS-løsning med betaling, kalender og rapportering.
+            En helhetlig og brukervennlig SaaS-løsning for booking og administrasjon. Utviklet med moderne design, betaling, kalender og rapportering i én plattform.
           </p>
 
           {/* CTA Buttons */}
           <div className="animate-slide-up flex flex-col sm:flex-row gap-4 mb-16" style={{ animationDelay: "0.4s" }}>
-            <Button variant="hero" size="xl" className="group">
-              Book demo
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </Button>
+            <Link to="/book-demo">
+              <Button variant="hero" size="xl" className="group">
+                Mer om DigiList
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+            </Link>
             <Button variant="heroOutline" size="xl">
               Utforsk mer
             </Button>
