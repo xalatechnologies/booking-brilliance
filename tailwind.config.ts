@@ -16,6 +16,11 @@ export default {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
+      spacing: {
+        'orb-large': 'var(--size-orb-large)',
+        'orb-medium': 'var(--size-orb-medium)',
+        'orb-small': 'var(--size-orb-small)',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
