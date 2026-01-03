@@ -40,13 +40,13 @@ const HeroSection = () => {
 
             {/* Heading */}
             <h1 className="animate-slide-up text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
-              <span className="text-gradient">En helhetlig plattform</span>{" "}
-              <span className="text-foreground">for booking og planlegging</span>
+              <span className="text-gradient">En helhetlig</span>{" "}
+              <span className="text-foreground">bookingløsning</span>
             </h1>
 
             {/* Subtitle */}
             <p className="animate-slide-up delay-normal text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl">
-              En helhetlig og brukervennlig SaaS-løsning for booking og administrasjon. Utviklet med moderne design, betaling, kalender og rapportering i én plattform.
+              Skybasert bookingløsning utviklet med moderne design, betaling, kalender og rapportering i én plattform.
             </p>
 
             {/* CTA Buttons */}
