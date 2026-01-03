@@ -53,12 +53,9 @@ const Footer = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <Link to="/" className="flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center font-bold text-primary-foreground text-xl">
-                D
-              </div>
-              <span className="text-xl font-bold text-foreground">
-                igi<span className="text-primary">list</span>
+            <Link to="/" className="mb-6 inline-block">
+              <span className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tight">
+                Digi<span className="text-primary">list</span>
               </span>
             </Link>
             <p className="text-muted-foreground mb-6 max-w-sm">
