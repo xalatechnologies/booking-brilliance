@@ -12,7 +12,7 @@ const CTASection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Ønsker gjennomgang av løsningen?
+            Book gratis demo
           </h2>
           <p className="text-xl text-muted-foreground mb-10">
             Vi tilbyr en gratis og uforpliktende presentasjon av Digilist.
