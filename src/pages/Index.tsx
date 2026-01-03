@@ -44,12 +44,12 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <HeroSection />
-      <PartnersSection />
       <AudienceSection />
       <FeaturesSection />
       <HowItWorksSection />
       <IntegrationsSection />
       <SecuritySection />
+      <PartnersSection />
       <CTASection />
       <Footer />
     </div>
