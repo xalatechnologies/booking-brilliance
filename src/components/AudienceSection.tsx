@@ -1,7 +1,7 @@
 const AudienceSection = () => {
   const audiences = [
     {
-      image: "https://images.unsplash.com/photo-1577495508048-b635879837f1?w=400&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=400&h=300&fit=crop",
       title: "Kommuner",
     },
     {
@@ -9,11 +9,11 @@ const AudienceSection = () => {
       title: "Kulturhus",
     },
     {
-      image: "https://images.unsplash.com/photo-1461896836934- voices-74b7d77?w=400&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=400&h=300&fit=crop",
       title: "Idrettslag",
     },
     {
-      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=300&fit=crop",
       title: "Bedrifter",
     },
   ];
