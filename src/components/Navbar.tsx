@@ -60,12 +60,9 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center font-bold text-primary-foreground text-xl group-hover:scale-105 transition-transform">
-            D
-          </div>
-          <span className="text-xl font-bold text-foreground">
-            igi<span className="text-primary">list</span>
+        <Link to="/" className="group">
+          <span className="text-2xl font-bold text-foreground">
+            Digi<span className="text-primary">list</span>
           </span>
         </Link>
 
@@ -87,7 +84,7 @@ const Navbar = () => {
         <div className="hidden md:block">
           <Link to="/book-demo">
             <Button variant="hero" size="lg" className="group">
-              Book Demo
+              Book demo
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Button>
           </Link>
@@ -118,7 +115,7 @@ const Navbar = () => {
             ))}
             <Link to="/book-demo" onClick={() => setIsMobileMenuOpen(false)}>
               <Button variant="hero" size="lg" className="mt-4 w-full group">
-                Book Demo
+                Book demo
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
