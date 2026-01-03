@@ -6,23 +6,6 @@ const SecuritySection = () => {
 
   const tabs = [
     {
-      icon: Shield,
-      label: "Sikkerhet og personvern",
-      items: [
-        "ISMS: ISO 27001. Personvernledelse: ISO 27701.",
-        "GDPR + norsk personvernlov",
-        "Data i EU/EØS",
-        "Kryptering i transit (TLS 1.2+) og i hvile",
-        "Varsling ved sikkerhetshendelser uten ugrunnet opphold",
-        "ROS i samarbeid før produksjon",
-        "Logg: hvor, retention, tilgjengeliggjøring",
-        "Backup: hyppighet, retention, gjenoppretting",
-        "Dataeierskap + uttrekk ved kontraktslutt",
-        "Databehandleravtale før behandling starter",
-        "Filopplasting: antivirus + tillatte formater",
-      ],
-    },
-    {
       icon: Eye,
       label: "Universell utforming",
       items: [
@@ -42,6 +25,23 @@ const SecuritySection = () => {
         "Opplæringsmateriell og dokumentasjon",
         "Dedikert supportteam",
         "SLA-garantier",
+      ],
+    },
+    {
+      icon: Shield,
+      label: "Sikkerhet og personvern",
+      items: [
+        "ISMS: ISO 27001. Personvernledelse: ISO 27701.",
+        "GDPR + norsk personvernlov",
+        "Data i EU/EØS",
+        "Kryptering i transit (TLS 1.2+) og i hvile",
+        "Varsling ved sikkerhetshendelser uten ugrunnet opphold",
+        "ROS i samarbeid før produksjon",
+        "Logg: hvor, retention, tilgjengeliggjøring",
+        "Backup: hyppighet, retention, gjenoppretting",
+        "Dataeierskap + uttrekk ved kontraktslutt",
+        "Databehandleravtale før behandling starter",
+        "Filopplasting: antivirus + tillatte formater",
       ],
     },
   ];
