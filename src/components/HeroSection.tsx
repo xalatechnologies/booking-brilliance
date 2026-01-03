@@ -14,7 +14,7 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -28,7 +28,7 @@ const HeroSection = () => {
       <div className="absolute top-1/4 right-1/4 orb-large bg-primary/10 rounded-full blur-large animate-float" />
       <div className="absolute bottom-1/4 left-1/4 orb-medium bg-primary/5 rounded-full blur-large animate-float delay-slowest" />
 
-      <div className="container mx-auto px-4 py-20 relative z-10">
+      <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="max-w-2xl">
