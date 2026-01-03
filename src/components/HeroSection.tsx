@@ -55,7 +55,7 @@ const HeroSection = () => {
               </Button>
             </Link>
             <Button variant="heroOutline" size="xl">
-              Utforsk mer
+              Kontakt oss
             </Button>
           </div>
 
