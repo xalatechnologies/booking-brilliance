@@ -87,7 +87,7 @@ const HeroSection = () => {
             <img 
               src={heroMockup} 
               alt="DigiList booking platform mockup" 
-              className="w-full h-auto max-w-2xl xl:max-w-3xl scale-110 xl:scale-125 drop-shadow-2xl"
+              className="w-full h-auto max-w-3xl xl:max-w-4xl scale-125 xl:scale-150 drop-shadow-2xl"
             />
           </div>
         </div>
