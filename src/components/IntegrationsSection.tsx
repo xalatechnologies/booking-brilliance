@@ -13,6 +13,7 @@ const IntegrationsSection = () => {
         { icon: CalendarDays, name: "Enkeltbooking og gjentakende leie", description: "Fleksibel booking for ulike behov" },
         { icon: Repeat, name: "Sesongleie og faste tider", description: "Håndtering av faste avtaler og sesongbooking" },
         { icon: AlertCircle, name: "Avvik, ferier og endringer", description: "Enkel håndtering av unntak og endringer" },
+        { icon: Calendar, name: "Oversikt per lokale og tidsrom", description: "Se tilgjengelighet, bookinger og bruk samlet i én tydelig kalenderoversikt" },
       ],
     },
     {
@@ -23,6 +24,7 @@ const IntegrationsSection = () => {
         { icon: Bell, name: "Varsler og frister", description: "Automatiske påminnelser og varsler" },
         { icon: FileBarChart, name: "Rapportering og eksport", description: "Innsikt og dataeksport for analyse" },
         { icon: Zap, name: "Mindre manuelt arbeid", description: "Automatisering av repetitive oppgaver" },
+        { icon: FileBarChart, name: "Prisregler og beregning", description: "Automatisk beregning av pris basert på regler, tid og brukergruppe" },
       ],
     },
     {
