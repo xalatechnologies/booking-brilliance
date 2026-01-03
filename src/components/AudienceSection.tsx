@@ -1,7 +1,10 @@
+import offentligSektorImg from "@/assets/offentlig-sektor.jpg";
+import naeringOrganisasjonerImg from "@/assets/naering-organisasjoner.jpeg";
+
 const AudienceSection = () => {
   const audiences = [
     {
-      image: "https://images.unsplash.com/photo-1562774053-701939374585?w=500&h=400&fit=crop",
+      image: offentligSektorImg,
       title: "Offentlig sektor",
     },
     {
@@ -13,7 +16,7 @@ const AudienceSection = () => {
       title: "Idrett og aktivitet",
     },
     {
-      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&h=400&fit=crop",
+      image: naeringOrganisasjonerImg,
       title: "Næring og organisasjoner",
     },
   ];
