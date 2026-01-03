@@ -53,12 +53,21 @@ const HeroSection = () => {
             <div className="animate-slide-up delay-slow flex flex-col sm:flex-row gap-4 mb-16">
               <Link to="/book-demo">
                 <Button variant="hero" size="xl" className="group">
-                  Mer om DigiList
+                  Book gratis demo
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-              <Button variant="heroOutline" size="xl">
-                Kontakt oss
+              <Button 
+                variant="heroOutline" 
+                size="xl"
+                onClick={() => {
+                  const element = document.querySelector('#funksjoner');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
+              >
+                Funksjonalitet
               </Button>
             </div>
 
