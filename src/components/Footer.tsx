@@ -71,13 +71,13 @@ const Footer = () => {
                 <Mail className="w-4 h-4 text-primary" />
                 kontakt@digilist.no
               </a>
-              <a href="tel:+4712345678" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors">
+              <a href="tel:+4796665001" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors">
                 <Phone className="w-4 h-4 text-primary" />
-                +47 123 45 678
+                +47 96 66 50 01
               </a>
               <div className="flex items-center gap-3 text-muted-foreground">
                 <MapPin className="w-4 h-4 text-primary" />
-                Oslo, Norge
+                Nesbruveien 75, 1394 Nesbru
               </div>
             </div>
           </div>
