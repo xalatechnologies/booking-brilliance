@@ -29,11 +29,11 @@ const FeaturesSection = () => {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="text-sm font-medium text-primary mb-4 block">Komplett løsning</span>
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <span className="text-sm font-bold text-primary mb-4 block uppercase tracking-wider">Komplett løsning</span>
+          <h2 className="section-heading mb-4">
             Funksjoner
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="section-subheading max-w-2xl mx-auto">
             Alt du trenger for å administrere bookinger, ressurser og arrangementer
           </p>
         </div>
@@ -43,17 +43,17 @@ const FeaturesSection = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="card-gradient rounded-2xl p-8 border border-border/50 hover:border-primary/30 transition-all duration-300"
+              className="card-gradient rounded-2xl p-8 border border-border hover:border-primary/50 transition-all duration-300 hover:shadow-lg"
             >
               <div className="flex items-start gap-6">
-                <div className="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center flex-shrink-0">
+                <div className="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center flex-shrink-0 shadow-sm">
                   <feature.icon className="w-8 h-8 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-foreground mb-4">{feature.title}</h3>
+                  <h3 className="text-xl font-bold text-foreground mb-4">{feature.title}</h3>
                   <ul className="space-y-3">
                     {feature.items.map((item, idx) => (
-                      <li key={idx} className="flex items-center gap-3 text-muted-foreground">
+                      <li key={idx} className="flex items-center gap-3 text-foreground/80 font-medium">
                         <Check className="w-5 h-5 text-primary flex-shrink-0" />
                         {item}
                       </li>

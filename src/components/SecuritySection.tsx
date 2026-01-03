@@ -41,14 +41,14 @@ const SecuritySection = () => {
   ];
 
   return (
-    <section className="py-24 bg-secondary/30 relative">
+    <section className="py-24 bg-secondary/40 relative">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <h2 className="section-heading mb-4">
             Trygg drift
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="section-subheading max-w-2xl mx-auto">
             Sikkerhet, tilgjengelighet og support på høyt nivå
           </p>
         </div>
@@ -60,10 +60,10 @@ const SecuritySection = () => {
               <button
                 key={index}
                 onClick={() => setActiveTab(index)}
-                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-medium transition-all duration-300 ${
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold transition-all duration-300 ${
                   activeTab === index
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-secondary/50 text-muted-foreground hover:bg-secondary hover:text-foreground"
+                    ? "bg-primary text-primary-foreground shadow-lg glow-effect"
+                    : "bg-card border-2 border-border text-foreground hover:border-primary/50 hover:bg-primary/10"
                 }`}
               >
                 <tab.icon className="w-5 h-5" />
@@ -73,12 +73,12 @@ const SecuritySection = () => {
           </div>
 
           {/* Content */}
-          <div className="card-gradient rounded-2xl p-8 border border-border/50">
+          <div className="card-gradient rounded-2xl p-8 border border-border shadow-lg">
             <ul className="grid md:grid-cols-2 gap-4">
               {tabs[activeTab].items.map((item, index) => (
                 <li key={index} className="flex items-start gap-3">
                   <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                  <span className="text-foreground">{item}</span>
+                  <span className="text-foreground font-medium">{item}</span>
                 </li>
               ))}
             </ul>

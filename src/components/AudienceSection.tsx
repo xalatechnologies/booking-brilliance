@@ -19,14 +19,14 @@ const AudienceSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-secondary/30 relative">
+    <section className="py-24 bg-secondary/40 relative">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+          <h2 className="section-heading mb-4">
             En plattform. Mange bruksområder
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="section-subheading max-w-2xl mx-auto">
             Tilpasset kommuner, kulturhus, skoler, idrett og bedrifter
           </p>
         </div>
@@ -36,7 +36,7 @@ const AudienceSection = () => {
           {audiences.map((item, index) => (
             <div
               key={index}
-              className="group card-gradient rounded-2xl overflow-hidden border border-border/50 hover:border-primary/50 transition-all duration-300 hover:-translate-y-2"
+              className="group card-gradient rounded-2xl overflow-hidden border border-border hover:border-primary/50 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
             >
               <div className="h-64 overflow-hidden">
                 <img 
@@ -46,7 +46,7 @@ const AudienceSection = () => {
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-semibold text-foreground">{item.title}</h3>
+                <h3 className="text-xl font-bold text-foreground">{item.title}</h3>
               </div>
             </div>
           ))}
