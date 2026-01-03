@@ -37,7 +37,7 @@ const HowItWorksSection = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="section-heading mb-4">
-            Booking med få steg
+            Booking på få steg
           </h2>
           <p className="section-subheading max-w-2xl mx-auto">
             Fire enkle steg fra søknad til oppfølging
