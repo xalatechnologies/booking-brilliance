@@ -50,9 +50,9 @@ const Footer = () => {
   return (
     <footer className="bg-secondary/50 border-t border-border/50">
       <div className="container mx-auto px-4 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
           {/* Brand */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-1">
             <Link to="/" className="mb-6 inline-block">
               <span className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tight">
                 Digi<span className="text-primary">list</span>
@@ -61,8 +61,11 @@ const Footer = () => {
             <p className="text-muted-foreground mb-6 max-w-sm">
               En helhetlig og brukervennlig SaaS-løsning for booking og administrasjon. Utviklet med moderne design, betaling, kalender og rapportering i én plattform.
             </p>
-            
-            {/* Contact info */}
+          </div>
+
+          {/* Contact info - moved to center */}
+          <div>
+            <h4 className="font-semibold text-foreground mb-4">Kontakt</h4>
             <div className="space-y-3">
               <a href="mailto:kontakt@digilist.no" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors">
                 <Mail className="w-4 h-4 text-primary" />
@@ -79,24 +82,7 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Links */}
-          <div>
-            <h4 className="font-semibold text-foreground mb-4">Navigasjon</h4>
-            <ul className="space-y-3">
-              {footerLinks.navigasjon.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={`/${link.hash}`}
-                    onClick={(e) => handleNavClick(link.hash, e)}
-                    className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
+          {/* Juridisk */}
           <div>
             <h4 className="font-semibold text-foreground mb-4">Juridisk</h4>
             <ul className="space-y-3">
