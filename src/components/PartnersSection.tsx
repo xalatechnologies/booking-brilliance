@@ -15,15 +15,15 @@ const PartnersSection = () => {
           </h2>
         </div>
 
-        {/* Static Partner Grid */}
-        <div className="flex flex-wrap justify-center gap-8">
+        {/* Partner Names */}
+        <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-6">
           {partners.map((partner, index) => (
-            <div
+            <span
               key={index}
-              className="px-8 py-6 rounded-xl card-gradient border border-border/50 flex items-center justify-center hover:border-primary/30 transition-colors"
+              className="text-muted-foreground text-lg md:text-xl font-medium tracking-wide hover:text-foreground transition-colors cursor-default"
             >
-              <span className="text-foreground font-medium text-lg">{partner.name}</span>
-            </div>
+              {partner.name}
+            </span>
           ))}
         </div>
       </div>
