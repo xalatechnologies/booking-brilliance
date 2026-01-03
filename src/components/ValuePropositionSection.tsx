@@ -34,7 +34,7 @@ const ValuePropositionSection = () => {
               className="flex flex-col items-center text-center group"
             >
               {/* Icon Container */}
-              <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors duration-300">
+              <div className="w-24 h-24 rounded-full bg-primary/15 flex items-center justify-center mb-6 group-hover:bg-primary/25 transition-colors duration-300 shadow-lg group-hover:shadow-xl">
                 <value.icon className="w-12 h-12 text-primary" strokeWidth={1.5} />
               </div>
               
@@ -44,7 +44,7 @@ const ValuePropositionSection = () => {
               </h3>
               
               {/* Description */}
-              <p className="text-muted-foreground text-sm leading-relaxed max-w-xs">
+              <p className="text-foreground/70 text-sm leading-relaxed max-w-xs font-medium">
                 {value.description}
               </p>
             </div>

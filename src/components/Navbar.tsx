@@ -62,7 +62,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="group">
-          <span className="text-2xl font-bold text-foreground">
+          <span className="text-2xl font-extrabold text-foreground tracking-tight">
             Digi<span className="text-primary">list</span>
           </span>
         </Link>
@@ -74,7 +74,7 @@ const Navbar = () => {
               key={link.hash}
               href={`/${link.hash}`}
               onClick={(e) => handleNavClick(link.hash, e)}
-              className="text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium cursor-pointer"
+              className="text-foreground/70 hover:text-foreground transition-colors duration-200 font-semibold cursor-pointer"
             >
               {link.label}
             </a>

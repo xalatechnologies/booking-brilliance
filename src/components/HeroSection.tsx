@@ -33,19 +33,19 @@ const HeroSection = () => {
           {/* Left Content */}
           <div className="max-w-2xl">
             {/* Badge */}
-            <div className="animate-fade-in inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 mb-8">
+            <div className="animate-fade-in inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/40 bg-primary/15 mb-8 shadow-sm">
               <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-              <span className="text-sm font-medium text-primary">Smart booking. Enkelt for alle.</span>
+              <span className="text-sm font-semibold text-primary">Smart booking. Enkelt for alle.</span>
             </div>
 
             {/* Heading */}
-            <h1 className="animate-slide-up text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+            <h1 className="animate-slide-up text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 tracking-tight">
               <span className="text-gradient">En helhetlig</span>{" "}
               <span className="text-foreground">bookingløsning</span>
             </h1>
 
             {/* Subtitle */}
-            <p className="animate-slide-up delay-normal text-xl md:text-2xl text-muted-foreground mb-10 max-w-2xl">
+            <p className="animate-slide-up delay-normal text-xl md:text-2xl text-foreground/80 mb-10 max-w-2xl font-medium leading-relaxed">
               Skybasert bookingløsning utviklet med moderne design, betaling, kalender og rapportering i én plattform.
             </p>
 
@@ -64,18 +64,18 @@ const HeroSection = () => {
 
             {/* Certifications */}
             <div className="animate-slide-up delay-slower">
-              <p className="text-sm text-muted-foreground mb-4 flex items-center gap-2">
+              <p className="text-sm text-foreground/70 font-semibold mb-4 flex items-center gap-2 uppercase tracking-wide">
                 <Shield className="w-4 h-4 text-primary" />
                 Integrasjoner & Sertifisering
               </p>
-              <div className="flex flex-wrap gap-6">
+              <div className="flex flex-wrap gap-4">
                 {certifications.map((cert, index) => (
                   <div
                     key={index}
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-secondary/50 border border-border/50 hover:border-primary/30 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-card border border-border hover:border-primary/50 transition-all duration-200 shadow-sm hover:shadow-md"
                   >
                     <cert.icon className={`w-5 h-5 ${cert.color}`} />
-                    <span className="text-sm font-medium text-foreground">{cert.label}</span>
+                    <span className="text-sm font-semibold text-foreground">{cert.label}</span>
                   </div>
                 ))}
               </div>
