@@ -61,7 +61,13 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="group">
+        <Link 
+          to="/" 
+          className="group"
+          onClick={() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
+        >
           <span className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tight">
             Digi<span className="text-primary">list</span>
           </span>
