@@ -67,19 +67,8 @@ const Navbar = () => {
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <a
-              key={link.hash}
-              href={`/${link.hash}`}
-              onClick={(e) => handleNavClick(link.hash, e)}
-              className="text-foreground/70 hover:text-foreground transition-colors duration-200 font-semibold cursor-pointer"
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
+        {/* Spacer for center alignment */}
+        <div className="hidden md:block" />
 
         {/* CTA Button and Theme Toggle */}
         <div className="hidden md:flex items-center gap-3">
@@ -108,18 +97,8 @@ const Navbar = () => {
       {isMobileMenuOpen && (
         <div className="md:hidden glass-effect border-t border-border/50 mt-4">
           <div className="container mx-auto px-4 py-6 flex flex-col gap-4">
-            {navLinks.map((link) => (
-              <a
-                key={link.hash}
-                href={`/${link.hash}`}
-                onClick={(e) => handleNavClick(link.hash, e)}
-                className="text-muted-foreground hover:text-foreground transition-colors duration-200 font-medium py-2 cursor-pointer"
-              >
-                {link.label}
-              </a>
-            ))}
             <Link to="/book-demo" onClick={() => setIsMobileMenuOpen(false)}>
-              <Button variant="hero" size="lg" className="mt-4 w-full group">
+              <Button variant="hero" size="lg" className="w-full group">
                 Book demo
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Button>
