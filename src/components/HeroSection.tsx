@@ -83,11 +83,11 @@ const HeroSection = () => {
           </div>
 
           {/* Right Image */}
-          <div className="hidden lg:block animate-fade-in delay-slow">
+          <div className="hidden lg:flex items-center justify-center animate-fade-in delay-slow">
             <img 
               src={heroMockup} 
               alt="DigiList booking platform mockup" 
-              className="w-full h-auto max-w-xl mx-auto drop-shadow-2xl"
+              className="w-full h-auto max-w-2xl xl:max-w-3xl scale-110 xl:scale-125 drop-shadow-2xl"
             />
           </div>
         </div>
