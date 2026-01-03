@@ -1,43 +1,40 @@
-import { Calendar, FileSpreadsheet, FileText, Ticket, Lock, Globe } from "lucide-react";
+import { useState } from "react";
+import { Calendar, Clock, Repeat, CalendarDays, AlertCircle, Users, CheckCircle, Bell, FileBarChart, Zap, Link, Lock, Globe, Palette, UserCheck } from "lucide-react";
 
 const IntegrationsSection = () => {
-  const integrations = [
-    {
-      icon: Calendar,
-      name: "Outlook-kalender",
-      description: "Synkronisering med Outlook for automatisk kalenderoppdatering",
-    },
-    {
-      icon: FileSpreadsheet,
-      name: "Visma",
-      description: "Direkte integrasjon eller filoverføring for fakturering",
-    },
-    {
-      icon: FileText,
-      name: "Acos Websak",
-      description: "Integrasjon med Acos for dokumenthåndtering",
-    },
-    {
-      icon: Ticket,
-      name: "Billettsystem",
-      description: "Kobling til billettsystemer for arrangementer",
-    },
-    {
-      icon: Lock,
-      name: "Låssystem (RCO)",
-      description: "Integrasjon med låssystemer for automatisk adgang",
-    },
-    {
-      icon: Globe,
-      name: "Nettside-modul",
-      description: "Embed eller widget for booking på kommunens nettside",
-    },
-  ];
+  const [activeTab, setActiveTab] = useState(0);
 
-  const benefits = [
-    "Ingen dobbeltføring",
-    "Automatisk dataflyt",
-    "Enkelt å sette opp",
+  const tabs = [
+    {
+      name: "Booking og planlegging",
+      items: [
+        { icon: Calendar, name: "Booking av lokaler og ressurser", description: "Enkel booking av rom, utstyr og fasiliteter" },
+        { icon: Clock, name: "Kalender og tilgjengelighet", description: "Oversikt over ledige tider og kapasitet" },
+        { icon: CalendarDays, name: "Enkeltbooking og gjentakende leie", description: "Fleksibel booking for ulike behov" },
+        { icon: Repeat, name: "Sesongleie og faste tider", description: "Håndtering av faste avtaler og sesongbooking" },
+        { icon: AlertCircle, name: "Avvik, ferier og endringer", description: "Enkel håndtering av unntak og endringer" },
+      ],
+    },
+    {
+      name: "Administrasjon og automatisering",
+      items: [
+        { icon: Users, name: "Roller og tilgang", description: "Styring av brukerrettigheter og tilganger" },
+        { icon: CheckCircle, name: "Regelbasert godkjenning", description: "Automatisk godkjenning basert på regler" },
+        { icon: Bell, name: "Varsler og frister", description: "Automatiske påminnelser og varsler" },
+        { icon: FileBarChart, name: "Rapportering og eksport", description: "Innsikt og dataeksport for analyse" },
+        { icon: Zap, name: "Mindre manuelt arbeid", description: "Automatisering av repetitive oppgaver" },
+      ],
+    },
+    {
+      name: "Integrasjoner og tilpasning",
+      items: [
+        { icon: Link, name: "Integrasjon med økonomi- og arkivsystemer", description: "Kobling til Visma, Acos og andre systemer" },
+        { icon: Calendar, name: "Kalender- og låssystem", description: "Synkronisering med kalendere og adgangssystemer" },
+        { icon: Globe, name: "Nettside-modul / embed", description: "Booking-widget for kommunens nettside" },
+        { icon: Palette, name: "Tilpasning av utseende og innhold", description: "Tilpass design og tekster etter behov" },
+        { icon: UserCheck, name: "Støtte for ulike brukergrupper", description: "Tilpasset opplevelse for ulike brukere" },
+      ],
+    },
   ];
 
   return (
@@ -46,39 +43,44 @@ const IntegrationsSection = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Integrasjoner
+            Funksjonalitet
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-8">
-            Integrer med de systemene du allerede bruker for en sømløs arbeidsflyt
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto mb-12">
+            Støtte for sentrale funksjoner og integrasjoner som sikrer effektiv booking
           </p>
           
-          {/* Benefits */}
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
-            {benefits.map((benefit, index) => (
-              <span
+          {/* Tabs */}
+          <div className="flex flex-wrap justify-center gap-2 mb-12">
+            {tabs.map((tab, index) => (
+              <button
                 key={index}
-                className="px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-medium"
+                onClick={() => setActiveTab(index)}
+                className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 ${
+                  activeTab === index
+                    ? "bg-primary text-primary-foreground shadow-lg"
+                    : "bg-primary/10 border border-primary/30 text-primary hover:bg-primary/20"
+                }`}
               >
-                {benefit}
-              </span>
+                {tab.name}
+              </button>
             ))}
           </div>
         </div>
 
-        {/* Integrations Grid */}
+        {/* Items Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {integrations.map((integration, index) => (
+          {tabs[activeTab].items.map((item, index) => (
             <div
               key={index}
               className="card-gradient rounded-xl p-6 border border-border/50 hover:border-primary/30 transition-all duration-300 group"
             >
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/30 transition-colors">
-                  <integration.icon className="w-6 h-6 text-primary" />
+                  <item.icon className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">{integration.name}</h3>
-                  <p className="text-muted-foreground text-sm">{integration.description}</p>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">{item.name}</h3>
+                  <p className="text-muted-foreground text-sm">{item.description}</p>
                 </div>
               </div>
             </div>
