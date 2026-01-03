@@ -1,21 +1,19 @@
-import { Building2, Theater, Trophy, Briefcase } from "lucide-react";
-
 const AudienceSection = () => {
   const audiences = [
     {
-      icon: Building2,
+      image: "https://images.unsplash.com/photo-1577495508048-b635879837f1?w=400&h=300&fit=crop",
       title: "Kommuner",
     },
     {
-      icon: Theater,
+      image: "https://images.unsplash.com/photo-1514306191717-452ec28c7814?w=400&h=300&fit=crop",
       title: "Kulturhus",
     },
     {
-      icon: Trophy,
+      image: "https://images.unsplash.com/photo-1461896836934- voices-74b7d77?w=400&h=300&fit=crop",
       title: "Idrettslag",
     },
     {
-      icon: Briefcase,
+      image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400&h=300&fit=crop",
       title: "Bedrifter",
     },
   ];
@@ -38,12 +36,18 @@ const AudienceSection = () => {
           {audiences.map((item, index) => (
             <div
               key={index}
-              className="group card-gradient rounded-2xl p-8 border border-border/50 hover:border-primary/50 transition-all duration-300 hover:-translate-y-2"
+              className="group card-gradient rounded-2xl overflow-hidden border border-border/50 hover:border-primary/50 transition-all duration-300 hover:-translate-y-2"
             >
-              <div className="w-14 h-14 rounded-xl bg-primary/20 flex items-center justify-center mb-6 group-hover:bg-primary/30 transition-colors">
-                <item.icon className="w-7 h-7 text-primary" />
+              <div className="h-48 overflow-hidden">
+                <img 
+                  src={item.image} 
+                  alt={item.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
               </div>
-              <h3 className="text-xl font-semibold text-foreground">{item.title}</h3>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold text-foreground">{item.title}</h3>
+              </div>
             </div>
           ))}
         </div>
