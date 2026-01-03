@@ -6,35 +6,35 @@
 
 @layer base {
   :root {
-    /* Aipix-inspired dark theme - Primary palette */
-    --background: 220 25% 8%;
-    --foreground: 180 100% 98%;
+    /* Light theme */
+    --background: 0 0% 100%;
+    --foreground: 220 25% 15%;
 
-    --card: 220 25% 12%;
-    --card-foreground: 180 100% 98%;
+    --card: 0 0% 98%;
+    --card-foreground: 220 25% 15%;
 
-    --popover: 220 25% 10%;
-    --popover-foreground: 180 100% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 25% 15%;
 
-    /* Teal/Cyan accent - signature aipix color */
-    --primary: 172 66% 50%;
-    --primary-foreground: 220 25% 8%;
+    /* Teal/Cyan accent */
+    --primary: 172 66% 40%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 20% 18%;
-    --secondary-foreground: 180 100% 98%;
+    --secondary: 220 15% 94%;
+    --secondary-foreground: 220 25% 15%;
 
-    --muted: 220 20% 20%;
-    --muted-foreground: 220 15% 60%;
+    --muted: 220 15% 96%;
+    --muted-foreground: 220 15% 45%;
 
-    --accent: 172 66% 50%;
-    --accent-foreground: 220 25% 8%;
+    --accent: 172 66% 40%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 220 20% 20%;
-    --input: 220 20% 20%;
-    --ring: 172 66% 50%;
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 172 66% 40%;
 
     --radius: 0.5rem;
 
@@ -67,7 +67,72 @@
     --animation-duration-slow: 0.6s;
     --animation-duration-slower: 0.8s;
 
-    /* Custom design tokens - Gradients */
+    /* Custom design tokens - Gradients (light) */
+    --gradient-primary: linear-gradient(135deg, hsl(172 66% 40%), hsl(172 80% 35%));
+    --gradient-dark: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(220 15% 96%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(220 15% 98%) 100%);
+    --gradient-hero-overlay: linear-gradient(
+      135deg,
+      hsl(0 0% 100% / 0.95) 0%,
+      hsl(220 15% 98% / 0.85) 50%,
+      hsl(220 15% 96% / 0.75) 100%
+    );
+
+    /* Custom design tokens - Shadows (light) */
+    --shadow-glow: 0 0 30px hsl(172 66% 40% / 0.2);
+    --shadow-card: 0 4px 24px hsl(220 25% 0% / 0.08);
+    --shadow-primary-glow: 0 0 20px hsl(172 66% 40% / 0.15);
+
+    /* Custom design tokens - Opacity */
+    --opacity-primary-light: 0.1;
+    --opacity-primary-medium: 0.3;
+    --opacity-primary-strong: 0.5;
+    --opacity-border-light: 0.3;
+    --opacity-border-medium: 0.5;
+    --opacity-overlay: 0.95;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 25% 15%;
+    --sidebar-primary: 172 66% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 15% 94%;
+    --sidebar-accent-foreground: 220 25% 15%;
+    --sidebar-border: 220 15% 88%;
+    --sidebar-ring: 172 66% 40%;
+  }
+
+  .dark {
+    /* Aipix-inspired dark theme - Primary palette */
+    --background: 220 25% 8%;
+    --foreground: 180 100% 98%;
+
+    --card: 220 25% 12%;
+    --card-foreground: 180 100% 98%;
+
+    --popover: 220 25% 10%;
+    --popover-foreground: 180 100% 98%;
+
+    /* Teal/Cyan accent - signature aipix color */
+    --primary: 172 66% 50%;
+    --primary-foreground: 220 25% 8%;
+
+    --secondary: 220 20% 18%;
+    --secondary-foreground: 180 100% 98%;
+
+    --muted: 220 20% 20%;
+    --muted-foreground: 220 15% 60%;
+
+    --accent: 172 66% 50%;
+    --accent-foreground: 220 25% 8%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 20% 20%;
+    --input: 220 20% 20%;
+    --ring: 172 66% 50%;
+
+    /* Custom design tokens - Gradients (dark) */
     --gradient-primary: linear-gradient(135deg, hsl(172 66% 50%), hsl(172 80% 40%));
     --gradient-dark: linear-gradient(180deg, hsl(220 25% 8%) 0%, hsl(220 30% 5%) 100%);
     --gradient-card: linear-gradient(145deg, hsl(220 25% 14%) 0%, hsl(220 25% 10%) 100%);
@@ -78,18 +143,10 @@
       hsl(220 25% 12% / 0.75) 100%
     );
 
-    /* Custom design tokens - Shadows */
+    /* Custom design tokens - Shadows (dark) */
     --shadow-glow: 0 0 30px hsl(172 66% 50% / 0.3);
     --shadow-card: 0 4px 24px hsl(220 25% 0% / 0.4);
     --shadow-primary-glow: 0 0 20px hsl(172 66% 50% / 0.2);
-
-    /* Custom design tokens - Opacity */
-    --opacity-primary-light: 0.1;
-    --opacity-primary-medium: 0.3;
-    --opacity-primary-strong: 0.5;
-    --opacity-border-light: 0.3;
-    --opacity-border-medium: 0.5;
-    --opacity-overlay: 0.95;
 
     --sidebar-background: 220 25% 10%;
     --sidebar-foreground: 180 100% 98%;
@@ -99,28 +156,6 @@
     --sidebar-accent-foreground: 180 100% 98%;
     --sidebar-border: 220 20% 20%;
     --sidebar-ring: 172 66% 50%;
-  }
-
-  .dark {
-    --background: 220 25% 8%;
-    --foreground: 180 100% 98%;
-    --card: 220 25% 12%;
-    --card-foreground: 180 100% 98%;
-    --popover: 220 25% 10%;
-    --popover-foreground: 180 100% 98%;
-    --primary: 172 66% 50%;
-    --primary-foreground: 220 25% 8%;
-    --secondary: 220 20% 18%;
-    --secondary-foreground: 180 100% 98%;
-    --muted: 220 20% 20%;
-    --muted-foreground: 220 15% 60%;
-    --accent: 172 66% 50%;
-    --accent-foreground: 220 25% 8%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 220 20% 20%;
-    --input: 220 20% 20%;
-    --ring: 172 66% 50%;
   }
 }
 
