@@ -2,19 +2,19 @@ const AudienceSection = () => {
   const audiences = [
     {
       image: "https://images.unsplash.com/photo-1562774053-701939374585?w=500&h=400&fit=crop",
-      title: "Kommuner",
+      title: "Offentlig sektor",
     },
     {
       image: "https://images.unsplash.com/photo-1514306191717-452ec28c7814?w=500&h=400&fit=crop",
-      title: "Kulturhus",
+      title: "Kultur og arrangement",
     },
     {
       image: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=500&h=400&fit=crop",
-      title: "Idrettslag",
+      title: "Idrett og aktivitet",
     },
     {
       image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&h=400&fit=crop",
-      title: "Bedrifter",
+      title: "Næring og organisasjoner",
     },
   ];
 
