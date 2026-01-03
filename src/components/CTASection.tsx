@@ -18,17 +18,13 @@ const CTASection = () => {
             Vi tilbyr en gratis og uforpliktende presentasjon av Digilist.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex justify-center">
             <Link to="/book-demo">
-              <Button variant="hero" size="xl" className="group shadow-lg">
+              <Button variant="heroOutline" size="xl" className="group shadow-md">
                 Book demo
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-            <Button variant="heroOutline" size="xl" className="group shadow-md">
-              <Mail className="w-5 h-5" />
-              Ta kontakt
-            </Button>
           </div>
         </div>
       </div>
