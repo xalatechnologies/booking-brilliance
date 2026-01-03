@@ -37,8 +37,8 @@ const HeroSection = () => {
 
           {/* Heading */}
           <h1 className="animate-slide-up text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
-            <span className="text-gradient">Bookingsystem</span>{" "}
-            <span className="text-foreground">En helhetlig plattform for booking og planlegging</span>
+            <span className="text-gradient">En helhetlig plattform</span>{" "}
+            <span className="text-foreground">for booking og planlegging</span>
           </h1>
 
           {/* Subtitle */}
