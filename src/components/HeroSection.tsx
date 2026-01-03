@@ -63,7 +63,7 @@ const HeroSection = () => {
                 type="button"
                 onClick={(e) => {
                   e.preventDefault();
-                  const element = document.getElementById('funksjoner');
+                  const element = document.getElementById('funksjonalitet');
                   if (element) {
                     element.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }
