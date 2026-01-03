@@ -66,7 +66,7 @@ const HeroSection = () => {
             <div className="animate-slide-up delay-slower">
               <p className="text-sm text-muted-foreground mb-4 flex items-center gap-2">
                 <Shield className="w-4 h-4 text-primary" />
-                Sikkerhet & Sertifisering
+                Integrasjoner & Sertifisering
               </p>
               <div className="flex flex-wrap gap-6">
                 {certifications.map((cert, index) => (
