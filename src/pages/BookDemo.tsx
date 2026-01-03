@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/card";
 import { Calendar, Clock, Mail, User } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const BookDemo = () => {
   useEffect(() => {
@@ -41,23 +42,35 @@ const BookDemo = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      const { data, error } = await supabase.functions.invoke('send-demo-request', {
+        body: formData,
+      });
 
-    toast({
-      title: "Demo forespørsel sendt!",
-      description: "Vi tar kontakt med deg snart for å avtale en demo.",
-    });
+      if (error) throw error;
 
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      organizationType: "",
-      message: "",
-    });
+      toast({
+        title: "Demo forespørsel sendt!",
+        description: "Vi tar kontakt med deg snart for å avtale en demo.",
+      });
 
-    setIsSubmitting(false);
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        organizationType: "",
+        message: "",
+      });
+    } catch (error: any) {
+      console.error("Error sending demo request:", error);
+      toast({
+        title: "Noe gikk galt",
+        description: "Kunne ikke sende forespørselen. Prøv igjen senere.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
