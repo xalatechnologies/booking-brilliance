@@ -20,12 +20,9 @@ const PartnersSection = () => {
           {partners.map((partner, index) => (
             <div
               key={index}
-              className="w-56 h-24 rounded-xl card-gradient border border-border/50 flex items-center justify-center gap-3 hover:border-primary/30 transition-colors"
+              className="px-8 py-6 rounded-xl card-gradient border border-border/50 flex items-center justify-center hover:border-primary/30 transition-colors"
             >
-              <div className="w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center text-primary font-bold">
-                {partner.logo}
-              </div>
-              <span className="text-foreground font-medium">{partner.name}</span>
+              <span className="text-foreground font-medium text-lg">{partner.name}</span>
             </div>
           ))}
         </div>
