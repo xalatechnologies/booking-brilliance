@@ -36,9 +36,8 @@ const HowItWorksSection = () => {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <span className="text-sm font-medium text-primary mb-4 block">Prosessen</span>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Slik fungerer det
+            Booking med få steg
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Fire enkle steg fra søknad til oppfølging
