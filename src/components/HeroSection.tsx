@@ -14,7 +14,7 @@ const HeroSection = () => {
   ];
 
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+    <section className="relative min-h-[85vh] flex items-center pt-20 pb-12 overflow-hidden">
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -94,9 +94,9 @@ const HeroSection = () => {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex justify-center pt-2">
-          <div className="w-1 h-2 bg-primary rounded-full animate-pulse" />
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 animate-bounce">
+        <div className="w-5 h-8 rounded-full border-2 border-muted-foreground/30 flex justify-center pt-1.5">
+          <div className="w-1 h-1.5 bg-primary rounded-full animate-pulse" />
         </div>
       </div>
     </section>
