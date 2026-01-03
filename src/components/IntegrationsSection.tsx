@@ -28,11 +28,12 @@ const IntegrationsSection = () => {
     {
       name: "Integrasjoner og tilpasning",
       items: [
-        { icon: Link, name: "Integrasjon med økonomi- og arkivsystemer", description: "Kobling til Visma, Acos og andre systemer" },
+        { icon: Link, name: "Økonomi- og arkivsystemer", description: "Kobling til Visma, Acos og andre systemer" },
         { icon: Calendar, name: "Kalender- og låssystem", description: "Synkronisering med kalendere og adgangssystemer" },
         { icon: Globe, name: "Nettside-modul / embed", description: "Booking-widget for kommunens nettside" },
         { icon: Palette, name: "Tilpasning av utseende og innhold", description: "Tilpass design og tekster etter behov" },
         { icon: UserCheck, name: "Støtte for ulike brukergrupper", description: "Tilpasset opplevelse for ulike brukere" },
+        { icon: Lock, name: "Betaling og innlogging", description: "Integrasjon med Vipps, Bankid, ID-porten, Google, Faktura" },
       ],
     },
   ];
