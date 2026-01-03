@@ -15,22 +15,15 @@ import {
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
-import { Calendar, Clock, Mail, Phone, User, Building } from "lucide-react";
+import { Calendar, Clock, Mail, User } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 const BookDemo = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "",
-    organization: "",
     organizationType: "",
-    preferredDate: "",
-    preferredTime: "",
     message: "",
   });
 
@@ -49,18 +42,14 @@ const BookDemo = () => {
 
     toast({
       title: "Demo forespørsel sendt!",
-      description: "Vi tar kontakt med deg innen 24 timer for å avtale en demo.",
+      description: "Vi tar kontakt med deg snart for å avtale en demo.",
     });
 
     // Reset form
     setFormData({
       name: "",
       email: "",
-      phone: "",
-      organization: "",
       organizationType: "",
-      preferredDate: "",
-      preferredTime: "",
       message: "",
     });
 
@@ -76,28 +65,22 @@ const BookDemo = () => {
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
-              Book en demo
+              Book gratis demo
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Se hvordan Digilit kan hjelpe din organisasjon med å effektivisere booking av lokaler, ressurser og arrangementer.
+              Vil du se Digilist i praksis før du bestemmer deg? Vi tar en kostnadsfri demo og viser deg funksjonene, arbeidsflyten og hva du faktisk får
             </p>
           </div>
 
           {/* Form Card */}
           <Card className="border-2 shadow-xl">
-            <CardHeader>
-              <CardTitle className="text-2xl">Fyll ut skjemaet</CardTitle>
-              <CardDescription>
-                Vi kontakter deg innen 24 timer for å avtale en demo som passer deg.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+            <CardContent className="pt-6">
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Name */}
                 <div className="space-y-2">
                   <Label htmlFor="name" className="flex items-center gap-2">
                     <User className="w-4 h-4" />
-                    Fullt navn *
+                    Navn *
                   </Label>
                   <Input
                     id="name"
@@ -125,38 +108,6 @@ const BookDemo = () => {
                   />
                 </div>
 
-                {/* Phone */}
-                <div className="space-y-2">
-                  <Label htmlFor="phone" className="flex items-center gap-2">
-                    <Phone className="w-4 h-4" />
-                    Telefonnummer *
-                  </Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    placeholder="+47 123 45 678"
-                    value={formData.phone}
-                    onChange={(e) => handleChange("phone", e.target.value)}
-                    required
-                  />
-                </div>
-
-                {/* Organization */}
-                <div className="space-y-2">
-                  <Label htmlFor="organization" className="flex items-center gap-2">
-                    <Building className="w-4 h-4" />
-                    Organisasjon *
-                  </Label>
-                  <Input
-                    id="organization"
-                    type="text"
-                    placeholder="Din organisasjon"
-                    value={formData.organization}
-                    onChange={(e) => handleChange("organization", e.target.value)}
-                    required
-                  />
-                </div>
-
                 {/* Organization Type */}
                 <div className="space-y-2">
                   <Label htmlFor="organizationType">Organisasjonstype *</Label>
@@ -176,44 +127,6 @@ const BookDemo = () => {
                       <SelectItem value="annet">Annet</SelectItem>
                     </SelectContent>
                   </Select>
-                </div>
-
-                {/* Preferred Date and Time */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="preferredDate" className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4" />
-                      Foretrukket dato
-                    </Label>
-                    <Input
-                      id="preferredDate"
-                      type="date"
-                      value={formData.preferredDate}
-                      onChange={(e) => handleChange("preferredDate", e.target.value)}
-                      min={new Date().toISOString().split("T")[0]}
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="preferredTime" className="flex items-center gap-2">
-                      <Clock className="w-4 h-4" />
-                      Foretrukket tidspunkt
-                    </Label>
-                    <Select
-                      value={formData.preferredTime}
-                      onValueChange={(value) => handleChange("preferredTime", value)}
-                    >
-                      <SelectTrigger id="preferredTime">
-                        <SelectValue placeholder="Velg tidspunkt" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="morning">09:00 - 12:00</SelectItem>
-                        <SelectItem value="afternoon">12:00 - 15:00</SelectItem>
-                        <SelectItem value="evening">15:00 - 17:00</SelectItem>
-                        <SelectItem value="flexible">Fleksibelt</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
                 </div>
 
                 {/* Message */}
@@ -237,11 +150,8 @@ const BookDemo = () => {
                     className="w-full"
                     disabled={isSubmitting}
                   >
-                    {isSubmitting ? "Sender..." : "Send forespørsel"}
+                    {isSubmitting ? "Sender..." : "Book demo"}
                   </Button>
-                  <p className="text-sm text-muted-foreground text-center mt-4">
-                    Gratis demo • Ingen forpliktelser
-                  </p>
                 </div>
               </form>
             </CardContent>
