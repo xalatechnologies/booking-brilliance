@@ -60,8 +60,10 @@ const HeroSection = () => {
               <Button 
                 variant="heroOutline" 
                 size="xl"
-                onClick={() => {
-                  const element = document.querySelector('#funksjoner');
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const element = document.getElementById('funksjoner');
                   if (element) {
                     element.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   }
