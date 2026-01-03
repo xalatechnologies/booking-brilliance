@@ -1,19 +1,19 @@
 const AudienceSection = () => {
   const audiences = [
     {
-      image: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=400&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1562774053-701939374585?w=500&h=400&fit=crop",
       title: "Kommuner",
     },
     {
-      image: "https://images.unsplash.com/photo-1514306191717-452ec28c7814?w=400&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1514306191717-452ec28c7814?w=500&h=400&fit=crop",
       title: "Kulturhus",
     },
     {
-      image: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=400&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=500&h=400&fit=crop",
       title: "Idrettslag",
     },
     {
-      image: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&h=300&fit=crop",
+      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=500&h=400&fit=crop",
       title: "Bedrifter",
     },
   ];
@@ -38,7 +38,7 @@ const AudienceSection = () => {
               key={index}
               className="group card-gradient rounded-2xl overflow-hidden border border-border/50 hover:border-primary/50 transition-all duration-300 hover:-translate-y-2"
             >
-              <div className="h-48 overflow-hidden">
+              <div className="h-64 overflow-hidden">
                 <img 
                   src={item.image} 
                   alt={item.title}
