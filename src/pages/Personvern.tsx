@@ -18,7 +18,7 @@ const Personvern = () => {
             
             {/* Title */}
             <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Personvernerklæring og informasjonskapsler
+              Personvernerklæring
             </h1>
             
             {/* Intro */}
