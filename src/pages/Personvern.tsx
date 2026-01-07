@@ -23,7 +23,7 @@ const Personvern = () => {
             
             {/* Intro */}
             <p className="text-muted-foreground leading-relaxed mb-8">
-              Denne personvernerklæringen beskriver hvordan DigiList behandler personopplysninger i forbindelse med bruk av tjenesten. Erklæringen gir informasjon du har krav på når DigiList samler inn personopplysninger, samt generell informasjon om hvordan opplysningene behandles i henhold til personvernforordningen (GDPR).
+              Denne personvernerklæringen beskriver hvordan DigiList behandler personopplysninger i forbindelse med bruk av tjenesten. Erklæringen gir informasjon du har krav på når DigiList samler inn personopplysninger, samt generell informasjon om hvordan opplysningene behandles.
             </p>
 
             {/* Section 1 */}

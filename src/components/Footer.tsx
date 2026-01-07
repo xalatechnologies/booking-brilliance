@@ -36,8 +36,7 @@ const Footer = () => {
     juridisk: [
       { label: "Personvern", href: "/personvern", isRoute: true },
       { label: "Salgsvilkår", href: "/salgsvilkar", isRoute: true },
-      { label: "Cookies", href: "#cookies" },
-      { label: "GDPR", href: "#gdpr" },
+      { label: "Cookies", href: "/cookies", isRoute: true },
     ],
   };
 
