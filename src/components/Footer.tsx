@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Linkedin, Youtube, Mail, Phone, MapPin } from "lucide-react";
+import { Phone, MapPin } from "lucide-react";
 
 const Footer = () => {
   const location = useLocation();
@@ -40,11 +40,12 @@ const Footer = () => {
     ],
   };
 
-  const socialLinks = [
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
-    { icon: Youtube, href: "#", label: "YouTube" },
-    { icon: Mail, href: "#", label: "Email" },
-  ];
+  // Social links - uncomment when ready
+  // const socialLinks = [
+  //   { icon: Linkedin, href: "#", label: "LinkedIn" },
+  //   { icon: Youtube, href: "#", label: "YouTube" },
+  //   { icon: Mail, href: "#", label: "Email" },
+  // ];
 
   return (
     <footer className="bg-secondary/50 border-t border-border/50">
@@ -66,10 +67,6 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-foreground mb-4">Kontakt</h4>
             <div className="space-y-3">
-              <a href="mailto:kontakt@digilist.no" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors">
-                <Mail className="w-4 h-4 text-primary" />
-                kontakt@digilist.no
-              </a>
               <a href="tel:+4796665001" className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors">
                 <Phone className="w-4 h-4 text-primary" />
                 +47 96 66 50 01
@@ -107,6 +104,7 @@ const Footer = () => {
           <p className="text-muted-foreground text-sm">
             © 2024 Digilist. Alle rettigheter forbeholdt.
           </p>
+          {/* Social links - uncomment when ready
           <div className="flex items-center gap-4">
             {socialLinks.map((social, index) => (
               <a
@@ -119,6 +117,7 @@ const Footer = () => {
               </a>
             ))}
           </div>
+          */}
         </div>
       </div>
     </footer>
