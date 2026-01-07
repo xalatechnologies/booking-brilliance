@@ -11,25 +11,18 @@ const Personvern = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="pt-32 pb-16 bg-gradient-to-b from-secondary/50 to-background">
-        <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Personvernerklæring og informasjonskapsler
-          </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl">
-            DigiList
-          </p>
-        </div>
-      </section>
-
       {/* Content */}
-      <section className="py-16">
+      <section className="pt-32 pb-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
             
+            {/* Title */}
+            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+              Personvernerklæring og informasjonskapsler
+            </h1>
+            
             {/* Intro */}
-            <p className="text-muted-foreground leading-relaxed mb-10">
+            <p className="text-muted-foreground leading-relaxed mb-8">
               Denne personvernerklæringen beskriver hvordan DigiList behandler personopplysninger i forbindelse med bruk av tjenesten. Erklæringen gir informasjon du har krav på når DigiList samler inn personopplysninger, samt generell informasjon om hvordan opplysningene behandles i henhold til personvernforordningen (GDPR).
             </p>
 
