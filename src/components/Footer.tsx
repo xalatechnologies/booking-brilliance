@@ -35,7 +35,7 @@ const Footer = () => {
     ],
     juridisk: [
       { label: "Personvern", href: "#personvern" },
-      { label: "Vilkår", href: "#vilkar" },
+      { label: "Salgsvilkår", href: "/salgsvilkar", isRoute: true },
       { label: "Cookies", href: "#cookies" },
       { label: "GDPR", href: "#gdpr" },
     ],
@@ -88,9 +88,15 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.juridisk.map((link, index) => (
                 <li key={index}>
-                  <a href={link.href} className="text-muted-foreground hover:text-foreground transition-colors">
-                    {link.label}
-                  </a>
+                  {link.isRoute ? (
+                    <Link to={link.href} className="text-muted-foreground hover:text-foreground transition-colors">
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a href={link.href} className="text-muted-foreground hover:text-foreground transition-colors">
+                      {link.label}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
