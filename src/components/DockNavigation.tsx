@@ -99,12 +99,12 @@ const DockNavigation = () => {
             isHomeActive ? "text-primary" : "text-foreground/70 hover:text-foreground"
           )}
         >
-          <div className={cn(
-            "flex items-center justify-center size-11 rounded-xl transition-all duration-300 shadow-sm group-hover:shadow-md",
-            isHomeActive ? "bg-primary/15 ring-2 ring-primary/30" : "bg-card hover:bg-primary/5"
-          )}>
-            <Home className="size-5" strokeWidth={2.5} />
-          </div>
+        <div className={cn(
+          "flex items-center justify-center size-11 transition-all duration-300",
+          isHomeActive ? "text-primary" : ""
+        )}>
+          <Home className="size-6" strokeWidth={isHomeActive ? 3 : 2.5} />
+        </div>
           <span className="text-sm font-bold">Hjem</span>
         </Link>
       {navItems.map((item) => {
@@ -121,10 +121,10 @@ const DockNavigation = () => {
             )}
           >
             <div className={cn(
-              "flex items-center justify-center size-11 rounded-xl transition-all duration-300 shadow-sm group-hover:shadow-md",
-              isActive ? "bg-primary/15 ring-2 ring-primary/30" : "bg-card hover:bg-primary/5"
+              "flex items-center justify-center size-11 transition-all duration-300",
+              isActive ? "text-primary" : ""
             )}>
-              <item.icon className="size-5" strokeWidth={2.5} />
+              <item.icon className="size-6" strokeWidth={isActive ? 3 : 2.5} />
             </div>
             <span className="text-sm font-bold">{item.label}</span>
           </a>
