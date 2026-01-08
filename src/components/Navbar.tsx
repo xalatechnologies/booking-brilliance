@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
+import DockNavigation from "./DockNavigation";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,100 +16,60 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navLinks = [
-    { label: "Om oss", hash: "#om-oss" },
-    { label: "Funksjoner", hash: "#funksjoner" },
-    { label: "Partnere", hash: "#partnere" },
-    { label: "Kontakt", hash: "#kontakt" },
-  ];
-
-  const handleNavClick = (hash: string, e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsMobileMenuOpen(false);
-    
-    if (location.pathname === "/") {
-      // Already on homepage, just scroll
-      const element = document.querySelector(hash);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" });
-        // Update URL hash
-        window.history.pushState(null, "", hash);
-      }
-    } else {
-      // Navigate to homepage, then set hash
-      navigate("/");
-      // Use setTimeout to ensure navigation completes before setting hash
-      setTimeout(() => {
-        window.location.hash = hash;
-        const element = document.querySelector(hash);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      }, 50);
-    }
-  };
-
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 section-border-bottom ${
         isScrolled
-          ? "glass-effect border-b border-border/50 py-4"
-          : "bg-transparent py-6"
+          ? "glass-effect py-2"
+          : "bg-transparent py-3"
       }`}
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
         {/* Logo */}
         <Link 
           to="/" 
-          className="group"
+          className="group flex items-center gap-2"
           onClick={() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
         >
-          <span className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tight">
-            Digi<span className="text-primary">list</span>
-          </span>
+          <img 
+            src="/logo.svg" 
+            alt="Digilist" 
+            className="h-14 md:h-16 w-auto transition-opacity group-hover:opacity-80"
+          />
+          <div className="flex flex-col leading-none">
+            <span className="text-xl md:text-2xl font-bold text-foreground tracking-tight">
+              DIGILIST
+            </span>
+            <span className="text-xs md:text-sm text-muted-foreground mt-0.5">
+              ENKEL BOOKING
+            </span>
+          </div>
         </Link>
 
-        {/* Spacer for center alignment */}
-        <div className="hidden md:block" />
+        {/* Dock Navigation */}
+        <DockNavigation />
 
         {/* CTA Button and Theme Toggle */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="flex items-center gap-3">
           <ThemeToggle />
-          <Link to="/book-demo">
-            <Button variant="hero" size="lg" className="group">
-              Book demo
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Button>
-          </Link>
-        </div>
-
-        {/* Mobile Menu Toggle */}
-        <div className="md:hidden flex items-center gap-2">
-          <ThemeToggle />
-          <button
-            className="text-foreground p-2"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          <Button 
+            variant="hero" 
+            size="lg" 
+            className="hidden md:inline-flex group shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:scale-105 transition-all duration-300"
+            onClick={() => {
+              const element = document.getElementById('kontakt');
+              if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            }}
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+            Book demo
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </Button>
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden glass-effect border-t border-border/50 mt-4">
-          <div className="container mx-auto px-4 py-6 flex flex-col gap-4">
-            <Link to="/book-demo" onClick={() => setIsMobileMenuOpen(false)}>
-              <Button variant="hero" size="lg" className="w-full group">
-                Book demo
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      )}
     </nav>
   );
 };

@@ -7,7 +7,7 @@ const PartnersSection = () => {
   ];
 
   return (
-    <section id="partnere" className="py-24 bg-background relative">
+    <section id="partnere" className="py-24 bg-background relative section-border">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground">

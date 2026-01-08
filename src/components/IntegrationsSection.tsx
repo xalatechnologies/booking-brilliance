@@ -1,93 +1,226 @@
 import { useState } from "react";
-import { Calendar, Clock, Repeat, CalendarDays, AlertCircle, Users, CheckCircle, Bell, FileBarChart, Zap, Link, Lock, Globe, Palette, UserCheck } from "lucide-react";
+import { Building2, Calendar, CreditCard, Users, Shield, Layers, CheckCircle, Briefcase, Globe, Mail, Smartphone } from "lucide-react";
 
 const IntegrationsSection = () => {
   const [activeTab, setActiveTab] = useState(0);
 
-  const tabs = [
+  const features = [
     {
-      name: "Booking og planlegging",
-      items: [
-        { icon: Calendar, name: "Booking av lokaler og ressurser", description: "Enkel booking av rom, utstyr og fasiliteter" },
-        { icon: Clock, name: "Kalender og tilgjengelighet", description: "Oversikt over ledige tider og kapasitet" },
-        { icon: CalendarDays, name: "Enkeltbooking og gjentakende leie", description: "Fleksibel booking for ulike behov" },
-        { icon: Repeat, name: "Sesongleie og faste tider", description: "Håndtering av faste avtaler og sesongbooking" },
-        { icon: AlertCircle, name: "Avvik, ferier og endringer", description: "Enkel håndtering av unntak og endringer" },
-        { icon: Calendar, name: "Oversikt per lokale og tidsrom", description: "Se tilgjengelighet, bookinger og bruk samlet i én tydelig kalenderoversikt" },
+      name: "Anleggshåndtering",
+      icon: Building2,
+      color: "#3b82f6",
+      description: "6 anleggstyper optimalisert for ulike bruksområder",
+      highlights: [
+        { label: "Idrettshaller", sublabel: "Hele/halv hall med fleksibel prising" },
+        { label: "Møterom & Kultursal", sublabel: "Romreservasjon med kapasitet" },
+        { label: "Utstyr & Ressurser", sublabel: "Inventarstyring med tilgjengelighet" },
+        { label: "Kjøretøy & Båter", sublabel: "Heldags-booking med vedlikehold" },
+      ],
+      stats: [
+        { value: "6", label: "Anleggstyper" },
+        { value: "6", label: "Booking-modeller" },
       ],
     },
     {
-      name: "Administrasjon og automatisering",
-      items: [
-        { icon: Users, name: "Roller og tilgang", description: "Styring av brukerrettigheter og tilganger" },
-        { icon: CheckCircle, name: "Regelbasert godkjenning", description: "Automatisk godkjenning basert på regler" },
-        { icon: Bell, name: "Varsler og frister", description: "Automatiske påminnelser og varsler" },
-        { icon: FileBarChart, name: "Rapportering og eksport", description: "Innsikt og dataeksport for analyse" },
-        { icon: Zap, name: "Mindre manuelt arbeid", description: "Automatisering av repetitive oppgaver" },
-        { icon: FileBarChart, name: "Prisregler og beregning", description: "Automatisk beregning av pris basert på regler, tid og brukergruppe" },
+      name: "Bookingmotor",
+      icon: Calendar,
+      color: "#8b5cf6",
+      description: "Intelligent bookingmotor med automatisk godkjenning",
+      highlights: [
+        { label: "Tidsbasert", sublabel: "Start/slutt med konfliktsjekk" },
+        { label: "Slots", sublabel: "Predefinerte tidsluk for faste aktiviteter" },
+        { label: "Sesongutleie", sublabel: "Regelbasert tildeling med prioritering" },
+        { label: "Antall & Kapasitet", sublabel: "Fleksibel ressursstyring" },
+      ],
+      stats: [
+        { value: "60%", label: "Mindre manuelt arbeid" },
+        { value: "24/7", label: "Selvbetjening" },
       ],
     },
     {
-      name: "Integrasjoner og tilpasning",
-      items: [
-        { icon: Link, name: "Økonomi- og arkivsystemer", description: "Kobling til Visma, Acos og andre systemer" },
-        { icon: Calendar, name: "Kalender- og låssystem", description: "Synkronisering med kalendere og adgangssystemer" },
-        { icon: Globe, name: "Nettside-modul / embed", description: "Booking-widget for kommunens nettside" },
-        { icon: Palette, name: "Tilpasning av utseende og innhold", description: "Tilpass design og tekster etter behov" },
-        { icon: UserCheck, name: "Støtte for ulike brukergrupper", description: "Tilpasset opplevelse for ulike brukere" },
-        { icon: Lock, name: "Betaling og innlogging", description: "Integrasjon med Vipps, Bankid, ID-porten, Google, Faktura" },
+      name: "Betaling & Prising",
+      icon: CreditCard,
+      color: "#22c55e",
+      description: "Fleksibel prising med automatisk betalingshåndtering",
+      highlights: [
+        { label: "Vipps", sublabel: "Rask mobilbetaling" },
+        { label: "Rabattsystem", sublabel: "6 brukergrupper med rabatter 0-100%" },
+        { label: "Perioderegler", sublabel: "Helg, kveld, helligdager" },
+        { label: "Refusjon", sublabel: "Automatisk basert på kanselleringsregler" },
+      ],
+      stats: [
+        { value: "6", label: "Brukergrupper" },
+        { value: "100%", label: "Maks rabatt" },
+      ],
+    },
+    {
+      name: "Brukerstyring",
+      icon: Users,
+      color: "#f59e0b",
+      description: "Verifisering og tilgangskontroll for alle brukertyper",
+      highlights: [
+        { label: "ID-porten", sublabel: "BankID/MinID autentisering" },
+        { label: "BRREG", sublabel: "Organisasjonsverifisering" },
+        { label: "NIF", sublabel: "Idrettslag-verifisering" },
+        { label: "RBAC", sublabel: "4 tilgangsnivåer (user/org/tenant/saas)" },
+      ],
+      stats: [
+        { value: "4", label: "Godkjenningsmoduser" },
+        { value: "Auto", label: "Regelbasert" },
       ],
     },
   ];
 
+  const activeFeature = features[activeTab];
+
   return (
-    <section id="funksjonalitet" className="py-24 bg-background relative">
+    <section id="funksjonalitet" className="py-16 md:py-24 bg-secondary/30 relative section-border">
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-12">
           <h2 className="section-heading mb-4">
             Funksjonalitet
           </h2>
-          <p className="section-subheading max-w-2xl mx-auto mb-12">
-            Støtte for sentrale funksjoner og integrasjoner som sikrer effektiv booking
+          <p className="section-subheading max-w-3xl mx-auto">
+            En komplett løsning som digitaliserer og effektiviserer booking av kommunale anlegg og ressurser
           </p>
-          
-          {/* Tabs */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
-            {tabs.map((tab, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveTab(index)}
-                className={`px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
-                  activeTab === index
-                    ? "bg-primary text-primary-foreground shadow-lg glow-effect"
-                    : "bg-card border-2 border-border text-foreground hover:border-primary/50 hover:bg-primary/10"
-                }`}
-              >
-                {tab.name}
-              </button>
-            ))}
-          </div>
+        </div>
+        
+        {/* Tabs */}
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
+          {features.map((feature, index) => (
+            <button
+              key={index}
+              onClick={() => setActiveTab(index)}
+              className={`group relative px-6 py-3 rounded-xl text-sm font-bold transition-all duration-300 ${
+                activeTab === index
+                  ? "bg-primary text-primary-foreground shadow-lg shadow-primary/30 scale-105"
+                  : "bg-card/80 border-2 border-border text-foreground hover:border-primary/50 hover:bg-primary/5"
+              }`}
+            >
+              <div className="flex items-center gap-2">
+                <feature.icon className="w-4 h-4" />
+                {feature.name}
+              </div>
+            </button>
+          ))}
         </div>
 
-        {/* Items Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {tabs[activeTab].items.map((item, index) => (
-            <div
-              key={index}
-              className="card-gradient rounded-xl p-6 border border-border hover:border-primary/50 transition-all duration-300 group hover:shadow-lg"
-            >
+        {/* Feature Content */}
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-5 gap-8 items-start">
+            {/* Left: Description */}
+            <div className="lg:col-span-2 space-y-6">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/30 transition-colors shadow-sm">
-                  <item.icon className="w-6 h-6 text-primary" />
+                <div 
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 shadow-xl transition-transform duration-300 hover:scale-110"
+                  style={{
+                    backgroundColor: `${activeFeature.color}15`,
+                    color: activeFeature.color,
+                  }}
+                >
+                  <activeFeature.icon className="w-8 h-8" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-foreground mb-2">{item.name}</h3>
-                  <p className="text-foreground/70 text-sm font-medium">{item.description}</p>
+                  <h3 className="text-2xl font-bold text-foreground mb-2">
+                    {activeFeature.name}
+                  </h3>
+                  <p className="text-base text-muted-foreground leading-relaxed">
+                    {activeFeature.description}
+                  </p>
                 </div>
               </div>
+
+              {/* Stats */}
+              <div className="grid grid-cols-2 gap-4">
+                {activeFeature.stats.map((stat, idx) => (
+                  <div 
+                    key={idx}
+                    className="p-5 rounded-xl border-2 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+                    style={{
+                      borderColor: `${activeFeature.color}30`,
+                      backgroundColor: `${activeFeature.color}05`,
+                    }}
+                  >
+                    <div 
+                      className="text-3xl font-extrabold mb-1"
+                      style={{ color: activeFeature.color }}
+                    >
+                      {stat.value}
+                    </div>
+                    <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                      {stat.label}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
-          ))}
+
+            {/* Right: Highlights */}
+            <div className="lg:col-span-3">
+              <div className="grid md:grid-cols-2 gap-4">
+                {activeFeature.highlights.map((highlight, idx) => (
+                  <div
+                    key={idx}
+                    className="group relative p-5 rounded-xl bg-card/80 border border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div 
+                        className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 shadow-md transition-transform duration-300 group-hover:scale-110"
+                        style={{
+                          backgroundColor: `${activeFeature.color}15`,
+                        }}
+                      >
+                        <CheckCircle 
+                          className="w-5 h-5" 
+                          style={{ color: activeFeature.color }}
+                        />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-bold text-foreground mb-1 text-base">
+                          {highlight.label}
+                        </h4>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                          {highlight.sublabel}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Integration Partners */}
+          <div className="mt-16 text-center">
+            <h3 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-6">Integrasjoner</h3>
+            <div className="flex flex-wrap justify-center gap-3">
+              <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-card/80 border-2 border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+                <Building2 className="w-5 h-5 text-primary" />
+                <span className="text-sm font-bold text-foreground">RCO</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-card/80 border-2 border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+                <Briefcase className="w-5 h-5 text-primary" />
+                <span className="text-sm font-bold text-foreground">Visma</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-card/80 border-2 border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+                <Globe className="w-5 h-5 text-primary" />
+                <span className="text-sm font-bold text-foreground">WebSak</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-card/80 border-2 border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+                <Mail className="w-5 h-5 text-primary" />
+                <span className="text-sm font-bold text-foreground">Outlook</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-card/80 border-2 border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+                <CreditCard className="w-5 h-5 text-orange-500" />
+                <span className="text-sm font-bold text-foreground">Vipps</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-card/80 border-2 border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5">
+                <CreditCard className="w-5 h-5 text-pink-500" />
+                <span className="text-sm font-bold text-foreground">Klarna</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

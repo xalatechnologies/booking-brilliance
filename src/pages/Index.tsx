@@ -1,13 +1,15 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import ValuePropositionSection from "@/components/ValuePropositionSection";
 import AudienceSection from "@/components/AudienceSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import IntegrationsSection from "@/components/IntegrationsSection";
-import SecuritySection from "@/components/SecuritySection";
-import PartnersSection from "@/components/PartnersSection";
+import TechnologyStackSection from "@/components/TechnologyStackSection";
+import ArchitectureSection from "@/components/ArchitectureSection";
+import AboutUsSection from "@/components/AboutUsSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 
@@ -42,14 +44,16 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO />
       <Navbar />
       <HeroSection />
       <ValuePropositionSection />
       <AudienceSection />
       <HowItWorksSection />
       <IntegrationsSection />
-      <SecuritySection />
-      <PartnersSection />
+      <TechnologyStackSection />
+      <ArchitectureSection />
+      <AboutUsSection />
       <CTASection />
       <Footer />
     </div>

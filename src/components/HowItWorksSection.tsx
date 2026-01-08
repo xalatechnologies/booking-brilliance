@@ -29,9 +29,7 @@ const HowItWorksSection = () => {
   ];
 
   return (
-    <section className="py-24 bg-secondary/40 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent" />
+    <section id="slik-fungerer-det" className="py-16 md:py-24 bg-background relative overflow-hidden section-border">
       
       <div className="container mx-auto px-4">
         {/* Header */}
