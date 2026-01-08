@@ -60,7 +60,7 @@ const ValuePropositionSection = () => {
           {values.map((value, index) => (
             <div
               key={index}
-              className="group relative flex flex-col items-center text-center p-8 rounded-3xl bg-gradient-to-br from-card/80 via-card/60 to-card/40 backdrop-blur-xl border border-border/60 hover:border-primary/60 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2"
+              className="group relative flex flex-col items-center text-center p-8 rounded-3xl bg-gradient-to-br from-card/90 via-card/70 to-card/50 backdrop-blur-xl border-2 border-border/50 hover:border-primary/60 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/30 hover:-translate-y-3 hover:scale-[1.02]"
               style={{
                 animationDelay: `${index * 100}ms`,
               }}
@@ -71,27 +71,28 @@ const ValuePropositionSection = () => {
               {/* Glow effect */}
               <div className={`absolute -inset-1 rounded-3xl bg-gradient-to-br ${value.gradient} opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-500 -z-20`} />
               
-              {/* Icon Container with enhanced effects */}
-              <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-2xl bg-gradient-to-br from-primary/20 via-primary/15 to-primary/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-xl group-hover:shadow-2xl group-hover:shadow-primary/30">
+              {/* Icon and Title aligned horizontally */}
+              <div className="flex items-center gap-4 mb-6 w-full">
+                {/* Icon Container */}
+                <div className="relative w-16 h-16 md:w-18 md:h-18 rounded-2xl bg-gradient-to-br from-primary/20 via-primary/15 to-primary/10 flex items-center justify-center group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-xl group-hover:shadow-2xl group-hover:shadow-primary/30 flex-shrink-0">
                 {/* Animated background glow */}
                 <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${value.iconGradient} opacity-0 group-hover:opacity-20 blur-md transition-opacity duration-500`} />
                 
                 {/* Shine effect */}
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
-                {/* Icon with gradient */}
-                <div className={`relative z-10 bg-gradient-to-br ${value.iconGradient} bg-clip-text text-transparent`}>
-                  <value.icon className="w-12 h-12 md:w-14 md:h-14 text-primary group-hover:scale-110 transition-transform duration-500" strokeWidth={2} />
+                  {/* Icon */}
+                  <value.icon className="w-8 h-8 md:w-9 md:h-9 text-primary group-hover:scale-110 transition-transform duration-500 relative z-10" strokeWidth={2} />
+                  
+                  {/* Pulsing ring effect */}
+                  <div className="absolute inset-0 rounded-2xl border-2 border-primary/30 opacity-0 group-hover:opacity-100 group-hover:scale-125 transition-all duration-500" />
                 </div>
                 
-                {/* Pulsing ring effect */}
-                <div className="absolute inset-0 rounded-2xl border-2 border-primary/30 opacity-0 group-hover:opacity-100 group-hover:scale-125 transition-all duration-500" />
+                {/* Title */}
+                <h3 className="text-xl md:text-2xl font-bold text-foreground group-hover:text-primary transition-all duration-300 flex-1 text-left">
+                  {value.title}
+                </h3>
               </div>
-              
-              {/* Title with enhanced styling */}
-              <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4 group-hover:text-primary transition-all duration-300 group-hover:scale-105">
-                {value.title}
-              </h3>
               
               {/* Description with better readability */}
               <p className="text-foreground/70 text-sm md:text-base leading-relaxed max-w-xs font-medium group-hover:text-foreground/90 transition-colors duration-300">

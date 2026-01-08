@@ -46,7 +46,7 @@ const HeroSection = () => {
 
 
   return (
-    <section className="relative min-h-[70vh] flex items-center pt-16 pb-24 md:pt-20 md:pb-32 overflow-hidden section-border">
+    <section className="relative min-h-[75vh] flex items-center pt-24 pb-32 md:pt-28 md:pb-40 overflow-hidden section-border">
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -61,7 +61,7 @@ const HeroSection = () => {
       <div className="absolute bottom-1/4 left-1/4 orb-medium bg-primary/8 rounded-full blur-large animate-float delay-slowest" />
       <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-primary/5 rounded-full blur-2xl animate-float delay-slow" />
 
-      <div className="container mx-auto px-4 md:px-6 py-8 md:py-12 relative z-10">
+      <div className="container mx-auto px-4 md:px-6 py-12 md:py-16 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="max-w-2xl">

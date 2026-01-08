@@ -25,6 +25,7 @@ export const DiagramViewer: React.FC<DiagramViewerProps> = ({ data }) => {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 800, height: 600 });
+  const [theme, setTheme] = useState(document.documentElement.classList.contains('dark') ? 'dark' : 'light');
 
   useEffect(() => {
     const updateSize = () => {
@@ -41,10 +42,30 @@ export const DiagramViewer: React.FC<DiagramViewerProps> = ({ data }) => {
     return () => observer.disconnect();
   }, []);
 
+  // Listen for theme changes
+  useEffect(() => {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          const isDark = document.documentElement.classList.contains('dark');
+          setTheme(isDark ? 'dark' : 'light');
+        }
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     if (!svgRef.current || !data) return;
 
     const { width, height } = dimensions;
+    const isDarkMode = theme === 'dark';
     const svg = d3.select(svgRef.current);
     svg.selectAll("*").remove();
 
@@ -188,10 +209,7 @@ export const DiagramViewer: React.FC<DiagramViewerProps> = ({ data }) => {
       .attr("fill", `hsl(${primaryColor} / 0.1)`)
       .style("filter", "blur(10px)");
 
-    // Use data attributes for theme-based styling
-    const isDarkMode = document.documentElement.classList.contains('dark');
-    
-    // Node Card Body
+    // Node Card Body (isDarkMode already defined at top of useEffect)
     nodeGroups.append("rect")
       .attr("x", -boxWidth / 2)
       .attr("y", -boxHeight / 2)
@@ -271,7 +289,7 @@ export const DiagramViewer: React.FC<DiagramViewerProps> = ({ data }) => {
       svg.transition().duration(750).call(zoom.transform, transform);
     }
 
-  }, [data, dimensions]);
+  }, [data, dimensions, theme]);
 
   return (
     <div ref={containerRef} className="w-full h-full relative bg-slate-50 dark:bg-slate-950 overflow-hidden border-2 border-border/50 rounded-2xl group shadow-2xl">

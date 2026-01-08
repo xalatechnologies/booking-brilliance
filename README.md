@@ -1,53 +1,108 @@
-# Digilist - Bookingsystem
+# Digilist - Kommunal Bookingplattform
 
-Bookingsystem for lokaler, ressurser og arrangementer. SaaS-løsning med betaling, kalender og rapportering.
+En moderne SaaS-løsning for booking av kommunale anlegg og ressurser i Norge.
 
-## Om Digilist
+## Om prosjektet
 
-Digilist er et moderne bookingsystem designet for kommuner, kulturhus, idrettslag, skoler, bedrifter og organisasjoner. Systemet tilbyr en komplett løsning for administrasjon av lokaler, ressurser og arrangementer.
+Digilist er en komplett plattform som digitaliserer og effektiviserer booking av kommunale anlegg som idrettshaller, møterom, kulturhus og andre ressurser. Løsningen håndterer hele verdikjeden fra publisering av ledige tider, gjennom bookingprosess med betaling, til rapportering og etterlevelse av norske lover og forskrifter.
 
-## Funksjoner
+### Hovedfunksjoner
 
-- Booking av lokaler og ressurser
-- Betalingsintegrasjon (Vipps)
-- Kalenderfunksjonalitet
-- Rapportering og statistikk
-- GDPR-kompatibel
-- ISO 27001 og ISO 27701 sertifisert
+- **6 anleggstyper** - Støtter alt fra rom og haller til kjøretøy og utstyr
+- **6 booking-modeller** - Fleksibel booking tilpasset ulike bruksområder
+- **Integrert betaling** - Vipps, Klarna og faktura
+- **Automatisk godkjenning** - Regelbaserte godkjenningsflyter
+- **GDPR-klar** - Full etterlevelse av personvernregler
+- **Universelt utformet** - WCAG 2.1 AA standard
 
-## Teknologier
+## Teknologistack
 
-Dette prosjektet er bygget med:
+### Frontend
+- React 19 med React Router 7
+- TypeScript 5.x (strict mode)
+- Tailwind CSS for styling
+- Shadcn/ui komponenter
 
-- **Vite** - Moderne build tool
-- **TypeScript** - Type-safe JavaScript
-- **React** - UI-bibliotek
-- **shadcn-ui** - UI-komponenter
-- **Tailwind CSS** - Utility-first CSS framework
-- **React Router** - Routing
+### Backend
+- Fastify 5.x API server
+- Node.js 20 LTS
+- PostgreSQL 16 database
+- Drizzle ORM
+- Redis for caching
+- BullMQ for bakgrunnsjobber
 
-## Installasjon
+### Integrasjoner
+- **ID-porten** - BankID/MinID autentisering
+- **Vipps** - Mobilbetaling
+- **BRREG** - Organisasjonsverifisering
+- **RCO** - Låskodegenerering
+- **Visma** - Økonomisystemer
 
-Følg disse stegene for å sette opp prosjektet lokalt:
+## Komme i gang
 
-```sh
+### Forutsetninger
+
+- Node.js 20.x eller nyere
+- pnpm (anbefalt) eller npm
+- PostgreSQL 16
+- Redis 7.x
+
+### Installasjon
+
+```bash
+# Klon repositoryet
+git clone <repository-url>
+cd booking-brilliance
+
 # Installer avhengigheter
-npm install
+pnpm install
+
+# Konfigurer miljøvariabler
+cp .env.example .env
+# Rediger .env med dine verdier
 
 # Start utviklingsserver
-npm run dev
-
-# Bygg for produksjon
-npm run build
-
-# Forhåndsvis produksjonsbygget
-npm run preview
+pnpm dev
 ```
 
-## Utvikling
+Applikasjonen vil være tilgjengelig på `http://localhost:8080`
 
-Prosjektet bruker Vite som build tool, som gir rask hot module replacement (HMR) og optimalisert produksjonsbygging.
+### Bygging for produksjon
+
+```bash
+# Bygg alle applikasjoner
+pnpm build
+
+# Forhåndsvis produksjonsbygg
+pnpm preview
+```
+
+## Prosjektstruktur
+
+```
+booking-brilliance/
+├── src/
+│   ├── components/        # React komponenter
+│   ├── pages/            # Side-komponenter
+│   ├── types/            # TypeScript types
+│   ├── integrations/     # Supabase og andre integrasjoner
+│   └── lib/              # Hjelpefunksjoner
+├── public/               # Statiske filer
+└── supabase/            # Supabase edge functions
+```
+
+## Utviklet av
+
+**Xala Technologies AS**  
+Nesbruveien 75, 1394 Nesbru  
+Telefon: +47 96 66 50 01  
+E-post: info@xala.no  
+Web: [xala.no](https://xala.no)
 
 ## Lisens
 
-Alle rettigheter forbeholdt © 2024 Digilist
+© 2024-2026 Digilist. Alle rettigheter forbeholdt.
+
+---
+
+For spørsmål eller support, kontakt oss på kontakt@digilist.no

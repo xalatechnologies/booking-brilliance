@@ -6,187 +6,173 @@
 
 @layer base {
   :root {
-    /* Light theme - Enhanced visibility */
+    /* Digilist Color System - Light Mode */
+    /* Based on logo: Navy #1F2F6E, Blue #2F55A4, Aqua #9EDBE5, Green #8BC34A */
+    
     --background: 0 0% 100%;
-    --foreground: 220 30% 10%;
-
-    --card: 220 20% 97%;
-    --card-foreground: 220 30% 10%;
-
+    --foreground: 222 47% 11%;              /* Deep charcoal */
+    
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    
     --popover: 0 0% 100%;
-    --popover-foreground: 220 30% 10%;
-
-    /* Teal/Cyan accent - Deeper for light mode */
-    --primary: 172 70% 35%;
+    --popover-foreground: 222 47% 11%;
+    
+    --primary: 213 51% 41%;                 /* #2F55A4 - Digilist Blue */
     --primary-foreground: 0 0% 100%;
+    
+    --secondary: 210 40% 96%;               /* Light grey-blue */
+    --secondary-foreground: 222 47% 11%;
+    
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    
+    --accent: 189 66% 76%;                  /* #9EDBE5 - Aqua (accent only) */
+    --accent-foreground: 222 47% 11%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --success: 88 50% 53%;                  /* #8BC34A - Digilist Green */
+    --success-foreground: 222 47% 11%;
+    
+    --warning: 33 100% 50%;
+    --warning-foreground: 222 47% 11%;
+    
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 213 51% 41%;
+    
+    --radius: 0.75rem;
+    
+    --chart-1: 213 51% 41%;
+    --chart-2: 88 50% 53%;
+    --chart-3: 263 70% 50%;
+    --chart-4: 33 100% 50%;
+    --chart-5: 189 66% 76%;
 
-    --secondary: 220 20% 92%;
-    --secondary-foreground: 220 30% 10%;
-
-    --muted: 220 20% 94%;
-    --muted-foreground: 220 20% 35%;
-
-    --accent: 172 70% 35%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
-
-    --border: 220 20% 82%;
-    --input: 220 20% 82%;
-    --ring: 172 70% 35%;
-
-    --radius: 0.5rem;
-
-    /* Custom design tokens - Spacing */
-    --spacing-xs: 0.25rem;
-    --spacing-sm: 0.5rem;
-    --spacing-md: 1rem;
-    --spacing-lg: 1.5rem;
-    --spacing-xl: 2rem;
-    --spacing-2xl: 3rem;
-    --spacing-3xl: 4rem;
-    --spacing-4xl: 6rem;
-
-    /* Custom design tokens - Sizing */
-    --size-orb-large: 24rem;
-    --size-orb-medium: 16rem;
-    --size-orb-small: 12rem;
-    --size-blur-large: 3rem;
-    --size-blur-medium: 2rem;
-    --size-blur-small: 1rem;
-
-    /* Custom design tokens - Animation */
-    --animation-delay-fast: 0.1s;
-    --animation-delay-normal: 0.2s;
-    --animation-delay-slow: 0.4s;
-    --animation-delay-slower: 0.6s;
-    --animation-delay-slowest: 3s;
-    --animation-duration-fast: 0.2s;
-    --animation-duration-normal: 0.3s;
-    --animation-duration-slow: 0.6s;
-    --animation-duration-slower: 0.8s;
-
-    /* Custom design tokens - Gradients (light) */
-    --gradient-primary: linear-gradient(135deg, hsl(172 70% 35%), hsl(172 80% 28%));
-    --gradient-dark: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(220 20% 95%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(220 20% 96%) 100%);
-    --gradient-hero-overlay: linear-gradient(
-      135deg,
-      hsl(0 0% 100% / 0.92) 0%,
-      hsl(220 20% 98% / 0.88) 50%,
-      hsl(220 20% 96% / 0.80) 100%
-    );
-
-    /* Custom design tokens - Shadows (light) - Enhanced */
-    --shadow-glow: 0 0 40px hsl(172 70% 35% / 0.25);
-    --shadow-card: 0 8px 32px hsl(220 30% 0% / 0.12);
-    --shadow-primary-glow: 0 0 24px hsl(172 70% 35% / 0.2);
-
-    /* Custom design tokens - Opacity */
-    --opacity-primary-light: 0.12;
-    --opacity-primary-medium: 0.35;
-    --opacity-primary-strong: 0.55;
-    --opacity-border-light: 0.4;
-    --opacity-border-medium: 0.6;
-    --opacity-overlay: 0.95;
-
+    /* Sidebar */
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 220 30% 10%;
-    --sidebar-primary: 172 70% 35%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 213 51% 41%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 20% 92%;
-    --sidebar-accent-foreground: 220 30% 10%;
-    --sidebar-border: 220 20% 82%;
-    --sidebar-ring: 172 70% 35%;
+    --sidebar-accent: 210 40% 96%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 213 51% 41%;
+
+    /* Typography & Control tokens */
+    --text-base: 1.0625rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    
+    --control-height-sm: 2.5rem;
+    --control-height-md: 2.875rem;
+    --control-height-lg: 3.25rem;
+
+    /* Animation tokens */
+    --animation-duration-fast: 150ms;
+    --animation-duration-normal: 300ms;
+    --animation-duration-slow: 500ms;
+    --animation-duration-slower: 700ms;
+    --animation-delay-fast: 100ms;
+    --animation-delay-normal: 200ms;
+    --animation-delay-slow: 400ms;
+    --animation-delay-slower: 600ms;
+    --animation-delay-slowest: 800ms;
+    
+    /* Size tokens */
+    --size-orb-large: 32rem;
+    --size-orb-medium: 24rem;
+    --size-orb-small: 16rem;
+    --size-blur-large: 100px;
+    --size-blur-medium: 60px;
+    --size-blur-small: 30px;
   }
 
   .dark {
-    /* Aipix-inspired dark theme - Enhanced visibility */
-    --background: 220 30% 6%;
-    --foreground: 0 0% 98%;
-
-    --card: 220 28% 10%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 220 28% 8%;
-    --popover-foreground: 0 0% 98%;
-
-    /* Teal/Cyan accent - Brighter for dark mode */
-    --primary: 172 70% 48%;
-    --primary-foreground: 220 30% 6%;
-
-    --secondary: 220 25% 15%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 220 25% 18%;
-    --muted-foreground: 220 15% 65%;
-
-    --accent: 172 70% 48%;
-    --accent-foreground: 220 30% 6%;
-
-    --destructive: 0 62.8% 30.6%;
+    /* Digilist Color System - Dark Mode */
+    --background: 222 47% 11%;              /* Charcoal background */
+    --foreground: 210 40% 98%;
+    
+    --card: 218 24% 27%;                    /* #1F2F6E approx - Navy cards */
+    --card-foreground: 210 40% 98%;
+    
+    --popover: 218 24% 27%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 189 66% 76%;                 /* Aqua as primary in dark */
+    --primary-foreground: 222 47% 11%;
+    
+    --secondary: 217 33% 18%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --muted: 217 33% 18%;
+    --muted-foreground: 215 20% 65%;
+    
+    --accent: 189 66% 76%;                  /* Aqua accent */
+    --accent-foreground: 222 47% 11%;
+    
+    --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
+    
+    --success: 88 50% 53%;                  /* Green */
+    --success-foreground: 222 47% 11%;
+    
+    --warning: 33 100% 50%;
+    --warning-foreground: 222 47% 11%;
+    
+    --border: 217 33% 18%;
+    --input: 217 33% 18%;
+    --ring: 189 66% 76%;
 
-    --border: 220 25% 18%;
-    --input: 220 25% 18%;
-    --ring: 172 70% 48%;
+    --chart-1: 189 66% 76%;
+    --chart-2: 88 50% 53%;
+    --chart-3: 263 70% 50%;
+    --chart-4: 33 100% 50%;
+    --chart-5: 213 51% 41%;
 
-    /* Custom design tokens - Gradients (dark) */
-    --gradient-primary: linear-gradient(135deg, hsl(172 70% 48%), hsl(172 80% 38%));
-    --gradient-dark: linear-gradient(180deg, hsl(220 30% 6%) 0%, hsl(220 35% 4%) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(220 28% 12%) 0%, hsl(220 28% 8%) 100%);
-    --gradient-hero-overlay: linear-gradient(
-      135deg,
-      hsl(220 35% 6% / 0.92) 0%,
-      hsl(220 30% 8% / 0.88) 50%,
-      hsl(220 28% 10% / 0.80) 100%
-    );
-
-    /* Custom design tokens - Shadows (dark) - Enhanced */
-    --shadow-glow: 0 0 50px hsl(172 70% 48% / 0.35);
-    --shadow-card: 0 8px 32px hsl(220 30% 0% / 0.5);
-    --shadow-primary-glow: 0 0 30px hsl(172 70% 48% / 0.25);
-
-    --sidebar-background: 220 28% 8%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 172 70% 48%;
-    --sidebar-primary-foreground: 220 30% 6%;
-    --sidebar-accent: 220 25% 15%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 220 25% 18%;
-    --sidebar-ring: 172 70% 48%;
+    /* Sidebar */
+    --sidebar-background: 218 24% 27%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 189 66% 76%;
+    --sidebar-primary-foreground: 222 47% 11%;
+    --sidebar-accent: 217 33% 18%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217 33% 18%;
+    --sidebar-ring: 189 66% 76%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground;
     font-family: 'Inter', system-ui, sans-serif;
+    font-size: var(--text-base);
+    line-height: 1.55;
+    letter-spacing: 0.01em;
   }
 }
 
 @layer utilities {
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-[hsl(172_80%_55%)];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80;
     font-weight: 800;
   }
 
   .glass-effect {
-    @apply backdrop-blur-xl bg-background/85 shadow-lg;
+    @apply backdrop-blur-xl bg-background/90 shadow-xl;
   }
 
   .glow-effect {
-    box-shadow: var(--shadow-glow);
+    box-shadow: 0 0 30px -5px hsl(var(--primary) / 0.3);
   }
 
   .card-gradient {
-    background: var(--gradient-card);
-    box-shadow: var(--shadow-card);
+    background: linear-gradient(to bottom right, hsl(var(--card)), hsl(var(--card) / 0.8));
+    box-shadow: 0 4px 6px -1px hsl(var(--primary) / 0.1);
   }
 
   .section-heading {
@@ -198,7 +184,10 @@
   }
 
   .hero-gradient-overlay {
-    background: var(--gradient-hero-overlay);
+    background: linear-gradient(135deg, 
+      hsl(var(--background) / 0.95) 0%, 
+      hsl(var(--background) / 0.90) 50%, 
+      hsl(var(--background) / 0.85) 100%);
   }
 
   .section-border {
@@ -243,7 +232,6 @@
     );
   }
 
-  /* Animation utilities with delay tokens */
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
@@ -260,7 +248,6 @@
     animation: slideInRight var(--animation-duration-slow) ease-out forwards;
   }
 
-  /* Animation delay utilities */
   .delay-fast {
     animation-delay: var(--animation-delay-fast);
   }
@@ -281,7 +268,6 @@
     animation-delay: var(--animation-delay-slowest);
   }
 
-  /* Size utilities using tokens */
   .orb-large {
     width: var(--size-orb-large);
     height: var(--size-orb-large);

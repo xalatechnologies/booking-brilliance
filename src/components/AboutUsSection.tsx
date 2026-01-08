@@ -118,7 +118,7 @@ const AboutUsSection = () => {
             {activeContent.highlights.map((highlight, idx) => (
               <div
                 key={idx}
-                className="group relative p-8 rounded-2xl bg-gradient-to-br from-card/80 via-card/60 to-card/40 backdrop-blur-sm border-2 border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2"
+                className="group relative p-8 rounded-2xl bg-gradient-to-br from-card/90 via-card/70 to-card/50 backdrop-blur-sm border-2 border-border/50 hover:border-primary/60 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/30 hover:-translate-y-3 hover:scale-[1.02]"
               >
                 {/* Gradient overlay on hover */}
                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />

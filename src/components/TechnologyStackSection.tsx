@@ -7,13 +7,13 @@ const TechnologyStackSection = () => {
       icon: Code2,
       color: "#3b82f6",
       description: "Moderne brukeropplevelse med React 19 og Server-Side Rendering",
-      features: ["SSR/SSG Support", "Type-Safe", "Responsive Design"],
+      features: ["SSR/SSG Støtte", "Type-sikker", "Responsivt design"],
       items: [
-        { name: "React", version: "19", description: "Component Library" },
-        { name: "React Router", version: "7", description: "SSR & Routing" },
-        { name: "TypeScript", version: "5.x", description: "Type Safety" },
+        { name: "React", version: "19", description: "Komponentbibliotek" },
+        { name: "React Router", version: "7", description: "SSR & Ruting" },
+        { name: "TypeScript", version: "5.x", description: "Type-sikkerhet" },
         { name: "Tailwind CSS", version: "3.x", description: "Utility-First CSS" },
-        { name: "Shadcn/ui", version: "Latest", description: "Component System" },
+        { name: "Shadcn/ui", version: "Latest", description: "Komponentsystem" },
       ],
     },
     {
@@ -21,26 +21,26 @@ const TechnologyStackSection = () => {
       icon: Server,
       color: "#8b5cf6",
       description: "Høyytende API med Fastify og asynkrone operasjoner",
-      features: ["REST API", "WebSocket", "Job Queue"],
+      features: ["REST API", "WebSocket", "Jobbkø"],
       items: [
-        { name: "Fastify", version: "5.x", description: "API Framework" },
-        { name: "Node.js", version: "20 LTS", description: "Runtime Environment" },
+        { name: "Fastify", version: "5.x", description: "API Rammeverk" },
+        { name: "Node.js", version: "20 LTS", description: "Kjøretidsmiljø" },
         { name: "TypeScript", version: "5.x", description: "Strict Mode" },
-        { name: "BullMQ", version: "Latest", description: "Background Jobs" },
-        { name: "Zod", version: "Latest", description: "Schema Validation" },
+        { name: "BullMQ", version: "Latest", description: "Bakgrunnsjobber" },
+        { name: "Zod", version: "Latest", description: "Skjemavalidering" },
       ],
     },
     {
       category: "Database",
       icon: Database,
       color: "#06b6d4",
-      description: "Skalerbar datalagring med ACID-garantier og caching",
-      features: ["ACID Compliant", "Caching", "Type-Safe ORM"],
+      description: "Skalerbar datalagring med ACID-garantier og hurtigbuffer",
+      features: ["ACID Kompatibel", "Hurtigbuffer", "Type-sikker ORM"],
       items: [
-        { name: "PostgreSQL", version: "16", description: "Relational Database" },
-        { name: "Drizzle ORM", version: "0.30.x", description: "Type-Safe ORM" },
-        { name: "Redis", version: "7.x", description: "Cache & Sessions" },
-        { name: "pgvector", version: "Latest", description: "Vector Search" },
+        { name: "PostgreSQL", version: "16", description: "Relasjonsdatabase" },
+        { name: "Drizzle ORM", version: "0.30.x", description: "Type-sikker ORM" },
+        { name: "Redis", version: "7.x", description: "Hurtigbuffer & Sesjoner" },
+        { name: "pgvector", version: "Latest", description: "Vektorsøk" },
       ],
     },
     {
@@ -48,13 +48,13 @@ const TechnologyStackSection = () => {
       icon: Shield,
       color: "#22c55e",
       description: "Omfattende sikkerhet og etterlevelse av norske standarder",
-      features: ["GDPR Ready", "WCAG 2.1 AA", "E2E Encryption"],
+      features: ["GDPR Klar", "WCAG 2.1 AA", "Ende-til-ende kryptering"],
       items: [
-        { name: "ID-porten", version: "BankID/MinID", description: "National Auth" },
-        { name: "GDPR", version: "Compliant", description: "Data Protection" },
-        { name: "WCAG", version: "2.1 AA", description: "Accessibility" },
-        { name: "TLS", version: "1.3", description: "End-to-End Encryption" },
-        { name: "RBAC", version: "Custom", description: "Role-Based Access" },
+        { name: "ID-porten", version: "BankID/MinID", description: "Nasjonal autentisering" },
+        { name: "GDPR", version: "Kompatibel", description: "Databeskyttelse" },
+        { name: "WCAG", version: "2.1 AA", description: "Tilgjengelighet" },
+        { name: "TLS", version: "1.3", description: "Ende-til-ende kryptering" },
+        { name: "RBAC", version: "Tilpasset", description: "Rollebasert tilgang" },
       ],
     },
   ];
@@ -83,7 +83,7 @@ const TechnologyStackSection = () => {
           {technologies.map((tech, index) => (
             <div
               key={tech.category}
-              className="group relative flex flex-col p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1"
+              className="group relative flex flex-col p-6 rounded-2xl bg-gradient-to-br from-card/70 via-card/60 to-card/50 backdrop-blur-sm border-2 border-border/50 hover:border-primary/60 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/20 hover:-translate-y-2 hover:scale-[1.01]"
               style={{
                 animationDelay: `${index * 100}ms`,
               }}

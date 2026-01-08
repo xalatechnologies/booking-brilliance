@@ -84,29 +84,29 @@ const DockNavigation = () => {
   const isHomeActive = location.pathname === "/" && !activeHash && window.scrollY < 100;
 
   return (
-    <div className="hidden md:flex items-center gap-4">
-      <Link
-        to="/"
-        aria-label="Hjem"
-        onClick={(e) => {
-          e.preventDefault();
-          navigate("/");
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-          setActiveHash("");
-        }}
-        className={cn(
-          "flex flex-col items-center gap-1 transition-all duration-300 hover:scale-105",
-          isHomeActive ? "text-primary" : "text-foreground/70 hover:text-foreground"
-        )}
-      >
-        <div className={cn(
-          "flex items-center justify-center size-10 rounded-full transition-all duration-300",
-          isHomeActive ? "bg-primary/10" : "hover:bg-accent"
-        )}>
-          <Home className="size-5" />
-        </div>
-        <span className="text-sm font-semibold">Hjem</span>
-      </Link>
+    <div className="hidden md:flex items-center gap-6">
+        <Link
+          to="/"
+          aria-label="Hjem"
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/");
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setActiveHash("");
+          }}
+          className={cn(
+            "flex flex-col items-center gap-1.5 transition-all duration-300 hover:scale-110 group",
+            isHomeActive ? "text-primary" : "text-foreground/70 hover:text-foreground"
+          )}
+        >
+          <div className={cn(
+            "flex items-center justify-center size-11 rounded-xl transition-all duration-300 shadow-sm group-hover:shadow-md",
+            isHomeActive ? "bg-primary/15 ring-2 ring-primary/30" : "bg-card hover:bg-primary/5"
+          )}>
+            <Home className="size-5" strokeWidth={2.5} />
+          </div>
+          <span className="text-sm font-bold">Hjem</span>
+        </Link>
       {navItems.map((item) => {
         const isActive = activeHash === item.href;
         return (
@@ -116,17 +116,17 @@ const DockNavigation = () => {
             aria-label={item.label}
             onClick={(e) => handleNavClick(item.href, e)}
             className={cn(
-              "flex flex-col items-center gap-1 transition-all duration-300 hover:scale-105",
+              "flex flex-col items-center gap-1.5 transition-all duration-300 hover:scale-110 group",
               isActive ? "text-primary" : "text-foreground/70 hover:text-foreground"
             )}
           >
             <div className={cn(
-              "flex items-center justify-center size-10 rounded-full transition-all duration-300",
-              isActive ? "bg-primary/10" : "hover:bg-accent"
+              "flex items-center justify-center size-11 rounded-xl transition-all duration-300 shadow-sm group-hover:shadow-md",
+              isActive ? "bg-primary/15 ring-2 ring-primary/30" : "bg-card hover:bg-primary/5"
             )}>
-              <item.icon className="size-5" />
+              <item.icon className="size-5" strokeWidth={2.5} />
             </div>
-            <span className="text-sm font-semibold">{item.label}</span>
+            <span className="text-sm font-bold">{item.label}</span>
           </a>
         );
       })}
