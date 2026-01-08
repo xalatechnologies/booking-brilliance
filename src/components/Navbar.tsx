@@ -56,7 +56,7 @@ const Navbar = () => {
           <ThemeToggle />
           <Button 
             variant="hero" 
-            size="lg" 
+            size="xl" 
             className="hidden md:inline-flex group shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:scale-105 transition-all duration-300"
             onClick={() => {
               const element = document.getElementById('kontakt');
@@ -66,7 +66,7 @@ const Navbar = () => {
             }}
           >
             Book demo
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Button>
         </div>
       </div>
