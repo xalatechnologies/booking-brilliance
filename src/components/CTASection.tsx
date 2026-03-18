@@ -214,7 +214,7 @@ const CTASection = () => {
                         <Input
                           type="text"
                           name="organization"
-                          value={formData.organization}
+                          value={formData.organizationType}
                           onChange={handleChange}
                           placeholder="Kommune/Org"
                           className="pl-11 h-12 text-base"
