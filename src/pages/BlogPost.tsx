@@ -34,11 +34,29 @@ const BlogPost = () => {
         description={post.description}
         canonical={url}
         ogType="article"
+        ogImage={
+          post.cover
+            ? post.cover.startsWith("http")
+              ? post.cover
+              : `https://digilist.no${post.cover}`
+            : "https://digilist.no/og-image.png"
+        }
         breadcrumbs={[
           { name: "Hjem", url: "https://digilist.no/" },
           { name: "Blogg", url: "https://digilist.no/blogg" },
           { name: post.title, url },
         ]}
+        article={{
+          headline: post.title,
+          description: post.description,
+          datePublished: post.date,
+          author: post.author,
+          authorRole: post.role,
+          image: post.cover,
+          articleSection: post.tag,
+          keywords: post.keywords,
+          wordCount: post.content.split(/\s+/).filter(Boolean).length,
+        }}
       />
       <ProgressRail />
       <Navbar />

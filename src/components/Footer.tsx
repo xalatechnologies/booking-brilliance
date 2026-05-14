@@ -36,6 +36,7 @@ const Footer = () => {
   const ressurser = [
     { label: "Blogg", href: "/blogg" },
     { label: "FAQ", href: "/faq" },
+    { label: "Booking av lokaler og møterom", href: "/booking-av-lokaler-og-moterom" },
     { label: "Bookingsystem for kommuner", href: "/bookingsystem-kommune" },
     { label: "Pilot for kommuner", href: "/#pilot" },
   ];

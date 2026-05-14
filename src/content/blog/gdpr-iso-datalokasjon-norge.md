@@ -7,7 +7,7 @@ author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 7
 tag: "Samsvar"
-cover: "/images/blog/gdpr-iso-cover.svg"
+cover: "/images/blog/gdpr_iso27001_hero_no.webp"
 keywords: ["GDPR", "ISO 27001", "datalokasjon", "personvern", "kommune", "SaaS"]
 ---
 

@@ -7,7 +7,7 @@ author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8
 tag: "Anskaffelse"
-cover: "/images/blog/ssa-l-cover.svg"
+cover: "/images/blog/ssal_2026_booking_hero.webp"
 keywords: ["SSA-L 2026", "kommunalt bookingsystem", "anskaffelse", "kravspesifikasjon", "Digdir"]
 ---
 

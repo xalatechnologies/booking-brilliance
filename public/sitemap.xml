@@ -7,16 +7,46 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://digilist.no/book-demo</loc>
+    <loc>https://digilist.no/bookingsystem-kommune</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://digilist.no/faq</loc>
     <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://digilist.no/bookingsystem-kommune</loc>
+    <loc>https://digilist.no/blogg</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://digilist.no/blogg/gdpr-iso-datalokasjon-norge</loc>
+    <lastmod>2026-05-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://digilist.no/blogg/sesongleie-fordeling-lag-foreninger</loc>
+    <lastmod>2026-05-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://digilist.no/blogg/ssa-l-2026-bookingsystem-kommune</loc>
     <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.95</priority>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://digilist.no/book-demo</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://digilist.no/personvern</loc>

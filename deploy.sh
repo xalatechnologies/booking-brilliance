@@ -23,6 +23,7 @@ VPS_HOST="72.61.23.56"
 # served them. Keep this in sync with
 # /etc/nginx/sites-enabled/digilist-apps.conf (server_name digilist.no → root).
 REMOTE_DIR="/home/root/domains/digilist.no/public_html"
+API_DIR="/var/www/digilist-api"
 PROJECT_NAME="booking-brilliance"
 
 echo -e "${GREEN}========================================${NC}"
@@ -71,6 +72,27 @@ rsync -avz --delete --progress \
     dist/ ${VPS_USER}@${VPS_HOST}:${REMOTE_DIR}/
 
 echo -e "${GREEN}✓ Files deployed successfully${NC}"
+
+# Deploy the chatbot API service (server/) if present
+if [ -d "server" ]; then
+    echo -e "${BLUE}[2.5/3] Deploying chatbot API to ${API_DIR}...${NC}"
+    ssh ${VPS_USER}@${VPS_HOST} "mkdir -p ${API_DIR}"
+    rsync -avz --delete \
+        --exclude 'node_modules' \
+        --exclude '.env' \
+        --exclude 'README.md' \
+        server/ ${VPS_USER}@${VPS_HOST}:${API_DIR}/
+
+    # Restart if the systemd unit exists; otherwise tell the user to set it up.
+    ssh ${VPS_USER}@${VPS_HOST} "
+        if systemctl list-unit-files | grep -q '^digilist-api.service'; then
+            systemctl restart digilist-api && systemctl is-active digilist-api
+        else
+            echo 'WARN: digilist-api.service not installed. See ${API_DIR}/README.md'
+        fi
+    " || echo -e "${YELLOW}⚠ API service restart skipped${NC}"
+    echo -e "${GREEN}✓ Chatbot API deployed${NC}"
+fi
 
 # Verify deployment
 echo -e "${BLUE}[3/3] Verifying deployment...${NC}"

@@ -1,6 +1,6 @@
 # Digilist
 
-> Norsk SaaS-plattform for utleie og booking av selskapslokaler, idrettshaller, møterom, kantiner og kulturhus. Én digital plattform for det norske utleiemarkedet — privat og offentlig.
+> Norsk SaaS-plattform for **booking av lokaler og møterom** — selskapslokaler, idrettshaller, møterom, kantiner og kulturhus. Én digital plattform for det norske utleiemarkedet — privat og offentlig. Vipps, BankID, EHF, ID-porten og sesongleie innebygd.
 
 ## Hva Digilist er
 
@@ -54,8 +54,9 @@ Digilist er bygget for norske krav til offentlig bookingsystem og er i prosess f
 
 - Markedsside: https://digilist.no
 - Plattform: https://app.digilist.no
-- FAQ (alle spørsmål med svar): https://digilist.no/faq
+- Booking av lokaler og møterom: https://digilist.no/booking-av-lokaler-og-moterom
 - Bookingsystem for kommuner: https://digilist.no/bookingsystem-kommune
+- FAQ (alle spørsmål med svar): https://digilist.no/faq
 - Blogg: https://digilist.no/blogg
 - Personvern: https://digilist.no/personvern
 - Salgsvilkår: https://digilist.no/salgsvilkar

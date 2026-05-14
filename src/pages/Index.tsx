@@ -81,6 +81,31 @@ const Index = () => {
         breadcrumbs={[
           { name: "Hjem", url: "https://digilist.no/" },
         ]}
+        aboutPage
+        service
+        howTo={{
+          name: "Slik booker du med Digilist",
+          description:
+            "Fra forespørsel til oppgjør på fire steg — gjennom Digilist-plattformen.",
+          steps: [
+            {
+              name: "Søknad",
+              text: "Innbygger, lag, forening eller bedrift sender forespørsel via Digilist. Tilgjengelighet vises i sanntid; forespørsler innenfor regler bookes umiddelbart.",
+            },
+            {
+              name: "Godkjenning",
+              text: "Forespørsler utenfor regelverket går til administrator. Godkjenning kan delegeres til driftsroller, og automatregler dekker repeterende mønstre som sesongleie.",
+            },
+            {
+              name: "Bekreftelse",
+              text: "Automatisk bekreftelse med detaljer og betaling via Vipps eller kort. Driftsroller — vaktmester, renhold, vekter — varsles automatisk.",
+            },
+            {
+              name: "Oppfølging",
+              text: "Faktura og bilag til Visma, Tripletex, Fiken, PowerOffice, DNB Regnskap eller EHF/Peppol. Rapportering, KPI-er og økonomisk avstemming i én plattform.",
+            },
+          ],
+        }}
       />
       <ProgressRail />
       <GrainOverlay />

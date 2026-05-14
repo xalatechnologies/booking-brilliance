@@ -1,0 +1,20 @@
+[Unit]
+Description=Digilist chatbot API (chat + inquiry)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/var/www/digilist-api
+ExecStart=/usr/bin/node /var/www/digilist-api/index.mjs
+Restart=on-failure
+RestartSec=5
+EnvironmentFile=/etc/digilist-api.env
+User=www-data
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log
+
+[Install]
+WantedBy=multi-user.target

@@ -7,6 +7,7 @@ import { ThemeProvider } from "next-themes";
 import Index from "./pages/Index";
 import BookDemo from "./pages/BookDemo";
 import BookingsystemKommune from "./pages/BookingsystemKommune";
+import BookingLokalerMoterom from "./pages/BookingLokalerMoterom";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import FAQ from "./pages/FAQ";
@@ -16,6 +17,7 @@ import Cookies from "./pages/Cookies";
 import NotFound from "./pages/NotFound";
 import CookieConsent from "./components/CookieConsent";
 import ScrollToTop from "./components/ScrollToTop";
+import { Chatbot } from "./components/chatbot";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +33,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/book-demo" element={<BookDemo />} />
             <Route path="/bookingsystem-kommune" element={<BookingsystemKommune />} />
+            <Route path="/booking-av-lokaler-og-moterom" element={<BookingLokalerMoterom />} />
             <Route path="/blogg" element={<Blog />} />
             <Route path="/blogg/:slug" element={<BlogPost />} />
             <Route path="/faq" element={<FAQ />} />
@@ -41,6 +44,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
           <CookieConsent />
+          <Chatbot />
         </BrowserRouter>
       </TooltipProvider>
     </ThemeProvider>

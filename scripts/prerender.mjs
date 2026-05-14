@@ -93,6 +93,67 @@ async function loadBlogPosts() {
 /** @type {Array<{route: string, title: string, description: string, ogType?: string, faq?: Array<{q: string, a: string}>, breadcrumbs?: Array<{name: string, url: string}>}>} */
 const ROUTES = [
   {
+    route: "/booking-av-lokaler-og-moterom",
+    title:
+      "Booking av lokaler og møterom — Digilist | Norsk bookingplattform for kommuner og utleiere",
+    description:
+      "Booking av lokaler og møterom i Norge — sanntidskalender, Vipps, BankID, EHF og sesongleie. Bygget for kommuner, selskapslokaler, idrettshaller og kulturhus. SSA-L 2026-klar, ISO 27001-sertifisert.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      {
+        name: "Booking av lokaler og møterom",
+        url: `${BASE_URL}/booking-av-lokaler-og-moterom`,
+      },
+    ],
+    howTo: {
+      name: "Slik booker du lokale eller møterom",
+      description:
+        "Fra søk til bekreftet booking på fire steg via Digilist.",
+      steps: [
+        {
+          name: "Søk og velg ledig tid",
+          text: "Søk etter lokale eller møterom i kalenderen. Filtrer på dato, kapasitet og fasiliteter. Ledige tider vises i sanntid.",
+        },
+        {
+          name: "Fyll inn formål og deltakere",
+          text: "Angi anledning, antall deltakere og eventuelle tilleggstjenester (AV-utstyr, servering, ekstra rengjøring).",
+        },
+        {
+          name: "Logg inn og signer leieavtalen",
+          text: "Logg inn med BankID eller ID-porten. Leieavtalen signeres digitalt med juridisk bindende eID-signatur.",
+        },
+        {
+          name: "Betal og motta bekreftelse",
+          text: "Betal med Vipps, kort eller faktura (EHF for organisasjoner). Bekreftelse, kalenderinvitasjon og digital nøkkel sendes automatisk.",
+        },
+      ],
+    },
+    faq: [
+      {
+        q: "Hva er booking av lokaler og møterom?",
+        a: "Booking av lokaler og møterom er den digitale prosessen der innbyggere, bedrifter, lag eller foreninger reserverer fysiske rom — selskapslokaler, møterom, idrettshaller, kantiner, kulturhus — for et bestemt tidsrom. En moderne plattform håndterer sanntidstilgjengelighet, betaling, kontrakt, varsling av driftsroller og fakturering i én sammenhengende flyt.",
+      },
+      {
+        q: "Hvordan booker man et lokale eller møterom på Digilist?",
+        a: "Søk etter sted og dato i sanntidskalenderen. Velg ledig tid, fyll inn formål og antall deltakere, signer leieavtalen digitalt og betal med Vipps, kort eller faktura. Bekreftelse, kalenderinvitasjon og digital nøkkel sendes automatisk. Hele flyten tar typisk under 90 sekunder.",
+      },
+      {
+        q: "Hvilke typer lokaler og møterom kan jeg booke?",
+        a: "Digilist støtter selskapslokaler, møterom, kantiner, idrettshaller, gymsaler, kulturhus, samfunnshus, undervisningsrom og spesialressurser som AV-utstyr eller kjøretøy.",
+      },
+      {
+        q: "Hvilke betalingsmetoder støttes for booking av lokaler?",
+        a: "Vipps, kortbetaling via Stripe Connect, depositum med automatisk frigjøring, og EHF/Peppol-fakturering for organisasjoner. Refusjonsregler kan tilpasses per anlegg.",
+      },
+      {
+        q: "Er Digilist trygt og GDPR-kompatibelt?",
+        a: "Ja. Data lagres i Norge og EU på PostgreSQL. ISO 27001 og ISO 27701 sertifisert. ID-porten og BankID autentisering. Audit-spor på hver mutasjon.",
+      },
+    ],
+  },
+  {
     route: "/bookingsystem-kommune",
     title: "Bookingsystem for kommuner — Digilist | SSA-L 2026 klar",
     description:
@@ -161,15 +222,51 @@ const ROUTES = [
   },
 ];
 
+const BRAND_KNOWS_ABOUT = [
+  "Bookingsystem",
+  "Kommunal utleie",
+  "Sesongleie",
+  "ID-porten",
+  "BankID",
+  "Vipps",
+  "EHF / Peppol-fakturering",
+  "ISO 27001",
+  "ISO 27701",
+  "GDPR",
+  "WCAG 2.1",
+  "SSA-L 2026",
+  "Digdir Designsystemet",
+  "Convex reaktiv runtime",
+  "PostgreSQL",
+];
+
+const BRAND_MENTIONS = [
+  { "@type": "Service", name: "Vipps", url: "https://vipps.no" },
+  { "@type": "Service", name: "BankID", url: "https://bankid.no" },
+  { "@type": "Service", name: "ID-porten", url: "https://www.idporten.no" },
+  { "@type": "Service", name: "EHF / Peppol", url: "https://peppol.eu" },
+  { "@type": "Organization", name: "Digdir", url: "https://www.digdir.no" },
+  {
+    "@type": "Organization",
+    name: "Brønnøysundregistrene",
+    url: "https://www.brreg.no",
+  },
+];
+
 const baseLD = (description) => [
   {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": `${BASE_URL}/#organization`,
     name: "Digilist",
     alternateName: "Digilist — Enkel booking",
     url: BASE_URL,
     logo: `${BASE_URL}/logo.svg`,
+    image: `${BASE_URL}/og-image.png`,
     sameAs: ["https://xala.no"],
+    foundingDate: "2024",
+    knowsAbout: BRAND_KNOWS_ABOUT,
+    mentions: BRAND_MENTIONS,
     address: {
       "@type": "PostalAddress",
       streetAddress: "Nesbruveien 75",
@@ -193,11 +290,30 @@ const baseLD = (description) => [
   },
   {
     "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${BASE_URL}/#website`,
+    url: BASE_URL,
+    name: "Digilist",
+    description,
+    inLanguage: "nb-NO",
+    publisher: { "@id": `${BASE_URL}/#organization` },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${BASE_URL}/faq?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  },
+  {
+    "@context": "https://schema.org",
     "@type": "SoftwareApplication",
+    "@id": `${BASE_URL}/#software`,
     name: "Digilist",
     applicationCategory: "BusinessApplication",
     applicationSubCategory: "Booking & Reservation Platform",
-    operatingSystem: "Web, iOS, Android",
+    operatingSystem: "Web, iOS, iPadOS, Android",
     description,
     url: "https://app.digilist.no",
     softwareVersion: "2026.05",
@@ -207,10 +323,13 @@ const baseLD = (description) => [
       "Betaling med Vipps og kort",
       "BankID og ID-porten autentisering",
       "EHF / Peppol fakturering",
-      "Regnskapsintegrasjoner",
+      "Regnskapsintegrasjoner (Visma, Tripletex, Fiken, PowerOffice, DNB)",
+      "Driftsroller og varsler",
       "Digital nøkkel (Salto KS)",
-      "Universell utforming (WCAG 2.0 AA)",
+      "Universell utforming (WCAG 2.1 AA)",
       "ISO 27001 og 27701 sertifisert",
+      "RCO booking-migrasjon",
+      "Audit-spor og RBAC",
     ],
     offers: {
       "@type": "Offer",
@@ -218,11 +337,7 @@ const baseLD = (description) => [
       price: "0",
       availability: "https://schema.org/InStock",
     },
-    provider: {
-      "@type": "Organization",
-      name: "Xala Technologies AS",
-      url: "https://xala.no",
-    },
+    provider: { "@id": `${BASE_URL}/#organization` },
     areaServed: { "@type": "Country", name: "Norway" },
     inLanguage: "nb-NO",
   },
@@ -252,6 +367,50 @@ function patchHTML(template, meta) {
         name: b.name,
         item: b.url,
       })),
+    });
+  }
+  if (meta.howTo) {
+    ldBlocks.push({
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      name: meta.howTo.name,
+      description: meta.howTo.description,
+      inLanguage: "nb-NO",
+      step: meta.howTo.steps.map((s, i) => ({
+        "@type": "HowToStep",
+        position: i + 1,
+        name: s.name,
+        text: s.text,
+      })),
+    });
+  }
+  if (meta.aboutPage) {
+    ldBlocks.push({
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      url: canonical,
+      name: meta.title,
+      description: meta.description,
+      mainEntity: { "@id": `${BASE_URL}/#organization` },
+      inLanguage: "nb-NO",
+    });
+  }
+  if (meta.service) {
+    ldBlocks.push({
+      "@context": "https://schema.org",
+      "@type": "Service",
+      serviceType: "Booking Platform",
+      provider: { "@id": `${BASE_URL}/#organization` },
+      areaServed: { "@type": "Country", name: "Norway" },
+      availableLanguage: ["Norwegian", "English"],
+      offers: {
+        "@type": "Offer",
+        priceCurrency: "NOK",
+        availability: "https://schema.org/InStock",
+      },
+      category: "Software / SaaS",
+      description: meta.description,
+      url: canonical,
     });
   }
   const ldHTML = ldBlocks
@@ -314,6 +473,31 @@ const HOMEPAGE = {
   description:
     "Digital bookingplattform for selskapslokaler, idrettshaller, møterom og kulturhus. Sanntidskalender, Vipps, BankID, EHF, sesongleie. ISO 27001-sertifisert.",
   breadcrumbs: [{ name: "Hjem", url: `${BASE_URL}/` }],
+  aboutPage: true,
+  service: true,
+  howTo: {
+    name: "Slik booker du med Digilist",
+    description:
+      "Fra forespørsel til oppgjør på fire steg — gjennom Digilist-plattformen.",
+    steps: [
+      {
+        name: "Søknad",
+        text: "Innbygger, lag, forening eller bedrift sender forespørsel via Digilist. Tilgjengelighet vises i sanntid; forespørsler innenfor regler bookes umiddelbart.",
+      },
+      {
+        name: "Godkjenning",
+        text: "Forespørsler utenfor regelverket går til administrator. Godkjenning kan delegeres til driftsroller, og automatregler dekker repeterende mønstre som sesongleie.",
+      },
+      {
+        name: "Bekreftelse",
+        text: "Automatisk bekreftelse med detaljer og betaling via Vipps eller kort. Driftsroller — vaktmester, renhold, vekter — varsles automatisk.",
+      },
+      {
+        name: "Oppfølging",
+        text: "Faktura og bilag til Visma, Tripletex, Fiken, PowerOffice, DNB Regnskap eller EHF/Peppol. Rapportering, KPI-er og økonomisk avstemming i én plattform.",
+      },
+    ],
+  },
   faq: [
     {
       q: "Hva er Digilist?",
@@ -399,6 +583,11 @@ async function main() {
 
   for (const post of posts) {
     const postRoute = `/blogg/${post.slug}`;
+    const coverUrl = post.cover
+      ? post.cover.startsWith("http")
+        ? post.cover
+        : `${BASE_URL}${post.cover}`
+      : `${BASE_URL}/og-image.png`;
     const articleLD = {
       "@context": "https://schema.org",
       "@type": "Article",
@@ -407,12 +596,12 @@ async function main() {
       datePublished: post.date,
       dateModified: post.date,
       author: { "@type": "Person", name: post.author },
-      publisher: {
-        "@type": "Organization",
-        name: "Digilist",
-        logo: { "@type": "ImageObject", url: `${BASE_URL}/logo.svg` },
+      publisher: { "@id": `${BASE_URL}/#organization` },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": `${BASE_URL}${postRoute}`,
       },
-      mainEntityOfPage: { "@type": "WebPage", "@id": `${BASE_URL}${postRoute}` },
+      image: coverUrl,
       articleSection: post.tag || "Blogg",
       inLanguage: "nb-NO",
     };
@@ -429,10 +618,18 @@ async function main() {
     // Inject Article schema before </head>
     const articleScript = `<script type="application/ld+json" data-prerendered="true">${JSON.stringify(articleLD)}</script>`;
     html = html.replace("</head>", `    ${articleScript}\n  </head>`);
-    // og:type article
+    // og:type article + og:image override with the cover
     html = html.replace(
       /<meta property="og:type" content="[^"]*"/,
       `<meta property="og:type" content="article"`,
+    );
+    html = html.replace(
+      /<meta property="og:image" content="[^"]*"/,
+      `<meta property="og:image" content="${coverUrl}"`,
+    );
+    html = html.replace(
+      /<meta property="twitter:image" content="[^"]*"/,
+      `<meta property="twitter:image" content="${coverUrl}"`,
     );
     const dir = join(DIST, "blogg", post.slug);
     await fs.mkdir(dir, { recursive: true });
@@ -475,6 +672,7 @@ async function main() {
   const sitemapEntries = [
     { loc: `${BASE_URL}/`, priority: "1.0", changefreq: "weekly" },
     { loc: `${BASE_URL}/bookingsystem-kommune`, priority: "0.95", changefreq: "monthly" },
+    { loc: `${BASE_URL}/booking-av-lokaler-og-moterom`, priority: "0.95", changefreq: "monthly" },
     { loc: `${BASE_URL}/faq`, priority: "0.9", changefreq: "monthly" },
     { loc: `${BASE_URL}/blogg`, priority: "0.9", changefreq: "weekly" },
     ...posts.map((p) => ({
