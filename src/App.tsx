@@ -7,6 +7,9 @@ import { ThemeProvider } from "next-themes";
 import Index from "./pages/Index";
 import BookDemo from "./pages/BookDemo";
 import BookingsystemKommune from "./pages/BookingsystemKommune";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
+import FAQ from "./pages/FAQ";
 import Salgsvilkar from "./pages/Salgsvilkar";
 import Personvern from "./pages/Personvern";
 import Cookies from "./pages/Cookies";
@@ -26,6 +29,9 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/book-demo" element={<BookDemo />} />
             <Route path="/bookingsystem-kommune" element={<BookingsystemKommune />} />
+            <Route path="/blogg" element={<Blog />} />
+            <Route path="/blogg/:slug" element={<BlogPost />} />
+            <Route path="/faq" element={<FAQ />} />
             <Route path="/salgsvilkar" element={<Salgsvilkar />} />
             <Route path="/personvern" element={<Personvern />} />
             <Route path="/cookies" element={<Cookies />} />

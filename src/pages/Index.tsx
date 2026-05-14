@@ -6,6 +6,7 @@ import HeroSection from "@/components/HeroSection";
 import ValuePropositionSection from "@/components/ValuePropositionSection";
 import AudienceSection from "@/components/AudienceSection";
 import BrukerhistorierSection from "@/components/BrukerhistorierSection";
+import PilotInvitationSection from "@/components/PilotInvitationSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import IntegrationsSection from "@/components/IntegrationsSection";
 import TechnologyStackSection from "@/components/TechnologyStackSection";
@@ -88,6 +89,7 @@ const Index = () => {
         <ValuePropositionSection />
         <AudienceSection />
         <BrukerhistorierSection />
+        <PilotInvitationSection />
         <HowItWorksSection />
         <IntegrationsSection />
         <TechnologyStackSection />

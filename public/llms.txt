@@ -54,7 +54,10 @@ Digilist er bygget for norske krav til offentlig bookingsystem og er i prosess f
 
 - Markedsside: https://digilist.no
 - Plattform: https://app.digilist.no
+- FAQ (alle spørsmål med svar): https://digilist.no/faq
+- Bookingsystem for kommuner: https://digilist.no/bookingsystem-kommune
+- Blogg: https://digilist.no/blogg
 - Personvern: https://digilist.no/personvern
 - Salgsvilkår: https://digilist.no/salgsvilkar
 - Cookies: https://digilist.no/cookies
-- Detaljert info for AI: https://digilist.no/llms-full.txt
+- Detaljert info for AI (FAQ-korpus): https://digilist.no/llms-full.txt

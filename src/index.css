@@ -162,6 +162,79 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* Blog post markdown body styling */
+  .post-body {
+    color: hsl(var(--ink-soft));
+    font-size: 1.0625rem;
+    line-height: 1.75;
+  }
+  .post-body h2 {
+    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-size: 2rem;
+    font-variation-settings: "opsz" 96, "wght" 400, "SOFT" 30, "WONK" 0;
+    color: hsl(var(--ink));
+    margin: 2.5rem 0 1.25rem;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+  }
+  .post-body h3 {
+    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-size: 1.5rem;
+    font-variation-settings: "opsz" 48, "wght" 420, "SOFT" 30, "WONK" 0;
+    color: hsl(var(--ink));
+    margin: 2rem 0 0.75rem;
+    line-height: 1.2;
+  }
+  .post-body p {
+    margin: 1.25rem 0;
+  }
+  .post-body ul,
+  .post-body ol {
+    margin: 1.25rem 0 1.25rem 1.5rem;
+    padding-left: 0.5rem;
+  }
+  .post-body ul li {
+    list-style: disc;
+    margin: 0.5rem 0;
+    padding-left: 0.5rem;
+  }
+  .post-body ol li {
+    list-style: decimal;
+    margin: 0.5rem 0;
+    padding-left: 0.5rem;
+  }
+  .post-body strong {
+    color: hsl(var(--ink));
+    font-weight: 600;
+  }
+  .post-body em {
+    font-style: italic;
+  }
+  .post-body code {
+    background: hsl(var(--paper-deep));
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.125rem;
+    font-size: 0.9em;
+  }
+  .post-body blockquote {
+    border-left: 2px solid hsl(var(--navy));
+    padding-left: 1.25rem;
+    margin: 1.5rem 0;
+    font-style: italic;
+    color: hsl(var(--ink));
+  }
+  .post-body hr {
+    border: 0;
+    border-top: 1px solid hsl(var(--rule));
+    margin: 2.5rem 0;
+  }
+  .post-body a {
+    color: hsl(var(--accent-text));
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 0.5px;
+  }
+
   /* Inline anchors inside paragraphs/lists/definitions get persistent
    * underline so they're distinguishable without relying on color
    * (WCAG 1.4.1). Skips anchors inside nav, buttons, and headings. */

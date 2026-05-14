@@ -31,6 +31,13 @@ const Footer = () => {
     { label: "Kontakt", hash: "#kontakt" },
   ];
 
+  const ressurser = [
+    { label: "Blogg", href: "/blogg" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Bookingsystem for kommuner", href: "/bookingsystem-kommune" },
+    { label: "Pilot for kommuner", href: "/#pilot" },
+  ];
+
   const juridisk = [
     { label: "Personvern", href: "/personvern" },
     { label: "Salgsvilkår", href: "/salgsvilkar" },
@@ -114,6 +121,21 @@ const Footer = () => {
           </div>
 
           <div className="lg:bg-paper-deep lg:p-8">
+            <h3 className="font-mono text-sm uppercase tracking-[0.12em] text-accent-text mb-5">
+              Ressurser
+            </h3>
+            <ul className="space-y-3 mb-7">
+              {ressurser.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    to={link.href}
+                    className="text-base text-ink-soft hover:text-ink transition-colors hover:underline underline-offset-4 decoration-[0.5px]"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
             <h3 className="font-mono text-sm uppercase tracking-[0.12em] text-accent-text mb-5">
               Juridisk
             </h3>
