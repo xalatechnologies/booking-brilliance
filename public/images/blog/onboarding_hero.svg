@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="ob" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0A1228"/><stop offset="100%" stop-color="#1F2F6E"/></linearGradient>
+    <pattern id="og" width="64" height="64" patternUnits="userSpaceOnUse"><path d="M 64 0 L 0 0 0 64" fill="none" stroke="#FBF8F3" stroke-width="0.5" stroke-opacity="0.07"/></pattern>
+  </defs>
+  <rect width="1600" height="900" fill="url(#ob)"/>
+  <rect width="1600" height="900" fill="url(#og)"/>
+  <g transform="translate(120,160)">
+    <text x="0" y="0" font-family="ui-monospace, monospace" font-size="22" letter-spacing="8" fill="#9EDBE5" opacity="0.9">FIG. XIII — ONBOARDING</text>
+    <text x="0" y="170" font-family="Georgia, serif" font-style="italic" font-weight="400" font-size="110" fill="#FBF8F3">En uke fra</text>
+    <text x="0" y="300" font-family="Georgia, serif" font-style="italic" font-weight="400" font-size="110" fill="#FBF8F3">signering til live</text>
+    <line x1="0" y1="360" x2="320" y2="360" stroke="#9EDBE5" stroke-width="1"/>
+    <text x="0" y="410" font-family="Public Sans, system-ui, sans-serif" font-size="28" fill="#FBF8F3" opacity="0.85">Fem dager — fem milepæler — én plattform i drift</text>
+  </g>
+  <g transform="translate(1080,400)" opacity="0.95" font-family="ui-monospace, monospace" font-size="13" fill="#9EDBE5">
+    <g transform="translate(0,0)"><line x1="0" y1="0" x2="380" y2="0" stroke="#9EDBE5" stroke-width="0.5" opacity="0.4"/></g>
+    <g transform="translate(0,-80)"><circle cx="0" cy="0" r="8" fill="#9EDBE5"/><text x="20" y="5">DAG 1 — SIGNERING</text></g>
+    <g transform="translate(0,-40)"><circle cx="0" cy="0" r="8" fill="#9EDBE5"/><text x="20" y="5">DAG 2 — KONFIG</text></g>
+    <g transform="translate(0,0)"><circle cx="0" cy="0" r="8" fill="#9EDBE5"/><text x="20" y="5">DAG 3 — IMPORT</text></g>
+    <g transform="translate(0,40)"><circle cx="0" cy="0" r="8" fill="none" stroke="#9EDBE5" stroke-width="1.5"/><text x="20" y="5">DAG 4 — TEST</text></g>
+    <g transform="translate(0,80)"><circle cx="0" cy="0" r="8" fill="none" stroke="#9EDBE5" stroke-width="1.5" opacity="0.6"/><text x="20" y="5" opacity="0.7">DAG 5 — LIVE</text></g>
+    <line x1="0" y1="-80" x2="0" y2="80" stroke="#9EDBE5" stroke-width="0.5" opacity="0.5"/>
+  </g>
+  <text x="120" y="820" font-family="ui-monospace, monospace" font-size="18" letter-spacing="6" fill="#FBF8F3" opacity="0.5">DIGILIST · BLOGG</text>
+</svg>

@@ -61,6 +61,3 @@ Det er året da terskelen flyttet seg. Innbyggerne forventer det. Regelverket kr
 
 Den beste tilnærmingen er ikke å vente på en stor anskaffelse. Det er å starte med en pilot på ett anlegg, bygge tillit i organisasjonen, og skalere når innbyggerne — og saksbehandlerne — har sett at det fungerer. Det er nettopp den modellen [Digilists pilotprogram](/#pilot) er bygget for.
 
----
-
-_Klar for en pilotdiskusjon? [/book-demo](/book-demo) — eller bare [snakk med oss](mailto:kontakt@digilist.no)._

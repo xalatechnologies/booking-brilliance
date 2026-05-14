@@ -33,7 +33,7 @@ const Cookies = () => {
             
             {/* Intro */}
             <p className="text-muted-foreground leading-relaxed mb-8">
-              DigiList benytter informasjonskapsler (cookies) og lignende teknologier for å sikre grunnleggende funksjonalitet, forbedre brukeropplevelsen og gi innsikt i hvordan tjenesten brukes.
+              Digilist benytter informasjonskapsler (cookies) og lignende teknologier for å sikre grunnleggende funksjonalitet, forbedre brukeropplevelsen og gi innsikt i hvordan tjenesten brukes.
             </p>
 
             {/* Hva er informasjonskapsler */}
@@ -49,14 +49,14 @@ const Cookies = () => {
             {/* Hvilke typer */}
             <div className="mb-10">
               <h2 className="text-2xl font-semibold text-foreground mb-4">
-                Hvilke typer informasjonskapsler brukes i DigiList
+                Hvilke typer informasjonskapsler brukes i Digilist
               </h2>
               
               <h3 className="text-lg font-semibold text-foreground mb-2 mt-6">
                 Nødvendige informasjonskapsler
               </h3>
               <p className="text-muted-foreground leading-relaxed mb-2">
-                Disse er påkrevd for at DigiList skal fungere korrekt. De brukes blant annet til:
+                Disse er påkrevd for at Digilist skal fungere korrekt. De brukes blant annet til:
               </p>
               <ul className="list-disc list-inside text-muted-foreground space-y-1 mb-4 ml-4">
                 <li>innlogging og autentisering</li>
@@ -71,7 +71,7 @@ const Cookies = () => {
                 Analyse og statistikk (valgfritt)
               </h3>
               <p className="text-muted-foreground leading-relaxed mb-2">
-                DigiList kan benytte analyseverktøy for å samle anonymisert informasjon om bruk av tjenesten, som for eksempel:
+                Digilist kan benytte analyseverktøy for å samle anonymisert informasjon om bruk av tjenesten, som for eksempel:
               </p>
               <ul className="list-disc list-inside text-muted-foreground space-y-1 mb-4 ml-4">
                 <li>antall besøk</li>
@@ -99,7 +99,7 @@ const Cookies = () => {
                 Samtykke til bruk av informasjonskapsler
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                Når du besøker DigiList første gang, blir du bedt om å ta stilling til bruk av informasjonskapsler som ikke er strengt nødvendige. Du kan når som helst endre eller trekke tilbake ditt samtykke via innstillinger i nettleseren eller gjennom tilgjengelige valg i løsningen.
+                Når du besøker Digilist første gang, blir du bedt om å ta stilling til bruk av informasjonskapsler som ikke er strengt nødvendige. Du kan når som helst endre eller trekke tilbake ditt samtykke via innstillinger i nettleseren eller gjennom tilgjengelige valg i løsningen.
               </p>
             </div>
 
@@ -109,7 +109,7 @@ const Cookies = () => {
                 Hvordan slette eller blokkere informasjonskapsler
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                Du kan selv administrere eller slette informasjonskapsler via innstillingene i din nettleser. Vær oppmerksom på at blokkering av nødvendige informasjonskapsler kan føre til at deler av DigiList ikke fungerer som forutsatt.
+                Du kan selv administrere eller slette informasjonskapsler via innstillingene i din nettleser. Vær oppmerksom på at blokkering av nødvendige informasjonskapsler kan føre til at deler av Digilist ikke fungerer som forutsatt.
               </p>
             </div>
 

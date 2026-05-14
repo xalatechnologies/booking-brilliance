@@ -1,12 +1,30 @@
+import { useEffect } from "react";
 import { MessageSquare, X } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useChatbot } from "@/hooks/useChatbot";
 import { ChatPanel } from "./ChatPanel";
+import { OPEN_CHAT_EVENT, type OpenChatDetail } from "@/lib/chatbot/open";
 
 export function Chatbot() {
   const reduced = useReducedMotion();
   const controller = useChatbot();
-  const { state, toggle } = controller;
+  const { state, toggle, setMode, startInquiry } = controller;
+
+  // Listen for global "open chatbot" events fired from CTAs anywhere on site.
+  useEffect(() => {
+    function onOpen(e: Event) {
+      const detail = (e as CustomEvent<OpenChatDetail>).detail ?? {};
+      toggle(true);
+      if (detail.mode === "inquiry-persona") {
+        // Defer so the panel mounts before mode swap.
+        setTimeout(() => startInquiry(), 80);
+      } else if (detail.mode === "chat") {
+        setMode("chat");
+      }
+    }
+    window.addEventListener(OPEN_CHAT_EVENT, onOpen);
+    return () => window.removeEventListener(OPEN_CHAT_EVENT, onOpen);
+  }, [toggle, setMode, startInquiry]);
 
   return (
     <>

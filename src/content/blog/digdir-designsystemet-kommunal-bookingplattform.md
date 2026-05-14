@@ -59,6 +59,3 @@ I tilbudsforespørsler bør vi se Digdir Designsystemet — eller dokumentert ek
 
 Digilist er bygget på Digdir Designsystemet fordi vi mener offentlig sektor fortjener verktøy som er gjenkjennelige, etterprøvbare og bytteklare. Det er ikke et komparativt fortrinn — det er et faglig minimum.
 
----
-
-_For tilbud, sertifikater og en gjennomgang av Digilists bruk av Digdir Designsystemet, kontakt oss på [kontakt@digilist.no](mailto:kontakt@digilist.no)._

@@ -41,6 +41,3 @@ En innbygger som åpner Digilist torsdag kveld for å booke en kantine til lørd
 
 Det er ikke en feature å skryte av. Det er hvordan kalendere _bør_ fungere — og det er den standarden norske kommuner fortjener.
 
----
-
-_Vil du se Digilists sanntidskalender i drift hos en kommune? Book en demo på [/book-demo](/book-demo)._

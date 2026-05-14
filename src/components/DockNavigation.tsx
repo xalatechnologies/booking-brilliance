@@ -122,6 +122,21 @@ const DockNavigation = () => {
             </Link>
           );
         }
+        if (item.kind === "action") {
+          return (
+            <button
+              key={item.label}
+              type="button"
+              aria-label={item.label}
+              onClick={item.onClick}
+              className={itemClass(false)}
+            >
+              <span className={numeralClass(false)}>{item.numeral}</span>
+              <span className="w-px h-3 bg-rule" aria-hidden="true" />
+              <span className={labelClass(false)}>{item.label}</span>
+            </button>
+          );
+        }
         const isActive = activeHash === item.href;
         return (
           <a

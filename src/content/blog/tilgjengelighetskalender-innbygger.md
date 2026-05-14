@@ -58,6 +58,3 @@ Tilgjengelighetskalenderen abonnerer på databasen via [Convex' reaktive runtime
 
 Det er ikke et administrativt verktøy. Den er ikke en saksbehandlerkø. Den er ikke en finansiell rapport. Den er det første grensesnittet en kommunal innbygger møter, og dens jobb er å fortelle sannheten på under fem sekunder. Hvis den greier det, ringer hun ikke kommunens servicetorg — hun booker. Hvis ikke, ringer hun, og kommunens digitale tjeneste har akkurat skapt det manuelle arbeidet den var ment å eliminere.
 
----
-
-_Vil du se Digilists tilgjengelighetskalender i praksis? [Book demo](/book-demo) for en gjennomgang._

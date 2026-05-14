@@ -1,10 +1,8 @@
-import { motion } from "framer-motion";
 import {
   SectionRule,
   EditorialHeading,
   IntegrationLogo,
 } from "@/components/editorial";
-import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
 import { getFraunces } from "@/lib/fonts";
 
 interface IntegrationRow {
@@ -69,67 +67,50 @@ const IntegrationsSection = () => {
           </div>
         </div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewportOnce}
-          variants={staggerParent}
-          className="overflow-x-auto focus:outline-none focus-visible:ring-2 focus-visible:ring-navy"
-          tabIndex={0}
-          role="region"
+        <ul
+          role="list"
           aria-label="Integrasjoner og samsvar"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-rule border border-rule"
         >
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="border-b-2 border-ink/30">
-                <th className="text-left py-4 pr-6 editorial-mono-caption">
-                  Tjeneste
-                </th>
-                <th className="text-left py-4 pr-6 editorial-mono-caption">
-                  Kategori
-                </th>
-                <th className="text-left py-4 pr-6 editorial-mono-caption hidden md:table-cell">
-                  Versjon
-                </th>
-                <th className="text-right py-4 editorial-mono-caption">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {integrations.map((row, idx) => (
-                <motion.tr
-                  key={row.name}
-                  variants={staggerChild}
-                  className={`border-b border-rule ${
-                    idx % 2 === 1 ? "bg-paper-deep/30" : "bg-paper"
+          {integrations.map((row) => (
+            <li
+              key={row.name}
+              className="bg-paper p-6 lg:p-7 flex items-start gap-5"
+            >
+              <IntegrationLogo brand={row.name} size="lg" iconOnly />
+              <div className="min-w-0 flex-1">
+                <h3
+                  className="font-sans text-lg font-medium text-ink leading-tight truncate"
+                  title={row.name}
+                >
+                  {row.name}
+                </h3>
+                <p className="mt-1 text-sm text-ink-soft leading-snug">
+                  {row.category}
+                  {row.version && (
+                    <>
+                      <span className="text-ink-faint"> · </span>
+                      <span className="font-mono text-xs text-ink-faint">
+                        {row.version}
+                      </span>
+                    </>
+                  )}
+                </p>
+                <span
+                  className={`mt-3 inline-block font-mono text-[0.7rem] tracking-widest ${
+                    row.status === "AKTIV"
+                      ? "text-accent-text"
+                      : row.status === "PILOT"
+                      ? "text-ochre"
+                      : "text-ink-faint"
                   }`}
                 >
-                  <td className="py-5 pr-6">
-                    <IntegrationLogo brand={row.name} />
-                  </td>
-                  <td className="py-5 pr-6 text-base text-ink-soft">
-                    {row.category}
-                  </td>
-                  <td className="py-5 pr-6 text-base text-ink-faint hidden md:table-cell">
-                    {row.version ?? "—"}
-                  </td>
-                  <td className="py-4 text-right">
-                    <span
-                      className={`font-mono text-xs tracking-widest ${
-                        row.status === "AKTIV"
-                          ? "text-accent-text"
-                          : row.status === "PILOT"
-                          ? "text-ochre"
-                          : "text-ink-faint"
-                      }`}
-                    >
-                      {row.status}
-                    </span>
-                  </td>
-                </motion.tr>
-              ))}
-            </tbody>
-          </table>
-        </motion.div>
+                  {row.status}
+                </span>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

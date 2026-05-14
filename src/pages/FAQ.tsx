@@ -13,6 +13,7 @@ import {
 import { FAQ_CATEGORIES, allFAQEntries } from "@/content/faq";
 import { getFraunces } from "@/lib/fonts";
 import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
+import { openChatbot } from "@/lib/chatbot/open";
 
 const FAQ = () => {
   const faqForSEO = useMemo(
@@ -180,9 +181,9 @@ const FAQ = () => {
                   <EditorialButton
                     variant="outline"
                     size="md"
-                    href="mailto:kontakt@digilist.no"
+                    onClick={() => openChatbot({ mode: "chat" })}
                   >
-                    Send e-post
+                    Snakk med oss
                   </EditorialButton>
                 </div>
               </div>

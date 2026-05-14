@@ -57,6 +57,3 @@ De fleste kommunale bookingsystemer feiler på én av to måter:
 
 Den vanskeligste designdisiplinen i kommunal SaaS er å gjøre _begge_ samtidig — uten å gå på akkord med noen av dem. Det er ikke en pen idé. Det er forskjellen mellom en plattform en kommune er stolt av, og en plattform en kommune unnskylder.
 
----
-
-_Be om en gjennomgang av både innbygger- og saksbehandlerflyt: [/book-demo](/book-demo)._

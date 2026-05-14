@@ -31,16 +31,16 @@ const Salgsvilkar = () => {
               Salgsvilkår
             </h1>
             <p className="text-lg text-muted-foreground mb-8">
-              Vilkår for bruk av DigiList sine tjenester
+              Vilkår for bruk av Digilist sine tjenester
             </p>
             
             {/* Section 1 */}
             <div className="mb-10">
               <h2 className="text-2xl font-semibold text-foreground mb-4">
-                1. Om DigiList og utleieaktører
+                1. Om Digilist og utleieaktører
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                DigiList (<a href="https://www.digilist.no" className="text-primary hover:underline">www.digilist.no</a>) er en digital portal som formidler leie av lokaler og ressurser fra flere utleieaktører. Hver utleier er ansvarlig for sine utleieobjekter, inkludert drift, vedlikehold, tilgjengelighet, priser og egne vilkår. Når en booking blir bekreftet, kan utleier gi supplerende vilkår for bruk. Du må gjøre deg kjent med vilkårene før du bekrefter leie.
+                Digilist (<a href="https://www.digilist.no" className="text-primary hover:underline">www.digilist.no</a>) er en digital portal som formidler leie av lokaler og ressurser fra flere utleieaktører. Hver utleier er ansvarlig for sine utleieobjekter, inkludert drift, vedlikehold, tilgjengelighet, priser og egne vilkår. Når en booking blir bekreftet, kan utleier gi supplerende vilkår for bruk. Du må gjøre deg kjent med vilkårene før du bekrefter leie.
               </p>
             </div>
 
@@ -115,7 +115,7 @@ const Salgsvilkar = () => {
                 5. Betaling
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                Betaling i DigiList kan skje enten som forskuddsbetaling (kort eller Vipps) eller etterskuddsvis via faktura. Hvilken betalingsmetode som gjelder bestemmes av utleier for hvert utleieobjekt. Ved spørsmål om faktura eller betalingsbetingelser, må leietaker kontakte utleier.
+                Betaling i Digilist kan skje enten som forskuddsbetaling (kort eller Vipps) eller etterskuddsvis via faktura. Hvilken betalingsmetode som gjelder bestemmes av utleier for hvert utleieobjekt. Ved spørsmål om faktura eller betalingsbetingelser, må leietaker kontakte utleier.
               </p>
             </div>
 
@@ -165,7 +165,7 @@ const Salgsvilkar = () => {
                 10. Reklamasjon og ansvar
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                DigiList er en digital formidlingsplattform som kobler leietaker og utleier. DigiList er ikke part i leieforholdet mellom utleier og leietaker, og leier ikke ut lokaler eller utstyr i eget navn. Eventuelle reklamasjoner, innsigelser og erstatningskrav knyttet til leieobjektet eller leieforholdet håndteres direkte mellom leietaker og utleier.
+                Digilist er en digital formidlingsplattform som kobler leietaker og utleier. Digilist er ikke part i leieforholdet mellom utleier og leietaker, og leier ikke ut lokaler eller utstyr i eget navn. Eventuelle reklamasjoner, innsigelser og erstatningskrav knyttet til leieobjektet eller leieforholdet håndteres direkte mellom leietaker og utleier.
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 Utleier er ansvarlig for at utleieobjektet beskrives korrekt, og at informasjon om tilstand, bruksområde og vilkår er oppdatert.
@@ -185,10 +185,10 @@ const Salgsvilkar = () => {
             {/* Section 12 */}
             <div className="mb-10">
               <h2 className="text-2xl font-semibold text-foreground mb-4">
-                12. Utestengelse fra DigiList
+                12. Utestengelse fra Digilist
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                Bruk av DigiList forutsetter at vilkårene overholdes, samt gjeldende lov og forskrift. DigiList kan begrense eller stenge en brukers tilgang til hele eller deler av tjenesten ved brudd på vilkårene, misbruk, forsøk på svindel, eller handlinger som kan skade tjenestens integritet eller andre brukere. Bruker kan når som helst avslutte bruk av tjenesten ved å stenge sin konto der dette tilbys.
+                Bruk av Digilist forutsetter at vilkårene overholdes, samt gjeldende lov og forskrift. Digilist kan begrense eller stenge en brukers tilgang til hele eller deler av tjenesten ved brudd på vilkårene, misbruk, forsøk på svindel, eller handlinger som kan skade tjenestens integritet eller andre brukere. Bruker kan når som helst avslutte bruk av tjenesten ved å stenge sin konto der dette tilbys.
               </p>
             </div>
 

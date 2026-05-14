@@ -11,10 +11,18 @@ import {
   EditorialHeading,
   Byline,
   ProgressRail,
+  EditorialButton,
 } from "@/components/editorial";
 import { getPostBySlug, getAllPosts, formatPostDate } from "@/lib/posts";
 import { getFraunces } from "@/lib/fonts";
 import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
+import { openChatbot } from "@/lib/chatbot/open";
+
+const CHAT_HREFS = new Set([
+  "mailto:kontakt@digilist.no",
+  "#chat",
+  "#snakk-med-oss",
+]);
 
 const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -121,12 +129,76 @@ const BlogPost = () => {
             )}
 
             <div className="post-body max-w-3xl">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  a: ({ href, children, ...props }) => {
+                    if (href && CHAT_HREFS.has(href)) {
+                      return (
+                        <button
+                          type="button"
+                          onClick={() => openChatbot({ mode: "chat" })}
+                          className="underline underline-offset-4 decoration-[0.5px] text-accent-text hover:text-ink transition-colors"
+                        >
+                          {children}
+                        </button>
+                      );
+                    }
+                    return (
+                      <a href={href} {...props}>
+                        {children}
+                      </a>
+                    );
+                  },
+                }}
+              >
                 {post.content}
               </ReactMarkdown>
             </div>
+
           </div>
         </article>
+
+        {/* End-of-article CTA — full-bleed tinted band, matches PilotInvitation */}
+        <section
+          aria-label="Neste steg"
+          className="bg-accent-tinted border-t border-hairline-strong py-14 lg:py-20"
+        >
+          <div className="container mx-auto px-4">
+            <div className="grid lg:grid-cols-12 gap-6 lg:gap-gutter items-end">
+              <div className="lg:col-span-8">
+                <span className="editorial-mono-caption text-accent-text">
+                  NESTE STEG
+                </span>
+                <h3
+                  className="mt-3 font-serif text-3xl lg:text-4xl text-ink leading-tight"
+                  style={{
+                    fontVariationSettings: getFraunces("section"),
+                    letterSpacing: "-0.015em",
+                  }}
+                >
+                  Klar for å se Digilist i praksis?
+                </h3>
+                <p className="mt-3 text-lg text-ink-soft measure leading-relaxed">
+                  Book en personlig demo, eller still spørsmål direkte i chat
+                  — vi svarer på under et minutt i kontortid.
+                </p>
+              </div>
+              <div className="lg:col-span-4 flex flex-wrap gap-3 lg:justify-end">
+                <EditorialButton variant="primary" size="md" href="/book-demo">
+                  Book demo
+                </EditorialButton>
+                <EditorialButton
+                  variant="outline"
+                  size="md"
+                  onClick={() => openChatbot({ mode: "chat" })}
+                >
+                  Snakk med oss
+                </EditorialButton>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {related.length > 0 && (
           <section className="py-14 lg:py-20 bg-paper-deep/40 border-t border-rule">

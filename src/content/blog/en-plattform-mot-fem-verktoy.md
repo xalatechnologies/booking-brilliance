@@ -57,6 +57,3 @@ Forskjellen er at i en «fem verktøy»-arkitektur eier hvert verktøy sitt eget
 
 Den minst snakkede gevinsten: når kommunen skal bytte leverandør om åtte år, er én plattform én migrasjon, ikke fem. Det er det motsatte av binding — det er _frigjøring_.
 
----
-
-_Ønsker du en faktabasert sammenligning av Digilist mot en «fem verktøy»-stack? Vi setter opp en gjennomgang: [kontakt@digilist.no](mailto:kontakt@digilist.no)._

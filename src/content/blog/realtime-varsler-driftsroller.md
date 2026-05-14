@@ -89,6 +89,3 @@ Hver varsel er en datapunkt. Kommunen kan rapportere:
 
 Dette er ikke surveillance — det er driftsforbedring. Hvis et bestemt anlegg konsekvent har sen kvittering fra vaktmesteren, er det et signal om at driftsoppgaven er feilformulert, ikke at vaktmesteren er treg.
 
----
-
-_Vil du se hvordan Digilists varselsystem håndteres på vaktrommet hos en kommune? [Book demo](/book-demo) for en gjennomgang._

@@ -68,6 +68,3 @@ Det er fristende å markedsføre «vi støtter Vipps, kort og EHF» som tre adsk
 
 Det er fire ulike personer som aldri trenger å snakke med hverandre om en enkelt booking. _Det_ er sømløs betaling.
 
----
-
-_Be om en gjennomgang av Digilists ledger og avstemmingsflyt: [kontakt@digilist.no](mailto:kontakt@digilist.no)._

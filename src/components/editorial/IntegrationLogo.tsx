@@ -1,9 +1,25 @@
 import { cn } from "@/lib/utils";
 
+type Size = "sm" | "md" | "lg";
+
 interface IntegrationLogoProps {
   brand: string;
   className?: string;
+  size?: Size;
+  /** When true, render only the mark without the wordmark next to it. */
+  iconOnly?: boolean;
 }
+
+const FRAME: Record<Size, string> = {
+  sm: "w-7 h-7",
+  md: "w-10 h-10",
+  lg: "w-14 h-14",
+};
+const ICON: Record<Size, string> = {
+  sm: "h-[18px] w-[18px]",
+  md: "h-6 w-6",
+  lg: "h-8 w-8",
+};
 
 /**
  * Editorial brand marks for Digilist integrations.
@@ -11,7 +27,12 @@ interface IntegrationLogoProps {
  * Treatment is deliberately uniform (Navy on Paper) so the section reads
  * as a list of *departments*, not a logo soup.
  */
-export function IntegrationLogo({ brand, className }: IntegrationLogoProps) {
+export function IntegrationLogo({
+  brand,
+  className,
+  size = "sm",
+  iconOnly = false,
+}: IntegrationLogoProps) {
   const slug = brand
     .toLowerCase()
     .replace(/\s+&\s+/g, "-")
@@ -19,19 +40,31 @@ export function IntegrationLogo({ brand, className }: IntegrationLogoProps) {
     .replace(/^-|-$/g, "");
 
   return (
-    <div className={cn("flex items-center gap-3 text-ink", className)}>
-      <span className="text-accent-text shrink-0 inline-flex items-center justify-center w-7 h-7 rounded-sm border border-rule bg-paper">
-        {renderMark(slug)}
+    <div
+      className={cn(
+        "flex items-center text-ink",
+        iconOnly ? "" : "gap-3",
+        className,
+      )}
+    >
+      <span
+        className={cn(
+          "text-accent-text shrink-0 inline-flex items-center justify-center rounded-sm border border-rule bg-paper",
+          FRAME[size],
+        )}
+      >
+        {renderMark(slug, ICON[size])}
       </span>
-      <span className="font-sans text-base font-medium leading-tight">
-        {brand}
-      </span>
+      {!iconOnly && (
+        <span className="font-sans text-base font-medium leading-tight">
+          {brand}
+        </span>
+      )}
     </div>
   );
 }
 
-function renderMark(slug: string) {
-  const cls = "h-[18px] w-[18px]";
+function renderMark(slug: string, cls: string) {
 
   switch (slug) {
     case "vipps":

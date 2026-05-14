@@ -1,10 +1,15 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ArrowUpRight } from "lucide-react";
 import { getFraunces } from "@/lib/fonts";
+import { EditorialButton } from "@/components/editorial";
+import { openChatbot } from "@/lib/chatbot/open";
 
 const Footer = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  // Hide the Footer CTA strip on individual blog posts — those pages already
+  // render a full-bleed tinted "NESTE STEG" band right above the footer.
+  const isBlogPost = /^\/blogg\/[^/]+\/?$/.test(location.pathname);
 
   const handleNavClick = (hash: string, e: React.MouseEvent) => {
     e.preventDefault();
@@ -157,6 +162,44 @@ const Footer = () => {
             </div>
           </div>
         </div>
+
+        {/* Always-on CTA strip — tinted, hidden on individual blog posts */}
+        {!isBlogPost && (
+          <div className="mb-14 lg:mb-20 bg-accent-tinted border border-hairline-strong rounded-sm px-6 lg:px-10 py-10 lg:py-12">
+            <div className="grid lg:grid-cols-12 gap-6 lg:gap-gutter items-end">
+              <div className="lg:col-span-7">
+                <span className="editorial-mono-caption text-accent-text">
+                  NESTE STEG
+                </span>
+                <p
+                  className="mt-3 font-serif text-3xl lg:text-4xl text-ink leading-tight"
+                  style={{
+                    fontVariationSettings: getFraunces("section"),
+                    letterSpacing: "-0.015em",
+                  }}
+                >
+                  Klar for å se Digilist i praksis?
+                </p>
+                <p className="mt-3 text-lg text-ink-soft measure leading-relaxed">
+                  Book en personlig demo, eller still spørsmål direkte i chat —
+                  vi svarer på under et minutt i kontortid.
+                </p>
+              </div>
+              <div className="lg:col-span-5 flex flex-wrap gap-3 lg:justify-end">
+                <EditorialButton variant="primary" size="md" href="/book-demo">
+                  Book demo
+                </EditorialButton>
+                <EditorialButton
+                  variant="outline"
+                  size="md"
+                  onClick={() => openChatbot({ mode: "chat" })}
+                >
+                  Snakk med oss
+                </EditorialButton>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Four columns of links */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">

@@ -33,7 +33,7 @@ const Personvern = () => {
             
             {/* Intro */}
             <p className="text-muted-foreground leading-relaxed mb-8">
-              Denne personvernerklæringen beskriver hvordan DigiList behandler personopplysninger i forbindelse med bruk av tjenesten. Erklæringen gir informasjon du har krav på når DigiList samler inn personopplysninger, samt generell informasjon om hvordan opplysningene behandles.
+              Denne personvernerklæringen beskriver hvordan Digilist behandler personopplysninger i forbindelse med bruk av tjenesten. Erklæringen gir informasjon du har krav på når Digilist samler inn personopplysninger, samt generell informasjon om hvordan opplysningene behandles.
             </p>
 
             {/* Section 1 */}
@@ -42,7 +42,7 @@ const Personvern = () => {
                 1. Behandlingsansvarlig
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Behandlingsansvarlig er den virksomheten eller organisasjonen som tilbyr utleie av lokaler eller ressurser gjennom DigiList, og som bestemmer formålet med behandlingen av personopplysninger og hvilke hjelpemidler som benyttes.
+                Behandlingsansvarlig er den virksomheten eller organisasjonen som tilbyr utleie av lokaler eller ressurser gjennom Digilist, og som bestemmer formålet med behandlingen av personopplysninger og hvilke hjelpemidler som benyttes.
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 Hvem som er behandlingsansvarlig for en konkret booking fremgår av informasjonen knyttet til det aktuelle utleieobjektet.
@@ -55,13 +55,13 @@ const Personvern = () => {
                 2. Databehandler
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                DigiList fungerer som teknisk plattform og er databehandler på vegne av utleier (behandlingsansvarlig).
+                Digilist fungerer som teknisk plattform og er databehandler på vegne av utleier (behandlingsansvarlig).
               </p>
               <p className="text-muted-foreground leading-relaxed mb-2">Databehandler:</p>
               <p className="text-muted-foreground leading-relaxed">Xala Technologies AS</p>
               <p className="text-muted-foreground leading-relaxed mb-4">Organisasjonsnummer: 920 972 454</p>
               <p className="text-muted-foreground leading-relaxed">
-                DigiList behandler personopplysninger kun i henhold til inngåtte databehandleravtaler og gjeldende regelverk.
+                Digilist behandler personopplysninger kun i henhold til inngåtte databehandleravtaler og gjeldende regelverk.
               </p>
             </div>
 
@@ -71,7 +71,7 @@ const Personvern = () => {
                 3. Underleverandører og drift
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                DigiList benytter underleverandører for drift, lagring og teknisk infrastruktur. Personopplysninger lagres på servere lokalisert innen EU/EØS og behandles i samsvar med gjeldende personvernregler.
+                Digilist benytter underleverandører for drift, lagring og teknisk infrastruktur. Personopplysninger lagres på servere lokalisert innen EU/EØS og behandles i samsvar med gjeldende personvernregler.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-2">Underleverandører kan blant annet benyttes til:</p>
               <ul className="list-disc list-inside text-muted-foreground space-y-1 mb-4 ml-4">
@@ -90,7 +90,7 @@ const Personvern = () => {
                 4. Hvordan og hvorfor samles personopplysninger inn
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Når du oppretter en bruker i DigiList eller benytter tjenesten for å booke lokaler, blir du bedt om å oppgi personopplysninger som lagres i løsningen. Ved bruk av tilgjengelige innloggingsmetoder samtykker du til at DigiList kan motta nødvendige identitets- og kontaktopplysninger.
+                Når du oppretter en bruker i Digilist eller benytter tjenesten for å booke lokaler, blir du bedt om å oppgi personopplysninger som lagres i løsningen. Ved bruk av tilgjengelige innloggingsmetoder samtykker du til at Digilist kan motta nødvendige identitets- og kontaktopplysninger.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-2">Enkelte utleiere kan kreve ytterligere autentisering for å:</p>
               <ul className="list-disc list-inside text-muted-foreground space-y-1 mb-4 ml-4">
@@ -107,7 +107,7 @@ const Personvern = () => {
                 <li>sikre sporbarhet og etterlevelse av lovpålagte krav</li>
               </ul>
               <p className="text-muted-foreground leading-relaxed">
-                DigiList vil aldri selge eller leie ut personopplysninger til tredjepart for markedsføringsformål.
+                Digilist vil aldri selge eller leie ut personopplysninger til tredjepart for markedsføringsformål.
               </p>
             </div>
 
@@ -129,7 +129,7 @@ const Personvern = () => {
               <h2 className="text-2xl font-semibold text-foreground mb-4">
                 6. Hvilke personopplysninger behandles
               </h2>
-              <p className="text-muted-foreground leading-relaxed mb-2">For å kunne bruke DigiList kan følgende opplysninger behandles:</p>
+              <p className="text-muted-foreground leading-relaxed mb-2">For å kunne bruke Digilist kan følgende opplysninger behandles:</p>
               <ul className="list-disc list-inside text-muted-foreground space-y-1 mb-4 ml-4">
                 <li>navn</li>
                 <li>mobilnummer</li>
@@ -150,7 +150,7 @@ const Personvern = () => {
                 7. Informasjonskapsler (cookies)
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-2">
-                DigiList benytter informasjonskapsler og lignende teknologier for å sikre funksjonalitet og forbedre brukeropplevelsen. Dette kan blant annet omfatte:
+                Digilist benytter informasjonskapsler og lignende teknologier for å sikre funksjonalitet og forbedre brukeropplevelsen. Dette kan blant annet omfatte:
               </p>
               <ul className="list-disc list-inside text-muted-foreground space-y-1 mb-4 ml-4">
                 <li>tekniske sesjonskapsler</li>
@@ -193,7 +193,7 @@ const Personvern = () => {
                 10. Dataportabilitet
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                Du har rett til å få utlevert personopplysninger du har gitt DigiList i et strukturert og maskinlesbart format, der dette er teknisk mulig og rettslig grunnlag foreligger.
+                Du har rett til å få utlevert personopplysninger du har gitt Digilist i et strukturert og maskinlesbart format, der dette er teknisk mulig og rettslig grunnlag foreligger.
               </p>
             </div>
 
@@ -216,7 +216,7 @@ const Personvern = () => {
                 12. Samtykke
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Ved å ta i bruk DigiList samtykker du til behandling av personopplysninger som beskrevet i denne erklæringen. Dersom du ikke samtykker, kan du benytte tjenesten til å søke og se tilgjengelighet, men ikke gjennomføre booking.
+                Ved å ta i bruk Digilist samtykker du til behandling av personopplysninger som beskrevet i denne erklæringen. Dersom du ikke samtykker, kan du benytte tjenesten til å søke og se tilgjengelighet, men ikke gjennomføre booking.
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 Samtykke kan trekkes tilbake når som helst ved å slette brukerkontoen.
@@ -229,7 +229,7 @@ const Personvern = () => {
                 13. Endringer i personvernerklæringen
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                DigiList kan oppdatere denne personvernerklæringen ved endringer i tjenesten eller regelverket. Oppdatert versjon publiseres på nettsiden.
+                Digilist kan oppdatere denne personvernerklæringen ved endringer i tjenesten eller regelverket. Oppdatert versjon publiseres på nettsiden.
               </p>
             </div>
 

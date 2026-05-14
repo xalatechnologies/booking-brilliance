@@ -66,6 +66,3 @@ Vi tror ikke alle skal bruke appen. For mange innbyggere er web like enkelt — 
 
 Native gir mer enn ytelse. Hver app-installasjon binder seg til enhetens secure enclave, og en utlogging på web logger ikke automatisk ut app-økten — det er en separat sikkerhetspolicy som kommunen kan styre via Mobile Device Management hvis ansatte bruker arbeidstelefoner. Audit-loggen registrerer enhets-ID, biometrisk autentiseringsstatus og posisjonsdata når geofencing er aktivt — slik at en revisor kan rekonstruere ikke bare _hva_ saksbehandleren godkjente, men _hvor_ og _hvordan_.
 
----
-
-_Digilist-appen er tilgjengelig for kommunale kunder ved oppstart. [Book demo](/book-demo) for å se den i drift._

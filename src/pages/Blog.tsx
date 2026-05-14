@@ -79,8 +79,8 @@ const Blog = () => {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <SEO
-        title="Blogg — Digilist | Innsikt om kommunal booking, sesongleie og samsvar"
-        description="Artikler om bookingsystem for kommuner, sesongleie, SSA-L 2026, GDPR og ISO 27001 — fra Digilists arbeid med norske kommuner og utleiere."
+        title="Blogg — Digilist | Innsikt om booking, sesongleie, samsvar og daglig drift"
+        description="Artikler fra Digilists arbeid med norske kommuner og utleiere — bookingflyt, saksbehandling, sesongleie, sikker innlogging, fakturering, SSA-L 2026, GDPR og ISO 27001."
         canonical="https://digilist.no/blogg"
         breadcrumbs={[
           { name: "Hjem", url: "https://digilist.no/" },
@@ -104,13 +104,14 @@ const Blog = () => {
                       className="italic"
                       style={{ fontVariationSettings: getFraunces("display") }}
                     >
-                      kommunal booking
+                      norsk booking
                     </em>
                     .
                   </EditorialHeading>
                   <p className="mt-6 text-xl text-ink-soft measure leading-relaxed">
-                    Artikler om kommunale bookingsystemer, sesongleie, samsvar
-                    og digitalisering av kommunale tjenester.
+                    Artikler fra arbeid med norske kommuner og utleiere — fra
+                    veiviser og saksbehandling til sesongleie, sikker
+                    innlogging, fakturering og samsvar.
                   </p>
                 </div>
               </div>

@@ -70,6 +70,3 @@ Tilgjengelighet er ikke bare en plikt — det er ofte den raskeste veien til _be
 
 Universell utforming er ikke et tak. Det er gulvet — og det er gulvet enhver kommune fortjener.
 
----
-
-_Vil du se vår tilgjengelighetserklæring og siste auditrapport? Send en epost til [kontakt@digilist.no](mailto:kontakt@digilist.no)._

@@ -7,6 +7,7 @@ import {
   Byline,
 } from "@/components/editorial";
 import { getFraunces } from "@/lib/fonts";
+import { openChatbot } from "@/lib/chatbot/open";
 
 const DELIVERS = [
   "Sanntids tilgjengelighetskalender",
@@ -99,9 +100,7 @@ const PilotInvitationSection = () => {
                 icon={false}
                 onClick={(e) => {
                   e.preventDefault();
-                  const el = document.getElementById("kontakt");
-                  if (el)
-                    el.scrollIntoView({ behavior: "smooth", block: "start" });
+                  openChatbot({ mode: "chat" });
                 }}
               >
                 Snakk med oss

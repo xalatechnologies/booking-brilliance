@@ -76,6 +76,3 @@ Sjeldnere enn man tror, men det skjer — typisk når en innbygger har BankID, m
 
 ID-porten er den enkleste måten en kommune kan dele tillit med innbyggerne sine på. Bestemoren som booker kantinen bryr seg ikke om eIDAS-nivåer eller SAML-signaturer — hun bryr seg om at det føles trygt og at lenken til kommunen vises i topplinjen mens hun logger inn. Det er nettopp den følelsen ID-porten leverer, og det er nettopp den følelsen Digilist er bygget for å bevare.
 
----
-
-_Lurer du på hvordan ID-porten- og BRREG-integrasjonen passer din kommune? Ta kontakt på [kontakt@digilist.no](mailto:kontakt@digilist.no)._
