@@ -1,7 +1,9 @@
 import { useMemo } from "react";
+import { motion } from "framer-motion";
 import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PageTransition from "@/components/PageTransition";
 import {
   SectionRule,
   EditorialHeading,
@@ -10,6 +12,7 @@ import {
 } from "@/components/editorial";
 import { FAQ_CATEGORIES, allFAQEntries } from "@/content/faq";
 import { getFraunces } from "@/lib/fonts";
+import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
 
 const FAQ = () => {
   const faqForSEO = useMemo(
@@ -32,7 +35,8 @@ const FAQ = () => {
       <ProgressRail />
       <Navbar />
 
-      <main>
+      <PageTransition>
+        <main>
         <section className="pt-28 lg:pt-32 pb-14 lg:pb-20 bg-paper">
           <div className="container mx-auto px-4">
             <SectionRule label="DIGILIST · FAQ" />
@@ -60,18 +64,28 @@ const FAQ = () => {
               aria-label="Kategorier"
               className="border-t border-rule pt-6 pb-10"
             >
-              <ul className="flex flex-wrap gap-x-6 gap-y-3 editorial-mono-caption">
+              <motion.ul
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportOnce}
+                variants={staggerParent}
+                className="flex flex-wrap gap-x-2 gap-y-3"
+              >
                 {FAQ_CATEGORIES.map((cat) => (
-                  <li key={cat.id}>
+                  <motion.li key={cat.id} variants={staggerChild}>
                     <a
                       href={`#${cat.id}`}
-                      className="text-accent-text hover:underline underline-offset-8 decoration-[0.5px]"
+                      className="group inline-flex items-center gap-2 px-3 py-1.5 border border-hairline-strong rounded-sm editorial-mono-caption text-accent-text hover:bg-paper-deep hover:border-ink transition-colors"
                     >
+                      <span
+                        aria-hidden="true"
+                        className="inline-block w-1.5 h-1.5 rounded-full bg-accent-text opacity-50 group-hover:opacity-100 transition-opacity"
+                      />
                       {cat.label}
                     </a>
-                  </li>
+                  </motion.li>
                 ))}
-              </ul>
+              </motion.ul>
             </nav>
 
             <div className="space-y-16 lg:space-y-24">
@@ -101,15 +115,22 @@ const FAQ = () => {
                       {cat.description}
                     </p>
 
-                    <dl className="border-t border-rule">
+                    <motion.dl
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={viewportOnce}
+                      variants={staggerParent}
+                      className="border-t border-rule"
+                    >
                       {cat.questions.map((entry, idx) => (
-                        <div
+                        <motion.div
                           key={`${cat.id}-${idx}`}
-                          className="border-b border-rule py-8 lg:py-10 grid lg:grid-cols-12 gap-4 lg:gap-gutter"
+                          variants={staggerChild}
+                          className="group border-b border-rule py-8 lg:py-10 grid lg:grid-cols-12 gap-4 lg:gap-gutter hover:bg-paper-deep/30 transition-colors duration-quick ease-editorial"
                         >
                           <dt className="lg:col-span-5">
                             <h3
-                              className="font-serif text-2xl lg:text-3xl text-ink"
+                              className="font-serif text-2xl lg:text-3xl text-ink transition-transform duration-normal ease-editorial group-hover:translate-x-1"
                               style={{
                                 fontVariationSettings: getFraunces("sub"),
                                 lineHeight: 1.15,
@@ -123,9 +144,9 @@ const FAQ = () => {
                               {entry.a}
                             </p>
                           </dd>
-                        </div>
+                        </motion.div>
                       ))}
-                    </dl>
+                    </motion.dl>
                   </div>
                 </section>
               ))}
@@ -169,6 +190,7 @@ const FAQ = () => {
           </div>
         </section>
       </main>
+      </PageTransition>
 
       <Footer />
     </div>

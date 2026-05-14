@@ -7,7 +7,7 @@ author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 6
 tag: "Sesongleie"
-cover: "/blog/sesongleie-cover.png"
+cover: "/images/blog/sesongleie-cover.svg"
 keywords: ["sesongleie", "lag og foreninger", "fordeling", "kommunal booking", "idrettshall"]
 ---
 

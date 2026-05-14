@@ -148,6 +148,8 @@
 
   html {
     font-feature-settings: "ss01", "cv11";
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
   }
 
   body {
@@ -275,6 +277,14 @@
   /* ------------------------------------------------------------------ */
   /* Editorial primitives                                               */
   /* ------------------------------------------------------------------ */
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 
   .hairline {
     border-width: 0.5px;

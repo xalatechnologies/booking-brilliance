@@ -11,13 +11,15 @@ export function Sidenote({ marker, children, className }: SidenoteProps) {
   return (
     <div
       className={cn(
-        "mt-6 py-3 pl-4 border-l border-rule",
-        "text-base text-ink-soft leading-relaxed measure-narrow",
+        "mt-6 py-4 pl-5 lg:pl-6 border-l-2 border-accent-text/60",
+        "text-lg lg:text-xl text-ink-soft leading-relaxed",
         className
       )}
     >
       {marker !== undefined && (
-        <span className="editorial-mono-caption text-accent-text mr-2">{marker}.</span>
+        <span className="inline-flex items-center justify-center w-7 h-7 mr-3 align-middle bg-navy text-on-navy rounded-full font-mono text-xs tabular-nums">
+          {marker}
+        </span>
       )}
       {children}
     </div>

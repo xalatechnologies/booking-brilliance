@@ -1,4 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { ArrowUpRight } from "lucide-react";
+import { getFraunces } from "@/lib/fonts";
 
 const Footer = () => {
   const location = useLocation();
@@ -44,133 +46,204 @@ const Footer = () => {
     { label: "Cookies", href: "/cookies" },
   ];
 
+  const linkClass =
+    "group inline-flex items-baseline gap-1.5 font-serif text-lg text-ink-soft hover:text-ink transition-colors duration-quick ease-editorial";
+  const linkUnderline =
+    "border-b border-rule group-hover:border-ink transition-colors duration-quick ease-editorial pb-0.5";
+
+  const ColumnHeading = ({ children }: { children: React.ReactNode }) => (
+    <h3 className="flex items-center gap-3 mb-6 editorial-mono-caption text-accent-text">
+      <span aria-hidden="true" className="w-6 h-px bg-accent-text" />
+      {children}
+    </h3>
+  );
+
   return (
     <footer className="bg-paper-deep border-t border-hairline-strong">
-      <div className="container mx-auto px-4 py-16 lg:py-20">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-px lg:bg-rule">
-          <div className="lg:bg-paper-deep lg:p-8">
+      <div className="container mx-auto px-4 py-16 lg:py-24">
+        {/* Editorial colophon header */}
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-14 lg:mb-20 pb-10 lg:pb-14 border-b border-rule">
+          <div className="lg:col-span-7">
             <Link
               to="/"
-              className="group inline-flex items-center gap-3 mb-6"
+              className="group inline-flex items-center gap-4 mb-6"
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             >
               <img
                 src="/logo.svg"
-                alt="Digilist"
-                className="h-10 w-auto transition-opacity group-hover:opacity-80"
+                alt=""
+                aria-hidden="true"
+                className="h-16 lg:h-20 w-auto transition-opacity group-hover:opacity-80"
               />
-              <div className="flex flex-col leading-none">
-                <span className="text-xl font-bold text-ink tracking-tight">
-                  DIGILIST
+              <span className="flex flex-col items-start leading-none">
+                <span
+                  className="font-serif text-5xl lg:text-6xl text-ink leading-none"
+                  style={{
+                    fontVariationSettings:
+                      '"opsz" 96, "wght" 460, "SOFT" 25, "WONK" 1',
+                    letterSpacing: "-0.02em",
+                  }}
+                >
+                  Digilist
                 </span>
-                <span className="text-[0.65rem] text-ink-faint tracking-[0.18em] uppercase">
-                  Enkel booking
+                <span className="mt-1 inline-flex items-center gap-2">
+                  <span
+                    aria-hidden="true"
+                    className="inline-block w-6 h-px bg-accent-text"
+                  />
+                  <span
+                    className="font-serif italic text-base lg:text-lg text-ink-soft leading-none"
+                    style={{
+                      fontVariationSettings:
+                        '"opsz" 16, "wght" 420, "SOFT" 60',
+                    }}
+                  >
+                    Enkel booking
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="inline-block w-1.5 h-1.5 rounded-full bg-accent-text/60"
+                  />
                 </span>
-              </div>
+              </span>
             </Link>
-            <p className="text-base text-ink-soft leading-relaxed measure-narrow">
-              En helhetlig bookingløsning for norske kommuner og utleiere — booking, betaling, kalender og rapportering i én plattform.
+            <p
+              className="text-2xl lg:text-3xl text-ink-soft italic measure leading-snug"
+              style={{ fontVariationSettings: getFraunces("sub") }}
+            >
+              Én plattform for norske kommuner og utleiere — booking,
+              betaling, kalender og rapportering, sammenhengende.
             </p>
           </div>
+          <div className="lg:col-span-5 lg:border-l lg:border-rule lg:pl-8 flex flex-col justify-end gap-3">
+            <span className="editorial-mono-caption text-accent-text">
+              KONTOR · OSLO-REGIONEN
+            </span>
+            <p
+              className="font-serif text-2xl text-ink leading-snug"
+              style={{
+                fontVariationSettings: getFraunces("sub"),
+                letterSpacing: "-0.01em",
+              }}
+            >
+              Nesbruveien 75
+              <br />
+              1394 Nesbru
+            </p>
+            <div className="flex flex-col gap-1 mt-3">
+              <a
+                href="tel:+4796665001"
+                className="group inline-flex items-baseline gap-2 font-mono text-base text-ink hover:text-accent-text transition-colors"
+              >
+                <span aria-hidden="true" className="text-ink-faint">
+                  T
+                </span>
+                <span className="border-b border-rule group-hover:border-accent-text pb-0.5">
+                  +47 96 66 50 01
+                </span>
+              </a>
+              <a
+                href="mailto:kontakt@digilist.no"
+                className="group inline-flex items-baseline gap-2 font-mono text-base text-ink hover:text-accent-text transition-colors"
+              >
+                <span aria-hidden="true" className="text-ink-faint">
+                  E
+                </span>
+                <span className="border-b border-rule group-hover:border-accent-text pb-0.5">
+                  kontakt@digilist.no
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
 
-          <nav className="lg:bg-paper-deep lg:p-8" aria-label="Navigasjon">
-            <h3 className="font-mono text-sm uppercase tracking-[0.12em] text-accent-text mb-5">
-              Navigasjon
-            </h3>
-            <ul className="space-y-3">
+        {/* Four columns of links */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+          <nav aria-label="Navigasjon">
+            <ColumnHeading>I · NAVIGASJON</ColumnHeading>
+            <ul className="space-y-3.5">
               {navigasjon.map((link) => (
                 <li key={link.hash}>
                   <a
                     href={link.hash}
                     onClick={(e) => handleNavClick(link.hash, e)}
-                    className="text-base text-ink-soft hover:text-ink transition-colors hover:underline underline-offset-4 decoration-[0.5px]"
+                    className={linkClass}
                   >
-                    {link.label}
+                    <span className={linkUnderline}>{link.label}</span>
                   </a>
                 </li>
               ))}
             </ul>
           </nav>
 
-          <div className="lg:bg-paper-deep lg:p-8">
-            <h3 className="font-mono text-sm uppercase tracking-[0.12em] text-accent-text mb-5">
-              Kontakt
-            </h3>
-            <ul className="space-y-3 text-base text-ink-soft">
-              <li>
-                <a
-                  href="tel:+4796665001"
-                  className="hover:text-ink transition-colors"
-                >
-                  +47 96 66 50 01
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:kontakt@digilist.no"
-                  className="hover:text-ink transition-colors"
-                >
-                  kontakt@digilist.no
-                </a>
-              </li>
-              <li className="pt-2 text-ink-faint">
-                Nesbruveien 75<br />
-                1394 Nesbru
-              </li>
-            </ul>
-          </div>
-
-          <div className="lg:bg-paper-deep lg:p-8">
-            <h3 className="font-mono text-sm uppercase tracking-[0.12em] text-accent-text mb-5">
-              Ressurser
-            </h3>
-            <ul className="space-y-3 mb-7">
+          <nav aria-label="Ressurser">
+            <ColumnHeading>II · RESSURSER</ColumnHeading>
+            <ul className="space-y-3.5">
               {ressurser.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    to={link.href}
-                    className="text-base text-ink-soft hover:text-ink transition-colors hover:underline underline-offset-4 decoration-[0.5px]"
-                  >
-                    {link.label}
+                  <Link to={link.href} className={linkClass}>
+                    <span className={linkUnderline}>{link.label}</span>
                   </Link>
                 </li>
               ))}
             </ul>
-            <h3 className="font-mono text-sm uppercase tracking-[0.12em] text-accent-text mb-5">
-              Juridisk
-            </h3>
-            <ul className="space-y-3">
+          </nav>
+
+          <nav aria-label="Juridisk">
+            <ColumnHeading>III · JURIDISK</ColumnHeading>
+            <ul className="space-y-3.5">
               {juridisk.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    to={link.href}
-                    className="text-base text-ink-soft hover:text-ink transition-colors hover:underline underline-offset-4 decoration-[0.5px]"
-                  >
-                    {link.label}
+                  <Link to={link.href} className={linkClass}>
+                    <span className={linkUnderline}>{link.label}</span>
                   </Link>
                 </li>
               ))}
             </ul>
+          </nav>
+
+          <div>
+            <ColumnHeading>IV · PLATTFORMEN</ColumnHeading>
+            <p className="font-serif text-lg text-ink-soft leading-relaxed mb-5 measure-narrow">
+              Logg inn som administrator, kunde eller leverandør i
+              Digilist-plattformen.
+            </p>
+            <a
+              href="https://app.digilist.no"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center gap-2 border border-hairline-strong px-4 py-2.5 rounded-sm font-serif text-lg text-ink hover:bg-paper hover:border-ink transition-all duration-quick ease-editorial"
+              style={{ fontVariationSettings: getFraunces("sub") }}
+            >
+              <span>app.digilist.no</span>
+              <ArrowUpRight
+                className="h-4 w-4 text-accent-text transition-transform duration-quick ease-editorial group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                aria-hidden="true"
+              />
+            </a>
           </div>
         </div>
 
-        <div className="mt-16 pt-8 border-t border-rule">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Bottom colophon */}
+        <div className="mt-16 lg:mt-20 pt-8 border-t border-rule">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <p className="editorial-mono-caption">
-              <span className="text-ink">© {new Date().getFullYear()} Digilist</span>
-              <span className="mx-3">·</span>
-              Et produkt av{" "}
+              <span className="text-ink">
+                © {new Date().getFullYear()} Digilist
+              </span>
+              <span className="mx-3 text-ink-faint">·</span>
+              <span className="text-ink-faint">Et produkt av</span>{" "}
               <a
                 href="https://xala.no"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-ink transition-colors"
+                className="text-ink hover:text-accent-text transition-colors"
               >
                 Xala Technologies AS
               </a>
             </p>
-            <p className="editorial-mono-caption text-center md:text-right">
-              Trykket digitalt · Oslo · Satt med Fraunces og Public Sans
+            <p className="editorial-mono-caption text-ink-faint md:text-right">
+              TRYKKET DIGITALT · OSLO · SATT MED FRAUNCES OG PUBLIC SANS
             </p>
           </div>
         </div>

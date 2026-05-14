@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -88,6 +89,15 @@ const BookDemo = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-primary/5">
+      <SEO
+        title="Book demo av Digilist — Norsk bookingplattform"
+        description="Be om en gratis 30–45 minutters demo av Digilist. Vi viser hvordan plattformen håndterer ditt bruksområde — privat lokale, kommune eller kulturhus."
+        canonical="https://digilist.no/book-demo"
+        breadcrumbs={[
+          { name: "Hjem", url: "https://digilist.no/" },
+          { name: "Book demo", url: "https://digilist.no/book-demo" },
+        ]}
+      />
       <Navbar />
       
       {/* Hero Section with Form */}

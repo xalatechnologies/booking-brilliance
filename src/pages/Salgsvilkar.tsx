@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -9,6 +10,15 @@ const Salgsvilkar = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Salgsvilkår — Digilist | Vilkår for bruk av bookingplattformen"
+        description="Salgs- og leveransevilkår for Digilist bookingplattform. SLA, oppsigelse, datalokasjon, databehandleravtale og kundens rettigheter."
+        canonical="https://digilist.no/salgsvilkar"
+        breadcrumbs={[
+          { name: "Hjem", url: "https://digilist.no/" },
+          { name: "Salgsvilkår", url: "https://digilist.no/salgsvilkar" },
+        ]}
+      />
       <Navbar />
       
       {/* Content */}

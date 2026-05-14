@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -9,6 +10,15 @@ const Cookies = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Cookies og informasjonskapsler — Digilist"
+        description="Slik bruker Digilist informasjonskapsler. Privacy-first analytics uten cookies — ingen sporing, ingen tredjepart, full GDPR-suverenitet."
+        canonical="https://digilist.no/cookies"
+        breadcrumbs={[
+          { name: "Hjem", url: "https://digilist.no/" },
+          { name: "Cookies", url: "https://digilist.no/cookies" },
+        ]}
+      />
       <Navbar />
       
       {/* Content */}

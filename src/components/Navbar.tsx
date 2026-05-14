@@ -27,22 +27,48 @@ const Navbar = () => {
       <div className="container mx-auto px-4 flex items-center justify-between">
         <Link
           to="/"
-          className="group flex items-center gap-3"
+          aria-label="Digilist — gå til forsiden"
+          className="group inline-flex items-center gap-3"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
           <img
             src="/logo.svg"
-            alt="Digilist"
-            className="h-10 md:h-11 w-auto transition-opacity group-hover:opacity-80"
+            alt=""
+            aria-hidden="true"
+            className="h-11 md:h-12 w-auto transition-opacity group-hover:opacity-80"
           />
-          <div className="flex flex-col leading-none">
-            <span className="text-xl md:text-2xl font-bold text-ink tracking-tight">
-              DIGILIST
+          <span className="flex flex-col items-start leading-none">
+            <span
+              className="font-serif text-3xl md:text-[2rem] text-ink leading-none"
+              style={{
+                fontVariationSettings:
+                  '"opsz" 96, "wght" 460, "SOFT" 25, "WONK" 1',
+                letterSpacing: "-0.02em",
+              }}
+            >
+              Digilist
             </span>
-            <span className="text-[0.65rem] md:text-xs text-ink-faint tracking-[0.18em] uppercase">
-              Enkel booking
+            <span className="mt-0.5 inline-flex items-center gap-1.5">
+              <span
+                aria-hidden="true"
+                className="inline-block w-3.5 h-px bg-accent-text"
+              />
+              <span
+                className="font-serif italic text-sm md:text-[0.95rem] text-ink-soft leading-none"
+                style={{
+                  fontVariationSettings:
+                    '"opsz" 16, "wght" 420, "SOFT" 60',
+                  letterSpacing: "0.005em",
+                }}
+              >
+                Enkel booking
+              </span>
+              <span
+                aria-hidden="true"
+                className="inline-block w-1 h-1 rounded-full bg-accent-text/60"
+              />
             </span>
-          </div>
+          </span>
         </Link>
 
         <DockNavigation />

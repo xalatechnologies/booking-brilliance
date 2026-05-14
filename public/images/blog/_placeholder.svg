@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#0A1228" stroke-width="0.5" stroke-opacity="0.12"/>
+    </pattern>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FBF8F3"/>
+      <stop offset="100%" stop-color="#F4EFE6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+  <text x="800" y="450" font-family="Georgia, serif" font-size="120" font-style="italic" font-weight="300" text-anchor="middle" fill="#1F2F6E" opacity="0.5">Digilist</text>
+  <text x="800" y="540" font-family="ui-monospace, monospace" font-size="22" letter-spacing="8" text-anchor="middle" fill="#0A1228" opacity="0.55">REDAKSJONELT</text>
+</svg>
