@@ -1,0 +1,270 @@
+---
+/**
+ * Custom hero for the docs landing page.
+ *
+ * Replaces Starlight's default Hero (image + tagline + buttons) with a
+ * full editorial hero that mirrors digilist.no's HeroSection: a 12-col
+ * grid, a fluid Fraunces headline, an italic lede, breadcrumb caption,
+ * and a hairline-bordered section rail below. No images — pure
+ * typography carries the design.
+ */
+import type { Props } from "@astrojs/starlight/props";
+
+const { entry } = Astro.props;
+const data = entry.data;
+const hero = data.hero;
+const title = hero?.title ?? data.title;
+const tagline = hero?.tagline ?? data.description ?? "";
+const actions = hero?.actions ?? [];
+---
+
+<section class="dg-hero">
+  <div class="dg-hero__grid">
+    <div class="dg-hero__main">
+      <p class="dg-hero__caption">DIGILIST · DOKUMENTASJON · {new Date().getFullYear()}</p>
+      <h1 class="dg-hero__h1">
+        {title}
+      </h1>
+      <p class="dg-hero__lede">
+        <em>{tagline}</em>
+      </p>
+
+      {actions.length > 0 && (
+        <div class="dg-hero__actions">
+          {actions.map((a: { text: string; link: string; variant?: string }) => (
+            <a
+              href={a.link}
+              class={`dg-hero__btn ${a.variant === "primary" ? "dg-hero__btn--primary" : ""}`}
+            >
+              {a.text} <span aria-hidden="true">→</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <aside class="dg-hero__rail">
+      <p class="dg-hero__rail-caption">PÅ DENNE SIDEN</p>
+      <ul class="dg-hero__rail-list">
+        <li>
+          <a href="/kom-i-gang/">
+            <span class="dg-hero__rail-num">01</span>
+            <span>
+              <strong>Kom i gang</strong>
+              <small>Onboarding per rolle</small>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="/admin/">
+            <span class="dg-hero__rail-num">02</span>
+            <span>
+              <strong>Admin-runbooks</strong>
+              <small>Drift av /admin/intelligence</small>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="/api/">
+            <span class="dg-hero__rail-num">03</span>
+            <span>
+              <strong>API-referanse</strong>
+              <small>Public + admin endepunkter</small>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a href="/compliance/">
+            <span class="dg-hero__rail-num">04</span>
+            <span>
+              <strong>Compliance</strong>
+              <small>GDPR · ISO · NSM · SSA-L</small>
+            </span>
+          </a>
+        </li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .dg-hero {
+    position: relative;
+    padding: 2.5rem 0 3.25rem;
+    border-block-end: 1px solid hsl(var(--rule));
+    isolation: isolate;
+  }
+
+  @media (min-width: 50em) {
+    .dg-hero {
+      padding: 3.25rem 0 4rem;
+    }
+  }
+
+  .dg-hero::before {
+    /* Subtle paper-deep wash so the hero reads as a distinct masthead
+     * panel without breaking the editorial palette. */
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      hsl(var(--paper-deep)) 0%,
+      hsl(var(--paper)) 100%
+    );
+    z-index: -1;
+  }
+
+  .dg-hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3rem;
+  }
+
+  @media (min-width: 64em) {
+    .dg-hero__grid {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: 4rem;
+    }
+  }
+
+  .dg-hero__caption {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: hsl(var(--accent-text));
+    margin: 0 0 1.5rem;
+  }
+
+  .dg-hero__h1 {
+    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-variation-settings: "opsz" 144, "wght" 460, "SOFT" 30, "WONK" 0;
+    font-size: clamp(3rem, 6vw + 1rem, 5.5rem);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    color: hsl(var(--ink));
+    margin: 0;
+    text-wrap: balance;
+    max-width: 16ch;
+  }
+
+  .dg-hero__lede {
+    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-variation-settings: "opsz" 18, "wght" 380, "SOFT" 30, "WONK" 0;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: hsl(var(--ink-soft));
+    margin: 2rem 0 0;
+    max-width: 38ch;
+  }
+
+  .dg-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin: 2.5rem 0 0;
+  }
+
+  .dg-hero__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.85rem 1.4rem;
+    color: hsl(var(--ink));
+    background: hsl(var(--paper));
+    border: 1px solid hsl(var(--ink));
+    border-radius: 2px;
+    transition: background 120ms ease, color 120ms ease, transform 120ms ease;
+  }
+
+  .dg-hero__btn:hover {
+    transform: translateY(-1px);
+    background: hsl(var(--ink));
+    color: hsl(var(--paper));
+  }
+
+  .dg-hero__btn--primary {
+    background: hsl(var(--navy));
+    color: hsl(var(--on-navy));
+    border-color: hsl(var(--navy));
+  }
+
+  .dg-hero__btn--primary:hover {
+    background: hsl(var(--paper));
+    color: hsl(var(--navy));
+  }
+
+  .dg-hero__rail {
+    border: 1px solid hsl(var(--rule));
+    border-radius: 2px;
+    background: hsl(var(--paper));
+    padding: 1.75rem 1.5rem;
+    align-self: start;
+  }
+
+  .dg-hero__rail-caption {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: hsl(var(--ink-faint));
+    margin: 0 0 1rem;
+    padding-block-end: 0.85rem;
+    border-block-end: 1px solid hsl(var(--rule));
+  }
+
+  .dg-hero__rail-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .dg-hero__rail-list a {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 0.85rem;
+    align-items: baseline;
+    padding: 0.6rem 0;
+    text-decoration: none;
+    border-bottom: 1px solid hsl(var(--rule));
+    transition: padding-inline-start 120ms ease;
+  }
+
+  .dg-hero__rail-list li:last-child a { border-bottom: 0; }
+
+  .dg-hero__rail-list a:hover {
+    padding-inline-start: 0.5rem;
+  }
+
+  .dg-hero__rail-num {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: hsl(var(--accent-text));
+  }
+
+  .dg-hero__rail-list strong {
+    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-variation-settings: "opsz" 36, "wght" 540, "SOFT" 30, "WONK" 0;
+    font-size: 1.05rem;
+    color: hsl(var(--ink));
+    display: block;
+    line-height: 1.2;
+  }
+
+  .dg-hero__rail-list small {
+    font-size: 0.78rem;
+    color: hsl(var(--ink-soft));
+    margin-top: 0.15rem;
+    display: block;
+  }
+</style>

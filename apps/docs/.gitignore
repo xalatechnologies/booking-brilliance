@@ -1,0 +1,9 @@
+# Astro build cache + output — regenerated on every build
+.astro/
+dist/
+node_modules/
+
+# Local secrets
+.env
+.env.local
+*.local

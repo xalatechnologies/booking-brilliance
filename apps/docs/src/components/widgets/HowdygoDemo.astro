@@ -1,0 +1,304 @@
+---
+/**
+ * Howdygo interactive-demo embed with editorial placeholder.
+ *
+ * Usage in MDX:
+ *
+ *   import HowdygoDemo from "../../components/widgets/HowdygoDemo.astro";
+ *
+ *   <HowdygoDemo
+ *     title="Booking på 90 sekunder"
+ *     caption="INTERAKTIV DEMO · INNBYGGER"
+ *     duration="1 min 30 s"
+ *     // demoId="abc123"  ← when available, swaps to live iframe
+ *   />
+ *
+ * When `demoId` is set, renders the howdygo iframe. When omitted, renders
+ * an editorial "in preparation" placeholder that previews what the demo
+ * will cover (title + caption + steps).
+ *
+ * Howdygo embed URL pattern (per their docs):
+ *   https://howdygo.com/d/<demoId>?theme=light&autoplay=0
+ */
+
+interface Step {
+  num: string;
+  label: string;
+}
+
+interface Props {
+  caption?: string;
+  title: string;
+  description?: string;
+  duration?: string;
+  steps?: Step[];
+  demoId?: string;
+  poster?: string;
+}
+
+const {
+  caption = "INTERAKTIV DEMO",
+  title,
+  description,
+  duration,
+  steps,
+  demoId,
+  poster,
+} = Astro.props;
+
+const embedUrl = demoId
+  ? `https://howdygo.com/d/${encodeURIComponent(demoId)}?theme=light&autoplay=0`
+  : null;
+---
+
+<figure class="dg-demo" data-state={demoId ? "live" : "placeholder"}>
+  <figcaption class="dg-demo__caption">
+    <span class="dg-demo__rubric">{caption}</span>
+    {duration && (
+      <span class="dg-demo__meta">
+        <span aria-hidden="true">·</span>
+        VARIGHET <strong>{duration}</strong>
+      </span>
+    )}
+    {!demoId && (
+      <span class="dg-demo__pill" aria-label="Demo i forberedelse">
+        UNDER PRODUKSJON
+      </span>
+    )}
+  </figcaption>
+
+  <div class="dg-demo__frame">
+    {embedUrl ? (
+      <iframe
+        src={embedUrl}
+        title={title}
+        loading="lazy"
+        allow="clipboard-write; fullscreen"
+        referrerpolicy="strict-origin-when-cross-origin"
+      ></iframe>
+    ) : (
+      <div class="dg-demo__placeholder" role="img" aria-label={`Forhåndsvisning: ${title}`}>
+        {poster ? (
+          <img src={poster} alt="" aria-hidden="true" class="dg-demo__poster" />
+        ) : (
+          <div class="dg-demo__grid" aria-hidden="true">
+            <span class="dg-demo__grid-cell"></span>
+            <span class="dg-demo__grid-cell"></span>
+            <span class="dg-demo__grid-cell"></span>
+            <span class="dg-demo__grid-cell"></span>
+          </div>
+        )}
+        <div class="dg-demo__overlay">
+          <p class="dg-demo__title">{title}</p>
+          {description && <p class="dg-demo__desc">{description}</p>}
+          {steps && steps.length > 0 && (
+            <ol class="dg-demo__steps">
+              {steps.map((s) => (
+                <li>
+                  <span class="dg-demo__step-num">{s.num}</span>
+                  <span class="dg-demo__step-label">{s.label}</span>
+                </li>
+              ))}
+            </ol>
+          )}
+          <p class="dg-demo__footer">
+            <span aria-hidden="true">✸</span>
+            Drives av <a href="https://howdygo.com" rel="noopener" target="_blank">Howdygo</a>
+            — kobles inn når demo-skriptet er ferdig.
+          </p>
+        </div>
+      </div>
+    )}
+  </div>
+</figure>
+
+<style>
+  .dg-demo {
+    margin: 2.5rem 0;
+    max-width: none;
+  }
+
+  .dg-demo__caption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.65rem;
+    margin-block-end: 0.85rem;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .dg-demo__rubric {
+    color: hsl(var(--accent-text));
+    font-weight: 500;
+  }
+
+  .dg-demo__meta {
+    color: hsl(var(--ink-faint));
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.45rem;
+  }
+
+  .dg-demo__meta strong {
+    color: hsl(var(--ink));
+    font-weight: 500;
+    letter-spacing: 0.1em;
+  }
+
+  .dg-demo__pill {
+    margin-inline-start: auto;
+    padding: 0.25rem 0.55rem;
+    background: hsl(var(--accent-tinted));
+    color: hsl(var(--accent-text));
+    border: 1px solid hsl(var(--rule));
+    border-radius: 2px;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+  }
+
+  .dg-demo__frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: hsl(var(--paper-deep));
+    border: 1px solid hsl(var(--rule));
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .dg-demo__frame iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+  }
+
+  .dg-demo__placeholder {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: stretch;
+  }
+
+  .dg-demo__poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.4;
+  }
+
+  /* Decorative grid background for the placeholder — four panels mimicking
+   * a product demo's typical screen subdivisions, with hairline rules. */
+  .dg-demo__grid {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 1px;
+    background: hsl(var(--rule));
+  }
+
+  .dg-demo__grid-cell {
+    background: hsl(var(--paper));
+    position: relative;
+  }
+
+  .dg-demo__grid-cell::before {
+    /* Subtle Fraunces "Demo" mark in each cell — barely visible, just
+     * texture, so the placeholder doesn't read as a broken image. */
+    content: "✸";
+    position: absolute;
+    inset: 50% auto auto 50%;
+    transform: translate(-50%, -50%);
+    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-variation-settings: "opsz" 144, "wght" 360, "SOFT" 100;
+    font-size: 3rem;
+    color: hsl(var(--rule));
+  }
+
+  .dg-demo__overlay {
+    position: relative;
+    z-index: 2;
+    align-self: center;
+    justify-self: center;
+    max-width: min(28rem, 90%);
+    padding: 1.5rem 1.75rem;
+    background: hsl(var(--paper));
+    border: 1px solid hsl(var(--rule));
+    border-radius: 2px;
+    box-shadow: 0 18px 38px -22px hsla(var(--ink) / 0.18);
+    text-align: start;
+  }
+
+  .dg-demo__title {
+    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-variation-settings: "opsz" 36, "wght" 540, "SOFT" 30, "WONK" 0;
+    font-size: 1.35rem;
+    line-height: 1.2;
+    color: hsl(var(--ink));
+    margin: 0;
+  }
+
+  .dg-demo__desc {
+    font-family: "Public Sans", system-ui, sans-serif;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: hsl(var(--ink-soft));
+    margin: 0.55rem 0 0;
+  }
+
+  .dg-demo__steps {
+    list-style: none;
+    padding: 0;
+    margin: 1.1rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    border-block-start: 1px solid hsl(var(--rule));
+    padding-block-start: 0.85rem;
+  }
+
+  .dg-demo__steps li {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: hsl(var(--ink));
+  }
+
+  .dg-demo__step-num {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: hsl(var(--accent-text));
+  }
+
+  .dg-demo__footer {
+    margin: 1.1rem 0 0;
+    padding-block-start: 0.85rem;
+    border-block-start: 1px solid hsl(var(--rule));
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: hsl(var(--ink-faint));
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .dg-demo__footer a {
+    color: hsl(var(--accent-text));
+    text-decoration: underline;
+    text-decoration-color: hsl(var(--rule));
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+</style>

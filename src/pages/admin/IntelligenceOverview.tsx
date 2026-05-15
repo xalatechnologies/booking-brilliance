@@ -185,7 +185,7 @@ export default function IntelligenceOverview() {
             {snap.targets.length} TOTALT · {activeCount} AKTIVE
           </p>
         </div>
-        <div className="grid sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-px bg-rule border border-rule">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-rule border border-rule">
           {snap.targets.map((t) => {
             const runs = byTarget.get(t.name) ?? [];
             const cardChecks: AuditType[] =

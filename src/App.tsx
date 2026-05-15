@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
+import { ConvexProvider, ConvexReactClient } from "convex/react";
 import Index from "./pages/Index";
 import BookDemo from "./pages/BookDemo";
 import BookingsystemKommune from "./pages/BookingsystemKommune";
@@ -17,6 +18,7 @@ import Personvern from "./pages/Personvern";
 import Cookies from "./pages/Cookies";
 import NotFound from "./pages/NotFound";
 import Transparens from "./pages/Transparens";
+import Status from "./pages/Status";
 import UseCaseSelskapslokaler from "./pages/UseCaseSelskapslokaler";
 import UseCaseMoterom from "./pages/UseCaseMoterom";
 import UseCaseIdrettshaller from "./pages/UseCaseIdrettshaller";
@@ -32,11 +34,32 @@ import {
   IntelligenceSettings,
   IntelligenceTransparensPreview,
 } from "./pages/admin/IntelligenceMisc";
+import {
+  VekstOverview,
+  VekstKeywords,
+  VekstDrafts,
+  VekstConnections,
+  VekstAktivitet,
+} from "./pages/admin/IntelligenceVekst";
 import CookieConsent from "./components/CookieConsent";
 import ScrollToTop from "./components/ScrollToTop";
 import { Chatbot } from "./components/chatbot";
 
 const queryClient = new QueryClient();
+
+// Convex client. The URL is injected at build time via VITE_CONVEX_URL
+// (set by `npx convex dev` into .env.local or via Vercel/CI env). When
+// unset (e.g. SSR prerender, public site builds without admin needs),
+// we still create a client to avoid crashing — Convex hooks will just
+// be in a perpetual loading state on those builds, which is fine
+// because non-admin pages don't call them.
+const convexUrl = import.meta.env.VITE_CONVEX_URL ?? "";
+const convex = new ConvexReactClient(convexUrl || "https://placeholder.convex.cloud");
+
+// Auth: we don't use Convex's JWT-based `setAuth()` — instead, every
+// admin query/mutation takes an explicit `adminToken` arg pulled from
+// localStorage (key: digilist-admin-basic-auth-v1, value: base64 of
+// user:pass). See convex/auth.ts:requireAdmin().
 
 /**
  * Router-agnostic app body. SSR (entry-server) and client (main.tsx) each
@@ -44,6 +67,7 @@ const queryClient = new QueryClient();
  */
 export function AppShell() {
   return (
+    <ConvexProvider client={convex}>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
         <TooltipProvider>
@@ -62,6 +86,7 @@ export function AppShell() {
             <Route path="/personvern" element={<Personvern />} />
             <Route path="/cookies" element={<Cookies />} />
             <Route path="/transparens" element={<Transparens />} />
+            <Route path="/status" element={<Status />} />
             <Route path="/bruksomrader/selskapslokaler" element={<UseCaseSelskapslokaler />} />
             <Route path="/bruksomrader/moterom" element={<UseCaseMoterom />} />
             <Route path="/bruksomrader/idrettshaller-gymsaler" element={<UseCaseIdrettshaller />} />
@@ -133,6 +158,11 @@ export function AppShell() {
               />
               <Route path="overflater" element={<IntelligenceSurfaces />} />
               <Route path="agenter" element={<IntelligenceAgents />} />
+              <Route path="vekst" element={<VekstOverview />} />
+              <Route path="vekst/keywords" element={<VekstKeywords />} />
+              <Route path="vekst/drafts" element={<VekstDrafts />} />
+              <Route path="vekst/connections" element={<VekstConnections />} />
+              <Route path="vekst/aktivitet" element={<VekstAktivitet />} />
               <Route
                 path="transparens"
                 element={<IntelligenceTransparensPreview />}
@@ -150,6 +180,7 @@ export function AppShell() {
         </TooltipProvider>
       </ThemeProvider>
     </QueryClientProvider>
+    </ConvexProvider>
   );
 }
 

@@ -1,0 +1,116 @@
+/*
+ * Digilist design tokens — ported 1:1 from src/index.css of the marketing
+ * site so docs.digilist.no, digilist.no and the admin shells stay visually
+ * coherent. When the marketing site's tokens change, mirror them here.
+ *
+ * Token taxonomy:
+ *   --paper-*   neutral surfaces (background, cards, deep panels)
+ *   --ink-*     foreground text (default, soft, faint)
+ *   --navy-*   primary brand accent
+ *   --accent-* tinted accent surfaces
+ *   --rule     hairline borders (slate-500 @ 18% opacity)
+ */
+
+:root {
+  /* Editorial paper + ink palette */
+  --paper:        0 0% 100%;
+  --paper-deep:  210 40% 98%;
+  --paper-tinted:210 27% 92%;
+  --ink:         222 47% 11%;
+  --ink-soft:    215 25% 27%;
+  --ink-faint:   215 19% 40%;
+  --rule:        215 16% 47% / 0.18;
+
+  /* Brand accent. accent-text intentionally identical to navy — both
+   * resolve to #003057 (AAA on paper, AA on accent-tinted #eef4fb). */
+  --navy:        207 100% 17%;
+  --navy-soft:   215 91% 31%;
+  --accent-text: 207 100% 17%;
+  --accent-tinted: 213 60% 94%;   /* a hair darker so active sidebar reads as a tinted panel, not the page bg */
+  --accent-surface:211 50% 88%;
+  --on-navy:       0 0% 100%;
+
+  /* Status — kept narrower than the marketing app since docs rarely need them */
+  --aqua:         185 84% 35%;
+  --ochre:         33 100% 50%;
+  --green:        142 76% 32%;
+
+  /* Sizing */
+  --radius:        0.125rem;       /* 2px — rectilinear cards */
+  --measure:      54ch;            /* prose-tight max */
+  --prose:        65ch;            /* prose-default max */
+}
+
+/* Starlight CSS-variable bridge.
+ *
+ * Starlight ships its own --sl-* vars (color-bg, color-text, color-accent,
+ * color-hairline, …). Rebind them onto Digilist tokens so the entire
+ * shipped theme follows the marketing brand without us forking Starlight.
+ */
+:root {
+  /* Backgrounds */
+  --sl-color-bg:           hsl(var(--paper));
+  --sl-color-bg-nav:       hsl(var(--paper));
+  --sl-color-bg-sidebar:   hsl(var(--paper));
+  --sl-color-bg-inline-code: hsl(var(--paper-deep));
+  --sl-color-bg-accent:    hsl(var(--accent-surface));
+
+  /* Text */
+  --sl-color-text:         hsl(var(--ink));
+  --sl-color-text-accent:  hsl(var(--accent-text));
+  --sl-color-text-invert:  hsl(var(--on-navy));
+  --sl-color-white:        hsl(var(--paper));
+
+  /* Accent */
+  --sl-color-accent:       hsl(var(--navy));
+  --sl-color-accent-low:   hsl(var(--accent-surface));
+  --sl-color-accent-high:  hsl(var(--navy));
+
+  /* Hairlines + dividers */
+  --sl-color-hairline:           hsl(var(--rule));
+  --sl-color-hairline-light:     hsl(var(--rule));
+  --sl-color-hairline-shade:     hsl(var(--rule));
+
+  /* Typography */
+  --sl-font: "Public Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --sl-font-system-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* Headings get the Digilist editorial Fraunces voice */
+  --sl-font-headings: "Fraunces", "Iowan Old Style", Georgia, serif;
+
+  /* Sidebar width — wider than default to fit Norwegian compound nouns */
+  --sl-sidebar-width: 18.5rem;
+  --sl-content-width: 48rem;
+  --sl-content-pad-x: 1.5rem;
+}
+
+/* Dark mode — Digilist marketing site is light-first; docs follow suit
+ * unconditionally. The dark palette below is kept so the theme toggle
+ * still works for users who explicitly opt in via the picker, but
+ * `prefers-color-scheme: dark` is intentionally NOT honored (otherwise
+ * the docs and marketing site disagree visually on the same machine).
+ *
+ * Implementation: Starlight defaults `data-theme` to `auto` which reads
+ * prefers-color-scheme. We override below by forcing the root to follow
+ * `light` unless the user explicitly chooses dark via the toggle. */
+:root,
+:root[data-theme="auto"],
+:root:not([data-theme]) {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --paper:        222 47% 7%;
+  --paper-deep:   222 47% 11%;
+  --paper-tinted: 215 25% 17%;
+  --ink:            0  0% 96%;
+  --ink-soft:     215 16% 80%;
+  --ink-faint:    215 16% 63%;
+  --rule:         215 16% 80% / 0.18;
+  --navy:         207  88% 64%;
+  --navy-soft:    207  88% 64%;
+  --accent-text:  207  88% 78%;
+  --accent-tinted:215  25% 17%;
+  --accent-surface:215  25% 22%;
+  --on-navy:      222  47%  7%;
+}

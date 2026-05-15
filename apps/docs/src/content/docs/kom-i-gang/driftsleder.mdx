@@ -1,0 +1,64 @@
+---
+title: Driftsleder — konfigurer lokaler og fordelinger
+description: Slik setter en driftsleder opp lokaler, priser, godkjenningsregler og sesongleie.
+sidebar:
+  order: 4
+  label: Driftsleder
+---
+
+import HowdygoDemo from "../../../components/widgets/HowdygoDemo.astro";
+
+Driftsleder eier ett eller flere lokaler. Konfigurasjonen styrer alt fra åpningstider til hvem som kan booke uten godkjenning.
+
+<HowdygoDemo
+  caption="INTERAKTIV DEMO · DRIFTSLEDER"
+  title="Veiviseren — fra utkast til publisert lokale"
+  description="Sett opp en idrettshall fra bunnen av i seks steg. Inkluderer priser, godkjenningsregler og Stripe-tilkobling."
+  duration="2 min 45 s"
+  steps={[
+    { num: "01", label: "Grunnopplysninger + kapasitet" },
+    { num: "02", label: "Bilder og fasilitetsliste" },
+    { num: "03", label: "Åpningstider og ukeplan" },
+    { num: "04", label: "Pris + rabatter for foreninger" },
+    { num: "05", label: "Godkjenningsregler + saksbehandler-varsel" },
+    { num: "06", label: "Stripe-konto + EHF-faktura" },
+  ]}
+/>
+
+## Veiviseren steg for steg
+
+Når et nytt lokale registreres åpner en 6-stegs veiviser:
+
+1. **Grunnopplysninger** — navn, adresse, kapasitet, kategori
+2. **Bilder og beskrivelse** — opptil 10 bilder, fritekst, fasiliteter
+3. **Tilgjengelighet** — åpningstider, ukeplan, ferier
+4. **Pris** — timepris, dagspris, helgepris, rabatter for foreninger
+5. **Godkjenning** — krever saksbehandler? terskel-tid? hvem varsles?
+6. **Betaling** — Stripe-konto, Vipps-MVA, EHF-faktura
+
+Hvert steg lagres som utkast. Du kan publisere lokalet etter steg 1 og fortsette konfigurasjon i bakgrunnen.
+
+## Sesongleie
+
+For lag og foreninger som leier en idrettshall hele sesongen:
+
+- Definer **terminer** (f.eks. høst/vår)
+- Definer **fordelingsregler** (prioritet etter alder, geografi, historikk)
+- Send ut **tildelingsrunden** — alle søkere får svar samtidig
+
+Innbyggere/foreninger sender søknad én gang. Plattformen kjører fordelingsalgoritmen, og foreslår tildeling som du godkjenner. Konflikter vises eksplisitt.
+
+## Rapporter
+
+Driftsleder-dashboardet viser:
+
+- **Utleiegrad** — prosent av tilgjengelige timer som faktisk er booket
+- **Omsetning** — månedlig, kvartal, år
+- **Top-leietakere** — hvem leier mest
+- **No-show-rate** — booking gjort men ikke betalt/møtt
+
+Rapporter eksporteres som PDF eller SAF-T.
+
+## Eskaleringer
+
+Saksbehandler kan eskalere konflikter til driftsleder. Disse vises i en egen kø i driftsleder-konsollen og må håndteres innen 24 timer (SLA-konfigurerbar).

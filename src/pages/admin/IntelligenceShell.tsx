@@ -7,7 +7,7 @@
  * Sub-pages live in src/pages/admin/Intelligence*.tsx and consume the
  * snapshot via useOutletContext<IntelligenceCtx>().
  */
-import { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   Activity,
@@ -17,22 +17,30 @@ import {
   ChevronLeft,
   CircleGauge,
   Compass,
+  FileEdit,
   Globe2,
+  KeyRound,
   LayoutGrid,
   Link2,
   Loader2,
+  Plug,
   RefreshCw,
+  ScrollText,
   Search,
   Settings,
   ShieldAlert,
   Sparkles,
+  TrendingUp,
   Wifi,
 } from "lucide-react";
+import { useQuery, useConvex } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 import SEO from "@/components/SEO";
 import { EditorialButton } from "@/components/editorial";
 import { cn } from "@/lib/utils";
 import {
   AUTH_KEY,
+  adminToken,
   type IntelligenceCtx,
   type Snapshot,
 } from "./intelligence-shared";
@@ -81,6 +89,16 @@ const NAV: Array<{
     ],
   },
   {
+    group: "VEKST",
+    items: [
+      { to: "/admin/intelligence/vekst", label: "Vekst-oversikt", icon: TrendingUp, end: true, hint: "Harness + org chart" },
+      { to: "/admin/intelligence/vekst/keywords", label: "Keywords", icon: KeyRound, hint: "Trender + gap" },
+      { to: "/admin/intelligence/vekst/drafts", label: "Drafts", icon: FileEdit, hint: "Approval queue" },
+      { to: "/admin/intelligence/vekst/connections", label: "Connections", icon: Plug, hint: "LinkedIn / X" },
+      { to: "/admin/intelligence/vekst/aktivitet", label: "Aktivitet", icon: ScrollText, hint: "Audit log" },
+    ],
+  },
+  {
     group: "REFERANSE",
     items: [
       { to: "/admin/intelligence/transparens", label: "Offentlig rapport", icon: Sparkles, hint: "/transparens" },
@@ -96,54 +114,60 @@ export default function IntelligenceShell() {
     if (typeof window === "undefined") return null;
     return localStorage.getItem(AUTH_KEY);
   });
-  const [snap, setSnap] = useState<Snapshot | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [authError, setAuthError] = useState<string | null>(null);
+  const convex = useConvex();
+  // useQuery throws on auth errors. To keep the login card renderable,
+  // skip the query until we have a token, and use the imperative
+  // `convex.query()` to validate new tokens at login time before
+  // persisting them.
+  const snap = useQuery(
+    api.audits.state.snapshot,
+    auth ? { adminToken: auth } : "skip",
+  ) as Snapshot | undefined;
+  const loading = auth !== null && snap === undefined;
+  const error: string | null = authError;
   const [running, setRunning] = useState<string | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
 
   const fetchState = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await fetch("/api/audits/state", {
-        headers: auth ? { Authorization: `Basic ${auth}` } : {},
-      });
-      if (res.status === 401) {
-        setAuth(null);
-        localStorage.removeItem(AUTH_KEY);
-        throw new Error("Innlogging kreves");
-      }
-      if (!res.ok) throw new Error(`/api/audits/state returnerte ${res.status}`);
-      const data = (await res.json()) as Snapshot;
-      setSnap(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : String(err));
-    } finally {
-      setLoading(false);
-    }
-  }, [auth]);
+    // No-op — useQuery is reactive. Kept as a stable function so callers
+    // (runScan polling, IntelligenceCtx) that still expect a refresh()
+    // can keep their shape.
+  }, []);
 
-  useEffect(() => {
-    if (auth) void fetchState();
-  }, [auth, fetchState]);
-
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const u = String(fd.get("user") || "");
     const p = String(fd.get("pass") || "");
     if (!u || !p) return;
     const b64 = btoa(`${u}:${p}`);
-    localStorage.setItem(AUTH_KEY, b64);
-    setAuth(b64);
+    setAuthError(null);
+    // Validate against Convex before persisting — a bad token would
+    // otherwise crash every Vekst/audit page that calls useQuery.
+    try {
+      await convex.query(api.audits.state.snapshot, { adminToken: b64 });
+      localStorage.setItem(AUTH_KEY, b64);
+      setAuth(b64);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      setAuthError(
+        msg.includes("Unauthorized")
+          ? "Feil brukernavn eller passord."
+          : `Innlogging feilet: ${msg.slice(0, 200)}`,
+      );
+    }
   };
 
   const runScan = useCallback(
     async (targetName?: string) => {
       if (!auth) return;
       setRunning(targetName || "__all__");
+      const beforeId =
+        snap?.latest.find(
+          (r) => !targetName || r.target_name === targetName,
+        )?.id ?? 0;
       try {
         const res = await fetch("/api/audits/run", {
           method: "POST",
@@ -153,30 +177,32 @@ export default function IntelligenceShell() {
           },
           body: JSON.stringify(targetName ? { target: targetName } : {}),
         });
-        if (!res.ok) throw new Error(`Kunne ikke starte skanning (${res.status})`);
-        const startedAt = Date.now();
-        const beforeId =
-          snap?.latest.find((r) => !targetName || r.target_name === targetName)?.id ?? 0;
-        while (Date.now() - startedAt < 6 * 60 * 1000) {
-          await new Promise((r) => setTimeout(r, 4000));
-          await fetchState();
-          const after = (await (
-            await fetch("/api/audits/state", {
-              headers: { Authorization: `Basic ${auth}` },
-            })
-          ).json()) as Snapshot;
-          const next = after.latest.find(
-            (r) => !targetName || r.target_name === targetName,
-          );
-          if (next && next.id > beforeId && next.status !== "running") break;
-        }
-      } catch (err) {
-        setError(err instanceof Error ? err.message : String(err));
+        if (!res.ok)
+          throw new Error(`Kunne ikke starte skanning (${res.status})`);
+        // The orchestrator now writes to Convex as it runs, so we just
+        // wait for the reactive snapshot to show a newer run id for this
+        // (target, audit_type). When that happens we drop the spinner.
+        const deadline = Date.now() + 6 * 60 * 1000;
+        const poll = () =>
+          new Promise<void>((resolve) => {
+            const tick = () => {
+              const newer = snap?.latest.find(
+                (r) =>
+                  (!targetName || r.target_name === targetName) &&
+                  r.id > beforeId &&
+                  r.status !== "running",
+              );
+              if (newer || Date.now() > deadline) resolve();
+              else setTimeout(tick, 1500);
+            };
+            tick();
+          });
+        await poll();
       } finally {
         setRunning(null);
       }
     },
-    [auth, snap, fetchState],
+    [auth, snap],
   );
 
   const ctx: IntelligenceCtx = useMemo(
@@ -296,6 +322,14 @@ export default function IntelligenceShell() {
                 required
               />
             </label>
+            {authError && (
+              <p
+                role="alert"
+                className="text-sm text-red-700 dark:text-red-400 mb-4 -mt-2"
+              >
+                {authError}
+              </p>
+            )}
             <EditorialButton variant="primary" size="md" type="submit">
               Logg inn
             </EditorialButton>
@@ -586,7 +620,15 @@ export default function IntelligenceShell() {
             </div>
           )}
 
-          <Outlet context={ctx} />
+          <AuthErrorBoundary
+            onUnauthorized={() => {
+              localStorage.removeItem(AUTH_KEY);
+              setAuth(null);
+              setAuthError("Sesjonen utløpte — logg inn på nytt.");
+            }}
+          >
+            <Outlet context={ctx} />
+          </AuthErrorBoundary>
         </div>
 
         <p className="hidden lg:block text-center font-mono text-[0.55rem] uppercase tracking-widest text-ink-faint border-t border-hairline px-8 xl:px-12 py-4">
@@ -595,6 +637,41 @@ export default function IntelligenceShell() {
       </main>
     </div>
   );
+}
+
+/**
+ * Catches Convex Unauthorized errors thrown by useQuery in any child
+ * (Vekst pages, audit pages). On hit, clears the cached admin token and
+ * surfaces the login card via the shell's auth state. Other errors are
+ * re-thrown so React's normal error reporting still works.
+ */
+class AuthErrorBoundary extends React.Component<
+  { onUnauthorized: () => void; children: React.ReactNode },
+  { fired: boolean }
+> {
+  state = { fired: false };
+  static getDerivedStateFromError(err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    if (msg.includes("Unauthorized")) return { fired: true };
+    return null;
+  }
+  componentDidCatch(err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
+    if (msg.includes("Unauthorized")) {
+      this.props.onUnauthorized();
+      return;
+    }
+    throw err;
+  }
+  componentDidUpdate(_: unknown, prev: { fired: boolean }) {
+    if (prev.fired && !this.state.fired) {
+      /* recovery — handled by parent re-render */
+    }
+  }
+  render() {
+    if (this.state.fired) return null;
+    return this.props.children;
+  }
 }
 
 function Chip({

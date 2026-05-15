@@ -22,7 +22,7 @@
 //   pm2 save
 
 import { createServer } from "node:http";
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, unlinkSync } from "node:fs";
 import { spawn } from "node:child_process";
 import path from "node:path";
 
@@ -30,7 +30,12 @@ import path from "node:path";
 function loadEnv() {
   const candidates = [
     "/etc/digilist-api.env",
+    // .env.local is gitignored via `*.local` — put secrets like
+    // ADMIN_BASIC_AUTH and ANTHROPIC_API_KEY here for local dev.
+    new URL("./.env.local", import.meta.url).pathname,
+    new URL("../.env.local", import.meta.url).pathname,
     new URL("./.env", import.meta.url).pathname,
+    new URL("../.env", import.meta.url).pathname,
   ];
   for (const p of candidates) {
     try {
@@ -66,8 +71,15 @@ const ADMIN_BASIC_AUTH = process.env.ADMIN_BASIC_AUTH || ""; // "user:pass"
 const AUDIT_SNAPSHOT_PATH =
   process.env.AUDIT_SNAPSHOT_PATH || "/var/www/digilist-audit/state.json";
 const AUDIT_REPO_DIR = process.env.AUDIT_REPO_DIR || "";
+// Content agent config. CONTENT_REPO_DIR defaults to AUDIT_REPO_DIR
+// because in production both packages live in the same checkout.
+const CONTENT_REPO_DIR = process.env.CONTENT_REPO_DIR || AUDIT_REPO_DIR;
+const CONTENT_SNAPSHOT_PATH =
+  process.env.CONTENT_SNAPSHOT_PATH ||
+  "/var/www/digilist-audit/content-snapshot.json";
 // Background-run book-keeping (very small in-memory queue + status table)
 const auditRuns = new Map(); // runRequestId -> { startedAt, target, status, log }
+const contentRuns = new Map(); // same shape, for content-agent runs
 
 function authorized(req) {
   if (!ADMIN_BASIC_AUTH) return false;
@@ -310,7 +322,7 @@ const server = createServer(async (req, res) => {
     if (!authorized(req)) {
       res.writeHead(401, {
         ...corsHeaders,
-        "WWW-Authenticate": 'Basic realm="Digilist Intelligence"',
+        // "WWW-Authenticate" intentionally omitted — would trigger the browser's native basic-auth dialog. The React app handles 401 by clearing localStorage and rendering its own login card.
       });
       res.end(JSON.stringify({ error: "Unauthorized" }));
       return;
@@ -381,37 +393,11 @@ const server = createServer(async (req, res) => {
     }
   }
 
-  if (req.method === "GET" && pathname === "/api/audits/state") {
-    if (!authorized(req)) {
-      res.writeHead(401, {
-        ...corsHeaders,
-        "WWW-Authenticate": 'Basic realm="Digilist Intelligence"',
-      });
-      res.end(JSON.stringify({ error: "Unauthorized" }));
-      return;
-    }
-    try {
-      if (!existsSync(AUDIT_SNAPSHOT_PATH)) {
-        return json(res, 200, {
-          generatedAt: new Date().toISOString(),
-          targets: [],
-          latest: [],
-          recent: [],
-          topFindings: [],
-          note: "No snapshot file at " + AUDIT_SNAPSHOT_PATH,
-        });
-      }
-      const raw = readFileSync(AUDIT_SNAPSHOT_PATH, "utf-8");
-      res.writeHead(200, {
-        "Content-Type": "application/json; charset=utf-8",
-        ...corsHeaders,
-      });
-      res.end(raw);
-      return;
-    } catch (e) {
-      return json(res, 500, { error: String(e?.message || e) });
-    }
-  }
+  // /api/audits/state and /api/content/state are deprecated — the
+  // dashboard now reads convex/audits/state.snapshot and
+  // convex/content/state.snapshot via useQuery hooks. The JSON
+  // snapshot files are no longer written; remove this branch after
+  // any external consumers (none known) have migrated.
 
   if (req.method !== "POST") {
     return json(res, 405, { error: "Method Not Allowed" });
@@ -434,7 +420,7 @@ const server = createServer(async (req, res) => {
     if (!authorized(req)) {
       res.writeHead(401, {
         ...corsHeaders,
-        "WWW-Authenticate": 'Basic realm="Digilist Intelligence"',
+        // "WWW-Authenticate" intentionally omitted — would trigger the browser's native basic-auth dialog. The React app handles 401 by clearing localStorage and rendering its own login card.
       });
       res.end(JSON.stringify({ error: "Unauthorized" }));
       return;
@@ -445,7 +431,7 @@ const server = createServer(async (req, res) => {
     if (!authorized(req)) {
       res.writeHead(401, {
         ...corsHeaders,
-        "WWW-Authenticate": 'Basic realm="Digilist Intelligence"',
+        // "WWW-Authenticate" intentionally omitted — would trigger the browser's native basic-auth dialog. The React app handles 401 by clearing localStorage and rendering its own login card.
       });
       res.end(JSON.stringify({ error: "Unauthorized" }));
       return;
@@ -456,13 +442,29 @@ const server = createServer(async (req, res) => {
     if (!authorized(req)) {
       res.writeHead(401, {
         ...corsHeaders,
-        "WWW-Authenticate": 'Basic realm="Digilist Intelligence"',
+        // "WWW-Authenticate" intentionally omitted — would trigger the browser's native basic-auth dialog. The React app handles 401 by clearing localStorage and rendering its own login card.
       });
       res.end(JSON.stringify({ error: "Unauthorized" }));
       return;
     }
     return handleAuditRecommend(res, body || {}, ip);
   }
+  if (pathname === "/api/content/run") {
+    if (!authorized(req)) {
+      res.writeHead(401, {
+        ...corsHeaders,
+        // "WWW-Authenticate" intentionally omitted — would trigger the browser's native basic-auth dialog. The React app handles 401 by clearing localStorage and rendering its own login card.
+      });
+      res.end(JSON.stringify({ error: "Unauthorized" }));
+      return;
+    }
+    return handleContentRun(res, body || {});
+  }
+  // /api/content/drafts/:id/{approve|reject|edit|publish} was the
+  // legacy CLI-driven mutation path. The dashboard now calls Convex
+  // mutations directly (convex/content/drafts.ts) and the publish
+  // action runs LinkedIn/X posting from inside Convex
+  // (convex/content/publish.ts). Route deleted.
   return json(res, 404, { error: "Not Found" });
 });
 
@@ -1259,27 +1261,10 @@ function handleAuditRun(res, body) {
     if (!state) return;
     state.status = code === 0 ? "ok" : "error";
     state.finishedAt = new Date().toISOString();
-    // Regenerate snapshot at the configured location
-    const snap = spawn("pnpm", ["audit:snapshot"], {
-      cwd: AUDIT_REPO_DIR,
-      env: { ...process.env, FORCE_COLOR: "0" },
-      stdio: "ignore",
-    });
-    snap.on("close", () => {
-      // Optional: copy snapshot to AUDIT_SNAPSHOT_PATH if they're different paths
-      try {
-        const generated = path.join(
-          AUDIT_REPO_DIR,
-          "tools/site-intelligence/reports/state.json",
-        );
-        if (existsSync(generated) && generated !== AUDIT_SNAPSHOT_PATH) {
-          const raw = readFileSync(generated, "utf-8");
-          writeFileSync(AUDIT_SNAPSHOT_PATH, raw, "utf-8");
-        }
-      } catch (e) {
-        console.error("[audit] snapshot copy failed:", e);
-      }
-    });
+    // No snapshot regen needed — the orchestrator writes directly to
+    // Convex and the dashboard re-renders reactively. Old behaviour
+    // (regen JSON, copy to AUDIT_SNAPSHOT_PATH) was removed with the
+    // SQLite cleanup.
   });
   // Reap older entries
   if (auditRuns.size > 50) {
@@ -1289,9 +1274,69 @@ function handleAuditRun(res, body) {
   return json(res, 202, { runRequestId, status: "accepted" });
 }
 
+// ─────────────────────────────────────────────────────────────
+// Content agent endpoints
+//
+// Mirrors the audit run pattern: HTTP server stays zero-dep, all
+// DB writes happen in a spawned `tsx tools/content-agent/src/cli.ts`.
+// Drafts mutations (approve/reject/edit/publish) are synchronous
+// (cli exits in <1s) and return the cli's JSON output verbatim.
+// content:all is async like audits:run — we return 202 with a runId.
+
+function handleContentRun(res, body) {
+  if (!CONTENT_REPO_DIR || !existsSync(CONTENT_REPO_DIR)) {
+    return json(res, 503, {
+      error:
+        "Content agent runner not configured on this server. Set CONTENT_REPO_DIR to a checkout that has pnpm + tools/content-agent available.",
+    });
+  }
+  const phase = ["discover", "analyze", "generate", "all"].includes(body.phase)
+    ? body.phase
+    : "all";
+  const script =
+    phase === "all" ? "content:all" : `content:${phase}`;
+  const runRequestId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+  const child = spawn("pnpm", [script, "--", "--trigger", "dashboard"], {
+    cwd: CONTENT_REPO_DIR,
+    env: { ...process.env, FORCE_COLOR: "0" },
+    stdio: ["ignore", "pipe", "pipe"],
+  });
+  contentRuns.set(runRequestId, {
+    startedAt: new Date().toISOString(),
+    phase,
+    status: "running",
+    log: "",
+  });
+  const append = (chunk) => {
+    const state = contentRuns.get(runRequestId);
+    if (state) state.log += chunk.toString();
+  };
+  child.stdout.on("data", append);
+  child.stderr.on("data", append);
+  child.on("close", (code) => {
+    const state = contentRuns.get(runRequestId);
+    if (!state) return;
+    state.status = code === 0 ? "ok" : "error";
+    state.finishedAt = new Date().toISOString();
+    // Convex-backed orchestrator writes results directly to the
+    // deployment; dashboard re-renders reactively. No snapshot regen.
+  });
+  if (contentRuns.size > 50) {
+    const first = contentRuns.keys().next().value;
+    if (first) contentRuns.delete(first);
+  }
+  return json(res, 202, { runRequestId, status: "accepted", phase });
+}
+
 server.listen(PORT, "127.0.0.1", () => {
   console.log(`[digilist-api] listening on 127.0.0.1:${PORT}`);
   console.log(
-    `[digilist-api] anthropic=${ANTHROPIC_API_KEY ? "on" : "off"} resend=${RESEND_API_KEY ? "on" : "off"}`,
+    `[digilist-api] anthropic=${ANTHROPIC_API_KEY ? "on" : "off"} resend=${RESEND_API_KEY ? "on" : "off"} admin-auth=${ADMIN_BASIC_AUTH ? "on" : "OFF"}`,
   );
+  if (!ADMIN_BASIC_AUTH) {
+    console.warn(
+      "[digilist-api] WARNING: ADMIN_BASIC_AUTH is unset — every /api/audits, /api/content and /api/agents request will 401. " +
+        "Add `ADMIN_BASIC_AUTH=user:password` to .env.local (gitignored) and restart `pnpm dev:api`.",
+    );
+  }
 });

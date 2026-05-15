@@ -1,0 +1,78 @@
+---
+title: Site Intelligence-runbook
+description: Drift av /admin/intelligence — daglige audits, finding-feed, AI-anbefalinger.
+sidebar:
+  order: 2
+  label: Site intelligence
+---
+
+import HowdygoDemo from "../../../components/widgets/HowdygoDemo.astro";
+
+<HowdygoDemo
+  caption="INTERAKTIV DEMO · ADMIN"
+  title="En dag i /admin/intelligence"
+  description="Fra morgensjekk av nattens audit-kjøring til godkjenning av en AI-fix-anbefaling — alt i én flyt."
+  duration="3 min"
+  steps={[
+    { num: "01", label: "Åpne Oversikt — snittscore, errors, warnings" },
+    { num: "02", label: "Drill ned i en feilet uptime-sjekk" },
+    { num: "03", label: "Be Claude om en konkret fiks-anbefaling" },
+    { num: "04", label: "Trigger Run scan etter deploy" },
+    { num: "05", label: "Verifiser at score er tilbake på grønt" },
+  ]}
+/>
+
+## Hva dashboardet viser
+
+- **Oversikt** — økosystem-rollup, snittscore, errors/warnings totalt
+- **Overflater** — én card per surface (max 2 per rad). Per-audit-score, "Run scan"-knapp.
+- **Hva gikk galt** — finding-feed sortert på severity, med AI-fiks-anbefalinger
+- **Skanninger** — historikk over kjøringer, status, varighet
+- **Per-audit-sider** — Uptime, SEO, WCAG, Sikkerhet, Ytelse, Lenker — drilldown per kategori
+- **Agenter** — multi-agent chat (sikkerhet, SEO, WCAG, ytelse, triage)
+
+## Surfaces vi overvåker
+
+Definert i `tools/site-intelligence/src/targets.ts`:
+
+- `marketing` — digilist.no (full audits)
+- `marketing-dev` — dev.digilist.no (full audits, ikke-indekserbar)
+- `app` — app.digilist.no (login-side, auth-gated)
+- `dashboard` — dashboard.digilist.no (tenant admin, auth-gated)
+- `docs` — docs.digilist.no
+- `api` — api.digilist.no (HTTP-helse + sikkerhet)
+- `status` — status.digilist.no
+
+Alle aktive. Alle kjører `uptime, seo, a11y, security, links`.
+
+## Kjøre en manuell scan
+
+Tre måter:
+
+1. **UI** — klikk "Run scan" på en surface-card
+2. **API** — `curl -X POST -u user:pass https://digilist.no/api/audits/run -d '{"target":"marketing"}'`
+3. **CLI på VPS** — `cd /var/www/digilist-audit && pnpm audit:all -- --target marketing`
+
+Snapshot regenereres automatisk etter run.
+
+## Daglig cron
+
+`digilist-audit.timer` (definert i deploy.sh) fyrer 06:00 UTC daglig. Kjører:
+
+```bash
+pnpm audit:all
+pnpm audit:snapshot
+```
+
+Output i `journalctl -u digilist-audit.service --since today`.
+
+## AI-fiks-anbefalinger
+
+Hver finding har en "Anbefal fiks"-knapp. Sender finding (rule + severity + message + url) til Claude som returnerer:
+
+- Problem (1-2 setninger)
+- Anbefalt fiks (konkret, med fil/komponent eller header-syntax)
+- Akseptansekriterier (2-4 sjekkbare punkter)
+- Prioritet (kritisk / høy / middels / lav)
+
+Kostnad ~$0.002 per anbefaling (Claude haiku). Rate-limit 30/minutt.

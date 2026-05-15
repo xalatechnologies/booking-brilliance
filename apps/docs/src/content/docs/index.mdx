@@ -1,0 +1,60 @@
+---
+title: Digilist Docs
+description: Kommunal booking-SaaS for idrettshaller, møterom, kulturhus og selskapslokaler.
+template: splash
+hero:
+  tagline: Plattformen kommuner bruker for å booke lokaler — fra innbygger til saksbehandler, ID-porten til Stripe.
+  actions:
+    - text: Kom i gang
+      link: /kom-i-gang/
+      icon: right-arrow
+      variant: primary
+    - text: API-referanse
+      link: /api/
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## Hva er Digilist
+
+Digilist er en bookingplattform for offentlige og halv-offentlige lokaler. Innbyggere leier idrettshaller, møterom, kulturhus og selskapslokaler direkte fra kommunens nettside — med ID-porten-innlogging, Vipps eller EHF-betaling, og full saksbehandler-godkjenning der det trengs.
+
+<CardGrid>
+  <Card title="For kommuner" icon="approve-check">
+    Erstatter manuelle skjemaer og papir-bookinger med en sanntidskalender. Saksbehandler godkjenner i Min side. SSA-L 2026, GDPR, ID-porten.
+  </Card>
+  <Card title="For lag og foreninger" icon="rocket">
+    Sesongleie, terminsoppsett, fordelingsregler. Tildeling sendes til kontaktperson, alle bookinger samlet på ett sted.
+  </Card>
+  <Card title="For utleieobjekter" icon="setting">
+    Driftsleder konfigurerer åpningstider, priser, betalingstype og godkjenningsflyt per lokale.
+  </Card>
+  <Card title="For utviklere" icon="document">
+    Convex-backend, REST-API med ID-porten/BankID-pålogging, webhooks for Stripe, Vipps og Signicat.
+  </Card>
+</CardGrid>
+
+## Hvor vil du starte
+
+<LinkCard
+  title="Kom i gang"
+  description="Onboarding for innbygger, saksbehandler og driftsleder."
+  href="/kom-i-gang/"
+/>
+<LinkCard
+  title="Admin-runbooks"
+  description="Operatør-dokumentasjon for /admin/intelligence og Vekst-harness."
+  href="/admin/"
+/>
+<LinkCard
+  title="API-referanse"
+  description="REST-endepunkter for chat, audits, content-agent og publish."
+  href="/api/"
+/>
+<LinkCard
+  title="Compliance"
+  description="GDPR, ISO 27001, NSM grunnprinsipper, SSA-L 2026 sikkerhetsbilag."
+  href="/compliance/"
+/>

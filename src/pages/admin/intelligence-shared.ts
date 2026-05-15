@@ -118,6 +118,16 @@ export interface AgentSummary {
 
 export const AUTH_KEY = "digilist-admin-basic-auth-v1";
 
+/**
+ * Read the admin token used by Convex mutations/queries. Returns "" when
+ * not logged in (Convex will reject the call). Components pass this as
+ * the `adminToken` arg on every call — see convex/auth.ts.
+ */
+export function adminToken(): string {
+  if (typeof window === "undefined") return "";
+  return localStorage.getItem(AUTH_KEY) ?? "";
+}
+
 export const AUDIT_LABEL: Record<AuditType, string> = {
   uptime: "Oppetid",
   seo: "SEO",

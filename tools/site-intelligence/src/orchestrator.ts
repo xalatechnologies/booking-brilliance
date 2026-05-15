@@ -14,13 +14,12 @@ import {
   type Target,
 } from "./targets";
 import {
-  openDb,
   upsertTarget,
   startRun,
   finishRun,
   insertPages,
   insertFindings,
-} from "./db";
+} from "./convex-write";
 import type { AuditResult, AuditType } from "./types";
 import { runSeoAudit } from "./auditors/seo";
 import { runA11yAudit } from "./auditors/a11y";
@@ -67,12 +66,11 @@ function parseArgs(argv: string[]): CliArgs {
   return out;
 }
 
-export async function run(args: CliArgs): Promise<{ runIds: number[] }> {
-  const db = openDb();
-
-  // Seed target rows so the FK constraints work
+export async function run(args: CliArgs): Promise<{ runIds: string[] }> {
+  // Seed target rows in Convex so subsequent startRun calls can resolve
+  // a target_name → audit_target document.
   for (const t of TARGETS) {
-    upsertTarget(db, {
+    await upsertTarget({
       name: t.name,
       label: t.label,
       origin: t.origin,
@@ -93,7 +91,6 @@ export async function run(args: CliArgs): Promise<{ runIds: number[] }> {
 
   if (targets.length === 0) {
     console.error("[audit] no active targets");
-    db.close();
     return { runIds: [] };
   }
 
@@ -101,14 +98,9 @@ export async function run(args: CliArgs): Promise<{ runIds: number[] }> {
     `[audit] ${targets.length} target(s) × up to ${requestedTypes.length} audit(s) (per-surface gated)`,
   );
 
-  const runIds: number[] = [];
+  const runIds: string[] = [];
 
   for (const target of targets) {
-    const targetRow = db
-      .prepare("SELECT id FROM targets WHERE name = ?")
-      .get(target.name) as { id: number };
-    const targetId = targetRow.id;
-
     // Per-surface gating: only run audits this surface opted into.
     const surfaceTypes = requestedTypes.filter((t) =>
       target.checks.includes(t),
@@ -128,21 +120,21 @@ export async function run(args: CliArgs): Promise<{ runIds: number[] }> {
         );
         continue;
       }
-      const runId = startRun(db, targetId, type, args.trigger);
+      const runId = await startRun(target.name, type, args.trigger);
       runIds.push(runId);
       console.log(
-        `  [${target.name} · ${type}] run #${runId} started`,
+        `  [${target.name} · ${type}] run ${runId} started`,
       );
       try {
         const result = await fn(target);
-        insertPages(db, runId, result.pages);
-        insertFindings(db, runId, result.findings);
+        await insertPages(runId, result.pages);
+        await insertFindings(runId, result.findings);
         const avg =
           result.pages.length === 0
             ? 0
             : result.pages.reduce((s, p) => s + p.score, 0) /
               result.pages.length;
-        finishRun(db, runId, {
+        await finishRun(runId, {
           pages: result.pages.length,
           findings: result.findings.length,
           avgScore: avg,
@@ -153,7 +145,7 @@ export async function run(args: CliArgs): Promise<{ runIds: number[] }> {
         );
       } catch (err) {
         console.error(`  [${target.name} · ${type}] FAILED:`, err);
-        finishRun(db, runId, {
+        await finishRun(runId, {
           pages: 0,
           findings: 0,
           avgScore: 0,
@@ -163,7 +155,6 @@ export async function run(args: CliArgs): Promise<{ runIds: number[] }> {
     }
   }
 
-  db.close();
   return { runIds };
 }
 

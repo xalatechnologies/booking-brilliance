@@ -44,6 +44,25 @@ export interface Target {
   seeds?: string[];
 }
 
+// Audit profiles per surface category. SEO/a11y/links can only be
+// meaningfully run on indexable HTML surfaces — auth-gated SPAs (app,
+// dashboard) have no sitemap and the login wall blocks the crawler, so
+// running SEO there guarantees garbage scores that drown out the real
+// signal. API surfaces likewise — no HTML, no human nav, no point.
+//
+// Tightened 2026-05-15 after the status page surfaced misleading
+// "degraded" badges on app/dashboard/api driven by structurally-failed
+// audits rather than actual incidents.
+const FULL_CHECKS: AuditType[] = [
+  "uptime",
+  "seo",
+  "a11y",
+  "security",
+  "links",
+];
+const SPA_CHECKS: AuditType[] = ["uptime", "security"];
+const API_CHECKS: AuditType[] = ["uptime", "security"];
+
 export const TARGETS: Target[] = [
   {
     name: "marketing",
@@ -54,22 +73,29 @@ export const TARGETS: Target[] = [
     environment: "production",
     indexable: true,
     requiresAuth: false,
-    checks: ["uptime", "seo", "a11y", "security", "links"],
+    checks: FULL_CHECKS,
     active: true,
   },
   {
+    // Historical name kept for Convex audit_target key continuity —
+    // existing audit_runs reference this name. Despite the legacy
+    // "marketing" prefix, dev.digilist.no actually serves the booking
+    // app SPA (verified 2026-05-15: index.html is the booking app
+    // shell, not a marketing site mirror). Treat as `app` + staging.
     name: "marketing-dev",
-    label: "Staging marketing — dev.digilist.no",
+    label: "Staging app — dev.digilist.no",
     origin: "https://dev.digilist.no",
-    description: "Pre-production marketing site (mirror of digilist.no).",
-    type: "marketing",
+    description:
+      "Pre-production booking app (SPA). Auth-gated routes plus public login/signup.",
+    type: "app",
     environment: "staging",
     indexable: false,
     requiresAuth: false,
-    // Staging must NOT be indexed — uptime + security + a11y still apply.
-    // Hidden from public transparency by env=staging (Transparens filter).
-    checks: ["uptime", "a11y", "security", "links"],
-    active: false,
+    // SPA — no SSR'd content, no sitemap. Auditing SEO/a11y/links
+    // here flags the SPA shell as broken (missing h1, 0 words) when
+    // the real content is client-rendered.
+    checks: SPA_CHECKS,
+    active: true,
   },
   {
     name: "app",
@@ -80,9 +106,11 @@ export const TARGETS: Target[] = [
     environment: "production",
     indexable: false,
     requiresAuth: true,
-    // SEO is partial on app (login/signup pages); skip for now.
-    // Drop `links` — link auditor false-positives on auth-gated pages.
-    checks: ["uptime", "security"],
+    // Auth-gated SPA — only uptime + security make sense. SEO needs a
+    // sitemap; a11y/links need crawlable HTML behind the login wall.
+    // Real WCAG scoring on the authenticated shell requires
+    // Playwright + axe-core (tracked as INTEL-002).
+    checks: SPA_CHECKS,
     active: true,
     seeds: ["https://app.digilist.no/login", "https://app.digilist.no/signup"],
   },
@@ -90,15 +118,16 @@ export const TARGETS: Target[] = [
     name: "docs",
     label: "Docs — docs.digilist.no",
     origin: "https://docs.digilist.no",
-    // Hidden from public transparency until docs site is rebuilt (currently
-    // returns 403 — see DOCS-001 ticket). Will flip active=true once published.
-    description: "Public documentation (under rebuild — see DOCS-001).",
+    // Astro Starlight docs site shipped 2026-05-15. Sections: Kom i gang,
+    // Admin-runbooks, API-referanse, Compliance. Token-coherent with the
+    // marketing site via shared digilist-tokens.css.
+    description: "Public documentation site (Astro Starlight, apps/docs/).",
     type: "docs",
     environment: "production",
     indexable: true,
     requiresAuth: false,
-    checks: ["uptime", "seo", "a11y", "security", "links"],
-    active: false,
+    checks: FULL_CHECKS,
+    active: true,
   },
   {
     name: "dashboard",
@@ -109,9 +138,8 @@ export const TARGETS: Target[] = [
     environment: "production",
     indexable: false,
     requiresAuth: true,
-    // a11y on auth-gated SPA login is not representative; real WCAG scoring
-    // requires Playwright + axe-core on authenticated app shell — see INTEL-002.
-    checks: ["uptime", "security"],
+    // Same rationale as `app` — auth-gated SPA, only uptime + security.
+    checks: SPA_CHECKS,
     active: true,
     seeds: ["https://dashboard.digilist.no/login"],
   },
@@ -124,8 +152,12 @@ export const TARGETS: Target[] = [
     environment: "production",
     indexable: false,
     requiresAuth: true,
-    checks: ["uptime", "security"],
+    // Pure API surface — no HTML, no sitemap. Only uptime + security
+    // headers are meaningful here. SEO/a11y/links were producing
+    // structural false-failures that dragged the public status to red.
+    checks: API_CHECKS,
     active: true,
+    seeds: ["https://api.digilist.no/health"],
   },
   {
     name: "status",
@@ -136,8 +168,12 @@ export const TARGETS: Target[] = [
     environment: "production",
     indexable: true,
     requiresAuth: false,
-    checks: ["uptime", "security"],
-    active: false,
+    // Single-purpose utility surface — no sitemap, no editorial content,
+    // no internal nav. Auditing SEO/a11y/links here surfaces structural
+    // false-failures (the page is designed to be one route). Uptime +
+    // security headers are the only meaningful signals.
+    checks: SPA_CHECKS,
+    active: true,
   },
 ];
 

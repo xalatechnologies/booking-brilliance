@@ -1,0 +1,104 @@
+---
+title: Vekst-harness-runbook
+description: Drift av /admin/intelligence/vekst — keyword agent, content draft agent, approval queue.
+sidebar:
+  order: 3
+  label: Vekst-harness
+---
+
+import HowdygoDemo from "../../../components/widgets/HowdygoDemo.astro";
+
+<HowdygoDemo
+  caption="INTERAKTIV DEMO · VEKST"
+  title="Fra trending keyword til godkjent draft"
+  description="Følg hele Growth Intelligence-pipelinen i sanntid — discover, analyze, generate, approval queue."
+  duration="3 min 30 s"
+  steps={[
+    { num: "01", label: "Trigger full pipeline manuelt" },
+    { num: "02", label: "Se 10 nye clusters med opportunity-score" },
+    { num: "03", label: "Åpne en draft — blog, LinkedIn, X-tråd" },
+    { num: "04", label: "Approve og rediger before Publish" },
+    { num: "05", label: "Spor cost + tokens i aktivitets-loggen" },
+  ]}
+/>
+
+## Hva harness gjør
+
+10 katalogiserte agenter, organisert i tre tiers:
+
+- **V1 (aktive runners)** — monitoring, seo, keyword, content-draft, approval-queue
+- **V1+1 (registrert)** — wcag, security, competitor
+- **Deferred (placeholder)** — feedback, task-generator
+
+Org-chart, allowed-tools, budsjett og risk-default per agent vises i Vekst-oversikt.
+
+## Pipeline
+
+```
+discover  →  analyze       →  generate         →  approval-queue
+gtrends      cluster        brief + drafts       human review
+reddit       coverage       blog + LI + X
+hackernews
+rss
+serpapi
+seed-expand
+```
+
+Daglig cron 06:00 UTC kjører full pipeline. Manuelt: "Kjør full pipeline"-knappen i Vekst-oversikt.
+
+## Approval Queue
+
+Hver draft har:
+
+- **Channel** — blog / linkedin / x
+- **Risk** — low / med / high
+- **Status** — pending / approved / rejected / published / failed
+- **Body** — full markdown (blog) eller plain text (LI/X)
+- **Provenance** — link tilbake til cluster + keywords som genererte den
+
+**Tre handlinger:**
+
+1. **Approve** — markerer som klar, men publiserer ikke
+2. **Reject** — beholdes i basen som negativ tilbakemelding
+3. **Publish** — *bare* etter approve. Eksplisitt klikk. Eneste vei til ekstern publisering.
+
+## Hva med blog-drafts
+
+Blog-drafts publiseres ved å skrive markdown-filen til `src/content/blog/<slug>.md`. Filen bygges på neste deploy. Du må selv:
+
+1. Approve → Publish i dashboardet
+2. Commit den nye .md-filen til main
+3. Trigger deploy.sh
+
+## Hva med LinkedIn/X
+
+Drafts blir bare drafts inntil:
+
+1. OAuth-app registrert hos provider
+2. Access token + URN lagt i `/etc/digilist-api.env`:
+   - `LINKEDIN_ACCESS_TOKEN`, `LINKEDIN_ORG_URN`
+   - `X_BEARER_TOKEN`
+3. `systemctl restart digilist-api`
+
+LinkedIn UGC API krever Marketing Developer Platform-godkjenning for Company Page (2-6 ukers ventetid). X Basic tier er $200/mnd som av 2025. Begge får refresh-token-rotasjon i V2.
+
+## Kost-monitorering
+
+`Aktivitet`-fanen viser hver Claude-call med:
+
+- Tokens-in / tokens-out
+- Cost-USD per call
+- Risk-tag
+- Trace-ref (draft:N, cluster:N)
+
+Sum spend per agent vises i Vekst-oversikt, sammenlignet med `budget_usd_month` fra registry. Overskridelse markeres rødt, men blokkerer ikke kjøring (hard-gating i V2 etter en måned med reelle tall).
+
+## Når noe rotner
+
+| Symptom | Sannsynlig årsak | Fiks |
+|---|---|---|
+| 0 drafts generert | Anthropic-nøkkel utløpt | `curl /api/health` — sjekk `anthropicConfigured` |
+| "gap_score = 100" på alle clusters | Blog corpus ikke deployed | rsync `src/content/blog/` til `AUDIT_DIR/src/content/blog/` |
+| Reddit returnerer 0 terms | IP rate-limited | Vent 24t, eller skift `CONTENT_AGENT_UA` |
+| LinkedIn publish 401 | Token utløpt (60d TTL) | Re-kjør OAuth-flow, oppdater `LINKEDIN_ACCESS_TOKEN` |
+| X publish 429 | Tier-quota brukt opp | Sjekk developer.x.com dashboard, bytt til Pro-tier hvis nødvendig |

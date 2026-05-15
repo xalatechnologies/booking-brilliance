@@ -1,0 +1,68 @@
+---
+title: Innbygger — booking på 90 sekunder
+description: Slik leier en innbygger et lokale på Digilist, fra søk til bekreftelse.
+sidebar:
+  order: 2
+  label: Innbygger
+---
+
+import HowdygoDemo from "../../../components/widgets/HowdygoDemo.astro";
+
+Median tid fra en innbygger lander på siden til bekreftelse er sendt: **94 sekunder** målt på reelle Digilist-kunder. Her er hva som skjer i flyten.
+
+<HowdygoDemo
+  caption="INTERAKTIV DEMO · INNBYGGER"
+  title="Booking på 90 sekunder"
+  description="Følg en innbygger fra Google-søk til bekreftelse på e-post. Klikk gjennom hvert steg i ditt eget tempo."
+  duration="1 min 30 s"
+  steps={[
+    { num: "01", label: "Søk — «møterom Lillestrøm»" },
+    { num: "02", label: "Velg slot i sanntidskalenderen" },
+    { num: "03", label: "Logg på med ID-porten / magic-link" },
+    { num: "04", label: "Betal med Vipps eller kort" },
+    { num: "05", label: "Bekreftelse på e-post + SMS" },
+  ]}
+/>
+
+## 1. Søk og filtrer
+
+Innbyggeren kommer typisk fra Google ("møterom Lillestrøm") eller fra kommunens hjemmeside. Søkefilteret viser anlegg som matcher område, dato og kapasitet. Kartvisning er standard når geografi betyr noe.
+
+Filtrering er live — uten å klikke «Søk». Skriv inn antall personer, plattformen filtrerer øyeblikkelig.
+
+## 2. Velg anlegg og tid
+
+Sanntidskalenderen viser ledige slots i grønn, opptatte i rød, holdt-for-godkjenning i gul. Innbyggeren klikker et slot. Pris vises umiddelbart (timepris × varighet, eller flat pris hvis konfigurert slik).
+
+## 3. Logg på
+
+Tre innloggingsalternativer:
+
+- **ID-porten** (anbefalt) — Signicat OIDC, full identitetsbekreftelse
+- **BankID** — for kjente brukere
+- **Magic link** — e-post lenke for førstegangs-brukere
+
+Magic-link bruker signert JWT (HS256) med 15-minutters TTL.
+
+## 4. Betal
+
+- **Vipps** — for kort booking, åpnes i Vipps-appen
+- **Kort** — Stripe Checkout, lagrer ikke kortdata
+- **EHF/Peppol** — for organisasjoner, faktura via SAF-T
+
+Stripe Connect Express betyr at hver utleier får sin egen tenant — penger går direkte til kommunens konto, ikke via Digilist.
+
+## 5. Bekreftelse
+
+E-post + SMS sendes umiddelbart. Innbyggeren får:
+
+- Bookings-ID
+- Avbestillings-link (med selvbetjening hvis konfigurert)
+- Veibeskrivelse til lokalet
+- Kontaktinfo til driftsleder
+
+Alt synlig på Min side under digilist.no/min-side.
+
+## Tilgjengelighet
+
+Digilist er bygget mot WCAG 2.1 AA. Tastatur-navigasjon, skjermleser-støtte, kontrastforhold ≥ 4.5:1 på alt interaktivt. Se [Compliance / Universell utforming](/compliance/uu/) for fullstendig samsvarserklæring.

@@ -1,0 +1,185 @@
+---
+/**
+ * Editorial footer — mirrors digilist.no marketing-site footer:
+ *   - hairline rule above
+ *   - three column grid: brand / sitemap / colophon
+ *   - JetBrains Mono captions in uppercase
+ *   - Fraunces wordmark, opsz 36
+ *
+ * Pagination links from Starlight are rendered inside the article (above
+ * this component) so we don't pull <Pagination /> in here.
+ */
+import type { Props } from "@astrojs/starlight/props";
+import Pagination from "@astrojs/starlight/components/Pagination.astro";
+import LastUpdated from "@astrojs/starlight/components/LastUpdated.astro";
+import EditLink from "@astrojs/starlight/components/EditLink.astro";
+
+const year = new Date().getFullYear();
+---
+
+<Pagination {...Astro.props} />
+
+<div class="dg-page-meta">
+  <LastUpdated {...Astro.props} />
+  <EditLink {...Astro.props} />
+</div>
+
+<footer class="dg-footer">
+  <div class="dg-footer__rule"></div>
+  <div class="dg-footer__grid">
+    <div class="dg-footer__brand">
+      <p class="dg-footer__wordmark">Digilist</p>
+      <p class="dg-footer__tagline">
+        Booking-plattformen norske kommuner og utleiere stoler på.
+      </p>
+    </div>
+
+    <nav class="dg-footer__nav" aria-label="Docs sections">
+      <p class="dg-footer__heading">DOKUMENTASJON</p>
+      <ul>
+        <li><a href="/kom-i-gang/">Kom i gang</a></li>
+        <li><a href="/admin/">Admin-runbooks</a></li>
+        <li><a href="/api/">API-referanse</a></li>
+        <li><a href="/compliance/">Compliance</a></li>
+      </ul>
+    </nav>
+
+    <nav class="dg-footer__nav" aria-label="External">
+      <p class="dg-footer__heading">EKSTERNT</p>
+      <ul>
+        <li><a href="https://digilist.no/">digilist.no →</a></li>
+        <li><a href="https://digilist.no/transparens">Transparens →</a></li>
+        <li><a href="https://digilist.no/admin/intelligence">Intelligence-dashbord →</a></li>
+        {/* LinkedIn company page not yet provisioned — re-enable once the URL
+            (e.g. https://www.linkedin.com/company/<slug>) is confirmed. */}
+        {/* <li><a href="https://www.linkedin.com/company/digilistno">LinkedIn →</a></li> */}
+      </ul>
+    </nav>
+  </div>
+
+  <div class="dg-footer__colophon">
+    <span>© {year} DIGILIST AS</span>
+    <span class="dg-footer__sep" aria-hidden="true">·</span>
+    <span>BYGGET MED OMHU I NORGE</span>
+    <span class="dg-footer__sep" aria-hidden="true">·</span>
+    <a href="https://digilist.no/personvern">PERSONVERN</a>
+    <span class="dg-footer__sep" aria-hidden="true">·</span>
+    <a href="https://digilist.no/salgsvilkar">SALGSVILKÅR</a>
+  </div>
+</footer>
+
+<style>
+  .dg-page-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 0;
+    margin-block-start: 3rem;
+    border-block-start: 1px solid hsl(var(--rule));
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: hsl(var(--ink-faint));
+  }
+
+  .dg-footer {
+    margin-block-start: 4rem;
+    padding: 3rem 0 2rem;
+  }
+
+  .dg-footer__rule {
+    height: 1px;
+    background: hsl(var(--rule));
+    margin-block-end: 3rem;
+  }
+
+  .dg-footer__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 50em) {
+    .dg-footer__grid {
+      grid-template-columns: minmax(0, 1.5fr) repeat(2, minmax(0, 1fr));
+      gap: 3rem;
+    }
+  }
+
+  .dg-footer__wordmark {
+    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-variation-settings: "opsz" 36, "wght" 540, "SOFT" 30, "WONK" 0;
+    font-size: 1.75rem;
+    line-height: 1;
+    margin: 0;
+    color: hsl(var(--ink));
+  }
+
+  .dg-footer__tagline {
+    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-style: italic;
+    font-variation-settings: "opsz" 18, "wght" 380, "SOFT" 30, "WONK" 0;
+    font-size: 0.95rem;
+    color: hsl(var(--ink-soft));
+    margin: 0.85rem 0 0;
+    max-width: 32ch;
+  }
+
+  .dg-footer__heading {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: hsl(var(--accent-text));
+    margin: 0 0 1rem;
+    padding-block-end: 0.6rem;
+    border-block-end: 1px solid hsl(var(--rule));
+  }
+
+  .dg-footer__nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .dg-footer__nav a {
+    font-family: "Public Sans", system-ui, sans-serif;
+    font-size: 0.9rem;
+    color: hsl(var(--ink));
+    text-decoration: none;
+    line-height: 1.5;
+    transition: color 120ms ease;
+  }
+
+  .dg-footer__nav a:hover { color: hsl(var(--accent-text)); }
+
+  .dg-footer__colophon {
+    margin-block-start: 3rem;
+    padding-block-start: 1.5rem;
+    border-block-start: 1px solid hsl(var(--rule));
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    align-items: center;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: hsl(var(--ink-faint));
+  }
+
+  .dg-footer__colophon a {
+    color: hsl(var(--ink-faint));
+    text-decoration: none;
+    transition: color 120ms ease;
+  }
+
+  .dg-footer__colophon a:hover { color: hsl(var(--accent-text)); }
+
+  .dg-footer__sep { opacity: 0.5; }
+</style>

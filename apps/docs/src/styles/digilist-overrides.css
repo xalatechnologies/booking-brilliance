@@ -1,0 +1,789 @@
+/*
+ * Editorial overrides — push Starlight far enough toward the digilist.no
+ * marketing voice that the two surfaces feel like one product. The
+ * vocabulary borrows directly from src/index.css of the marketing site:
+ *
+ *   - Fraunces variable-axis headings (opsz/wght/SOFT) for size-aware voice
+ *   - Public Sans body, JetBrains Mono captions
+ *   - Hairline rules at 1px (0.5px treatment via local override)
+ *   - Rectilinear 2px-radius cards
+ *   - Editorial "mono captions" — uppercase, tracked, accent-coloured
+ *   - Generous measure (65ch) for prose
+ *   - 12-col grids for landing sections
+ *
+ * Loaded after digilist-tokens.css per astro.config.mjs customCss order.
+ */
+
+/* ─────────────────────────────────────────────────────────────
+ * 1. Web fonts — pin to versions that include the variable axes
+ *    Fraunces actually needs (opsz, wght, SOFT, WONK). The
+ *    woff2 URLs below ship the full axes; pulling the Google Fonts
+ *    CSS directly would only ship a static instance.
+ */
+@font-face {
+  font-family: "Fraunces";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/fraunces/v33/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Fraunces";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/fraunces/v33/6NUh8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk.woff2") format("woff2");
+  font-variation-settings: "ital" 1;
+}
+
+@font-face {
+  font-family: "Public Sans";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/publicsans/v18/ijwLs5juQtsyLLR5jN4cxBEoTJfqlw.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url("https://fonts.gstatic.com/s/jetbrainsmono/v20/tDbY2o-flEEny0FZhsfKu5WU4xD7OwA0KPg.woff2") format("woff2");
+}
+
+/* ─────────────────────────────────────────────────────────────
+ * 2. Page chrome
+ */
+
+html, body {
+  background: hsl(var(--paper));
+  color: hsl(var(--ink));
+  font-family: "Public Sans", system-ui, -apple-system, sans-serif;
+  font-feature-settings: "ss01", "ss02";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hide Starlight's default header bar since we replaced it. Starlight's
+ * mobile-menu toggle is rendered alongside ours; keep just the mobile
+ * one. */
+.page > header > div.header {
+  display: none;
+}
+
+/* Full-width docs container. Aligned to the editorial header: same
+ * 88rem (1408px) max spread, same 1.5rem inline padding, so the hero
+ * left-edge meets the header brand left-edge exactly.
+ * Prose paragraphs still cap at 72ch INSIDE the wider container so
+ * reading line-length stays comfortable. */
+:root {
+  --sl-sidebar-width: 19rem;
+  --sl-content-width: 88rem;
+  --sl-content-pad-x: 1.5rem;
+  --sl-text-h1: 2.75rem;
+  --sl-text-h2: 1.6rem;
+  --sl-text-h3: 1.2rem;
+  --sl-text-h4: 1.05rem;
+  --sl-line-height: 1.7;
+}
+
+@media (min-width: 50em) {
+  :root {
+    --sl-content-pad-x: 2rem;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+ * 3. Sidebar — editorial newspaper section feel
+ */
+
+.sidebar-pane {
+  background: hsl(var(--paper));
+  border-inline-end: 1px solid hsl(var(--rule));
+}
+
+starlight-menu-button,
+mobile-starlight-toc {
+  background: hsl(var(--paper));
+}
+
+/* Group headers use editorial mono caption treatment */
+.sidebar-content details > summary span.large,
+.sidebar-content .group-label > .large {
+  font-family: "JetBrains Mono", ui-monospace, monospace !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase !important;
+  font-weight: 500 !important;
+  color: hsl(var(--ink-faint)) !important;
+}
+
+/* Sidebar links — quiet by default, navy block on active */
+.sidebar-content a,
+.sidebar-content button {
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 0.92rem;
+  border-radius: 2px;
+  color: hsl(var(--ink));
+  transition: color 100ms ease, background 100ms ease;
+}
+
+.sidebar-content a {
+  padding-block: 0.4rem;
+  padding-inline-start: 0.85rem;
+  border-inline-start: 2px solid transparent;
+  margin-inline-start: -0.85rem;
+}
+
+.sidebar-content a:hover {
+  color: hsl(var(--accent-text));
+  background: hsl(var(--accent-tinted));
+}
+
+.sidebar-content a[aria-current="page"] {
+  background: hsl(var(--accent-tinted));
+  color: hsl(var(--accent-text));
+  border-inline-start-color: hsl(var(--navy));
+  font-weight: 500;
+}
+
+.sidebar-content a[aria-current="page"]:hover {
+  background: hsl(var(--accent-tinted));
+  color: hsl(var(--accent-text));
+}
+
+/* ─────────────────────────────────────────────────────────────
+ * 4. Article — the prose container
+ */
+
+/* Keep main-frame full-bleed (its natural Starlight behavior). The
+ * header below is also full-bleed so the sidebar's left edge aligns
+ * with the header brand's left edge, and the right-rail / CTA align
+ * on the right. */
+.main-frame {
+  background: hsl(var(--paper));
+}
+
+/* Right-rail / toc was previously overflowing the viewport via a
+ * stacked container with negative position. Clamp it to a fixed
+ * column that sticks below the header. */
+.right-sidebar-container {
+  flex: 0 0 17rem;
+  width: 17rem;
+  max-width: 17rem;
+}
+
+.right-sidebar {
+  position: sticky !important;
+  inset-inline-start: auto !important;
+  inset-block-start: var(--sl-nav-height, 4.5rem) !important;
+  width: 100% !important;
+  max-height: calc(100vh - var(--sl-nav-height, 4.5rem));
+  overflow-y: auto;
+  padding-inline: 1rem;
+}
+
+.right-sidebar-panel {
+  position: static !important;
+  width: 100% !important;
+  inset: auto !important;
+}
+
+.content-panel {
+  padding-block: 2.5rem;
+  padding-inline: var(--sl-content-pad-x);
+}
+
+/* Drop the rounded "splash" hero margin so our custom Hero owns the bleed */
+.hero {
+  padding: 0;
+  margin: 0;
+}
+
+/* Hero on the splash-template index. The .sl-container parent already
+ * caps it at --sl-content-width and the .content-panel handles padding;
+ * we just want the hero to sit close-coupled with the header. */
+.content-panel:has(.dg-hero) {
+  padding-block-start: 0;
+}
+
+/* Editorial markdown body. Container is full-width (~80rem) but text
+ * blocks (paragraphs, lists) still cap at 65ch for reading comfort.
+ * Tables, code blocks and grid layouts get to use the full width. */
+.sl-markdown-content {
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  color: hsl(var(--ink));
+  max-width: none;
+}
+
+.sl-markdown-content > * + * {
+  margin-block-start: 1.1em;
+}
+
+.sl-markdown-content p,
+.sl-markdown-content ul,
+.sl-markdown-content ol {
+  max-width: 72ch;
+}
+
+/* Tables, code blocks, asides and pull quotes get to bleed wider. */
+.sl-markdown-content table,
+.sl-markdown-content pre,
+.sl-markdown-content .expressive-code,
+.sl-markdown-content .starlight-aside,
+.sl-markdown-content blockquote {
+  max-width: none;
+}
+
+.sl-markdown-content p strong {
+  color: hsl(var(--ink));
+  font-weight: 600;
+}
+
+/* H1 is handled by our PageTitle override; only style h2-h5 here */
+.sl-markdown-content h2 {
+  font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+  font-variation-settings: "opsz" 72, "wght" 480, "SOFT" 30, "WONK" 0;
+  font-size: 1.65rem;
+  line-height: 1.2;
+  margin-block-start: 2.5em;
+  margin-block-end: 0.55em;
+  padding-block-end: 0.4em;
+  letter-spacing: -0.01em;
+  color: hsl(var(--ink));
+  position: relative;
+}
+
+.sl-markdown-content h2::before {
+  /* A short editorial rule above each h2 — newspaper section break */
+  content: "";
+  position: absolute;
+  inset-block-start: -1.1em;
+  inset-inline-start: 0;
+  width: 2.5rem;
+  height: 1px;
+  background: hsl(var(--ink));
+}
+
+/* Suppress the section-break stub on the FIRST h2 (right after the page
+ * title's hairline rule). Two stacked rules under the title read as
+ * an accidental double divider. */
+.sl-markdown-content > h2:first-child,
+.sl-markdown-content > h2:first-of-type {
+  margin-block-start: 1.5em;
+}
+
+.sl-markdown-content > h2:first-child::before,
+.sl-markdown-content > h2:first-of-type::before {
+  display: none;
+}
+
+.sl-markdown-content h3 {
+  font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+  font-variation-settings: "opsz" 36, "wght" 540, "SOFT" 30, "WONK" 0;
+  font-size: 1.25rem;
+  line-height: 1.3;
+  margin-block-start: 2em;
+  letter-spacing: -0.005em;
+  color: hsl(var(--ink));
+}
+
+.sl-markdown-content h4 {
+  font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+  font-variation-settings: "opsz" 24, "wght" 560, "SOFT" 30, "WONK" 0;
+  font-size: 1.05rem;
+  letter-spacing: 0;
+  color: hsl(var(--ink));
+}
+
+.sl-markdown-content h5,
+.sl-markdown-content h6 {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: hsl(var(--ink-faint));
+  margin-block-start: 1.5em;
+}
+
+/* First paragraph gets an editorial dropcap — only when a sibling
+ * comes right after the page title, not in nested contexts. Skipped
+ * inside .dg-hero (it has its own treatment) and inside cards. */
+.sl-markdown-content > p:first-of-type:not(:empty)::first-letter {
+  font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+  font-variation-settings: "opsz" 144, "wght" 540, "SOFT" 30, "WONK" 0;
+  font-size: 4.25rem;
+  line-height: 0.85;
+  float: left;
+  padding: 0.3rem 0.7rem 0.05rem 0;
+  color: hsl(var(--accent-text));
+}
+
+/* Suppress dropcap when the paragraph starts with a numeral — "1" or "2"
+ * as a giant dropped char reads as a typo rather than editorial flourish. */
+.sl-markdown-content > p:first-of-type[data-starts-with="number"]::first-letter {
+  float: none;
+  font-size: inherit;
+  line-height: inherit;
+  padding: 0;
+  color: inherit;
+}
+
+/* Links — newspaper editorial style, no underline default, hairline on hover */
+.sl-markdown-content a:not(.sl-link-button) {
+  color: hsl(var(--accent-text));
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: hsl(var(--rule));
+  text-underline-offset: 4px;
+  transition: text-decoration-color 120ms ease;
+}
+
+.sl-markdown-content a:not(.sl-link-button):hover {
+  text-decoration-color: hsl(var(--accent-text));
+}
+
+/* Strong italic emphasis — italic Fraunces matches the marketing site */
+.sl-markdown-content em {
+  font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+  font-variation-settings: "opsz" 16, "wght" 460, "SOFT" 30, "WONK" 0;
+  font-style: italic;
+}
+
+/* Inline code — hairline-outlined pill */
+.sl-markdown-content :not(pre) > code {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.85em;
+  background: hsl(var(--paper-deep));
+  border: 1px solid hsl(var(--rule));
+  border-radius: 2px;
+  padding: 0.1em 0.4em;
+  color: hsl(var(--ink));
+}
+
+/* Block code — rectilinear, hairline */
+.expressive-code,
+.expressive-code .frame.has-title {
+  border-radius: 2px !important;
+}
+
+.expressive-code .frame pre {
+  border: 1px solid hsl(var(--rule)) !important;
+  border-radius: 2px !important;
+  background: hsl(var(--paper-deep)) !important;
+}
+
+.expressive-code .frame.has-title .header {
+  font-family: "JetBrains Mono", ui-monospace, monospace !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.08em !important;
+}
+
+/* Blockquote — editorial pull quote */
+.sl-markdown-content blockquote {
+  border-inline-start: 2px solid hsl(var(--accent-text));
+  padding: 0.25em 0 0.25em 1.25em;
+  font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+  font-style: italic;
+  font-variation-settings: "opsz" 24, "wght" 460, "SOFT" 30, "WONK" 0;
+  font-size: 1.2rem;
+  line-height: 1.45;
+  color: hsl(var(--ink));
+  margin-block: 2em;
+}
+
+/* Tables — newspaper data-table style with hairlines */
+.sl-markdown-content table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.9rem;
+  border: 1px solid hsl(var(--rule));
+  border-radius: 2px;
+  overflow: hidden;
+  margin: 1.5em 0;
+}
+
+.sl-markdown-content thead {
+  background: hsl(var(--paper-deep));
+}
+
+.sl-markdown-content thead th {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: hsl(var(--ink-faint));
+  text-align: start;
+  padding: 0.85rem 1rem;
+  border-block-end: 1px solid hsl(var(--rule));
+  font-weight: 500;
+}
+
+.sl-markdown-content tbody td {
+  padding: 0.75rem 1rem;
+  border-block-end: 1px solid hsl(var(--rule));
+  color: hsl(var(--ink));
+  vertical-align: top;
+}
+
+.sl-markdown-content tbody tr:last-child td {
+  border-block-end: 0;
+}
+
+/* Lists — keep tight, mark with hairline dashes for unordered */
+.sl-markdown-content ul {
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.sl-markdown-content ul > li {
+  position: relative;
+  padding-inline-start: 1.4em;
+  margin-block: 0.4em;
+}
+
+.sl-markdown-content ul > li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0.85em;
+  width: 0.7em;
+  height: 1px;
+  background: hsl(var(--accent-text));
+}
+
+.sl-markdown-content ol {
+  padding-inline-start: 1.6em;
+}
+
+.sl-markdown-content ol li::marker {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.8em;
+  color: hsl(var(--accent-text));
+}
+
+/* Asides — flat editorial cards, not rounded callout boxes */
+.starlight-aside {
+  border-radius: 2px;
+  border: 1px solid hsl(var(--rule));
+  border-inline-start-width: 3px;
+  background: hsl(var(--paper));
+  padding: 1.25rem 1.5rem;
+}
+
+.starlight-aside--note {
+  border-inline-start-color: hsl(var(--navy));
+  background: hsl(var(--accent-tinted));
+}
+
+.starlight-aside--tip {
+  border-inline-start-color: hsl(var(--green));
+}
+
+.starlight-aside--caution {
+  border-inline-start-color: hsl(var(--ochre));
+}
+
+.starlight-aside--danger {
+  border-inline-start-color: hsl(var(--destructive));
+}
+
+.starlight-aside__title {
+  font-family: "JetBrains Mono", ui-monospace, monospace !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.18em !important;
+  text-transform: uppercase !important;
+  color: hsl(var(--ink-faint)) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+ * 5. ToC (right rail)
+ */
+
+.right-sidebar {
+  border-inline-start: 1px solid hsl(var(--rule));
+  background: hsl(var(--paper));
+}
+
+.right-sidebar h2 {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: hsl(var(--ink-faint));
+  margin-block: 0 1rem;
+  padding-block-end: 0.6rem;
+  border-block-end: 1px solid hsl(var(--rule));
+}
+
+.right-sidebar a {
+  font-size: 0.82rem;
+  color: hsl(var(--ink-soft));
+  border-radius: 2px;
+  transition: color 100ms ease;
+}
+
+.right-sidebar a:hover,
+.right-sidebar a[aria-current="true"] {
+  color: hsl(var(--accent-text));
+  background: transparent;
+}
+
+.right-sidebar a[aria-current="true"] {
+  border-inline-start: 2px solid hsl(var(--accent-text));
+  padding-inline-start: 0.5rem;
+  margin-inline-start: -0.5rem;
+}
+
+/* ─────────────────────────────────────────────────────────────
+ * 6. Pagination
+ */
+
+.pagination-links {
+  display: grid;
+  gap: 1px;
+  grid-template-columns: 1fr 1fr;
+  background: hsl(var(--rule));
+  border: 1px solid hsl(var(--rule));
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.pagination-links a {
+  background: hsl(var(--paper));
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 1.25rem 1.5rem !important;
+  transition: background 120ms ease;
+}
+
+.pagination-links a:hover {
+  background: hsl(var(--paper-deep));
+}
+
+.pagination-links a > svg {
+  color: hsl(var(--accent-text));
+}
+
+.pagination-links .link-title {
+  font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+  font-variation-settings: "opsz" 36, "wght" 540, "SOFT" 30, "WONK" 0;
+  font-size: 1.05rem;
+  color: hsl(var(--ink));
+}
+
+/* ─────────────────────────────────────────────────────────────
+ * 7. Search dialog (Pagefind)
+ */
+
+#starlight__search dialog {
+  border-radius: 2px;
+  border: 1px solid hsl(var(--rule));
+  background: hsl(var(--paper));
+}
+
+#starlight__search input {
+  font-family: "Public Sans", system-ui, sans-serif;
+  font-size: 1rem;
+  border-radius: 2px;
+}
+
+/* Search trigger button */
+.sl-link-button.search-button {
+  border: 1px solid hsl(var(--rule)) !important;
+  border-radius: 2px !important;
+  background: hsl(var(--paper)) !important;
+  font-family: "JetBrains Mono", ui-monospace, monospace !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.1em !important;
+  color: hsl(var(--ink-soft)) !important;
+  text-transform: uppercase;
+  padding: 0.5rem 0.85rem !important;
+  min-height: 2.25rem;
+}
+
+.sl-link-button.search-button:hover {
+  background: hsl(var(--accent-tinted)) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+ * 8. Cards (Starlight built-in <Card> + <CardGrid>)
+ */
+
+.sl-card,
+.card {
+  border: 1px solid hsl(var(--rule)) !important;
+  border-radius: 2px !important;
+  background: hsl(var(--paper));
+  padding: 1.5rem !important;
+  transition: border-color 120ms ease;
+}
+
+.sl-card:hover,
+.card:hover {
+  border-color: hsl(var(--ink));
+}
+
+.sl-card .icon,
+.card .icon {
+  color: hsl(var(--accent-text)) !important;
+}
+
+.sl-card h2,
+.card h2 {
+  font-family: "Fraunces", "Iowan Old Style", Georgia, serif !important;
+  font-variation-settings: "opsz" 36, "wght" 540, "SOFT" 30, "WONK" 0 !important;
+  font-size: 1.15rem !important;
+  margin: 0 0 0.55em !important;
+  padding-block-end: 0 !important;
+  border-block-end: 0 !important;
+}
+
+.sl-card h2::before,
+.card h2::before {
+  display: none;
+}
+
+.card-grid,
+.sl-card-grid {
+  gap: 1px !important;
+  background: hsl(var(--rule));
+  border: 1px solid hsl(var(--rule));
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.card-grid .sl-card,
+.sl-card-grid .sl-card {
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+/* Link cards */
+.sl-link-card {
+  border: 1px solid hsl(var(--rule)) !important;
+  border-radius: 2px !important;
+  padding: 1.25rem 1.5rem !important;
+  transition: background 120ms ease, border-color 120ms ease;
+}
+
+.sl-link-card:hover {
+  background: hsl(var(--accent-tinted)) !important;
+  border-color: hsl(var(--accent-text)) !important;
+}
+
+.sl-link-card a {
+  font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+  font-variation-settings: "opsz" 36, "wght" 540, "SOFT" 30, "WONK" 0;
+  font-size: 1.15rem;
+  color: hsl(var(--ink));
+}
+
+.sl-link-card .icon {
+  color: hsl(var(--accent-text)) !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+ * 9. Tabs
+ */
+
+.sl-tabs [role="tablist"] {
+  border: 0 !important;
+  border-block-end: 1px solid hsl(var(--rule)) !important;
+  padding: 0 !important;
+}
+
+.sl-tabs [role="tab"] {
+  font-family: "JetBrains Mono", ui-monospace, monospace !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  padding: 0.75rem 1.25rem !important;
+  border-radius: 0 !important;
+  color: hsl(var(--ink-soft)) !important;
+  background: transparent !important;
+  border-block-end: 2px solid transparent !important;
+  margin-block-end: -1px !important;
+}
+
+.sl-tabs [role="tab"][aria-selected="true"] {
+  color: hsl(var(--ink)) !important;
+  border-block-end-color: hsl(var(--navy)) !important;
+  font-weight: 500 !important;
+  background: transparent !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+ * 10. Skip-to-content link + focus rings
+ */
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid hsl(var(--accent-text));
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+ * 11. Theme toggle + select dropdowns — match editorial chrome
+ */
+
+.sl-select {
+  border: 1px solid hsl(var(--rule)) !important;
+  border-radius: 2px !important;
+  background: hsl(var(--paper)) !important;
+  font-family: "JetBrains Mono", ui-monospace, monospace !important;
+  font-size: 0.7rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+starlight-theme-select select {
+  border: 1px solid hsl(var(--rule)) !important;
+  border-radius: 2px !important;
+  background: hsl(var(--paper)) !important;
+  font-family: "JetBrains Mono", ui-monospace, monospace !important;
+  font-size: 0.7rem !important;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Theme picker — wide enough to show "Light"/"Dark"/"Auto" without
+ * truncating to "LI…". Starlight inlines --sl-select-width: 6.25em
+ * which is too narrow for our tracked-out mono. */
+starlight-theme-select {
+  --sl-select-width: 7rem !important;
+}
+
+starlight-theme-select label {
+  --sl-select-width: 7rem !important;
+  min-width: 7rem;
+  padding-inline: 0.6rem;
+}
+
+starlight-theme-select .icon.label-icon {
+  display: none;
+}
+
+starlight-theme-select select {
+  min-width: 5rem;
+  padding-inline-end: 1.5rem !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+ * 12. Mobile menu
+ */
+
+.mobile-starlight-toc summary {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: hsl(var(--ink-faint));
+  border-block: 1px solid hsl(var(--rule));
+  padding: 0.85rem 1rem;
+}

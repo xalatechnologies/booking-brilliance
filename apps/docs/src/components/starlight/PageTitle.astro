@@ -1,0 +1,82 @@
+---
+/**
+ * Editorial page title — mirrors the admin/intelligence pattern:
+ *   - small breadcrumb caption above (mono uppercase, accent color)
+ *   - giant Fraunces serif headline
+ *   - hairline rule below
+ *
+ * Replaces Starlight's plain <h1>{title}</h1>. Description (if set in
+ * frontmatter) renders below the rule as a "lede" paragraph.
+ */
+import type { Props } from "@astrojs/starlight/props";
+
+const { entry } = Astro.props;
+const data = entry.data;
+
+// Pull the parent section from the slug — e.g. "kom-i-gang/innbygger"
+// yields "Kom i gang". Falls back to "Dokumentasjon" for top-level pages.
+const slug: string = (entry.id ?? "").replace(/\.mdx?$/, "");
+const parts = slug.split("/").filter(Boolean);
+const section =
+  parts.length > 1
+    ? parts[0]
+        .replace(/-/g, " ")
+        .replace(/^\w/, (c: string) => c.toUpperCase())
+    : "Dokumentasjon";
+---
+
+<header class="dg-page-title">
+  <p class="dg-page-title__caption">
+    {section.toUpperCase()} {parts.length > 1 ? `· ${parts.slice(1).join(" / ").toUpperCase()}` : ""}
+  </p>
+  <h1 class="dg-page-title__h1" data-page-title id="_top">
+    {data.title}
+  </h1>
+  {data.description ? (
+    <p class="dg-page-title__lede">{data.description}</p>
+  ) : null}
+</header>
+
+<style>
+  .dg-page-title {
+    margin-block-end: 2.25rem;
+    padding-block-end: 1.5rem;
+    border-block-end: 1px solid hsl(var(--rule));
+    /* Pull the title block flush against the content panel's top edge
+     * so the page reads as one unbroken document, not a series of
+     * stacked headers. */
+    margin-block-start: -0.25rem;
+  }
+
+  .dg-page-title__caption {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: hsl(var(--accent-text));
+    margin: 0 0 0.85rem;
+  }
+
+  .dg-page-title__h1 {
+    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-variation-settings: "opsz" 96, "wght" 480, "SOFT" 30, "WONK" 0;
+    font-size: clamp(2.25rem, 3.2vw + 1.5rem, 3.4rem);
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    color: hsl(var(--ink));
+    margin: 0;
+    /* Pull the heading flush against the caption so it reads as one block. */
+    text-wrap: balance;
+  }
+
+  .dg-page-title__lede {
+    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-variation-settings: "opsz" 18, "wght" 380, "SOFT" 30, "WONK" 0;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    color: hsl(var(--ink-soft));
+    margin: 1.25rem 0 0;
+    max-width: 54ch;
+  }
+</style>

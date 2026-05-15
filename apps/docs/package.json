@@ -1,0 +1,17 @@
+{
+  "name": "@digilist/docs",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev --host --port 4321",
+    "build": "astro build",
+    "preview": "astro preview --host --port 4321",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "^0.30.5",
+    "astro": "^5.1.5",
+    "sharp": "^0.33.5"
+  }
+}

@@ -1,0 +1,64 @@
+---
+title: Saksbehandler — godkjenne, avvise og kommunisere
+description: Hvordan en kommunal saksbehandler håndterer booking-forespørsler i Digilist.
+sidebar:
+  order: 3
+  label: Saksbehandler
+---
+
+import HowdygoDemo from "../../../components/widgets/HowdygoDemo.astro";
+
+Saksbehandler-konsollen er der bookinger som krever vurdering lander. Bookinger som ikke krever godkjenning (åpne tider, fri-til-booking-lokaler) går aldri innom konsollen.
+
+<HowdygoDemo
+  caption="INTERAKTIV DEMO · SAKSBEHANDLER"
+  title="Godkjenningsflyt i konsollen"
+  description="Behandle tre reelle forespørsler — godkjenn, avvis og åpne en chat med leietaker direkte i køen."
+  duration="2 min"
+  steps={[
+    { num: "01", label: "Åpne saksbehandler-køen og filtrer på dato" },
+    { num: "02", label: "Godkjenn en uproblematisk forespørsel" },
+    { num: "03", label: "Avvis med kommentar som vises til innbygger" },
+    { num: "04", label: "Be om tilleggsinfo via chat-tråd" },
+    { num: "05", label: "Eksporter dagens kø som CSV / SAF-T" },
+  ]}
+/>
+
+## Køen
+
+Forespørsler vises som rader sortert på:
+
+- **Frist** (eldste forespørsel først)
+- **Lokale** (filter)
+- **Kategori** (idrettshall, møterom, etc.)
+- **Status** (ny / under behandling / venter på tilleggsinfo)
+
+Hver rad viser leietakers navn, ønsket tid, formål og ev. tidligere bookinger.
+
+## Tre handlinger
+
+1. **Godkjenn** — bekreftelse sendes umiddelbart til innbygger, faktura genereres
+2. **Avvis** — påkrevd kommentar som vises til leietakeren
+3. **Be om mer info** — chat-tråd åpnes direkte i konsollen
+
+Chat er ikke e-post — meldinger er strukturert under bookingen, persisteres i SAF-T, og innbyggeren får varsel.
+
+## Eskalering
+
+Konflikter mellom flere bookinger på samme tid eskaleres til driftsleder via en `Eskaler`-knapp. Eskalerte saker forblir i køen til driftsleder har bekreftet ny tildeling.
+
+## Eksport
+
+Hver kø kan eksporteres som CSV (kolonner: tidspunkt, lokale, leietaker, status, saksbehandler, kommentar) for rapportering. Også tilgjengelig som SAF-T XML for revisjon.
+
+## Tastatur
+
+Saksbehandlere bruker Digilist hele dagen. Tastatur-snarveier:
+
+- `g` `g` — gå til kø
+- `g` `m` — gå til Min side
+- `enter` — åpne valgt rad
+- `a` — godkjenn (krever bekreftelse)
+- `r` — avvis (åpner kommentar-felt)
+- `c` — start chat med leietaker
+- `?` — vis alle snarveier

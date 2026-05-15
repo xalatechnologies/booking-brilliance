@@ -281,6 +281,17 @@ const ROUTES = [
     ],
   },
   {
+    route: "/status",
+    title: "Driftsstatus — Digilist",
+    description:
+      "Sanntid for Digilist-økosystemet: oppetid, SLA og hendelseslogg på tvers av digilist.no, app, dashboard, dokumentasjon og API.",
+    ogType: "website",
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Status", url: `${BASE_URL}/status` },
+    ],
+  },
+  {
     route: "/bruksomrader/selskapslokaler",
     title: "Selskapslokaler: bookingsystem for bryllup og selskap — Digilist",
     description:

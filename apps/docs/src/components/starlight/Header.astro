@@ -1,0 +1,229 @@
+---
+/**
+ * Editorial header — mirrors src/components/Navbar.tsx of the marketing
+ * site exactly. The logo + wordmark block is identical:
+ *   - public/logo.svg (raster-in-SVG mark) at 44–48px
+ *   - "Digilist" in Fraunces opsz 96 / wght 460 / SOFT 25 / WONK 1
+ *   - "Enkel booking" italic subhead with hairline accent
+ *
+ * Replaces the default Starlight title with our own anchor so we don't
+ * inherit the stock SiteTitle treatment.
+ */
+import type { Props } from "@astrojs/starlight/props";
+import Search from "@astrojs/starlight/components/Search.astro";
+import ThemeSelect from "@astrojs/starlight/components/ThemeSelect.astro";
+---
+
+<div class="dg-header">
+  <div class="dg-header__inner">
+    <a href="/" class="dg-header__brand" aria-label="Digilist — gå til forsiden">
+      <img
+        src="/logo.svg"
+        alt=""
+        aria-hidden="true"
+        class="dg-header__logo"
+        width="44"
+        height="44"
+      />
+      <span class="dg-header__wordmark">
+        <span class="dg-header__wordmark-name">Digilist</span>
+        <span class="dg-header__wordmark-sub">
+          <span class="dg-header__wordmark-tick" aria-hidden="true"></span>
+          <span class="dg-header__wordmark-tag">Dokumentasjon</span>
+          <span class="dg-header__wordmark-dot" aria-hidden="true"></span>
+        </span>
+      </span>
+    </a>
+
+    <nav class="dg-header__nav" aria-label="Primary">
+      <a href="/kom-i-gang/" class="dg-header__link">KOM I GANG</a>
+      <span class="dg-header__sep" aria-hidden="true">·</span>
+      <a href="/admin/" class="dg-header__link">ADMIN</a>
+      <span class="dg-header__sep" aria-hidden="true">·</span>
+      <a href="/api/" class="dg-header__link">API</a>
+      <span class="dg-header__sep" aria-hidden="true">·</span>
+      <a href="/compliance/" class="dg-header__link">COMPLIANCE</a>
+    </nav>
+
+    <div class="dg-header__actions">
+      <Search {...Astro.props} />
+      <ThemeSelect {...Astro.props} />
+      <a class="dg-header__cta" href="https://digilist.no/book-demo">
+        Book demo <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .dg-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: hsl(var(--paper));
+    border-bottom: 1px solid hsl(var(--rule));
+    backdrop-filter: blur(8px);
+  }
+
+  .dg-header__inner {
+    /* Full-bleed header — left brand aligns with sidebar's left edge,
+     * right CTA aligns with toc's right edge. No max-width cap because
+     * the docs chrome below is also full-bleed by default in Starlight. */
+    max-width: none;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 2rem;
+    align-items: center;
+    min-height: 4.5rem;
+  }
+
+  @media (min-width: 50em) {
+    .dg-header__inner {
+      padding: 0 1.5rem 0 1.5rem;
+    }
+  }
+
+  .dg-header__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .dg-header__logo {
+    height: 2.75rem;
+    width: 2.75rem;
+    object-fit: contain;
+    transition: opacity 120ms ease;
+  }
+
+  @media (min-width: 48em) {
+    .dg-header__logo { height: 3rem; width: 3rem; }
+  }
+
+  .dg-header__brand:hover .dg-header__logo { opacity: 0.8; }
+
+  .dg-header__wordmark {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1;
+  }
+
+  .dg-header__wordmark-name {
+    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    /* opsz 96 / wght 460 / SOFT 25 / WONK 1 — copied 1:1 from
+     * src/components/Navbar.tsx so the wordmark renders identically. */
+    font-variation-settings: "opsz" 96, "wght" 460, "SOFT" 25, "WONK" 1;
+    font-size: 1.85rem;
+    color: hsl(var(--ink));
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  @media (min-width: 48em) {
+    .dg-header__wordmark-name { font-size: 2rem; }
+  }
+
+  .dg-header__wordmark-sub {
+    margin-top: 0.15rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .dg-header__wordmark-tick {
+    display: inline-block;
+    width: 0.875rem;
+    height: 1px;
+    background: hsl(var(--accent-text));
+  }
+
+  .dg-header__wordmark-tag {
+    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-style: italic;
+    font-variation-settings: "opsz" 16, "wght" 420, "SOFT" 60, "WONK" 0;
+    font-size: 0.9rem;
+    color: hsl(var(--ink-soft));
+    letter-spacing: 0.005em;
+    line-height: 1;
+  }
+
+  .dg-header__wordmark-dot {
+    display: inline-block;
+    width: 0.25rem;
+    height: 0.25rem;
+    border-radius: 9999px;
+    background: hsl(var(--accent-text));
+    opacity: 0.6;
+  }
+
+  .dg-header__nav {
+    display: none;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0.75rem;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+  }
+
+  @media (min-width: 64em) {
+    .dg-header__nav { display: inline-flex; }
+  }
+
+  .dg-header__link {
+    color: hsl(var(--ink-soft));
+    text-decoration: none;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid transparent;
+    transition: color 120ms ease, border-color 120ms ease;
+    white-space: nowrap;
+  }
+
+  .dg-header__link:hover {
+    color: hsl(var(--accent-text));
+    border-bottom-color: hsl(var(--accent-text));
+  }
+
+  .dg-header__sep {
+    color: hsl(var(--ink-faint));
+    font-weight: 700;
+    opacity: 0.55;
+  }
+
+  .dg-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .dg-header__cta {
+    display: none;
+    white-space: nowrap;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.65rem 1.1rem;
+    background: hsl(var(--navy));
+    color: hsl(var(--on-navy));
+    border: 1px solid hsl(var(--navy));
+    border-radius: 2px;
+    transition: background 120ms ease, color 120ms ease;
+    line-height: 1;
+  }
+
+  .dg-header__cta:hover {
+    background: hsl(var(--paper));
+    color: hsl(var(--navy));
+  }
+
+  @media (min-width: 56em) {
+    .dg-header__cta { display: inline-flex; align-items: center; gap: 0.35rem; }
+  }
+</style>
