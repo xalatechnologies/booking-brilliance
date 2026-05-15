@@ -100,7 +100,7 @@ export const AnimatedBeam = ({
 
   return (
     <svg
-      ref={pathRef}
+      ref={pathRef as unknown as React.RefObject<SVGSVGElement>}
       className={cn("pointer-events-none absolute left-0 top-0 transform-gpu stroke-2", className)}
       width={svgDimensions.width}
       height={svgDimensions.height}
