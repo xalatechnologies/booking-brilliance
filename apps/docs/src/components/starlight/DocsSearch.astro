@@ -6,7 +6,15 @@
  *   - Real <input> styled as the search box
  *   - On focus / click: dropdown panel anchored to the input shows
  *     SNARVEIER + POPULÆRE SØK chip groups
- *   - On typing: live results via Pagefind (loaded lazily)
+ *   - On typing: live results via Pagefind (loaded lazily) — UNCHANGED,
+ *     low-latency keyword typeahead. Never calls the federated endpoint,
+ *     so there is zero added latency on the keyword path.
+ *   - "Spør AI" / Enter: federated AI-RAG via the Convex
+ *     /api/federated-search endpoint (server-side synthesis). Renders
+ *     origin-grouped results — Dokumentasjon (primary) + Lokaler / På
+ *     digilist.no (secondary) — with a Norwegian (bokmål) answer +
+ *     citations. Replaces the previous /api/docs-ask path (which used the
+ *     docs deployment's own Anthropic key; synthesis is now server-side).
  *   - Keyboard: ↑/↓ navigate, ↵ select, esc close
  *   - Click outside: close
  *
@@ -15,13 +23,37 @@
  * search corpus + UI stays Starlight-native. The dropdown is just the
  * empty-state and quick-pick surface.
  *
- * Future (v2): wire to /api/docs-ask for RAG / Claude-backed semantic
- * search. The script below already exposes the input value as
- * `dgSearchHandleAsk(query)` so the integration point is ready.
+ * Graceful degradation (hard requirement): the federated call is wrapped
+ * in a timeout + try/catch. If the endpoint is unreachable / slow /
+ * errors, we fall back to the existing Pagefind docs results so the UI
+ * is never broken and no unhandled rejection reaches the user.
+ *
+ * Config (build-time env, see apps/docs/.env.example):
+ *   PUBLIC_FEDERATED_SEARCH_URL — Convex federated-search host. Defaults
+ *     to the DEV host; flip to https://convex.digilist.no/... for prod.
+ *   PUBLIC_LISTINGS_BASE_URL    — base host for Lokaler deep links
+ *     (default https://app.digilist.no → /listing/<slug>).
+ *   PUBLIC_FEDERATED_TIMEOUT_MS — abort + Pagefind-fallback deadline for
+ *     the AI path. Default 12000ms: server-side rerank + LLM synthesis
+ *     measured at ~6–9s against dev, so the brief's ~3–4s suggestion
+ *     would abort every real answer. Tunable without a code change.
  */
+const FEDERATED_SEARCH_URL =
+  import.meta.env.PUBLIC_FEDERATED_SEARCH_URL ??
+  "https://convex.dev.digilist.no/api/federated-search";
+const LISTINGS_BASE_URL =
+  import.meta.env.PUBLIC_LISTINGS_BASE_URL ?? "https://app.digilist.no";
+const FEDERATED_TIMEOUT_MS =
+  import.meta.env.PUBLIC_FEDERATED_TIMEOUT_MS ?? "12000";
 ---
 
-<div class="dg-search" data-dg-search>
+<div
+  class="dg-search"
+  data-dg-search
+  data-federated-url={FEDERATED_SEARCH_URL}
+  data-listings-base={LISTINGS_BASE_URL}
+  data-federated-timeout={FEDERATED_TIMEOUT_MS}
+>
   <div class="dg-search__inputwrap">
     <svg class="dg-search__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <circle cx="11" cy="11" r="8"></circle>
@@ -208,9 +240,97 @@
       timer = setTimeout(() => runSearch(input.value), 140);
     });
 
-    // ── RAG / AI ask ────────────────────────────────────────────
+    // ── Federated AI ask (Convex /api/federated-search) ─────────
+    // Replaces the old /api/docs-ask path: server-side synthesis, no
+    // docs-local Anthropic key, origin-grouped results. The keyword
+    // typeahead above (runSearch / Pagefind) is untouched.
     const askBtn = root.querySelector('[data-dg-ask]');
     const aiEl = root.querySelector('[data-dg-search-ai]');
+    const FEDERATED_URL = root.getAttribute('data-federated-url') || '';
+    const LISTINGS_BASE = (root.getAttribute('data-listings-base') || 'https://app.digilist.no').replace(/\/+$/, '');
+    // Server-side rerank + LLM synthesis measured at ~6–9s; default 12s so
+    // real answers render, while still bounding a genuinely hung endpoint.
+    const ASK_TIMEOUT_MS = parseInt(root.getAttribute('data-federated-timeout') || '12000', 10) || 12000;
+
+    // Map federated origin → UI group. Documentation is primary (first,
+    // emphasised); Lokaler + På digilist.no are secondary.
+    const GROUPS = [
+      { key: 'docs', label: 'Dokumentasjon', primary: true },
+      { key: 'listing', label: 'Lokaler', primary: false },
+      { key: 'marketing', label: 'På digilist.no', primary: false },
+    ];
+
+    function aiHead(q) {
+      return '<div class="dg-search__ai-head">' +
+          '<span class="dg-search__ai-badge">SPØR AI</span>' +
+          '<span class="dg-search__ai-q">' + escape(q) + '</span>' +
+        '</div>';
+    }
+
+    // Deep link for a Lokaler result: prefer app.digilist.no/listing/<slug>
+    // (slug from raw.slug, else parsed off the server-built url); fall back
+    // to the absolute url the endpoint returned.
+    function listingHref(item) {
+      var slug = item && item.raw && item.raw.slug;
+      if (!slug && item && item.url) {
+        var m = String(item.url).match(/\/listing\/([^/?#]+)/);
+        if (m) slug = m[1];
+      }
+      if (slug) return LISTINGS_BASE + '/listing/' + slug;
+      return (item && item.url) || '#';
+    }
+
+    function resultHref(group, item) {
+      if (group.key === 'listing') return listingHref(item);
+      return (item && item.url) || '#';
+    }
+
+    function renderGroup(group, items) {
+      if (!items || !items.length) return '';
+      var rows = items.map(function (it) {
+        var title = it.title || it.url || '';
+        var excerpt = it.excerpt || '';
+        return '<a class="dg-search__result" href="' + resultHref(group, it) + '">' +
+            '<span class="dg-search__result-title">' + escape(title) + '</span>' +
+            (excerpt ? '<span class="dg-search__result-excerpt">' + escape(excerpt) + '</span>' : '') +
+          '</a>';
+      }).join('');
+      return '<section class="dg-search__ai-group' + (group.primary ? ' dg-search__ai-group--primary' : '') + '">' +
+          '<p class="dg-search__heading">' + escape(group.label) + '</p>' +
+          '<div class="dg-search__results">' + rows + '</div>' +
+        '</section>';
+    }
+
+    function renderFederated(q, data) {
+      var html = aiHead(q);
+      var chat = data && data.chat;
+      // Contract carries the answer as chat.text (current) — also accept
+      // chat.answer for forward/backward compatibility.
+      var answer = chat && (chat.text || chat.answer);
+      if (answer) {
+        html += '<div class="dg-search__ai-body">' + renderMd(answer) + '</div>';
+        var cites = (chat && chat.citations) || [];
+        if (cites.length) {
+          html += '<div class="dg-search__ai-cites">' +
+            '<p class="dg-search__ai-cites-head">KILDER</p><ul>' +
+              cites.map(function (c) {
+                var href = c.url || c.href || '#';
+                var label = c.title || c.page_title || href;
+                return '<li><a href="' + href + '">' + escape(label) + ' <span aria-hidden="true">→</span></a></li>';
+              }).join('') +
+            '</ul></div>';
+        }
+      }
+      var groups = (data && data.groups) || {};
+      var grouped = GROUPS.map(function (g) { return renderGroup(g, groups[g.key]); }).join('');
+      if (grouped) {
+        html += '<div class="dg-search__ai-groups">' + grouped + '</div>';
+      }
+      if (!answer && !grouped) {
+        html += '<p class="dg-search__empty-msg">Ingen treff for «' + escape(q) + '».</p>';
+      }
+      aiEl.innerHTML = html;
+    }
 
     async function ask(query) {
       const q = (query || input.value).trim();
@@ -222,43 +342,39 @@
       emptyEl.hidden = true;
       resultsEl.hidden = true;
       aiEl.hidden = false;
-      aiEl.innerHTML =
-        '<div class="dg-search__ai-head">' +
-          '<span class="dg-search__ai-badge">SPØR AI</span>' +
-          '<span class="dg-search__ai-q">' + escape(q) + '</span>' +
-        '</div>' +
-        '<p class="dg-search__loading">Tenker …</p>';
+      aiEl.innerHTML = aiHead(q) + '<p class="dg-search__loading">Tenker …</p>';
+
+      if (!FEDERATED_URL) { await askFallback(q); return; }
+
+      // Timeout so a slow/hung endpoint degrades to Pagefind instead of
+      // spinning forever.
+      const controller = new AbortController();
+      const timeout = setTimeout(function () { controller.abort(); }, ASK_TIMEOUT_MS);
       try {
-        const r = await fetch('/api/docs-ask', {
+        const r = await fetch(FEDERATED_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query: q }),
+          body: JSON.stringify({ query: q, useRerank: true, useChat: true }),
+          signal: controller.signal,
         });
-        if (!r.ok) {
-          const e = await r.json().catch(() => ({}));
-          aiEl.querySelector('.dg-search__loading').textContent =
-            e.error || 'AI-svaret feilet.';
-          return;
-        }
+        clearTimeout(timeout);
+        if (!r.ok) throw new Error('federated-search HTTP ' + r.status);
         const data = await r.json();
-        var html = '<div class="dg-search__ai-head">' +
-            '<span class="dg-search__ai-badge">SPØR AI</span>' +
-            '<span class="dg-search__ai-q">' + escape(q) + '</span>' +
-          '</div>' +
-          '<div class="dg-search__ai-body">' + renderMd(data.answer || '') + '</div>';
-        if (data.citations && data.citations.length) {
-          html += '<div class="dg-search__ai-cites">' +
-            '<p class="dg-search__ai-cites-head">KILDER</p>' +
-            '<ul>' +
-              data.citations.map(function(c){
-                return '<li><a href="' + c.href + '">' + escape(c.page_title || c.title) + ' <span aria-hidden="true">→</span></a></li>';
-              }).join('') +
-            '</ul></div>';
-        }
-        aiEl.innerHTML = html;
+        renderFederated(q, data);
       } catch (e) {
-        aiEl.querySelector('.dg-search__loading').textContent = 'AI er ikke tilgjengelig akkurat nå.';
+        clearTimeout(timeout);
+        console.warn('[docs-search] federated AI unavailable — falling back to Pagefind', e);
+        await askFallback(q);
       }
+    }
+
+    // Graceful fallback: render existing Pagefind docs results so the
+    // user always gets something useful, never a broken AI pane.
+    async function askFallback(q) {
+      aiEl.hidden = true;
+      aiEl.innerHTML = '';
+      input.value = q;
+      await runSearch(q);
     }
 
     // Minimal markdown renderer — handles bold, italic, links, lists, paragraphs.
@@ -727,5 +843,28 @@
 
   .dg-search__ai-cites a span {
     color: hsl(var(--accent-text));
+  }
+
+  /* ── AI origin-grouped results ───────────────────────────── */
+  .dg-search__ai-groups {
+    margin-block-start: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  .dg-search__ai-group .dg-search__heading {
+    margin-block-end: 0.5rem;
+  }
+
+  /* Documentation is the primary corpus — slightly larger titles. */
+  .dg-search__ai-group--primary .dg-search__result-title {
+    font-size: 1.1rem;
+  }
+
+  /* Visually separate the secondary (Lokaler / På digilist.no) groups. */
+  .dg-search__ai-group:not(.dg-search__ai-group--primary) {
+    padding-block-start: 0.9rem;
+    border-block-start: 0.5px solid hsl(var(--rule));
   }
 </style>
