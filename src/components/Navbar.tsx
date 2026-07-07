@@ -1,14 +1,56 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { ChevronDown } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import { GlobalSearch } from "./GlobalSearch";
 import { MobileMenu } from "./MobileMenu";
+import { NavLink } from "./NavLink";
 import { EditorialButton } from "@/components/editorial";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 import { getFraunces } from "@/lib/fonts";
 
+// Product/landing pages — grouped under a "Løsninger" dropdown so their long
+// labels don't crowd the top bar.
+const SOLUTIONS = [
+  {
+    label: "Booking av lokaler og møterom",
+    to: "/booking-av-lokaler-og-moterom",
+    eyebrow: "Landingsside",
+  },
+  {
+    label: "Bookingsystem for kommuner",
+    to: "/bookingsystem-kommune",
+    eyebrow: "SSA-L 2026",
+  },
+] as const;
+
+// Primary desktop navigation — the curated top-level links that sit inline. The
+// remaining routes live in the Løsninger dropdown and the MobileMenu drawer
+// (the fallback below `xl` and on mobile).
+const PRIMARY_NAV = [
+  { label: "Blogg", to: "/blogg" },
+  { label: "FAQ", to: "/faq" },
+  { label: "Transparens", to: "/transparens" },
+  { label: "Book demo", to: "/book-demo" },
+] as const;
+
+const NAV_LINK =
+  "font-sans text-[0.95rem] text-ink-soft hover:text-ink transition-colors duration-quick ease-editorial whitespace-nowrap";
+const NAV_LINK_ACTIVE =
+  "text-ink underline underline-offset-8 decoration-[0.5px] decoration-ink";
+
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  const solutionsActive = SOLUTIONS.some((s) =>
+    location.pathname.startsWith(s.to),
+  );
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -33,11 +75,11 @@ const Navbar = () => {
           : "border-rule py-3"
       )}
     >
-      <div className="container mx-auto px-4 flex items-center justify-between">
+      <div className="container mx-auto px-4 flex items-center gap-4 lg:gap-6">
         <Link
           to="/"
           aria-label="Digilist — gå til forsiden"
-          className="group inline-flex items-center gap-3"
+          className="group inline-flex items-center gap-3 shrink-0"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
           <img
@@ -80,23 +122,82 @@ const Navbar = () => {
           </span>
         </Link>
 
-        <div className="hidden md:flex flex-1 justify-center px-6 lg:px-10 max-w-2xl mx-auto">
+        {/* Search — left-aligned, right after the logo. Flexes: grows toward
+            360px on wide screens, shrinks first when the nav needs room. */}
+        <div className="hidden md:flex shrink min-w-[150px] w-[240px] lg:w-[300px] xl:w-[360px]">
           <GlobalSearch />
         </div>
 
-        <div className="flex items-center gap-3">
-          <ThemeToggle />
-          <EditorialButton
-            variant="primary"
-            size="md"
-            href="https://app.digilist.no"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden md:inline-flex"
+        {/* Right group: primary nav (xl+) + actions, pushed to the far edge */}
+        <div className="flex items-center gap-4 lg:gap-6 ml-auto shrink-0">
+          <nav
+            aria-label="Hovednavigasjon"
+            className="hidden xl:flex items-center gap-6"
           >
-            Åpne plattformen
-          </EditorialButton>
-          <MobileMenu />
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                className={cn(
+                  NAV_LINK,
+                  "inline-flex items-center gap-1 outline-none focus-visible:underline focus-visible:underline-offset-8 data-[state=open]:text-ink",
+                  solutionsActive && NAV_LINK_ACTIVE,
+                )}
+              >
+                Løsninger
+                <ChevronDown
+                  className="h-3.5 w-3.5 transition-transform duration-quick ease-editorial"
+                  strokeWidth={1.75}
+                  aria-hidden="true"
+                />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="start"
+                sideOffset={12}
+                className="min-w-[17rem] bg-paper border-hairline-strong rounded-sm p-1.5"
+              >
+                {SOLUTIONS.map((s) => (
+                  <DropdownMenuItem key={s.to} asChild>
+                    <Link
+                      to={s.to}
+                      className="flex flex-col items-start gap-0.5 px-3 py-2.5 rounded-sm cursor-pointer focus:bg-paper-deep hover:bg-paper-deep"
+                    >
+                      <span className="editorial-mono-caption text-ink-faint">
+                        {s.eyebrow}
+                      </span>
+                      <span className="font-sans text-[0.95rem] text-ink">
+                        {s.label}
+                      </span>
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {PRIMARY_NAV.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={NAV_LINK}
+                activeClassName={NAV_LINK_ACTIVE}
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <EditorialButton
+              variant="primary"
+              size="md"
+              href="https://app.digilist.no"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden lg:inline-flex"
+            >
+              Åpne plattformen
+            </EditorialButton>
+            <MobileMenu />
+          </div>
         </div>
       </div>
     </nav>
