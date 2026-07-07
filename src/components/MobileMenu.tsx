@@ -60,7 +60,7 @@ export function MobileMenu() {
         aria-label="Åpne meny"
         aria-expanded={open}
         aria-controls="mobile-menu-drawer"
-        className="md:hidden inline-flex items-center justify-center w-10 h-10 border border-hairline-strong rounded-sm text-ink hover:bg-paper-deep transition-colors duration-quick ease-editorial"
+        className="xl:hidden inline-flex items-center justify-center w-10 h-10 border border-hairline-strong rounded-sm text-ink hover:bg-paper-deep transition-colors duration-quick ease-editorial"
       >
         <Menu className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
       </button>
@@ -70,7 +70,7 @@ export function MobileMenu() {
         aria-hidden="true"
         onClick={() => setOpen(false)}
         className={cn(
-          "md:hidden fixed inset-0 z-50 bg-ink/60 backdrop-blur-sm transition-opacity duration-normal ease-editorial",
+          "xl:hidden fixed inset-0 z-50 bg-ink/60 backdrop-blur-sm transition-opacity duration-normal ease-editorial",
           open ? "opacity-100" : "opacity-0 pointer-events-none",
         )}
       />
@@ -82,7 +82,7 @@ export function MobileMenu() {
         aria-modal="true"
         aria-label="Hovedmeny"
         className={cn(
-          "md:hidden fixed right-0 top-0 bottom-0 z-50 w-[88%] max-w-sm bg-paper border-l border-hairline-strong shadow-2xl flex flex-col transition-transform duration-normal ease-editorial",
+          "xl:hidden fixed right-0 top-0 bottom-0 z-50 w-[88%] max-w-sm bg-paper border-l border-hairline-strong shadow-2xl flex flex-col transition-transform duration-normal ease-editorial",
           open ? "translate-x-0" : "translate-x-full",
         )}
       >

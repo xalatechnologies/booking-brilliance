@@ -67,7 +67,11 @@ function LeftRail({
       aria-label="Kapittelnavigasjon"
       onMouseMove={(e) => mouseY.set(e.clientY)}
       onMouseLeave={() => mouseY.set(Infinity)}
-      className="hidden xl:flex fixed left-3 2xl:left-6 top-1/2 -translate-y-1/2 z-30 flex-col items-center gap-2 py-3 px-2 bg-paper/85 backdrop-blur-md border border-hairline-strong rounded-full shadow-[0_6px_24px_-12px_hsl(var(--ink)/0.25)]"
+      // Primary navigation now lives in the top bar, so this floating rail is a
+      // supplementary reading indicator only. Surface it exclusively on ultra-wide
+      // viewports where the 1600px-capped container leaves a real left gutter
+      // (≥1740px), so it can never sit on top of the page text.
+      className="hidden min-[1740px]:flex fixed left-6 top-1/2 -translate-y-1/2 z-30 flex-col items-center gap-2 py-3 px-2 bg-paper/85 backdrop-blur-md border border-hairline-strong rounded-full shadow-[0_6px_24px_-12px_hsl(var(--ink)/0.25)]"
     >
       {chapters.map((c) => (
         <DockItem
@@ -132,9 +136,9 @@ function DockItem({
 }
 
 /**
- * Right rail (slim) — visible on xl-to-medium widescreens (1280–1699).
- * Hidden when the FullRail variant takes over at ≥1700 px so we never
- * stack two indicators.
+ * Right rail (slim) — only surfaced on ultra-wide viewports (≥1740px), where the
+ * centered 1600px container leaves a real right gutter. Below that the container
+ * is full-width and a fixed rail at the viewport edge would overlap the content.
  */
 function SlimRightRail({
   chapters,
@@ -152,7 +156,7 @@ function SlimRightRail({
   return (
     <nav
       aria-label="Lese-indikator"
-      className="hidden xl:flex fixed right-3 2xl:right-6 top-1/2 -translate-y-1/2 z-30 flex-col items-center gap-2 py-3 px-2 bg-paper/85 backdrop-blur-md border border-hairline-strong rounded-full shadow-[0_6px_24px_-12px_hsl(var(--ink)/0.25)]"
+      className="hidden min-[1740px]:flex fixed right-6 top-1/2 -translate-y-1/2 z-30 flex-col items-center gap-2 py-3 px-2 bg-paper/85 backdrop-blur-md border border-hairline-strong rounded-full shadow-[0_6px_24px_-12px_hsl(var(--ink)/0.25)]"
     >
       {/* Vertical hairline column + animated Navy fill behind the dots */}
       <div className="absolute inset-x-0 top-3 bottom-3 flex justify-center pointer-events-none">
