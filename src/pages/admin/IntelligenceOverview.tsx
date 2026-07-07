@@ -1,9 +1,17 @@
 /**
- * /admin/intelligence — Ecosystem Overview page.
- * Top: page hero + KPI tile row.
- * Below: surface tiles per active target.
+ * /admin/intelligence — simplified SLA + SEO dashboard.
+ *
+ * One scannable page: a KPI strip, open alerts, then two focused tables —
+ * SLA/uptime per surface on top, SEO per surface below. Everything else
+ * (WCAG, security, performance, links, growth, agents) still lives in the
+ * "Avansert" nav group; this page just makes the day-to-day answer — "is
+ * everything up, and is SEO healthy?" — readable at a glance.
+ *
+ * All data comes from the shared Convex snapshot via outlet context, so no
+ * functionality is lost — the deep pages read the same source.
  */
 import { useOutletContext } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useMemo } from "react";
 import { useMutation, useQuery } from "convex/react";
 import {
@@ -11,23 +19,19 @@ import {
   AlertTriangle,
   ArrowUpRight,
   CheckCircle2,
-  Clock,
   Loader2,
+  Search,
   TrendingUp,
+  Wifi,
 } from "lucide-react";
 import { api } from "../../../convex/_generated/api";
 import type { Id } from "../../../convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 import {
-  AUDIT_LABEL,
-  ENV_LABEL,
-  SURFACE_LABEL,
   adminToken,
   getEcosystemKpis,
-  type AuditType,
   type IntelligenceCtx,
   type LatestRun,
-  type RecentRun,
   scoreClass,
 } from "./intelligence-shared";
 
@@ -42,6 +46,15 @@ interface AlertRow {
   first_seen_at: string;
   last_seen_at: string;
   occurrence_count: number;
+}
+
+/** Compact relative-time formatter shared by both tables. */
+function timeAgo(iso: string | null): string {
+  if (!iso) return "—";
+  const mins = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
+  if (mins < 60) return `${mins} min siden`;
+  if (mins < 60 * 24) return `${Math.round(mins / 60)}t siden`;
+  return `${Math.round(mins / (60 * 24))}d siden`;
 }
 
 export default function IntelligenceOverview() {
@@ -66,36 +79,34 @@ export default function IntelligenceOverview() {
     );
   }
 
-  // SINGLE SOURCE OF TRUTH — every KPI on this page reads from the
-  // same helper that the shell's top bar + sidebar use. Numbers are
-  // computed once in Convex (convex/audits/state.ts).
   const kpis = getEcosystemKpis(snap);
   const activeCount = kpis?.surfacesTotal ?? 0;
+  const activeTargets = snap.targets.filter((t) => t.is_active);
 
   return (
     <div>
-      <header className="mb-10 flex flex-wrap items-end justify-between gap-6">
+      <header className="mb-8 flex flex-wrap items-end justify-between gap-6">
         <div>
           <p className="editorial-mono-caption text-accent-text mb-2">
-            ØKOSYSTEM-OVERSIKT
+            SLA · SEO
           </p>
           <h2
-            className="font-serif text-4xl lg:text-5xl xl:text-6xl text-ink leading-[1.04]"
+            className="font-serif text-4xl lg:text-5xl text-ink leading-[1.04]"
             style={{ fontVariationSettings: '"opsz" 96, "wght" 480' }}
           >
             Oversikt
           </h2>
           <p className="text-base text-ink mt-3 max-w-prose leading-relaxed">
-            Live status på tvers av {activeCount} aktive overflater i
-            Digilist-økosystemet. Skanninger kjøres automatisk hver natt
-            og kan startes manuelt per overflate eller for hele systemet.
+            Er alt oppe, og er SEO friskt? Live status på {activeCount} aktive
+            overflater. Detaljer for sikkerhet, WCAG, ytelse og lenker ligger
+            under «Avansert».
           </p>
         </div>
         {kpis && (
           <div className="flex items-center gap-3">
             <Badge
               icon={CheckCircle2}
-              label="SUNNE"
+              label="OPPE"
               value={`${kpis.surfacesHealthy}/${kpis.surfacesTotal}`}
               tone={
                 kpis.surfacesWithErrors === 0
@@ -110,11 +121,7 @@ export default function IntelligenceOverview() {
               label="SNITT"
               value={kpis.avgScore}
               tone={
-                kpis.avgScore >= 85
-                  ? "good"
-                  : kpis.avgScore >= 60
-                    ? "warn"
-                    : "bad"
+                kpis.avgScore >= 85 ? "good" : kpis.avgScore >= 60 ? "warn" : "bad"
               }
             />
           </div>
@@ -122,50 +129,47 @@ export default function IntelligenceOverview() {
       </header>
 
       {kpis && (
-        <section className="mb-12">
+        <section className="mb-10">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-rule border border-rule">
             {[
               {
-                label: "Overflater aktive",
-                value: kpis.surfacesTotal,
-                sub: `${kpis.surfacesHealthy} sunne · ${kpis.surfacesWithErrors} med feil`,
-                tone: undefined as string | undefined,
+                label: "Overflater oppe",
+                value: `${kpis.surfacesHealthy}/${kpis.surfacesTotal}`,
+                sub: `${kpis.surfacesWithErrors} med feil`,
+                tone: kpis.surfacesWithErrors > 0
+                  ? "text-red-700 dark:text-red-400"
+                  : "text-green-700 dark:text-green-400",
               },
               {
                 label: "Snittscore",
                 value: kpis.avgScore,
                 sub: "på tvers av siste skanninger",
-                tone: undefined,
+                tone: undefined as string | undefined,
               },
               {
                 label: "Feil",
                 value: kpis.errorCount,
                 sub: "krever umiddelbar handling",
-                tone:
-                  kpis.errorCount > 0
-                    ? "text-red-700 dark:text-red-400"
-                    : undefined,
+                tone: kpis.errorCount > 0
+                  ? "text-red-700 dark:text-red-400"
+                  : undefined,
               },
               {
                 label: "Advarsler",
                 value: kpis.warnCount,
                 sub: "anbefalt utbedring",
-                tone:
-                  kpis.warnCount > 0
-                    ? "text-amber-700 dark:text-amber-400"
-                    : undefined,
+                tone: kpis.warnCount > 0
+                  ? "text-amber-700 dark:text-amber-400"
+                  : undefined,
               },
             ].map((c) => (
-              <div
-                key={c.label}
-                className="bg-paper p-6 lg:p-7 flex flex-col gap-2"
-              >
+              <div key={c.label} className="bg-paper p-5 lg:p-6 flex flex-col gap-1.5">
                 <p className="font-mono text-[0.6rem] tracking-widest uppercase text-ink-faint">
                   {c.label}
                 </p>
                 <p
                   className={cn(
-                    "font-serif text-5xl lg:text-6xl font-medium leading-none mt-1",
+                    "font-serif text-4xl lg:text-5xl font-medium leading-none mt-1 tabular-nums",
                     c.tone ?? "text-ink",
                   )}
                 >
@@ -180,314 +184,254 @@ export default function IntelligenceOverview() {
 
       <AlertsPanel />
 
-      {snap.recent.length > 0 && (
-        <section className="mb-12">
-          <div className="flex items-baseline justify-between mb-4 border-b border-rule pb-3">
-            <p className="editorial-mono-caption text-accent-text inline-flex items-center gap-2">
-              <Clock className="h-3.5 w-3.5" /> SISTE AKTIVITET
-            </p>
-            <a
-              href="/admin/intelligence/scans"
-              className="font-mono text-[0.6rem] uppercase tracking-widest text-accent-text hover:underline decoration-hairline underline-offset-4"
-            >
-              SE ALLE SKANNINGER ›
-            </a>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-px bg-rule border border-rule">
-            {snap.recent.slice(0, 6).map((r) => (
-              <ActivityTile key={r.id} run={r} />
-            ))}
-          </div>
-        </section>
-      )}
-
-      <section>
-        <div className="flex items-baseline justify-between mb-4 border-b border-rule pb-3">
-          <p className="editorial-mono-caption text-accent-text">
-            OVERFLATER
-          </p>
-          <p className="font-mono text-[0.6rem] uppercase tracking-widest text-ink-faint">
-            {snap.targets.length} TOTALT · {activeCount} AKTIVE
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-rule border border-rule">
-          {snap.targets.map((t) => {
-            const runs = byTarget.get(t.name) ?? [];
-            // Always render the canonical 6 audit columns so every card
-            // has identical structure (1 row × 6 cols on desktop, 2 × 3
-            // on mobile). Surfaces that don't run a given audit get an
-            // explicit "—" so the grid stays aligned across cards
-            // regardless of per-surface check profile.
-            const ALL_AUDITS: AuditType[] = [
-              "uptime",
-              "performance",
-              "seo",
-              "a11y",
-              "security",
-              "links",
-            ];
-            const enabled = new Set<AuditType>(
-              t.checks && t.checks.length > 0 ? t.checks : ALL_AUDITS,
-            );
-            const scores = ALL_AUDITS.map((type) => ({
-              type,
-              enabled: enabled.has(type),
-              run: runs.find((r) => r.audit_type === type),
-            }));
-            // Overall only averages audits the surface actually opts into
-            // — otherwise SPA-style surfaces (uptime+security only) get
-            // their score halved by phantom "—" cells.
-            const have = scores.filter((s) => s.enabled && s.run);
-            const overall =
-              have.length === 0
-                ? null
-                : Math.round(
-                    have.reduce((sum, s) => sum + (s.run?.avg_score ?? 0), 0) /
-                      have.length,
-                  );
-            const isRunning = running === t.name;
-            return (
-              <div
-                key={t.name}
-                className="bg-paper p-6 lg:p-7 flex flex-col gap-3 h-full"
-              >
-                <header className="flex items-center justify-between">
-                  <span className="editorial-mono-caption text-accent-text">
-                    {t.name.toUpperCase()}
-                  </span>
-                  <span
-                    className={cn(
-                      "font-mono text-[0.55rem] tracking-widest inline-flex items-center gap-1",
-                      t.is_active ? "text-green-700" : "text-ink-faint",
-                    )}
-                  >
-                    <span
-                      className={cn(
-                        "h-1.5 w-1.5 rounded-full",
-                        t.is_active ? "bg-green-700" : "bg-ink-faint",
-                      )}
-                    />
-                    {t.is_active ? "AKTIV" : "INAKTIV"}
-                  </span>
-                </header>
-
-                <div className="flex flex-wrap items-center gap-1.5">
-                  {t.type && (
-                    <span className="font-mono text-[0.55rem] tracking-widest uppercase border border-hairline rounded-sm px-1.5 py-0.5 text-ink">
-                      {SURFACE_LABEL[t.type]}
-                    </span>
-                  )}
-                  {t.environment && (
-                    <span
-                      className={cn(
-                        "font-mono text-[0.55rem] tracking-widest uppercase border rounded-sm px-1.5 py-0.5",
-                        t.environment === "production"
-                          ? "border-green-700 text-green-700"
-                          : t.environment === "staging"
-                            ? "border-amber-700 text-amber-700"
-                            : "border-hairline text-ink-faint",
-                      )}
+      {/* ── SLA · OPPETID ─────────────────────────────────────────── */}
+      <SectionHeading
+        icon={Wifi}
+        title="SLA · Oppetid"
+        detailTo="/admin/intelligence/uptime"
+        detailLabel="Se oppetid-detaljer"
+      />
+      <div className="mb-12 overflow-x-auto border border-rule">
+        <table className="w-full text-sm min-w-[560px]">
+          <thead>
+            <tr className="bg-paper-deep/40 text-left">
+              <Th>Overflate</Th>
+              <Th>Status</Th>
+              <Th className="text-right">Oppetid</Th>
+              <Th>Sist sjekket</Th>
+              <Th className="text-right">Handling</Th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-rule">
+            {activeTargets.map((t) => {
+              const run = (byTarget.get(t.name) ?? []).find(
+                (r) => r.audit_type === "uptime",
+              );
+              const runs = t.checks ?? [];
+              const monitored = runs.length === 0 || runs.includes("uptime");
+              const up = run ? run.status === "ok" : null;
+              const isRunning = running === t.name;
+              return (
+                <tr key={t.name} className="bg-paper">
+                  <Td>
+                    <a
+                      href={t.origin}
+                      target="_blank"
+                      rel="noopener"
+                      className="inline-flex items-baseline gap-1.5 font-serif text-lg text-ink hover:underline decoration-hairline underline-offset-4 group"
+                      style={{ fontVariationSettings: '"opsz" 24, "wght" 520' }}
                     >
-                      {ENV_LABEL[t.environment]}
-                    </span>
-                  )}
-                  {t.requiresAuth && (
-                    <span className="font-mono text-[0.55rem] tracking-widest uppercase border border-hairline rounded-sm px-1.5 py-0.5 text-ink">
-                      Innlogging
-                    </span>
-                  )}
-                </div>
-
-                <a
-                  href={t.origin}
-                  target="_blank"
-                  rel="noopener"
-                  className="font-serif text-2xl text-ink leading-[1.1] inline-flex items-baseline gap-1.5 hover:underline decoration-hairline underline-offset-4 group transition-colors"
-                  style={{ fontVariationSettings: '"opsz" 36, "wght" 540' }}
-                >
-                  {t.label}
-                  <ArrowUpRight className="h-3.5 w-3.5 text-ink-faint group-hover:text-accent-text transition-colors flex-shrink-0" />
-                </a>
-                <p className="text-sm text-ink-soft leading-relaxed line-clamp-2 min-h-[2.6em]">
-                  {t.description}
-                </p>
-
-                {/* Hero score block — left rail with the overall number,
-                    right rail with audit-type sparkline. Same layout in
-                    every card so the eye can compare surfaces by
-                    skimming vertically. */}
-                <div className="mt-auto pt-4 border-t border-rule">
-                  <div className="flex items-end justify-between gap-4 mb-3">
-                    <div className="flex items-baseline gap-1.5">
+                      {t.label}
+                      <ArrowUpRight className="h-3 w-3 text-ink-faint group-hover:text-accent-text flex-shrink-0" />
+                    </a>
+                  </Td>
+                  <Td>
+                    {!monitored ? (
+                      <span className="font-mono text-[0.6rem] uppercase tracking-widest text-ink-faint">
+                        Ikke overvåket
+                      </span>
+                    ) : (
                       <span
                         className={cn(
-                          "font-serif text-[3.25rem] lg:text-6xl font-medium leading-none tabular-nums",
-                          scoreClass(overall),
+                          "inline-flex items-center gap-2 font-mono text-[0.65rem] uppercase tracking-widest",
+                          up === null
+                            ? "text-ink-faint"
+                            : up
+                              ? "text-green-700 dark:text-green-400"
+                              : "text-red-700 dark:text-red-400",
                         )}
-                        style={{
-                          fontVariationSettings: '"opsz" 96, "wght" 540',
-                        }}
                       >
-                        {overall === null ? "—" : overall}
+                        <span
+                          className={cn(
+                            "h-2 w-2 rounded-full",
+                            up === null
+                              ? "bg-ink-faint"
+                              : up
+                                ? "bg-green-600"
+                                : "bg-red-600",
+                          )}
+                        />
+                        {up === null ? "Ukjent" : up ? "Oppe" : "Nede"}
                       </span>
-                      <span className="font-mono text-[0.55rem] uppercase tracking-widest text-ink-faint">
-                        /100
-                      </span>
-                    </div>
+                    )}
+                  </Td>
+                  <Td className="text-right">
                     <span
                       className={cn(
-                        "font-mono text-[0.55rem] uppercase tracking-widest",
-                        overall === null
-                          ? "text-ink-faint"
-                          : overall >= 85
-                            ? "text-green-700"
-                            : overall >= 60
-                              ? "text-amber-700"
-                              : "text-red-700",
+                        "font-serif text-lg font-medium tabular-nums",
+                        run ? scoreClass(run.avg_score) : "text-ink-faint",
                       )}
                     >
-                      {overall === null
-                        ? "Ingen data"
-                        : overall >= 85
-                          ? "Sunn"
-                          : overall >= 60
-                            ? "Krever oppfølging"
-                            : "Kritisk"}
+                      {run ? Math.round(run.avg_score) : "—"}
                     </span>
-                  </div>
+                  </Td>
+                  <Td>
+                    <span className="font-mono text-[0.65rem] uppercase tracking-widest text-ink-soft">
+                      {timeAgo(run?.started_at ?? null)}
+                    </span>
+                  </Td>
+                  <Td className="text-right">
+                    <button
+                      type="button"
+                      onClick={() => runScan(t.name)}
+                      disabled={isRunning}
+                      className="inline-flex items-center gap-1.5 font-mono text-[0.6rem] uppercase tracking-widest border border-hairline-strong rounded-sm px-2.5 py-1.5 hover:bg-paper-deep disabled:opacity-50"
+                    >
+                      {isRunning ? (
+                        <Loader2 className="h-3 w-3 animate-spin" />
+                      ) : (
+                        <Activity className="h-3 w-3" />
+                      )}
+                      Skann
+                    </button>
+                  </Td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
 
-                  {/* Canonical 6-cell score row — uptime, performance,
-                      seo, a11y, security, links. Always six columns; the
-                      cells that don't apply to this surface render as a
-                      muted en-dash so cards line up vertically. */}
-                  <div className="grid grid-cols-3 lg:grid-cols-6 gap-px bg-rule border border-rule rounded-sm overflow-hidden">
-                    {scores.map((s) => (
-                      <div
-                        key={s.type}
-                        className={cn(
-                          "px-2 py-2.5 flex flex-col gap-0.5",
-                          s.enabled
-                            ? "bg-paper"
-                            : "bg-paper-deep/40",
-                        )}
-                        title={
-                          s.enabled
-                            ? AUDIT_LABEL[s.type]
-                            : `${AUDIT_LABEL[s.type]} — kjøres ikke på denne overflaten`
-                        }
-                      >
-                        <p
-                          className={cn(
-                            "font-mono text-[0.5rem] tracking-widest uppercase truncate",
-                            s.enabled ? "text-ink-faint" : "text-ink-faint/50",
-                          )}
-                        >
-                          {AUDIT_LABEL[s.type].slice(0, 6)}
-                        </p>
-                        <p
-                          className={cn(
-                            "font-serif text-lg font-medium leading-none tabular-nums",
-                            !s.enabled
-                              ? "text-ink-faint/40"
-                              : s.run
-                                ? scoreClass(s.run.avg_score)
-                                : "text-ink-faint",
-                          )}
-                          style={{
-                            fontVariationSettings: '"opsz" 30, "wght" 520',
-                          }}
-                        >
-                          {!s.enabled
-                            ? "·"
-                            : s.run
-                              ? Math.round(s.run.avg_score)
-                              : "—"}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => runScan(t.name)}
-                    disabled={!t.is_active || isRunning}
-                    className={cn(
-                      "w-full mt-3 inline-flex items-center justify-center gap-2 rounded-sm px-3 py-2.5 text-[0.65rem] uppercase tracking-widest font-medium transition-all",
-                      t.is_active
-                        ? "bg-navy text-on-navy hover:bg-navy/90 hover:shadow-sm"
-                        : "bg-paper-deep text-ink-faint cursor-not-allowed",
-                      isRunning && "opacity-60",
-                    )}
-                  >
-                    {isRunning ? (
-                      <>
-                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                        Skanner overflaten…
-                      </>
-                    ) : (
-                      <>
-                        <Activity className="h-3.5 w-3.5" />
-                        Kjør skanning
-                      </>
-                    )}
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
+      {/* ── SEO ───────────────────────────────────────────────────── */}
+      <SectionHeading
+        icon={Search}
+        title="SEO"
+        detailTo="/admin/intelligence/seo"
+        detailLabel="Se SEO-detaljer"
+      />
+      <div className="overflow-x-auto border border-rule">
+        <table className="w-full text-sm min-w-[560px]">
+          <thead>
+            <tr className="bg-paper-deep/40 text-left">
+              <Th>Overflate</Th>
+              <Th className="text-right">Score</Th>
+              <Th className="text-right">Funn</Th>
+              <Th>Toppfunn</Th>
+              <Th>Sist skannet</Th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-rule">
+            {activeTargets.map((t) => {
+              const run = (byTarget.get(t.name) ?? []).find(
+                (r) => r.audit_type === "seo",
+              );
+              const checks = t.checks ?? [];
+              const monitored = checks.length === 0 || checks.includes("seo");
+              const topIssue = (snap.issues ?? [])
+                .filter((i) => i.surface === t.name && i.auditType === "seo")
+                .sort((a, b) => {
+                  const rank = { error: 0, warn: 1, info: 2 } as const;
+                  return rank[a.severity] - rank[b.severity] || b.affected - a.affected;
+                })[0];
+              return (
+                <tr key={t.name} className="bg-paper">
+                  <Td>
+                    <span
+                      className="font-serif text-lg text-ink"
+                      style={{ fontVariationSettings: '"opsz" 24, "wght" 520' }}
+                    >
+                      {t.label}
+                    </span>
+                  </Td>
+                  <Td className="text-right">
+                    <span
+                      className={cn(
+                        "font-serif text-lg font-medium tabular-nums",
+                        run ? scoreClass(run.avg_score) : "text-ink-faint",
+                      )}
+                    >
+                      {monitored ? (run ? Math.round(run.avg_score) : "—") : "·"}
+                    </span>
+                  </Td>
+                  <Td className="text-right">
+                    <span
+                      className={cn(
+                        "font-mono text-xs tabular-nums",
+                        run && run.findings_total > 0
+                          ? "text-ink"
+                          : "text-ink-faint",
+                      )}
+                    >
+                      {run ? run.findings_total : monitored ? "—" : "·"}
+                    </span>
+                  </Td>
+                  <Td>
+                    <span className="text-xs text-ink-soft line-clamp-1 max-w-[26ch]">
+                      {topIssue
+                        ? `${topIssue.message}${topIssue.affected > 1 ? ` (${topIssue.affected}×)` : ""}`
+                        : monitored && run
+                          ? "Ingen åpne funn"
+                          : "—"}
+                    </span>
+                  </Td>
+                  <Td>
+                    <span className="font-mono text-[0.65rem] uppercase tracking-widest text-ink-soft">
+                      {monitored ? timeAgo(run?.started_at ?? null) : "—"}
+                    </span>
+                  </Td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
 
-function ActivityTile({ run }: { run: RecentRun }) {
-  const score = Math.round(run.avg_score);
-  const minutesAgo = Math.max(
-    0,
-    Math.round((Date.now() - new Date(run.started_at).getTime()) / 60000),
-  );
-  const when =
-    minutesAgo < 60
-      ? `${minutesAgo} min siden`
-      : minutesAgo < 60 * 24
-        ? `${Math.round(minutesAgo / 60)}t siden`
-        : `${Math.round(minutesAgo / (60 * 24))}d siden`;
+function SectionHeading({
+  icon: Icon,
+  title,
+  detailTo,
+  detailLabel,
+}: {
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  detailTo: string;
+  detailLabel: string;
+}) {
   return (
-    <div className="bg-paper p-4 flex flex-col gap-1.5">
-      <div className="flex items-baseline justify-between">
-        <span className="editorial-mono-caption text-accent-text truncate">
-          {run.target_name.toUpperCase()}
-        </span>
-        <span
-          className={cn(
-            "font-mono text-[0.55rem] uppercase tracking-widest",
-            run.status === "ok"
-              ? "text-green-700"
-              : run.status === "error"
-                ? "text-red-700"
-                : "text-ink-faint",
-          )}
-        >
-          {run.status}
-        </span>
-      </div>
-      <p className="text-xs text-ink">{AUDIT_LABEL[run.audit_type]}</p>
-      <div className="flex items-baseline justify-between mt-1 pt-2 border-t border-rule">
-        <span
-          className={cn(
-            "font-serif text-2xl font-medium tabular-nums leading-none",
-            scoreClass(run.avg_score),
-          )}
-        >
-          {score}
-        </span>
-        <span className="font-mono text-[0.55rem] uppercase tracking-widest text-ink-faint">
-          {when}
-        </span>
-      </div>
+    <div className="flex items-baseline justify-between mb-4 border-b border-rule pb-3">
+      <p className="editorial-mono-caption text-accent-text inline-flex items-center gap-2">
+        <Icon className="h-3.5 w-3.5" /> {title.toUpperCase()}
+      </p>
+      <Link
+        to={detailTo}
+        className="font-mono text-[0.6rem] uppercase tracking-widest text-accent-text hover:underline decoration-hairline underline-offset-4"
+      >
+        {detailLabel} ›
+      </Link>
     </div>
   );
+}
+
+function Th({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <th
+      className={cn(
+        "font-mono text-[0.55rem] uppercase tracking-widest text-ink-faint px-4 py-3 font-normal",
+        className,
+      )}
+    >
+      {children}
+    </th>
+  );
+}
+
+function Td({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return <td className={cn("px-4 py-3 align-middle", className)}>{children}</td>;
 }
 
 function Badge({
@@ -545,10 +489,9 @@ function Badge({
 }
 
 /**
- * Live regression alerts panel — shown on the overview directly under
- * the KPI strip so a slip is the first thing a reviewer sees. Reads
- * from convex.audits.alerts.listOpen (reactive — auto-refreshes when
- * the cron's detectRegressions runs).
+ * Live regression alerts — open items from convex.audits.alerts.listOpen
+ * (reactive). Kept on the simplified overview because "what's broken right
+ * now" is the first thing a reviewer needs. Resolve inline.
  */
 const ALERT_KIND_LABEL_NO: Record<string, string> = {
   "score-drop": "POENGFALL",
@@ -603,8 +546,6 @@ function AlertsPanel() {
               </p>
               <p className="font-mono text-[0.55rem] tracking-widest uppercase text-ink-faint mt-1">
                 {a.surface} · {a.audit_type} · {a.occurrence_count}×
-                {a.first_seen_at !== a.last_seen_at &&
-                  ` · sist ${new Date(a.last_seen_at).toLocaleString("nb-NO")}`}
               </p>
             </div>
             <button

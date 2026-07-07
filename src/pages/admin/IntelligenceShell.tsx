@@ -15,6 +15,7 @@ import {
   ArrowUpRight,
   BarChart3,
   Bot,
+  ChevronDown,
   CircleGauge,
   Compass,
   FileEdit,
@@ -55,67 +56,35 @@ interface NavItem {
   hint?: string;
 }
 
-const NAV: Array<{
-  group: string;
-  items: NavItem[];
-}> = [
-  {
-    group: "STATUS",
-    items: [
-      { to: "/admin/intelligence", label: "Oversikt", icon: LayoutGrid, end: true, hint: "Økosystem-rollup" },
-      { to: "/admin/intelligence/issues", label: "Hva gikk galt", icon: AlertTriangle, hint: "AI-fix-anbefalinger" },
-      { to: "/admin/intelligence/scans", label: "Skanninger", icon: Activity, hint: "Historikk" },
-    ],
-  },
-  {
-    group: "MONITORER",
-    items: [
-      { to: "/admin/intelligence/uptime", label: "Oppetid & SSL", icon: Wifi },
-      { to: "/admin/intelligence/seo", label: "SEO", icon: Search },
-      { to: "/admin/intelligence/wcag", label: "WCAG / UU", icon: BarChart3 },
-      { to: "/admin/intelligence/sikkerhet", label: "Sikkerhet", icon: ShieldAlert },
-      { to: "/admin/intelligence/ytelse", label: "Ytelse", icon: CircleGauge },
-      { to: "/admin/intelligence/lenker", label: "Lenker", icon: Link2 },
-    ],
-  },
-  {
-    group: "ØKOSYSTEM",
-    items: [
-      { to: "/admin/intelligence/overflater", label: "Overflater", icon: Globe2, hint: "Per overflate" },
-    ],
-  },
-  {
-    group: "AI",
-    items: [
-      { to: "/admin/intelligence/agenter", label: "AI-agenter", icon: Bot, hint: "Fler-agent samtale" },
-    ],
-  },
-  {
-    group: "ETTERLEVELSE",
-    items: [
-      { to: "/admin/intelligence/etterlevelse", label: "Kontroller & RoPA", icon: ShieldCheck, hint: "ISO 27001 · SOC 2 · GDPR" },
-    ],
-  },
-  {
-    group: "VEKST",
-    items: [
-      { to: "/admin/intelligence/vekst", label: "Vekst-oversikt", icon: TrendingUp, end: true, hint: "Agenter + org-kart" },
-      { to: "/admin/intelligence/vekst/keywords", label: "Nøkkelord", icon: KeyRound, hint: "Trender + gap" },
-      { to: "/admin/intelligence/vekst/drafts", label: "Utkast", icon: FileEdit, hint: "Godkjenningskø" },
-      { to: "/admin/intelligence/vekst/connections", label: "Tilkoblinger", icon: Plug, hint: "LinkedIn / X" },
-      { to: "/admin/intelligence/vekst/aktivitet", label: "Aktivitet", icon: ScrollText, hint: "Revisjonslogg" },
-    ],
-  },
-  {
-    group: "REFERANSE",
-    items: [
-      { to: "/admin/intelligence/transparens", label: "Offentlig rapport", icon: Sparkles, hint: "/transparens" },
-      { to: "/admin/intelligence/innstillinger", label: "Innstillinger", icon: Settings },
-    ],
-  },
+// Primary nav — the everyday answer: is it up (SLA), and is SEO healthy?
+const PRIMARY_NAV: NavItem[] = [
+  { to: "/admin/intelligence", label: "Oversikt", icon: LayoutGrid, end: true, hint: "SLA + SEO" },
+  { to: "/admin/intelligence/uptime", label: "SLA · Oppetid", icon: Wifi, hint: "Tilgjengelighet" },
+  { to: "/admin/intelligence/seo", label: "SEO", icon: Search, hint: "Synlighet" },
 ];
 
-const FLAT_NAV: NavItem[] = NAV.flatMap((g) => g.items);
+// Everything else — kept in full, tucked behind one collapsible "Avansert"
+// group so the default view stays simple without losing any capability.
+const ADVANCED_NAV: NavItem[] = [
+  { to: "/admin/intelligence/issues", label: "Hva gikk galt", icon: AlertTriangle, hint: "AI-fix" },
+  { to: "/admin/intelligence/scans", label: "Skanninger", icon: Activity, hint: "Historikk" },
+  { to: "/admin/intelligence/wcag", label: "WCAG / UU", icon: BarChart3 },
+  { to: "/admin/intelligence/sikkerhet", label: "Sikkerhet", icon: ShieldAlert },
+  { to: "/admin/intelligence/ytelse", label: "Ytelse", icon: CircleGauge },
+  { to: "/admin/intelligence/lenker", label: "Lenker", icon: Link2 },
+  { to: "/admin/intelligence/overflater", label: "Overflater", icon: Globe2, hint: "Per overflate" },
+  { to: "/admin/intelligence/agenter", label: "AI-agenter", icon: Bot },
+  { to: "/admin/intelligence/etterlevelse", label: "Kontroller & RoPA", icon: ShieldCheck, hint: "ISO · GDPR" },
+  { to: "/admin/intelligence/vekst", label: "Vekst-oversikt", icon: TrendingUp, end: true },
+  { to: "/admin/intelligence/vekst/keywords", label: "Nøkkelord", icon: KeyRound },
+  { to: "/admin/intelligence/vekst/drafts", label: "Utkast", icon: FileEdit },
+  { to: "/admin/intelligence/vekst/connections", label: "Tilkoblinger", icon: Plug },
+  { to: "/admin/intelligence/vekst/aktivitet", label: "Aktivitet", icon: ScrollText },
+  { to: "/admin/intelligence/transparens", label: "Offentlig rapport", icon: Sparkles },
+  { to: "/admin/intelligence/innstillinger", label: "Innstillinger", icon: Settings },
+];
+
+const FLAT_NAV: NavItem[] = [...PRIMARY_NAV, ...ADVANCED_NAV];
 
 export default function IntelligenceShell() {
   // `auth` is never initialised straight from localStorage on mount —
@@ -169,6 +138,19 @@ export default function IntelligenceShell() {
   const [running, setRunning] = useState<string | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Collapsible "Avansert" group — auto-opens when the active route lives
+  // inside it, so deep pages always show their own nav; otherwise the user
+  // can fold it away to keep the sidebar to the SLA + SEO essentials.
+  const advancedActive = ADVANCED_NAV.some(
+    (i) =>
+      location.pathname === i.to ||
+      location.pathname.startsWith(`${i.to}/`),
+  );
+  const [advancedOpen, setAdvancedOpen] = useState(advancedActive);
+  useEffect(() => {
+    if (advancedActive) setAdvancedOpen(true);
+  }, [advancedActive]);
 
   const fetchState = useCallback(async () => {
     // No-op — useQuery is reactive. Kept as a stable function so callers
@@ -457,67 +439,39 @@ export default function IntelligenceShell() {
           )}
         </div>
 
-        <nav className="flex-1 px-3 py-4 space-y-5">
-          {NAV.map((group) => (
-            <div key={group.group}>
-              <p className="font-mono text-[0.65rem] uppercase tracking-widest text-ink-faint mb-3 px-3">
-                {group.group}
-              </p>
-              <ul className="space-y-1">
-                {group.items.map((item) => {
-                  const Icon = item.icon;
-                  return (
-                    <li key={item.to}>
-                      <NavLink
-                        to={item.to}
-                        end={item.end}
-                        className={({ isActive }) =>
-                          cn(
-                            "flex items-center gap-3 px-3 py-2.5 rounded-sm transition-colors group",
-                            isActive
-                              ? "bg-navy text-on-navy"
-                              : "text-ink hover:bg-paper-deep/80",
-                          )
-                        }
-                      >
-                        {({ isActive }) => (
-                          <>
-                            <Icon
-                              className={cn(
-                                "h-[1.1rem] w-[1.1rem] flex-shrink-0",
-                                isActive ? "text-on-navy" : "text-ink-soft group-hover:text-ink",
-                              )}
-                            />
-                            <span
-                              className={cn(
-                                "flex-1 leading-tight text-[0.9rem]",
-                                isActive ? "font-medium" : "",
-                              )}
-                            >
-                              {item.label}
-                            </span>
-                            {item.hint && (
-                              <span
-                                className={cn(
-                                  "font-mono text-[0.55rem] uppercase tracking-widest truncate",
-                                  isActive
-                                    ? "text-on-navy/60"
-                                    : "text-ink-faint group-hover:text-ink-soft",
-                                )}
-                                title={item.hint}
-                              >
-                                {item.hint}
-                              </span>
-                            )}
-                          </>
-                        )}
-                      </NavLink>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
+        <nav className="flex-1 px-3 py-4 space-y-1">
+          {PRIMARY_NAV.map((item) => (
+            <SidebarLink key={item.to} item={item} />
           ))}
+
+          <div className="pt-4">
+            <button
+              type="button"
+              onClick={() => setAdvancedOpen((v) => !v)}
+              aria-expanded={advancedOpen}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-sm text-ink-soft hover:bg-paper-deep/80 transition-colors"
+            >
+              <ChevronDown
+                className={cn(
+                  "h-4 w-4 flex-shrink-0 transition-transform",
+                  advancedOpen ? "" : "-rotate-90",
+                )}
+              />
+              <span className="flex-1 text-left font-mono text-[0.65rem] uppercase tracking-widest">
+                Avansert
+              </span>
+              <span className="font-mono text-[0.55rem] text-ink-faint tabular-nums">
+                {ADVANCED_NAV.length}
+              </span>
+            </button>
+            {advancedOpen && (
+              <div className="mt-1 space-y-1 ml-4 pl-1 border-l border-hairline">
+                {ADVANCED_NAV.map((item) => (
+                  <SidebarLink key={item.to} item={item} />
+                ))}
+              </div>
+            )}
+          </div>
         </nav>
 
         <footer className="px-5 py-4 border-t border-hairline-strong">
@@ -742,6 +696,54 @@ class AuthErrorBoundary extends React.Component<
     if (this.state.fired) return null;
     return this.props.children;
   }
+}
+
+function SidebarLink({ item }: { item: NavItem }) {
+  const Icon = item.icon;
+  return (
+    <NavLink
+      to={item.to}
+      end={item.end}
+      className={({ isActive }) =>
+        cn(
+          "flex items-center gap-3 px-3 py-2.5 rounded-sm transition-colors group",
+          isActive ? "bg-navy text-on-navy" : "text-ink hover:bg-paper-deep/80",
+        )
+      }
+    >
+      {({ isActive }) => (
+        <>
+          <Icon
+            className={cn(
+              "h-[1.1rem] w-[1.1rem] flex-shrink-0",
+              isActive ? "text-on-navy" : "text-ink-soft group-hover:text-ink",
+            )}
+          />
+          <span
+            className={cn(
+              "flex-1 leading-tight text-[0.9rem]",
+              isActive ? "font-medium" : "",
+            )}
+          >
+            {item.label}
+          </span>
+          {item.hint && (
+            <span
+              className={cn(
+                "font-mono text-[0.55rem] uppercase tracking-widest truncate",
+                isActive
+                  ? "text-on-navy/60"
+                  : "text-ink-faint group-hover:text-ink-soft",
+              )}
+              title={item.hint}
+            >
+              {item.hint}
+            </span>
+          )}
+        </>
+      )}
+    </NavLink>
+  );
 }
 
 function Chip({
