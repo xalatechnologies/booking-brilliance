@@ -64,27 +64,58 @@ const PRIMARY_NAV: NavItem[] = [
 ];
 
 // Everything else — kept in full, tucked behind one collapsible "Avansert"
-// group so the default view stays simple without losing any capability.
-const ADVANCED_NAV: NavItem[] = [
-  { to: "/admin/intelligence/issues", label: "Hva gikk galt", icon: AlertTriangle, hint: "AI-fix" },
-  { to: "/admin/intelligence/scans", label: "Skanninger", icon: Activity, hint: "Historikk" },
-  { to: "/admin/intelligence/wcag", label: "WCAG / UU", icon: BarChart3 },
-  { to: "/admin/intelligence/sikkerhet", label: "Sikkerhet", icon: ShieldAlert },
-  { to: "/admin/intelligence/ytelse", label: "Ytelse", icon: CircleGauge },
-  { to: "/admin/intelligence/lenker", label: "Lenker", icon: Link2 },
-  { to: "/admin/intelligence/overflater", label: "Overflater", icon: Globe2, hint: "Per overflate" },
-  { to: "/admin/intelligence/agenter", label: "AI-agenter", icon: Bot },
-  { to: "/admin/intelligence/etterlevelse", label: "Kontroller & RoPA", icon: ShieldCheck, hint: "ISO · GDPR" },
-  { to: "/admin/intelligence/vekst", label: "Vekst-oversikt", icon: TrendingUp, end: true },
-  { to: "/admin/intelligence/vekst/keywords", label: "Nøkkelord", icon: KeyRound },
-  { to: "/admin/intelligence/vekst/drafts", label: "Utkast", icon: FileEdit },
-  { to: "/admin/intelligence/vekst/connections", label: "Tilkoblinger", icon: Plug },
-  { to: "/admin/intelligence/vekst/aktivitet", label: "Aktivitet", icon: ScrollText },
-  { to: "/admin/intelligence/transparens", label: "Offentlig rapport", icon: Sparkles },
-  { to: "/admin/intelligence/innstillinger", label: "Innstillinger", icon: Settings },
+// section and organized into a handful of labeled groups (same idea as the
+// SLA/SEO split up top) so it reads as structure, not a dump.
+interface NavGroup {
+  label: string;
+  items: NavItem[];
+}
+const ADVANCED_GROUPS: NavGroup[] = [
+  {
+    label: "Kvalitet",
+    items: [
+      { to: "/admin/intelligence/wcag", label: "WCAG / UU", icon: BarChart3 },
+      { to: "/admin/intelligence/sikkerhet", label: "Sikkerhet", icon: ShieldAlert },
+      { to: "/admin/intelligence/ytelse", label: "Ytelse", icon: CircleGauge },
+      { to: "/admin/intelligence/lenker", label: "Lenker", icon: Link2 },
+    ],
+  },
+  {
+    label: "Diagnostikk",
+    items: [
+      { to: "/admin/intelligence/issues", label: "Hva gikk galt", icon: AlertTriangle, hint: "AI-fix" },
+      { to: "/admin/intelligence/scans", label: "Skanninger", icon: Activity, hint: "Historikk" },
+      { to: "/admin/intelligence/overflater", label: "Overflater", icon: Globe2, hint: "Per overflate" },
+    ],
+  },
+  {
+    label: "Vekst",
+    items: [
+      { to: "/admin/intelligence/vekst", label: "Vekst-oversikt", icon: TrendingUp, end: true },
+      { to: "/admin/intelligence/vekst/keywords", label: "Nøkkelord", icon: KeyRound },
+      { to: "/admin/intelligence/vekst/drafts", label: "Utkast", icon: FileEdit },
+      { to: "/admin/intelligence/vekst/connections", label: "Tilkoblinger", icon: Plug },
+      { to: "/admin/intelligence/vekst/aktivitet", label: "Aktivitet", icon: ScrollText },
+    ],
+  },
+  {
+    label: "AI & etterlevelse",
+    items: [
+      { to: "/admin/intelligence/agenter", label: "AI-agenter", icon: Bot },
+      { to: "/admin/intelligence/etterlevelse", label: "Kontroller & RoPA", icon: ShieldCheck, hint: "ISO · GDPR" },
+    ],
+  },
+  {
+    label: "Referanse",
+    items: [
+      { to: "/admin/intelligence/transparens", label: "Offentlig rapport", icon: Sparkles },
+      { to: "/admin/intelligence/innstillinger", label: "Innstillinger", icon: Settings },
+    ],
+  },
 ];
 
-const FLAT_NAV: NavItem[] = [...PRIMARY_NAV, ...ADVANCED_NAV];
+const ADVANCED_ITEMS: NavItem[] = ADVANCED_GROUPS.flatMap((g) => g.items);
+const FLAT_NAV: NavItem[] = [...PRIMARY_NAV, ...ADVANCED_ITEMS];
 
 export default function IntelligenceShell() {
   // `auth` is never initialised straight from localStorage on mount —
@@ -142,7 +173,7 @@ export default function IntelligenceShell() {
   // Collapsible "Avansert" group — auto-opens when the active route lives
   // inside it, so deep pages always show their own nav; otherwise the user
   // can fold it away to keep the sidebar to the SLA + SEO essentials.
-  const advancedActive = ADVANCED_NAV.some(
+  const advancedActive = ADVANCED_ITEMS.some(
     (i) =>
       location.pathname === i.to ||
       location.pathname.startsWith(`${i.to}/`),
@@ -461,13 +492,20 @@ export default function IntelligenceShell() {
                 Avansert
               </span>
               <span className="font-mono text-[0.55rem] text-ink-faint tabular-nums">
-                {ADVANCED_NAV.length}
+                {ADVANCED_ITEMS.length}
               </span>
             </button>
             {advancedOpen && (
-              <div className="mt-1 space-y-1 ml-4 pl-1 border-l border-hairline">
-                {ADVANCED_NAV.map((item) => (
-                  <SidebarLink key={item.to} item={item} />
+              <div className="mt-1 ml-4 pl-1 border-l border-hairline space-y-4">
+                {ADVANCED_GROUPS.map((group) => (
+                  <div key={group.label} className="space-y-1">
+                    <p className="font-mono text-[0.55rem] uppercase tracking-widest text-ink-faint px-3 pt-1">
+                      {group.label}
+                    </p>
+                    {group.items.map((item) => (
+                      <SidebarLink key={item.to} item={item} />
+                    ))}
+                  </div>
                 ))}
               </div>
             )}
