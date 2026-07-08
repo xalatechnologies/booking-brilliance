@@ -40,7 +40,7 @@ Hver betaling registreres som en linje i en intern **ledger** med følgende felt
 Hver natt sammenligner avstemmingsjobben:
 
 1. Ledger-poster med status `settled`
-2. Bankposteringer fra kommunens kontoutskrift (åpnet via [Tripletex](https://www.tripletex.no/), [Visma](https://www.visma.no/eaccounting/), [PowerOffice](https://www.poweroffice.com/), [Fiken](https://fiken.no/) eller [DNB Regnskap](https://www.dnb.no/bedrift/regnskap))
+2. Bankposteringer fra kommunens kontoutskrift (åpnet via [Tripletex](https://www.tripletex.no/), [Visma](https://www.visma.no/eaccounting/), [PowerOffice](https://www.poweroffice.com/), [Fiken](https://fiken.no/) eller [DNB Regnskap](https://www.dnb.no/bedrift/regnskap-og-okonomi.html))
 3. Forventet sum per kanal
 
 Avvik flagges med presis kilde — «Vipps 14.03.2026 manglet 12,50 kr i gebyrtrekk» — slik at regnskapsføreren ikke trenger å lete, bare bekrefte.
