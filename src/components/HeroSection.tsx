@@ -203,6 +203,7 @@ const HeroSection = () => {
             {customers.map((c) => (
               <article
                 key={c.name}
+                aria-label={c.name}
                 className="bg-paper px-6 lg:px-10 py-8 lg:py-10 flex items-center gap-6 min-h-[7.5rem]"
               >
                 <div className="shrink-0 w-20 h-20 rounded-sm border border-rule bg-paper-deep flex items-center justify-center overflow-hidden">
@@ -223,7 +224,11 @@ const HeroSection = () => {
                   )}
                 </div>
                 <div className="flex flex-col gap-2 min-w-0">
-                  <h3
+                  {/* Customer label — not a heading: these cards sit right
+                      under the hero <h1>, so an <h3> here skipped a level
+                      (H1→H3) and tripped the a11y heading-order audit. The
+                      <article aria-label> keeps each card named for AT. */}
+                  <p
                     className="font-serif text-2xl lg:text-[1.75rem] text-ink leading-tight"
                     style={{
                       fontVariationSettings: getFraunces("section"),
@@ -231,7 +236,7 @@ const HeroSection = () => {
                     }}
                   >
                     {c.name}
-                  </h3>
+                  </p>
                   <div className="flex items-center gap-3 flex-wrap">
                     <span className="editorial-mono-caption text-accent-text">
                       {c.sector}

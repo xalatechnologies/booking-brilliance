@@ -67,6 +67,20 @@ const SENSITIVE_PROBES = [
   "/wp-config.php",
 ];
 
+/**
+ * True when a 200 response is really a single-page-app's index.html
+ * catch-all rather than the probed file. SPA hosts return 200 + text/html
+ * for unknown paths, so /.env, /.git/HEAD etc. appear to "exist" with an
+ * HTML body. None of the sensitive probes are legitimately served as HTML,
+ * so an HTML content-type — or an HTML-document body — means "not exposed".
+ */
+function isSpaFallback(probe: { contentType: string | null; html: string }): boolean {
+  const ct = (probe.contentType ?? "").toLowerCase();
+  if (ct.includes("text/html")) return true;
+  const head = probe.html.trimStart().slice(0, 120).toLowerCase();
+  return head.startsWith("<!doctype html") || head.startsWith("<html");
+}
+
 export async function runSecurityAudit(target: Target): Promise<AuditResult> {
   const fetcher = new Fetcher();
   const findings: AuditFinding[] = [];
@@ -87,16 +101,23 @@ export async function runSecurityAudit(target: Target): Promise<AuditResult> {
   }
 
   // ── 2. Sensitive-file probes
+  //
+  // A 200 alone is NOT an exposure. Single-page-app surfaces serve their
+  // index.html catch-all (200 + text/html) for ANY unknown path — including
+  // /.env — so this used to raise a false "exposed file" ERROR on every scan
+  // of the SPA surfaces. Only flag a probe when the 200 body is actually the
+  // sensitive file, not the SPA fallback: none of these artefacts are ever
+  // legitimately served as HTML.
   for (const path of SENSITIVE_PROBES) {
     const probe = await fetcher.fetch(target.origin + path, "GET");
-    if (probe.status === 200) {
-      findings.push({
-        url: probe.url,
-        rule: "security.exposed-file",
-        severity: "error",
-        message: `Sensitive path returns 200: ${path}`,
-      });
-    }
+    if (probe.status !== 200) continue;
+    if (isSpaFallback(probe)) continue;
+    findings.push({
+      url: probe.url,
+      rule: "security.exposed-file",
+      severity: "error",
+      message: `Sensitive path returns 200 with a non-HTML body: ${path}`,
+    });
   }
 
   // ── 3. Mixed content + source maps on a sample of HTML pages
