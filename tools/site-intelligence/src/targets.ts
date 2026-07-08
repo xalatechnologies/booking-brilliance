@@ -63,6 +63,11 @@ const FULL_CHECKS: AuditType[] = [
 ];
 const SPA_CHECKS: AuditType[] = ["uptime", "security", "performance"];
 const API_CHECKS: AuditType[] = ["uptime", "security"];
+// Staging / internal-dev surfaces: SLA/uptime only. We deliberately skip the
+// security-header and performance audits on them — dev envs aren't hardened or
+// perf-tuned, so those checks just flood the production dashboard with
+// low-value noise. Uptime still tells us if a dev environment is down.
+const STAGING_CHECKS: AuditType[] = ["uptime"];
 
 export const TARGETS: Target[] = [
   {
@@ -92,10 +97,9 @@ export const TARGETS: Target[] = [
     environment: "staging",
     indexable: false,
     requiresAuth: false,
-    // SPA — no SSR'd content, no sitemap. Auditing SEO/a11y/links
-    // here flags the SPA shell as broken (missing h1, 0 words) when
-    // the real content is client-rendered.
-    checks: SPA_CHECKS,
+    // Staging → uptime/SLA only. Security-header + perf audits on an internal
+    // dev env are noise on the production dashboard (see STAGING_CHECKS).
+    checks: STAGING_CHECKS,
     active: true,
   },
   {
@@ -154,7 +158,8 @@ export const TARGETS: Target[] = [
     environment: "staging",
     indexable: false,
     requiresAuth: true,
-    checks: SPA_CHECKS,
+    // Staging → uptime/SLA only (see STAGING_CHECKS) — no dev security/perf noise.
+    checks: STAGING_CHECKS,
     active: true,
     seeds: ["https://dashboard.dev.digilist.no/login"],
   },
