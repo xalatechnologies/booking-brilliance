@@ -3,7 +3,7 @@
 slug: bookingsystem-kommune-sammenligning-pris
 title: "Hva koster et bookingsystem for kommunen din — egentlig?"
 description: "IT-ledere i kommuner betaler ofte mer enn nødvendig for bookingsystemer. Her er hva du faktisk bør sammenligne — og hva du bør spørre om."
-date: 2026-05-20
+date: 2026-07-08
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 6
