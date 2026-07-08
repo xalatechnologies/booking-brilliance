@@ -3,7 +3,7 @@
 slug: automatisert-avbooking-og-refusjon-kommunal-saksbehandling
 title: "Slik sparer saksbehandlere timer på avbooking og refusjon"
 description: "Automatisert regelbasert refusjonslogikk reduserer manuelle saksbehandlingstimer og minimerer tvister – slik fungerer det i praksis."
-date: 2026-05-15
+date: 2026-07-08
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 6
