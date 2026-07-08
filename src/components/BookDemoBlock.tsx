@@ -68,6 +68,10 @@ export function BookDemoBlock({
   showByline = false,
   headingAs = "h2",
 }: Props) {
+  // Section sub-headings sit exactly one level below the main heading so the
+  // outline never skips: H1→H2 on /book-demo (headingAs="h1"), H2→H3 on the
+  // homepage (headingAs="h2"). Previously hardcoded <h3> → H1→H3 skip.
+  const SubHeading = headingAs === "h1" ? "h2" : "h3";
   const [form, setForm] = useState<FormState>(EMPTY);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -161,9 +165,9 @@ export function BookDemoBlock({
           className="space-y-10"
         >
           <motion.div variants={staggerChild}>
-            <h3 className="editorial-mono-caption text-ink-soft mb-4">
+            <SubHeading className="editorial-mono-caption text-ink-soft mb-4">
               HVA DU FÅR
-            </h3>
+            </SubHeading>
             <ul className="space-y-3">
               {HVA_FAAR_DU.map((item) => (
                 <li
@@ -182,9 +186,9 @@ export function BookDemoBlock({
           </motion.div>
 
           <motion.div variants={staggerChild}>
-            <h3 className="editorial-mono-caption text-ink-soft mb-4">
+            <SubHeading className="editorial-mono-caption text-ink-soft mb-4">
               HVA VI TRENGER FRA DEG
-            </h3>
+            </SubHeading>
             <ul className="space-y-3">
               {HVA_VI_TRENGER.map((item) => (
                 <li
@@ -246,7 +250,7 @@ export function BookDemoBlock({
                   strokeWidth={1.5}
                 />
               </div>
-              <h3
+              <SubHeading
                 className="font-serif text-3xl lg:text-4xl text-ink mb-4"
                 style={{
                   fontVariationSettings: getFraunces("section"),
@@ -254,7 +258,7 @@ export function BookDemoBlock({
                 }}
               >
                 Takk — vi tar kontakt.
-              </h3>
+              </SubHeading>
               <p className="text-lg text-ink-soft measure mx-auto leading-relaxed mb-8">
                 Forespørselen er sendt til{" "}
                 <span className="font-mono text-sm">admin@digilist.no</span>. En av oss
@@ -279,7 +283,7 @@ export function BookDemoBlock({
                 <span className="editorial-mono-caption text-accent-text">
                   DEMO-FORESPØRSEL
                 </span>
-                <h3
+                <SubHeading
                   className="font-serif text-2xl lg:text-3xl text-ink mt-2"
                   style={{
                     fontVariationSettings: getFraunces("section"),
@@ -288,7 +292,7 @@ export function BookDemoBlock({
                   }}
                 >
                   Send oss noen detaljer.
-                </h3>
+                </SubHeading>
               </header>
 
               <div className="grid sm:grid-cols-2 gap-6">

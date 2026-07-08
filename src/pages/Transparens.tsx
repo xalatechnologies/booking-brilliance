@@ -168,6 +168,21 @@ export default function Transparens() {
                   for hele økosystemet. Det vi viser her er det samme som vårt
                   interne team ser.
                 </p>
+                <p className="mt-3 text-base text-ink-soft measure">
+                  Rapporten dekker fem områder. <strong>SEO</strong> måler hvor
+                  synlig plattformen er i søk — titler, metadata, canonical og
+                  strukturert data. <strong>Tilgjengelighet</strong> sjekker
+                  WCAG-samsvar: overskriftshierarki, alt-tekster, landemerker og
+                  tastaturnavigasjon for skjermlesere. <strong>Sikkerhet</strong>{" "}
+                  vurderer HTTP-sikkerhetsheadere, TLS-sertifikater og at ingen
+                  sensitive filer er eksponert. <strong>Oppetid</strong> følger
+                  tilgjengelighet og responstid per tjeneste, med varsling ved
+                  avvik. <strong>Lenker</strong> verifiserer at ingen utgående
+                  lenker er brutt. Hver overflate i økosystemet — markedssiden,
+                  booking-appen, dashbordet, dokumentasjonen og API-et — skannes
+                  uavhengig, og tallene nedenfor er hentet direkte fra siste
+                  kjøring, uten manuell redigering eller utvalg.
+                </p>
               </header>
 
               {loading ? (
