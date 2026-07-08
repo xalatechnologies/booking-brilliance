@@ -151,12 +151,14 @@ const BookingsystemKommune = () => {
 
               <div className="lg:col-span-4">
                 <EditorialCard className="bg-accent-tinted">
-                  <h3
+                  {/* First sub-heading after the hero <h1> → must be h2, not
+                      h3, or it skips a level (H1→H3) and trips a11y.heading.skip. */}
+                  <h2
                     className="font-serif text-2xl text-ink mb-4"
                     style={{ fontVariationSettings: getFraunces("section") }}
                   >
                     Aktive kommuner
-                  </h3>
+                  </h2>
                   <SpecRow label="Nordre Follo" value="12 anlegg" />
                   <SpecRow label="Foreninger" value="~340" />
                   <SpecRow label="Bookinger / mnd" value="~1 200" />

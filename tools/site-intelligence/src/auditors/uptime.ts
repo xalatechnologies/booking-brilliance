@@ -5,7 +5,8 @@
  *   1. Reachability — single GET against origin/. Non-2xx/3xx → error.
  *   2. Response time — TTFB-ish via Fetcher timing. >2s → warn, >5s → error.
  *   3. TLS cert expiry — tls.connect handshake → notBefore/notAfter.
- *      <14 days = error, <60 days = warn.
+ *      <14 days = error, <25 days = warn (certbot renews at 30d, so <25d
+ *      means renewal is overdue — a real signal, not fresh-cert noise).
  *
  * One AuditResult page per target (the origin). Findings get rolled up
  * into the dashboard "What Went Wrong" panel by severity.
@@ -92,7 +93,11 @@ export async function runUptimeAudit(target: Target): Promise<AuditResult> {
           severity: "error",
           message: `SSL cert expires in ${cert.daysToExpiry}d (${cert.validTo})`,
         });
-      } else if (cert.daysToExpiry < 60) {
+      } else if (cert.daysToExpiry < 25) {
+        // certbot renews at 30 days, so a healthy cert is never below ~30d
+        // for long. Only warn below 25d — that means renewal is overdue
+        // (likely failing), a real signal — instead of flagging every
+        // freshly-issued cert during the 30–60d window (pure noise).
         findings.push({
           url: target.origin,
           rule: "uptime.ssl.expiry",
