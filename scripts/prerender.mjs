@@ -107,7 +107,9 @@ async function renderBody(route) {
   const render = await loadSsr();
   if (!render) return null;
   try {
-    return render(route);
+    // render() is async — it renders in a loop so React.lazy route chunks
+    // (e.g. BlogPost) resolve to real content instead of the Suspense shell.
+    return await render(route);
   } catch (err) {
     console.warn(`  [ssr] render(${route}) failed:`, err?.message ?? err);
     return null;

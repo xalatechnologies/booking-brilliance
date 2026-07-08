@@ -74,22 +74,46 @@ fi
 
 echo -e "${GREEN}✓ Build completed successfully${NC}"
 
-# Deploy to Hostinger
-echo -e "${BLUE}[2/3] Deploying to Hostinger...${NC}"
+# Deploy to Hostinger — ATOMIC symlink releases (zero-downtime + instant rollback)
+echo -e "${BLUE}[2/3] Deploying to Hostinger (atomic release)...${NC}"
 
-# Create remote directory if it doesn't exist
-ssh ${VPS_USER}@${VPS_HOST} "mkdir -p ${REMOTE_DIR}"
+# nginx serves ${REMOTE_BASE}/current (a symlink → releases/rel-*). We rsync
+# into a fresh release dir, then flip the symlink in one atomic op, then prune
+# old releases (keep newest 5). No --delete needed: each release is a clean dir.
+# Rollback: ssh ... "ln -sfn <old release> current" && no rebuild required.
+REMOTE_BASE="$(dirname "${REMOTE_DIR}")"
+REL="releases/rel-$(date +%Y%m%d-%H%M%S)"
+ssh ${VPS_USER}@${VPS_HOST} "mkdir -p ${REMOTE_BASE}/${REL}"
 
-# Sync files to server
-rsync -avz --delete --progress \
+rsync -avz --progress \
     --exclude 'node_modules' \
     --exclude '.git' \
     --exclude '.env' \
     --exclude 'src' \
     --exclude '*.md' \
-    dist/ ${VPS_USER}@${VPS_HOST}:${REMOTE_DIR}/
+    dist/ ${VPS_USER}@${VPS_HOST}:${REMOTE_BASE}/${REL}/
 
-echo -e "${GREEN}✓ Files deployed successfully${NC}"
+# Atomic switch + prune (keep the 5 most recent releases for rollback)
+ssh ${VPS_USER}@${VPS_HOST} "ln -sfn ${REMOTE_BASE}/${REL} ${REMOTE_BASE}/current && cd ${REMOTE_BASE}/releases && ls -1dt rel-* | tail -n +6 | xargs -r rm -rf"
+
+echo -e "${GREEN}✓ Atomically switched current → ${REL}${NC}"
+
+# ── Layer 4: purge the CDN edge cache (HTML only) after the flip ──────────────
+# No-op until a CDN is wired. To activate Cloudflare: set CF_ZONE_ID + CF_API_TOKEN
+# in .env.local (token needs the "Cache Purge" permission on the zone). We purge
+# ONLY the mutable HTML entrypoints — the hashed assets are immutable so they
+# never need purging. With the origin's no-cache HTML headers, this makes a new
+# release visible at the edge instantly.
+if [ -n "${CF_ZONE_ID:-}" ] && [ -n "${CF_API_TOKEN:-}" ]; then
+    echo -e "${BLUE}[2.6/3] Purging Cloudflare edge cache (HTML)...${NC}"
+    curl -sS -X POST "https://api.cloudflare.com/client/v4/zones/${CF_ZONE_ID}/purge_cache" \
+        -H "Authorization: Bearer ${CF_API_TOKEN}" \
+        -H "Content-Type: application/json" \
+        --data '{"files":["https://digilist.no/","https://digilist.no/index.html","https://digilist.no/sitemap.xml"]}' \
+        | grep -q '"success":true' && echo -e "${GREEN}✓ CDN purged${NC}" || echo -e "${YELLOW}⚠ CDN purge failed (non-fatal)${NC}"
+else
+    echo -e "${YELLOW}  (CDN purge skipped — set CF_ZONE_ID + CF_API_TOKEN in .env.local to enable)${NC}"
+fi
 
 # Build the RAG docs index (chunks + optional embeddings) before
 # shipping the API so /api/docs-ask has fresh content to retrieve over.
