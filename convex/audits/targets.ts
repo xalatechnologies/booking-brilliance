@@ -52,6 +52,10 @@ const FULL_CHECKS: AuditType[] = [
 ];
 const SPA_CHECKS: AuditType[] = ["uptime", "security", "performance"];
 const API_CHECKS: AuditType[] = ["uptime", "security"];
+// Staging / internal-dev surfaces: SLA/uptime only. The dashboard snapshot
+// filters findings by each target's checks, so scoping dev to uptime hides
+// its (real but low-value) security/perf findings — no more dev noise.
+const STAGING_CHECKS: AuditType[] = ["uptime"];
 
 export const TARGETS: TargetMeta[] = [
   {
@@ -76,7 +80,7 @@ export const TARGETS: TargetMeta[] = [
     environment: "staging",
     indexable: false,
     requiresAuth: false,
-    checks: SPA_CHECKS,
+    checks: STAGING_CHECKS,
     active: true,
   },
   {
@@ -125,7 +129,7 @@ export const TARGETS: TargetMeta[] = [
     environment: "staging",
     indexable: false,
     requiresAuth: true,
-    checks: SPA_CHECKS,
+    checks: STAGING_CHECKS,
     active: true,
   },
   {
