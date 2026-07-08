@@ -227,9 +227,12 @@ const BookingLokalerMoterom = () => {
               {/* Benefits grid */}
               <div className="mb-14 lg:mb-20">
                 <div className="flex items-baseline justify-between mb-6 border-b border-rule pb-3">
-                  <span className="editorial-mono-caption text-accent-text">
+                  {/* Real <h2> (styled as the caption) so the benefit-card
+                      <h3>s below don't skip straight from the hero <h1>
+                      (H1→H3) and trip a11y.heading.skip. */}
+                  <h2 className="editorial-mono-caption text-accent-text">
                     HVORFOR DIGILIST
-                  </span>
+                  </h2>
                   <span className="editorial-mono-caption text-ink-faint">
                     SEKS PRINSIPPER
                   </span>
