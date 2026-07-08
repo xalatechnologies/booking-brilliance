@@ -70,7 +70,17 @@ const MAIL_FROM =
 const ADMIN_BASIC_AUTH = process.env.ADMIN_BASIC_AUTH || ""; // "user:pass"
 const AUDIT_SNAPSHOT_PATH =
   process.env.AUDIT_SNAPSHOT_PATH || "/var/www/digilist-audit/state.json";
-const AUDIT_REPO_DIR = process.env.AUDIT_REPO_DIR || "";
+// Where the audit tooling (pnpm + tools/site-intelligence) lives. An
+// explicit env var wins — in production it points at the deployed checkout.
+// Otherwise fall back to THIS repo's root, but only when it actually ships
+// the tooling: that makes "Kjør skanning" work in local dev with no extra
+// config, while staying "" (→ a clear 503) on servers that don't have it.
+const REPO_ROOT = new URL("..", import.meta.url).pathname;
+const AUDIT_REPO_DIR =
+  process.env.AUDIT_REPO_DIR ||
+  (existsSync(path.join(REPO_ROOT, "tools", "site-intelligence"))
+    ? REPO_ROOT
+    : "");
 // Content agent config. CONTENT_REPO_DIR defaults to AUDIT_REPO_DIR
 // because in production both packages live in the same checkout.
 const CONTENT_REPO_DIR = process.env.CONTENT_REPO_DIR || AUDIT_REPO_DIR;

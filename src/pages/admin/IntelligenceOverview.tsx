@@ -1,14 +1,15 @@
 /**
- * /admin/intelligence — simplified SLA + SEO dashboard.
+ * /admin/intelligence — SLA · Performance · SEO dashboard.
  *
- * One scannable page: a KPI strip, open alerts, then two focused tables —
- * SLA/uptime per surface on top, SEO per surface below. Everything else
- * (WCAG, security, performance, links, growth, agents) still lives in the
- * "Avansert" nav group; this page just makes the day-to-day answer — "is
- * everything up, and is SEO healthy?" — readable at a glance.
+ * One scannable page: a KPI strip, open alerts, then three focused tables —
+ * SLA/uptime per surface on top, then Performance, then SEO. Everything else
+ * (WCAG, security, links, growth, agents, compliance) still lives in the
+ * "Avansert" nav group; this page makes the day-to-day answer — "is
+ * everything up, fast, and visible in search?" — readable at a glance.
  *
- * All data comes from the shared Convex snapshot via outlet context, so no
- * functionality is lost — the deep pages read the same source.
+ * The two score tables (Performance, SEO) share one <ScoreTable> — same
+ * shape, different audit_type. All data comes from the shared Convex
+ * snapshot via outlet context, so the deep pages read the same source.
  */
 import { useOutletContext } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -19,6 +20,7 @@ import {
   AlertTriangle,
   ArrowUpRight,
   CheckCircle2,
+  CircleGauge,
   Loader2,
   Search,
   TrendingUp,
@@ -30,8 +32,11 @@ import { cn } from "@/lib/utils";
 import {
   adminToken,
   getEcosystemKpis,
+  type AuditType,
   type IntelligenceCtx,
+  type IssueFeedItem,
   type LatestRun,
+  type Target,
   scoreClass,
 } from "./intelligence-shared";
 
@@ -88,7 +93,7 @@ export default function IntelligenceOverview() {
       <header className="mb-8 flex flex-wrap items-end justify-between gap-6">
         <div>
           <p className="editorial-mono-caption text-accent-text mb-2">
-            SLA · SEO
+            SLA · Ytelse · SEO
           </p>
           <h2
             className="font-serif text-4xl lg:text-5xl text-ink leading-[1.04]"
@@ -97,8 +102,8 @@ export default function IntelligenceOverview() {
             Oversikt
           </h2>
           <p className="text-base text-ink mt-3 max-w-prose leading-relaxed">
-            Er alt oppe, og er SEO friskt? Live status på {activeCount} aktive
-            overflater. Detaljer for sikkerhet, WCAG, ytelse og lenker ligger
+            Er alt oppe, raskt og synlig i søk? Live status på {activeCount}{" "}
+            aktive overflater. Detaljer for sikkerhet, WCAG og lenker ligger
             under «Avansert».
           </p>
         </div>
@@ -292,14 +297,70 @@ export default function IntelligenceOverview() {
         </table>
       </div>
 
+      {/* ── YTELSE ─────────────────────────────────────────────────── */}
+      <ScoreTable
+        auditType="performance"
+        icon={CircleGauge}
+        title="Ytelse"
+        detailTo="/admin/intelligence/ytelse"
+        detailLabel="Se ytelse-detaljer"
+        activeTargets={activeTargets}
+        byTarget={byTarget}
+        issues={snap.issues ?? []}
+        className="mb-12"
+      />
+
       {/* ── SEO ───────────────────────────────────────────────────── */}
-      <SectionHeading
+      <ScoreTable
+        auditType="seo"
         icon={Search}
         title="SEO"
         detailTo="/admin/intelligence/seo"
         detailLabel="Se SEO-detaljer"
+        activeTargets={activeTargets}
+        byTarget={byTarget}
+        issues={snap.issues ?? []}
       />
-      <div className="overflow-x-auto border border-rule">
+    </div>
+  );
+}
+
+/**
+ * Shared score table for the audit pillars that reduce to one number per
+ * surface (Performance, SEO) — score, findings count, top open finding,
+ * and last-scan time. SLA/uptime has its own table (status + scan action),
+ * so it stays inline above. `auditType` is the only thing that varies.
+ */
+function ScoreTable({
+  auditType,
+  icon: Icon,
+  title,
+  detailTo,
+  detailLabel,
+  activeTargets,
+  byTarget,
+  issues,
+  className,
+}: {
+  auditType: AuditType;
+  icon: React.ComponentType<{ className?: string }>;
+  title: string;
+  detailTo: string;
+  detailLabel: string;
+  activeTargets: Target[];
+  byTarget: Map<string, LatestRun[]>;
+  issues: IssueFeedItem[];
+  className?: string;
+}) {
+  return (
+    <>
+      <SectionHeading
+        icon={Icon}
+        title={title}
+        detailTo={detailTo}
+        detailLabel={detailLabel}
+      />
+      <div className={cn("overflow-x-auto border border-rule", className)}>
         <table className="w-full text-sm min-w-[560px]">
           <thead>
             <tr className="bg-paper-deep/40 text-left">
@@ -313,15 +374,21 @@ export default function IntelligenceOverview() {
           <tbody className="divide-y divide-rule">
             {activeTargets.map((t) => {
               const run = (byTarget.get(t.name) ?? []).find(
-                (r) => r.audit_type === "seo",
+                (r) => r.audit_type === auditType,
               );
               const checks = t.checks ?? [];
-              const monitored = checks.length === 0 || checks.includes("seo");
-              const topIssue = (snap.issues ?? [])
-                .filter((i) => i.surface === t.name && i.auditType === "seo")
+              const monitored =
+                checks.length === 0 || checks.includes(auditType);
+              const topIssue = issues
+                .filter(
+                  (i) => i.surface === t.name && i.auditType === auditType,
+                )
                 .sort((a, b) => {
                   const rank = { error: 0, warn: 1, info: 2 } as const;
-                  return rank[a.severity] - rank[b.severity] || b.affected - a.affected;
+                  return (
+                    rank[a.severity] - rank[b.severity] ||
+                    b.affected - a.affected
+                  );
                 })[0];
               return (
                 <tr key={t.name} className="bg-paper">
@@ -375,7 +442,7 @@ export default function IntelligenceOverview() {
           </tbody>
         </table>
       </div>
-    </div>
+    </>
   );
 }
 

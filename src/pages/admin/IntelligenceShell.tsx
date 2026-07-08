@@ -56,36 +56,39 @@ interface NavItem {
   hint?: string;
 }
 
-// Primary nav — the everyday answer: is it up (SLA), and is SEO healthy?
+// Primary nav — the three pillars this tool answers, every day:
+// is it up (SLA), is it fast (Ytelse), and is it visible in search (SEO)?
 const PRIMARY_NAV: NavItem[] = [
-  { to: "/admin/intelligence", label: "Oversikt", icon: LayoutGrid, end: true, hint: "SLA + SEO" },
+  { to: "/admin/intelligence", label: "Oversikt", icon: LayoutGrid, end: true, hint: "SLA · Ytelse · SEO" },
   { to: "/admin/intelligence/uptime", label: "SLA · Oppetid", icon: Wifi, hint: "Tilgjengelighet" },
+  { to: "/admin/intelligence/ytelse", label: "Ytelse", icon: CircleGauge, hint: "Fart" },
   { to: "/admin/intelligence/seo", label: "SEO", icon: Search, hint: "Synlighet" },
 ];
 
-// Everything else — kept in full, tucked behind one collapsible "Avansert"
-// section and organized into a handful of labeled groups (same idea as the
-// SLA/SEO split up top) so it reads as structure, not a dump.
+// Operational tooling that supports the three pillars — diagnostics, scan
+// history, per-surface config and settings. Always visible, but visually
+// secondary to the pillars above.
+const SUPPORTING_NAV: NavItem[] = [
+  { to: "/admin/intelligence/issues", label: "Hva gikk galt", icon: AlertTriangle, hint: "AI-fix" },
+  { to: "/admin/intelligence/scans", label: "Skanninger", icon: Activity, hint: "Historikk" },
+  { to: "/admin/intelligence/overflater", label: "Overflater", icon: Globe2 },
+  { to: "/admin/intelligence/innstillinger", label: "Innstillinger", icon: Settings },
+];
+
+// Everything out of scope for an SLA/Performance/SEO tool — kept in full but
+// tucked behind one collapsed "Avansert" section, organized into labeled
+// groups so it reads as structure, not a dump.
 interface NavGroup {
   label: string;
   items: NavItem[];
 }
 const ADVANCED_GROUPS: NavGroup[] = [
   {
-    label: "Kvalitet",
+    label: "Øvrig kvalitet",
     items: [
       { to: "/admin/intelligence/wcag", label: "WCAG / UU", icon: BarChart3 },
       { to: "/admin/intelligence/sikkerhet", label: "Sikkerhet", icon: ShieldAlert },
-      { to: "/admin/intelligence/ytelse", label: "Ytelse", icon: CircleGauge },
       { to: "/admin/intelligence/lenker", label: "Lenker", icon: Link2 },
-    ],
-  },
-  {
-    label: "Diagnostikk",
-    items: [
-      { to: "/admin/intelligence/issues", label: "Hva gikk galt", icon: AlertTriangle, hint: "AI-fix" },
-      { to: "/admin/intelligence/scans", label: "Skanninger", icon: Activity, hint: "Historikk" },
-      { to: "/admin/intelligence/overflater", label: "Overflater", icon: Globe2, hint: "Per overflate" },
     ],
   },
   {
@@ -109,13 +112,16 @@ const ADVANCED_GROUPS: NavGroup[] = [
     label: "Referanse",
     items: [
       { to: "/admin/intelligence/transparens", label: "Offentlig rapport", icon: Sparkles },
-      { to: "/admin/intelligence/innstillinger", label: "Innstillinger", icon: Settings },
     ],
   },
 ];
 
 const ADVANCED_ITEMS: NavItem[] = ADVANCED_GROUPS.flatMap((g) => g.items);
-const FLAT_NAV: NavItem[] = [...PRIMARY_NAV, ...ADVANCED_ITEMS];
+const FLAT_NAV: NavItem[] = [
+  ...PRIMARY_NAV,
+  ...SUPPORTING_NAV,
+  ...ADVANCED_ITEMS,
+];
 
 export default function IntelligenceShell() {
   // `auth` is never initialised straight from localStorage on mount —
@@ -167,6 +173,7 @@ export default function IntelligenceShell() {
   const loading = auth !== null && snap === undefined;
   const error: string | null = authError;
   const [running, setRunning] = useState<string | null>(null);
+  const [scanError, setScanError] = useState<string | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -217,6 +224,7 @@ export default function IntelligenceShell() {
     async (targetName?: string) => {
       if (!auth) return;
       setRunning(targetName || "__all__");
+      setScanError(null);
       const scanStartedAt = Date.now();
       // Count how many runs are already "fresh" before the trigger so
       // we know when each new run lands.
@@ -232,8 +240,23 @@ export default function IntelligenceShell() {
           },
           body: JSON.stringify(targetName ? { target: targetName } : {}),
         });
-        if (!res.ok)
-          throw new Error(`Kunne ikke starte skanning (${res.status})`);
+        if (!res.ok) {
+          // Surface the server's own reason (e.g. "Audit runner not
+          // configured…") rather than a bare status code, and never let
+          // the rejection escape as an uncaught promise error.
+          let detail = "";
+          try {
+            const data = (await res.json()) as { error?: string };
+            if (data?.error) detail = data.error;
+          } catch {
+            /* non-JSON body — fall back to the status code below */
+          }
+          setScanError(
+            detail ||
+              `Kunne ikke starte skanning (HTTP ${res.status}). Prøv igjen senere.`,
+          );
+          return;
+        }
         // For full scans we wait until either:
         //   - we see fresh runs covering every active surface, OR
         //   - 4 minutes have passed (orchestrator timeout)
@@ -262,6 +285,14 @@ export default function IntelligenceShell() {
           };
           tick();
         });
+      } catch (err) {
+        // Network-level failure (server down, connection reset) — the
+        // fetch itself rejected before we got a response.
+        setScanError(
+          err instanceof Error
+            ? `Kunne ikke nå skann-tjenesten: ${err.message}`
+            : "Kunne ikke nå skann-tjenesten.",
+        );
       } finally {
         setRunning(null);
       }
@@ -338,7 +369,7 @@ export default function IntelligenceShell() {
               className="font-serif italic text-xl text-ink leading-relaxed mt-6 max-w-prose"
               style={{ fontVariationSettings: '"opsz" 72, "wght" 460' }}
             >
-              Ett kontrollrom for SEO, sikkerhet, WCAG og ytelse på tvers av
+              Ett kontrollrom for oppetid (SLA), ytelse og SEO på tvers av
               hele Digilist-økosystemet.
             </p>
             <div className="mt-auto pt-10">
@@ -474,6 +505,15 @@ export default function IntelligenceShell() {
           {PRIMARY_NAV.map((item) => (
             <SidebarLink key={item.to} item={item} />
           ))}
+
+          <div className="pt-5 space-y-1">
+            <p className="font-mono text-[0.55rem] uppercase tracking-widest text-ink-faint px-3 pb-1">
+              Verktøy
+            </p>
+            {SUPPORTING_NAV.map((item) => (
+              <SidebarLink key={item.to} item={item} />
+            ))}
+          </div>
 
           <div className="pt-4">
             <button
@@ -679,6 +719,24 @@ export default function IntelligenceShell() {
             <div className="border-l-2 border-red-700 bg-paper-deep/60 px-5 py-3 mb-6">
               <p className="editorial-mono-caption text-red-700 mb-1">FEIL</p>
               <p className="text-base text-ink">{error}</p>
+            </div>
+          )}
+
+          {scanError && (
+            <div className="border-l-2 border-amber-700 bg-paper-deep/60 px-5 py-3 mb-6 flex items-start justify-between gap-4">
+              <div>
+                <p className="editorial-mono-caption text-amber-700 mb-1">
+                  SKANNING FEILET
+                </p>
+                <p className="text-base text-ink">{scanError}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setScanError(null)}
+                className="font-mono text-[0.6rem] uppercase tracking-widest text-ink-soft hover:text-ink border border-hairline rounded-sm px-2.5 py-1.5 flex-shrink-0"
+              >
+                Lukk
+              </button>
             </div>
           )}
 
