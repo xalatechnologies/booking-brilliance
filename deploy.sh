@@ -93,10 +93,43 @@ rsync -avz --progress \
     --exclude '*.md' \
     dist/ ${VPS_USER}@${VPS_HOST}:${REMOTE_BASE}/${REL}/
 
-# Atomic switch + prune (keep the 5 most recent releases for rollback)
-ssh ${VPS_USER}@${VPS_HOST} "ln -sfn ${REMOTE_BASE}/${REL} ${REMOTE_BASE}/current && cd ${REMOTE_BASE}/releases && ls -1dt rel-* | tail -n +6 | xargs -r rm -rf"
+# Remember the currently-served release so we can roll back to it if the new
+# one fails its health gate below.
+PREV_REL=$(ssh ${VPS_USER}@${VPS_HOST} "readlink ${REMOTE_BASE}/current 2>/dev/null || true")
 
+# Atomic switch to the new release (nginx follows the symlink per request).
+ssh ${VPS_USER}@${VPS_HOST} "ln -sfn ${REMOTE_BASE}/${REL} ${REMOTE_BASE}/current"
 echo -e "${GREEN}✓ Atomically switched current → ${REL}${NC}"
+
+# ── Post-deploy health gate + auto-rollback ───────────────────────────────
+# Probe the live entrypoints through nginx. If the new release doesn't serve,
+# flip `current` back to the previous release (instant, no rebuild) so a broken
+# build never stays live, and abort. Only prune old releases once healthy — the
+# previous release must survive to be a rollback target.
+echo -e "${BLUE}[2.55/3] Health-gating the new release...${NC}"
+DEPLOY_HEALTHY=1
+for url in "https://digilist.no/" "https://digilist.no/blogg"; do
+    code=$(curl -s -o /dev/null -m 15 -w "%{http_code}" "$url")
+    if [[ "$code" =~ ^2 ]]; then
+        echo -e "${GREEN}  ✓ ${url} → HTTP ${code}${NC}"
+    else
+        echo -e "${RED}  ✗ ${url} → HTTP ${code}${NC}"; DEPLOY_HEALTHY=0
+    fi
+done
+if [ "$DEPLOY_HEALTHY" != "1" ]; then
+    if [ -n "$PREV_REL" ] && [ "$PREV_REL" != "${REMOTE_BASE}/${REL}" ]; then
+        echo -e "${YELLOW}⤺ Health gate failed — rolling back to ${PREV_REL}${NC}"
+        ssh ${VPS_USER}@${VPS_HOST} "ln -sfn '${PREV_REL}' ${REMOTE_BASE}/current"
+        echo -e "${GREEN}✓ Rolled back — live site restored to the previous release.${NC}"
+    else
+        echo -e "${RED}✗ Health gate failed and no previous release to roll back to.${NC}"
+    fi
+    echo -e "${RED}Deploy aborted; the broken release ${REL} was NOT left live.${NC}"
+    exit 1
+fi
+
+# Healthy → prune old releases, keeping the newest 5 for future rollbacks.
+ssh ${VPS_USER}@${VPS_HOST} "cd ${REMOTE_BASE}/releases && ls -1dt rel-* | tail -n +6 | xargs -r rm -rf"
 
 # ── Layer 4: purge the CDN edge cache (HTML only) after the flip ──────────────
 # No-op until a CDN is wired. To activate Cloudflare: set CF_ZONE_ID + CF_API_TOKEN
