@@ -1,4 +1,3 @@
-```markdown
 ---
 slug: bookingsystem-kommune-sammenligning-pris
 title: "Hva koster et bookingsystem for kommunen din — egentlig?"
@@ -114,4 +113,3 @@ Digilist er bygget spesifikt for norske kommuner. Vi kjenner kravene til integra
 **Book en demo og få en konkret prisberegning for din kommune.** Vi går gjennom antall lokaler, brukergrupper og integrasjonsbehov — og gir deg et tall du kan legge inn i budsjettet. Ingen forpliktelse, ingen salgspress.
 
 [Book demo →](https://digilist.no/demo)
-```

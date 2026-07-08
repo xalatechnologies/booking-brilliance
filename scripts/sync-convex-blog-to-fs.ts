@@ -122,6 +122,13 @@ async function main() {
     // generator inserts one; if the operator hand-edited it out, we
     // recover from the structured frontmatter_json instead.
     let body = d.body;
+    // The generator sometimes wraps the whole post in a ```markdown … ```
+    // code fence. Strip it so the file starts with the YAML frontmatter —
+    // otherwise the blog-index parser (src/lib/posts.ts) fails to read the
+    // frontmatter and the post loses its date/slug/title, dropping off /blogg.
+    body = body
+      .replace(/^﻿?[ \t]*```(?:markdown|md)?[ \t]*\r?\n/, "")
+      .replace(/\r?\n```[ \t]*\r?\n?[ \t]*$/, "\n");
     if (!/^---\r?\n/.test(body)) {
       try {
         const fm = JSON.parse(d.frontmatter_json) as Record<string, unknown>;

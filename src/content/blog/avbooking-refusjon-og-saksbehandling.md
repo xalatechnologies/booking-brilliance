@@ -1,4 +1,3 @@
-```markdown
 ---
 slug: automatisert-avbooking-og-refusjon-kommunal-saksbehandling
 title: "Slik sparer saksbehandlere timer på avbooking og refusjon"
@@ -105,4 +104,3 @@ Tvister om refusjoner oppstår nesten alltid fordi reglene er uklare eller ulikt
 ## Se avbookingsmodulen i Digilist
 
 Vil du se hvordan dette ser ut i praksis – fra innbyggerens kansellering til saksbehandlers godkjenning og automatisk refusjon? Book en demo, så viser vi deg avbookingsmodulen med din kommunes regelstruktur som utgangspunkt.
-```

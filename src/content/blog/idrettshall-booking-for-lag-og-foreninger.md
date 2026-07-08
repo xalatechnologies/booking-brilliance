@@ -1,4 +1,3 @@
-```markdown
 ---
 slug: digitalisert-tildeling-idrettshaller-lag-foreninger
 title: "Idrettshall-tildeling på dager, ikke uker – slik gjør du det"
@@ -105,4 +104,3 @@ Digilist er et bookingsystem laget for kommunal tildeling av lokaler til lag og 
 Ønsker du å se hvordan det fungerer i praksis for din kommune eller ditt lag?
 
 **[Book en demo med Digilist](https://www.digilist.no/demo)** – vi viser deg hele flyten fra søknad til signert tildelingsavtale, og svarer på spørsmål tilpasset din situasjon.
-```
