@@ -1,0 +1,66 @@
+name: Deploy to Hostinger
+
+# Auto-deploys the site to https://digilist.no whenever main updates
+# (i.e. after a PR merge), plus a manual "Run workflow" button. Reuses the
+# repo's own deploy.sh so CI and local deploys never drift — it builds,
+# rsyncs into releases/rel-<ts> on the VPS, and atomically flips the
+# `current` symlink nginx serves.
+on:
+  push:
+    branches: [main]
+    # Skip deploys for doc/CI-only changes that never affect the built site.
+    paths-ignore:
+      - "**/*.md"
+      - ".github/**"
+  workflow_dispatch: {}
+
+# One prod deploy at a time; never cancel an in-flight release mid-rsync.
+concurrency:
+  group: hostinger-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Configure SSH access to the VPS
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.HOSTINGER_SSH_KEY }}" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          # deploy.sh connects to root@72.61.23.56 — pin its host key so ssh
+          # never prompts. (Host is already public in deploy.sh.)
+          ssh-keyscan -H 72.61.23.56 >> ~/.ssh/known_hosts 2>/dev/null
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/id_deploy
+          echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> "$GITHUB_ENV"
+          echo "SSH_AGENT_PID=$SSH_AGENT_PID" >> "$GITHUB_ENV"
+
+      - name: Build + deploy (atomic release)
+        env:
+          # Baked into the JS bundle at build time; deploy.sh aborts if unset.
+          VITE_CONVEX_URL: ${{ secrets.VITE_CONVEX_URL }}
+          # Used by the prerender step to authenticate its Convex fetch.
+          ADMIN_BASIC_AUTH: ${{ secrets.ADMIN_BASIC_AUTH }}
+        run: ./deploy.sh
+
+      - name: Verify site is live
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" https://digilist.no)
+          echo "digilist.no → HTTP $code"
+          test "$code" = "200"
