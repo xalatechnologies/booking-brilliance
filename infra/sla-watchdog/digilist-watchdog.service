@@ -1,0 +1,12 @@
+[Unit]
+Description=Digilist SLA watchdog — health checks + bounded auto-recovery
+After=network-online.target nginx.service digilist-api.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# Restarts services on sustained failure → needs root. The script itself
+# caps restarts and honours /etc/digilist-watchdog.disabled (kill switch).
+ExecStart=/usr/local/bin/digilist-watchdog.sh
+# Don't let a slow probe pile up runs.
+TimeoutStartSec=90
