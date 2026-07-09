@@ -6,6 +6,21 @@
     "Ikke oppdikt statistikk; bruk realistiske, etterprøvbare størrelsesordener.",
     "Hver artikkel dekker en hel søkeklynge (flere beslektede intensjoner), ikke ett tynt søkeord."
   ],
-  "lessons": [],
+  "lessons": [
+    {
+      "date": "2026-07-09",
+      "slug": "unknown",
+      "score": 84,
+      "verdict": "revise",
+      "issues": [
+        "Rettet norsk-engelsk blanding: \"en dozen\" til \"tolv\", \"beste sendetid\" til \"beste kveldstid\", \"slott\" til \"ledige tider\", \"overtrykket\" til \"overtrykk\"",
+        "\"et cupdag\" (feil kjønn) rettet til \"en cupdag\"",
+        "Tittel nevner ikke haller/anlegg tydelig for klyngen; justert description litt for søkeintensjon (beholdt kjerne)",
+        "Outline nevnte \"12 haller\" konkret; teksten sa vagt \"et stort antall\" og \"en dozen\". Gjort konsistent med tolv flerbrukshaller",
+        "CTA hadde grammatikkfeil: \"rapportene du trenger å dokumentere\" rettet til \"rapportene du trenger for å dokumentere\"",
+        "Mindre språkvask for flyt; ingen tankestrek funnet i original (bra)"
+      ]
+    }
+  ],
   "updated_at": "2026-07-09"
 }
