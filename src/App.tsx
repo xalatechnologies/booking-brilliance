@@ -224,7 +224,14 @@ export function AppShell() {
             <Route path="/salgsvilkar" element={<Salgsvilkar />} />
             <Route path="/personvern" element={<Personvern />} />
             <Route path="/cookies" element={<Cookies />} />
-            <Route path="/transparens" element={<Transparens />} />
+            <Route
+              path="/transparens"
+              element={
+                <ConvexScope>
+                  <Transparens />
+                </ConvexScope>
+              }
+            />
             <Route
               path="/status"
               element={
