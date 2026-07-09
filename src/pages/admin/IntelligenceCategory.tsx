@@ -65,11 +65,21 @@ export function IntelligenceCategoryPage({
     );
   }
 
+  // A performance run is "unscorable" when PSI returned no Lighthouse score
+  // (auth-gated surfaces like dashboard.digilist.no redirect to a login PSI
+  // can't measure). That lands as avg_score=0 with zero findings — a real page
+  // always scores >0, and any sub-90 score emits a lighthouse.performance
+  // finding, so score=0 && findings=0 uniquely means "not measured". Counting
+  // it as a literal 0 dragged the category average down (e.g. 67 → 53), so
+  // exclude it from the headline and label it "ikke målbar" per-surface.
+  const isUnscored = (r: LatestRun) =>
+    r.avg_score === 0 && r.findings_total === 0;
+  const scoredRuns = runs.filter((r) => !isUnscored(r));
   const avg =
-    runs.length === 0
+    scoredRuns.length === 0
       ? null
       : Math.round(
-          runs.reduce((s, r) => s + r.avg_score, 0) / runs.length,
+          scoredRuns.reduce((s, r) => s + r.avg_score, 0) / scoredRuns.length,
         );
   const errors = issues.filter((i) => i.severity === "error").length;
   const warns = issues.filter((i) => i.severity === "warn").length;
@@ -316,6 +326,14 @@ export function IntelligenceCategoryPage({
                             {r.findings_total}
                           </td>
                           <td className="px-4 py-3">
+                            {isUnscored(r) ? (
+                              <span
+                                className="font-mono text-[0.7rem] uppercase tracking-widest text-ink-faint"
+                                title="PSI kunne ikke måle denne overflaten (auth-gated innlogging/redirect). Utelatt fra snittscoren."
+                              >
+                                ikke målbar
+                              </span>
+                            ) : (
                             <div className="flex items-center gap-3">
                               <span
                                 className={cn(
@@ -339,6 +357,7 @@ export function IntelligenceCategoryPage({
                                 />
                               </div>
                             </div>
+                            )}
                           </td>
                           <td className="px-4 py-3 font-mono text-[0.65rem] text-ink-soft">
                             {new Date(r.started_at).toLocaleString("nb-NO", {
