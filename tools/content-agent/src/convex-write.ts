@@ -212,6 +212,30 @@ export async function insertDraft(
   return id as DraftId;
 }
 
+/** Overwrite a draft's body (used to apply the deep-review rewrite). */
+export async function editDraftBody(
+  id: DraftId,
+  body: string,
+  title?: string,
+): Promise<void> {
+  await getConvex().mutation(api.content.drafts.edit, {
+    adminToken: adminToken(),
+    id,
+    body,
+    ...(title ? { title } : {}),
+  });
+}
+
+/** Reject a draft so the auto-publish gate skips it (deep-review verdict). */
+export async function rejectDraft(id: DraftId, note: string): Promise<void> {
+  await getConvex().mutation(api.content.drafts.reject, {
+    adminToken: adminToken(),
+    id,
+    reviewer: "content-review",
+    note: note.slice(0, 500),
+  });
+}
+
 export interface ClusterWithCoverage
   extends Omit<KeywordCluster, "id"> {
   id: ClusterId;

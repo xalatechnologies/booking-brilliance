@@ -15,7 +15,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 export interface ContentAgentConfig {
   // LLM
   anthropicApiKey: string;
-  anthropicDraftModel: string;       // sonnet for drafts
+  anthropicDraftModel: string;       // best model — writes the blog (the content)
+  anthropicReviewModel: string;      // best model — deep editorial review pass
+  anthropicBriefModel: string;       // mid model — brief + social drafts
   anthropicCheapModel: string;       // haiku for clustering/expansion
 
   // External signal sources (gated — missing key = source skipped)
@@ -64,8 +66,14 @@ function envList(key: string, fallback: string[]): string[] {
 export function loadConfig(): ContentAgentConfig {
   return {
     anthropicApiKey: process.env.ANTHROPIC_API_KEY ?? "",
+    // The blog is the product, so it gets the most capable model. The brief and
+    // low-stakes social drafts run on a mid model; clustering stays on haiku.
     anthropicDraftModel:
-      process.env.CONTENT_AGENT_DRAFT_MODEL ?? "claude-sonnet-4-6",
+      process.env.CONTENT_AGENT_DRAFT_MODEL ?? "claude-opus-4-8",
+    anthropicReviewModel:
+      process.env.CONTENT_AGENT_REVIEW_MODEL ?? "claude-opus-4-8",
+    anthropicBriefModel:
+      process.env.CONTENT_AGENT_BRIEF_MODEL ?? "claude-sonnet-5",
     anthropicCheapModel:
       process.env.CONTENT_AGENT_CHEAP_MODEL ?? "claude-haiku-4-5-20251001",
 

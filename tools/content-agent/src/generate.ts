@@ -24,10 +24,12 @@ import type {
   KeywordCluster,
 } from "./types";
 
-// Approximate Sonnet 4.6 pricing as of 2026-05 — used for budget
-// enforcement and the per-action cost_usd log. Update when Anthropic
-// pricing changes; the harness uses these for the budget_usd_month gate.
+// Approximate per-model pricing ($/1M tokens) — used for budget enforcement
+// and the per-action cost_usd log. Update when Anthropic pricing changes; the
+// harness uses these for the budget_usd_month gate.
 const PRICE_PER_M = {
+  "claude-opus-4-8": { input: 15, output: 75 },
+  "claude-sonnet-5": { input: 3, output: 15 },
   "claude-sonnet-4-6": { input: 3, output: 15 },
   "claude-haiku-4-5-20251001": { input: 0.8, output: 4 },
 } as const;
@@ -120,38 +122,43 @@ Digilist er en kommunal SaaS-plattform for booking av lokaler (idrettshaller, m�
 
 Stemme: konkret, nøktern, datadrevet, norsk bokmål. Aldri "transformere", "revolusjonere", "neste generasjon", "synergier". Skriv som en erfaren senior product manager: fakta, eksempel, nytteverdi. Aldri bruk tankestrek (— eller –) som skilletegn; bruk komma, kolon eller punktum. Unngå AI-klisjeer og fyllfraser ("Her er hva...", "La oss se på...", "Det er verdt å merke seg at...", "kort fortalt").
 
-Du får ett keyword-cluster og skal lage en kort editorial brief som dekker:
-- audience  (én konkret målgruppe over)
+Du får ETT keyword-cluster, altså en GRUPPE beslektede søk som hører sammen (ikke ett enkelt søkeord). Oppgaven er å planlegge ÉN grundig, autoritativ pilar-artikkel som besvarer HELE klyngen av relaterte søk, ikke en tynn post om bare det ene sentrale ordet. Tenk søkeintensjon: hvilke ulike, men beslektede spørsmål stiller folk i denne klyngen, og hvordan dekker én sammenhengende artikkel dem alle?
+
+Lag en editorial brief som dekker:
+- audience  (én konkret målgruppe over — den som eier flest av søkene i klyngen)
 - angle     (én setning: den unike vinklingen som differensierer Digilist)
-- outline   (4-7 punkter: det blog-posten skal dekke)
+- outline   (6-9 H2-seksjoner som til sammen dekker bredden i klyngen; hver seksjon svarer på en distinkt underintensjon slik at artikkelen rangerer for flere søk samtidig)
+- subtopics (3-8 konkrete underemner/søkevarianter fra klyngen som teksten må berøre naturlig)
 - cta       (eksakt CTA-tekst, typisk "Book demo" eller "Last ned PDF")
 
 Returner KUN gyldig JSON, ingen forklaring:
-{"audience":"...","angle":"...","outline":["...","..."],"cta":"..."}`;
+{"audience":"...","angle":"...","outline":["...","..."],"subtopics":["...","..."],"cta":"..."}`;
 
 export async function generateBrief(
   cfg: ContentAgentConfig,
   cluster: KeywordCluster,
 ): Promise<{
   brief: Omit<Brief, "id" | "cluster_id"> & { cluster_id: number };
+  subtopics: string[];
   call: AnthropicCallResult;
 }> {
-  const userMessage = `Cluster: ${cluster.label}
-Centroid term: ${cluster.centroid_term}
-Topic summary: ${cluster.topic_summary}
-Composite score: ${cluster.composite_score}
+  const userMessage = `Keyword-cluster (en gruppe beslektede søk): ${cluster.label}
+Sentralt søkeord: ${cluster.centroid_term}
+Klyngens tema (oppsummering av alle søkeordene i klyngen): ${cluster.topic_summary}
+Signalstyrke (composite score): ${cluster.composite_score}
 
-Lag editorial brief som JSON.`;
+Planlegg ÉN grundig pilar-artikkel som besvarer hele denne klyngen. Returner brief som JSON.`;
   const call = await anthropic(cfg, {
-    model: cfg.anthropicCheapModel,
+    model: cfg.anthropicBriefModel,
     systemPrompt: BRIEF_SYSTEM,
     userMessage,
-    maxTokens: 1024,
+    maxTokens: 1536,
   });
   const parsed = tryExtractJson<{
     audience?: string;
     angle?: string;
     outline?: string[];
+    subtopics?: string[];
     cta?: string;
   }>(call.text);
   if (!parsed?.audience || !parsed.angle) {
@@ -168,6 +175,7 @@ Lag editorial brief som JSON.`;
       created_at: new Date().toISOString(),
       model: call.model,
     },
+    subtopics: (parsed.subtopics ?? []).filter(Boolean),
     call,
   };
 }
@@ -196,11 +204,16 @@ keywords: ["<3-7 keywords>"]
 <artikkelen>
 \`\`\`
 
+Dette er en PILAR-artikkel som skal dekke en hel klynge av beslektede søk, ikke ett enkelt søkeord. Skriv bredt nok til å rangere for flere relaterte søk samtidig, men hold hver seksjon konkret og uten fyll.
+
 Krav til selve teksten:
-- 800-1500 ord (readingMinutes = ord/200)
+- 1200-2000 ord (readingMinutes = ord/200), grundig men uten fyllstoff
+- Dekk ALLE underemnene fra briefen; hver H2 svarer på en distinkt søkeintensjon i klyngen
 - Norsk bokmål, konkret og nøktern
 - Bruk H2 (##) og H3 (###), ikke H1, det kommer fra frontmatter
-- Inkluder minst ett konkret tall eller eksempel (ikke "mange kommuner", skriv "Lillestrøm kommune")
+- Start med en kort ingress (2-3 setninger) som slår an temaet uten fyllfraser
+- Inkluder minst to konkrete tall eller navngitte eksempler (ikke "mange kommuner", skriv "Lillestrøm kommune"); finn ikke opp statistikk, bruk realistiske, etterprøvbare størrelsesordener
+- Vurder en kort punktliste eller sammenligning der det gjør stoffet lettere å skanne
 - Inkluder en avsluttende seksjon med CTA fra briefen
 - Aldri "transformere", "revolusjonere", "neste generasjon"
 - Aldri promote competitors negativt; fokuser på Digilists styrker
@@ -213,28 +226,32 @@ export async function generateBlogDraft(
   cfg: ContentAgentConfig,
   brief: Brief,
   cluster: KeywordCluster,
+  subtopics: string[] = [],
 ): Promise<{
   draft: Omit<Draft, "id" | "brief_id">;
   call: AnthropicCallResult;
 }> {
   const outline = JSON.parse(brief.outline_json) as string[];
-  const userMessage = `Cluster: ${cluster.label}
-Centroid term: ${cluster.centroid_term}
-Topic summary: ${cluster.topic_summary}
+  const subtopicBlock = subtopics.length
+    ? `\n- underemner/søkevarianter å dekke naturlig (rangér for hele klyngen):\n${subtopics.map((s) => `  • ${s}`).join("\n")}`
+    : "";
+  const userMessage = `Keyword-cluster (gruppe beslektede søk): ${cluster.label}
+Sentralt søkeord: ${cluster.centroid_term}
+Klyngens tema: ${cluster.topic_summary}
 
 Brief:
 - audience: ${brief.audience}
 - angle: ${brief.angle}
-- outline:
-${outline.map((o, i) => `  ${i + 1}. ${o}`).join("\n")}
+- outline (én H2 per punkt):
+${outline.map((o, i) => `  ${i + 1}. ${o}`).join("\n")}${subtopicBlock}
 - cta: ${brief.cta}
 
-Skriv hele blog-posten som markdown, inkludert frontmatter. Bruk dato ${new Date().toISOString().slice(0, 10)}.`;
+Skriv ÉN samlet pilar-artikkel som besvarer hele klyngen, som markdown inkludert frontmatter. Bruk dato ${new Date().toISOString().slice(0, 10)}.`;
   const call = await anthropic(cfg, {
     model: cfg.anthropicDraftModel,
     systemPrompt: BLOG_SYSTEM,
     userMessage,
-    maxTokens: 6144,
+    maxTokens: 8192,
   });
   const text = call.text.trim();
   // Pull frontmatter to populate the draft record's structured fields.
@@ -265,6 +282,111 @@ Skriv hele blog-posten som markdown, inkludert frontmatter. Bruk dato ${new Date
       published_url: null,
       external_id: null,
       model: call.model,
+    },
+    call,
+  };
+}
+
+// ─────────────────────────────────────────────────────────────
+// Phase 2.5 — deep editorial review. A separate, more-critical pass over the
+// draft before it can auto-publish: catches vague claims, AI-tells, weak
+// structure, thin cluster coverage, and factual over-reach, and returns a
+// publication-ready rewrite plus a pass/revise/reject verdict.
+
+const REVIEW_SYSTEM = `Du er Digilists ansvarlige redaktør (senior editor-in-chief). Du gjør en KRITISK sluttgjennomgang av et blogg-utkast før det publiseres automatisk på digilist.no. Du er den siste kvalitetskontrollen, så vær streng men rettferdig.
+
+Digilist er en kommunal SaaS-plattform for booking av lokaler. Publikum er kommune-ansatte, IT-ledere, driftsledere, innbyggere og lag/foreninger. Stemme: konkret, nøktern, datadrevet, norsk bokmål.
+
+Vurder utkastet mot denne sjekklisten:
+1. Faktisk presisjon: konkrete tall og navngitte eksempler, ingen vage "mange kommuner". Ingen oppdiktet statistikk presentert som fakta.
+2. Klyngedekning: dekker artikkelen bredden i søkeklyngen (flere beslektede intensjoner), ikke bare ett søkeord?
+3. Stemme og AI-støy: ingen tankestrek (— –) som skilletegn, ingen AI-klisjeer/fyllfraser, ingen "transformere/revolusjonere/neste generasjon", ikke overhedging.
+4. Struktur: tydelige H2/H3, skannbar, logisk flyt, ingen gjentakelser.
+5. Korrekthet: ingen usanne eller injurierende påstander om konkurrenter; interne påstander om Digilist er rimelige.
+6. Lengde og verdi: 1200-2000 ord, hver seksjon bærer sin egen vekt.
+7. CTA til stede og naturlig.
+8. Frontmatter intakt og gyldig.
+
+Du SKAL returnere en forbedret, publiseringsklar versjon som retter alle problemene du finner. Behold frontmatter-feltene slug, cover, date, author, role og tag NØYAKTIG som i originalen (ikke endre dem); du kan forbedre title og description. Ikke legg til tankestrek. Behold markdown-strukturen (frontmatter + brødtekst).
+
+Svar NØYAKTIG i dette formatet, ingenting annet:
+VERDICT: pass | revise | reject
+SCORE: <heltall 0-100>
+ISSUES:
+- <kort punkt per problem du fant og rettet; skriv "ingen vesentlige" hvis ren>
+REVISED_MARKDOWN:
+<hele den korrigerte markdown-filen inkludert frontmatter, uten kodefence>
+
+Bruk verdict "reject" bare hvis utkastet er fundamentalt ubrukelig (feil tema, tomt, ikke-norsk). Bruk "revise" hvis du gjorde reelle forbedringer, "pass" hvis originalen allerede var sterk.`;
+
+export interface BlogReview {
+  verdict: "pass" | "revise" | "reject";
+  score: number;
+  issues: string[];
+  finalBody: string; // revised markdown if valid, else the original
+  revised: boolean;
+}
+
+/** Validate that a candidate markdown still has YAML frontmatter with the
+ * critical fields, so a garbled review output can't ship a broken post. */
+function looksLikeValidPost(md: string): boolean {
+  const fm = md.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n[\s\S]+/);
+  if (!fm) return false;
+  return /\btitle:/.test(fm[1]) && md.replace(/^---[\s\S]*?---/, "").trim().length > 400;
+}
+
+export async function reviewBlogDraft(
+  cfg: ContentAgentConfig,
+  draftBody: string,
+  cluster: KeywordCluster,
+  brief: Brief,
+): Promise<{ review: BlogReview; call: AnthropicCallResult }> {
+  const outline = JSON.parse(brief.outline_json) as string[];
+  const userMessage = `Søkeklynge: ${cluster.label} (sentralt: ${cluster.centroid_term})
+Klyngens tema: ${cluster.topic_summary}
+Tiltenkt målgruppe: ${brief.audience}
+Planlagt outline: ${outline.join(" / ")}
+
+UTKAST TIL GJENNOMGANG:
+${draftBody}`;
+  const call = await anthropic(cfg, {
+    model: cfg.anthropicReviewModel,
+    systemPrompt: REVIEW_SYSTEM,
+    userMessage,
+    maxTokens: 8192,
+  });
+  const text = call.text;
+  const verdictM = text.match(/VERDICT:\s*(pass|revise|reject)/i);
+  const scoreM = text.match(/SCORE:\s*(\d{1,3})/i);
+  const issuesM = text.match(/ISSUES:\s*([\s\S]*?)\nREVISED_MARKDOWN:/i);
+  const revisedM = text.match(/REVISED_MARKDOWN:\s*\n([\s\S]*)$/i);
+
+  const verdict = (verdictM?.[1]?.toLowerCase() as BlogReview["verdict"]) ?? "revise";
+  const score = scoreM ? Math.min(100, Math.max(0, Number(scoreM[1]))) : 70;
+  const issues = (issuesM?.[1] ?? "")
+    .split(/\r?\n/)
+    .map((l) => l.replace(/^\s*[-•]\s*/, "").trim())
+    .filter(Boolean);
+
+  // Strip an accidental ```markdown fence around the revised body.
+  let candidate = (revisedM?.[1] ?? "").trim();
+  candidate = candidate
+    .replace(/^```(?:markdown|md)?\s*\r?\n/, "")
+    .replace(/\r?\n```\s*$/, "")
+    .trim();
+
+  // Only accept the rewrite if it's a structurally valid post; otherwise keep
+  // the original body so a malformed review can never ship a broken file.
+  const accepted = candidate && looksLikeValidPost(candidate);
+  const finalBody = accepted ? candidate : draftBody;
+
+  return {
+    review: {
+      verdict,
+      score,
+      issues,
+      finalBody,
+      revised: Boolean(accepted) && finalBody !== draftBody,
     },
     call,
   };
@@ -320,7 +442,7 @@ Brief:
 
 Lag LinkedIn-post og X-tråd som JSON.`;
   const call = await anthropic(cfg, {
-    model: cfg.anthropicDraftModel,
+    model: cfg.anthropicBriefModel,
     systemPrompt: SOCIAL_SYSTEM,
     userMessage,
     maxTokens: 2048,

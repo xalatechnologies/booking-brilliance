@@ -12,6 +12,7 @@
 
 import { loadConfig } from "./config";
 import {
+  editDraftBody,
   finishContentRun,
   insertBrief,
   insertCluster,
@@ -20,6 +21,7 @@ import {
   listClustersWithCoverage,
   logAgentAction,
   recentKeywords,
+  rejectDraft,
   startContentRun,
   upsertAgent,
   upsertCoverage,
@@ -36,6 +38,7 @@ import {
   generateBlogDraft,
   generateBrief,
   generateSocialDrafts,
+  reviewBlogDraft,
   riskForChannel,
 } from "./generate";
 import type {
@@ -171,7 +174,7 @@ export async function runContentAgent(args: CliArgs = { phase: "all", trigger: "
       log(`generate: ${picks.length} clusters selected for drafting`);
       for (const { cluster, opportunity } of picks) {
         try {
-          const { brief, call: briefCall } = await generateBrief(
+          const { brief, subtopics, call: briefCall } = await generateBrief(
             cfg,
             { ...cluster, id: 0, member_ids: [] },
           );
@@ -196,10 +199,13 @@ export async function runContentAgent(args: CliArgs = { phase: "all", trigger: "
             tokens_out: briefCall.outputTokens,
           });
 
+          const briefForGen = { ...brief, id: 0, cluster_id: 0 };
+          const clusterForGen = { ...cluster, id: 0, member_ids: [] };
           const { draft: blog, call: blogCall } = await generateBlogDraft(
             cfg,
-            { ...brief, id: 0, cluster_id: 0 },
-            { ...cluster, id: 0, member_ids: [] },
+            briefForGen,
+            clusterForGen,
+            subtopics,
           );
           const blogId = await insertDraft({ ...blog, brief_id: briefId });
           draftsGenerated++;
@@ -219,6 +225,53 @@ export async function runContentAgent(args: CliArgs = { phase: "all", trigger: "
             tokens_in: blogCall.inputTokens,
             tokens_out: blogCall.outputTokens,
           });
+
+          // ── Deep editorial review before this draft can auto-publish ──
+          // A stricter Opus pass rewrites the draft to publication quality and
+          // returns a verdict. On "reject" (or a low score) we flip the draft
+          // to rejected so auto-publish skips it; otherwise the rewrite is
+          // applied and it ships. This is the quality gate between draft and
+          // publish.
+          try {
+            const { review, call: reviewCall } = await reviewBlogDraft(
+              cfg,
+              blog.body,
+              clusterForGen,
+              briefForGen,
+            );
+            if (review.revised && review.finalBody !== blog.body) {
+              await editDraftBody(blogId, review.finalBody);
+            }
+            const gated = review.verdict === "reject" || review.score < 60;
+            if (gated) {
+              await rejectDraft(
+                blogId,
+                `deep-review score=${review.score} verdict=${review.verdict}: ${review.issues.join("; ")}`,
+              );
+            }
+            await logAgentAction({
+              agent_slug: "content-review",
+              run_id: runId,
+              kind: "recommendation",
+              tool: "anthropic:review",
+              input_summary: `draft:${blogId}`,
+              output_summary: `${gated ? "GATED" : "approved"} score=${review.score} verdict=${review.verdict}${review.revised ? " (revised)" : ""}`,
+              trace_ref: `draft:${blogId}`,
+              risk: "med",
+              requires_review: false,
+              reviewed_at: new Date().toISOString(),
+              reviewed_by: "content-review",
+              cost_usd: reviewCall.costUsd,
+              tokens_in: reviewCall.inputTokens,
+              tokens_out: reviewCall.outputTokens,
+            });
+            log(
+              `review: draft:${blogId} score=${review.score} verdict=${review.verdict}` +
+                `${review.revised ? " revised" : ""}${gated ? " → GATED (won't publish)" : ""}`,
+            );
+          } catch (e) {
+            log(`review: draft:${blogId} failed → ${String(e)} (draft left as-is)`);
+          }
 
           const { linkedin, x, call: socialCall } = await generateSocialDrafts(
             cfg,
