@@ -41,6 +41,7 @@ import {
   reviewBlogDraft,
   riskForChannel,
 } from "./generate";
+import { buildLearnings, recordLesson, type ContentMemory } from "./memory";
 import type {
   ContentRunPhase,
   Keyword,
@@ -172,11 +173,17 @@ export async function runContentAgent(args: CliArgs = { phase: "all", trigger: "
       const cap = args.draftsCap ?? cfg.draftsPerRun;
       const picks = ranked.slice(0, cap);
       log(`generate: ${picks.length} clusters selected for drafting`);
+      // Load the learning memory once; recordLesson persists after each review,
+      // and buildLearnings is refreshed per cluster so later posts in the same
+      // run also benefit from earlier posts' lessons (the compounding loop).
+      let memory: ContentMemory = buildLearnings(cfg).memory;
       for (const { cluster, opportunity } of picks) {
         try {
+          const learnings = buildLearnings(cfg).context;
           const { brief, subtopics, call: briefCall } = await generateBrief(
             cfg,
             { ...cluster, id: 0, member_ids: [] },
+            learnings,
           );
           const briefId = await insertBrief({
             ...brief,
@@ -206,6 +213,7 @@ export async function runContentAgent(args: CliArgs = { phase: "all", trigger: "
             briefForGen,
             clusterForGen,
             subtopics,
+            learnings,
           );
           const blogId = await insertDraft({ ...blog, brief_id: briefId });
           draftsGenerated++;
@@ -238,6 +246,7 @@ export async function runContentAgent(args: CliArgs = { phase: "all", trigger: "
               blog.body,
               clusterForGen,
               briefForGen,
+              learnings,
             );
             if (review.revised && review.finalBody !== blog.body) {
               await editDraftBody(blogId, review.finalBody);
@@ -249,6 +258,20 @@ export async function runContentAgent(args: CliArgs = { phase: "all", trigger: "
                 `deep-review score=${review.score} verdict=${review.verdict}: ${review.issues.join("; ")}`,
               );
             }
+            // Capture the lesson so it compounds into future runs (OB1 pattern).
+            let slug = "unknown";
+            try {
+              slug = (JSON.parse(blog.frontmatter_json) as { slug?: string }).slug || slug;
+            } catch {
+              /* keep default */
+            }
+            memory = recordLesson(memory, {
+              date: new Date().toISOString().slice(0, 10),
+              slug,
+              score: review.score,
+              verdict: review.verdict,
+              issues: review.issues,
+            });
             await logAgentAction({
               agent_slug: "content-review",
               run_id: runId,

@@ -137,17 +137,18 @@ Returner KUN gyldig JSON, ingen forklaring:
 export async function generateBrief(
   cfg: ContentAgentConfig,
   cluster: KeywordCluster,
+  learnings = "",
 ): Promise<{
   brief: Omit<Brief, "id" | "cluster_id"> & { cluster_id: number };
   subtopics: string[];
   call: AnthropicCallResult;
 }> {
-  const userMessage = `Keyword-cluster (en gruppe beslektede søk): ${cluster.label}
+  const userMessage = `${learnings ? `${learnings}\n\n` : ""}Keyword-cluster (en gruppe beslektede søk): ${cluster.label}
 Sentralt søkeord: ${cluster.centroid_term}
 Klyngens tema (oppsummering av alle søkeordene i klyngen): ${cluster.topic_summary}
 Signalstyrke (composite score): ${cluster.composite_score}
 
-Planlegg ÉN grundig pilar-artikkel som besvarer hele denne klyngen. Returner brief som JSON.`;
+Planlegg ÉN grundig pilar-artikkel som besvarer hele denne klyngen. Velg en vinkel som IKKE dupliserer en allerede publisert artikkel over. Returner brief som JSON.`;
   const call = await anthropic(cfg, {
     model: cfg.anthropicBriefModel,
     systemPrompt: BRIEF_SYSTEM,
@@ -227,6 +228,7 @@ export async function generateBlogDraft(
   brief: Brief,
   cluster: KeywordCluster,
   subtopics: string[] = [],
+  learnings = "",
 ): Promise<{
   draft: Omit<Draft, "id" | "brief_id">;
   call: AnthropicCallResult;
@@ -235,7 +237,7 @@ export async function generateBlogDraft(
   const subtopicBlock = subtopics.length
     ? `\n- underemner/søkevarianter å dekke naturlig (rangér for hele klyngen):\n${subtopics.map((s) => `  • ${s}`).join("\n")}`
     : "";
-  const userMessage = `Keyword-cluster (gruppe beslektede søk): ${cluster.label}
+  const userMessage = `${learnings ? `${learnings}\n\n` : ""}Keyword-cluster (gruppe beslektede søk): ${cluster.label}
 Sentralt søkeord: ${cluster.centroid_term}
 Klyngens tema: ${cluster.topic_summary}
 
@@ -340,9 +342,10 @@ export async function reviewBlogDraft(
   draftBody: string,
   cluster: KeywordCluster,
   brief: Brief,
+  learnings = "",
 ): Promise<{ review: BlogReview; call: AnthropicCallResult }> {
   const outline = JSON.parse(brief.outline_json) as string[];
-  const userMessage = `Søkeklynge: ${cluster.label} (sentralt: ${cluster.centroid_term})
+  const userMessage = `${learnings ? `${learnings}\n\n` : ""}Søkeklynge: ${cluster.label} (sentralt: ${cluster.centroid_term})
 Klyngens tema: ${cluster.topic_summary}
 Tiltenkt målgruppe: ${brief.audience}
 Planlagt outline: ${outline.join(" / ")}

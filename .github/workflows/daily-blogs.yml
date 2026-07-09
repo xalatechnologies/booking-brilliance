@@ -71,7 +71,9 @@ jobs:
           # top of /blogg. (Empty list → the loop is a no-op.)
           changed=$(git status --porcelain src/content/blog | awk '{print $2}')
           for f in $changed; do sed -i "s/^date:.*/date: $today/" "$f"; done
-          git add src/content/blog
+          # Stage new/changed posts AND the learning memory (the deep-review
+          # records lessons into it — they must persist across runs).
+          git add src/content/blog tools/content-agent/memory
           # If nothing is genuinely staged, there's no new content to ship. This
           # happens on a no-new-post day: sync re-emits existing posts with their
           # original Convex date, git flags a diff, then the re-date above cancels
@@ -96,9 +98,15 @@ jobs:
           done
           n=$(printf '%s\n' $staged | grep -c '\.md$' || true)
           echo "slugs=$slugs" >> "$GITHUB_OUTPUT"
+          # Only a memory-only change (a draft was generated + reviewed but gated,
+          # so no new post): commit the learnings but skip deploy/verify.
+          if [ -z "$slugs" ]; then
+            echo "none=1" >> "$GITHUB_OUTPUT"
+            echo "Only learning-memory changed — committing lessons, nothing to deploy."
+          fi
           git config user.name "digilist-blog-agent"
           git config user.email "bot@digilist.no"
-          git commit -m "Daily blog agent: ${n} new post(s) [$today]"
+          git commit -m "Daily blog agent: ${n} new post(s) + learnings [$today]"
           git push
 
       # 5. build + deploy to Hostinger (self-contained; doesn't rely on the
