@@ -36,8 +36,11 @@
     </script>
 
     <!-- Favicons -->
-    <link rel="icon" href="/icon.png" type="image/png" />
-    <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+    <!-- 5.5KB favicon instead of the 145KB logo.svg / 228KB icon.png the
+         browser used to fetch on every page (competed for the LCP window on
+         slow 4G). apple-touch-icon stays full-size — only fetched on iOS
+         add-to-home-screen, never on a normal page load. -->
+    <link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48" />
     <link rel="apple-touch-icon" href="/icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
 

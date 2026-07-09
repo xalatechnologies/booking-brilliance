@@ -76,11 +76,12 @@ export default defineConfig({
         // Favicons — mirror marketing site's index.html exactly.
         {
           tag: "link",
-          attrs: { rel: "icon", href: "/icon.png", type: "image/png" },
-        },
-        {
-          tag: "link",
-          attrs: { rel: "icon", href: "/logo.svg", type: "image/svg+xml" },
+          attrs: {
+            rel: "icon",
+            href: "/favicon-48.png",
+            type: "image/png",
+            sizes: "48x48",
+          },
         },
         {
           tag: "link",
