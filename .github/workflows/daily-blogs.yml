@@ -47,7 +47,14 @@ jobs:
           VITE_CONVEX_URL: ${{ secrets.VITE_CONVEX_URL }}
           ADMIN_BASIC_AUTH: ${{ secrets.ADMIN_BASIC_AUTH }}
           CONTENT_AGENT_DRAFTS_PER_RUN: ${{ github.event.inputs.count || '3' }}
-        run: pnpm content:all -- --trigger cron
+        run: |
+          # Without a real key the agent silently generates 0 drafts (the LLM
+          # calls 401) and the day looks like a no-op. Fail loudly instead.
+          if [ -z "${ANTHROPIC_API_KEY}" ]; then
+            echo "::error::ANTHROPIC_API_KEY secret is empty — the blog agent can't generate. Set a valid key in repo secrets."
+            exit 1
+          fi
+          pnpm content:all -- --trigger cron
 
       # 2. auto-approve + publish the new blog drafts (Convex source of truth)
       - name: Auto-publish
@@ -109,7 +116,16 @@ jobs:
           git config user.name "digilist-blog-agent"
           git config user.email "bot@digilist.no"
           git commit -m "Daily blog agent: ${n} new post(s) + learnings [$today]"
-          git push
+          # Resilient push: main may have advanced between checkout and now
+          # (a concurrent push/run). Rebase our single commit on top and retry
+          # instead of hard-failing on a lost race.
+          pushed=0
+          for attempt in 1 2 3; do
+            if git push; then pushed=1; break; fi
+            echo "push rejected (attempt $attempt) — rebasing on origin/main and retrying"
+            git pull --rebase origin main || break
+          done
+          if [ "$pushed" != "1" ]; then echo "::error::git push failed after retries"; exit 1; fi
 
       # 5. build + deploy to Hostinger (self-contained; doesn't rely on the
       #    separate deploy workflow triggering off the bot push)
@@ -171,4 +187,6 @@ jobs:
           if [ "${{ github.event_name }}" != "workflow_dispatch" ] && [ "$(date -u +%u)" != "1" ]; then
             echo "Skipping idea generation (runs Mondays or on manual dispatch)."; exit 0
           fi
-          pnpm content:ideas
+          # Non-fatal: the idea agent is supplementary — a tracker/API hiccup (or
+          # a missing key) must not fail the blog pipeline.
+          pnpm content:ideas || echo "::warning::feature-idea step failed (non-fatal, continuing)"
