@@ -79,8 +79,8 @@ const Blog = () => {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <SEO
-        title="Blogg — Digilist | Innsikt om booking, sesongleie, samsvar og daglig drift"
-        description="Artikler fra Digilists arbeid med norske kommuner og utleiere — bookingflyt, saksbehandling, sesongleie, sikker innlogging, fakturering, SSA-L 2026, GDPR og ISO 27001."
+        title="Blogg · Digilist | Innsikt om booking, sesongleie, samsvar og daglig drift"
+        description="Artikler fra Digilists arbeid med norske kommuner og utleiere: bookingflyt, saksbehandling, sesongleie, sikker innlogging, fakturering, SSA-L 2026, GDPR og ISO 27001."
         canonical="https://digilist.no/blogg"
         breadcrumbs={[
           { name: "Hjem", url: "https://digilist.no/" },

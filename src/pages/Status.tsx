@@ -78,7 +78,7 @@ interface Summary {
 const SLA_TARGETS: Record<string, { uptime: number; description: string }> = {
   marketing: {
     uptime: 99.9,
-    description: "Offentlige sider — markedsføring, blogg, dokumentasjon",
+    description: "Offentlige sider: markedsføring, blogg, dokumentasjon",
   },
   docs: { uptime: 99.9, description: "Dokumentasjon" },
   status: { uptime: 99.95, description: "Status-side (denne)" },
@@ -142,7 +142,7 @@ export default function Status() {
   return (
     <div className="min-h-screen bg-paper overflow-x-hidden">
       <SEO
-        title="Driftsstatus — Digilist"
+        title="Driftsstatus · Digilist"
         description="Sanntidsstatus for Digilist-økosystemet: oppetid, SLA, sikkerhet og tilgjengelighet på tvers av digilist.no, app.digilist.no, dashboard.digilist.no og dokumentasjon."
         canonical="https://status.digilist.no/"
       />
@@ -182,7 +182,7 @@ export default function Status() {
                 </h1>
                 <p className="mt-6 text-xl text-ink-soft measure leading-relaxed">
                   Sanntid for Digilist-økosystemet. Hver overflate skannes
-                  automatisk — vi måler det <em>du</em> opplever, ikke bare
+                  automatisk. Vi måler det <em>du</em> opplever, ikke bare
                   serverpuls. Når noe ryker, ser du det her først.
                 </p>
                 <p className="mt-3 text-base text-ink-soft measure">
@@ -314,7 +314,7 @@ function SLASection({ surfaces }: { surfaces: SurfaceRow[] }) {
         </h2>
         <p className="text-base text-ink-soft leading-relaxed">
           Vi forplikter oss til konkrete oppetidstall per overflate-type. Tallet
-          til høyre er målt over de siste 90 dagene — direkte fra skanninger,
+          til høyre er målt over de siste 90 dagene, direkte fra skanninger,
           ikke selvrapportert.
         </p>
       </header>
@@ -361,7 +361,7 @@ function SLASection({ surfaces }: { surfaces: SurfaceRow[] }) {
                       : "text-amber-700",
                 )}
               >
-                {r.actual30 === null ? "—" : `${r.actual30.toFixed(2)}%`}
+                {r.actual30 === null ? "-" : `${r.actual30.toFixed(2)}%`}
               </p>
               <p
                 className={cn(
@@ -373,7 +373,7 @@ function SLASection({ surfaces }: { surfaces: SurfaceRow[] }) {
                       : "text-amber-700",
                 )}
               >
-                {r.actual90 === null ? "—" : `${r.actual90.toFixed(2)}%`}
+                {r.actual90 === null ? "-" : `${r.actual90.toFixed(2)}%`}
               </p>
               <span
                 className={cn(
@@ -400,7 +400,7 @@ function SurfaceList({ surfaces }: { surfaces: SurfaceRow[] }) {
     <section className="mb-14 lg:mb-20">
       <SectionRule label="OVERFLATER" />
       <p className="text-base text-ink-soft mt-6 mb-6 max-w-prose">
-        Per-overflate status — operativ, redusert eller nede — basert på siste
+        Per-overflate status (operativ, redusert eller nede) basert på siste
         skanning. Klikk en overflate for å åpne den i ny fane.
       </p>
       <div className="divide-y divide-rule border-y border-rule">
@@ -436,7 +436,7 @@ function SurfaceList({ surfaces }: { surfaces: SurfaceRow[] }) {
                 <p className="font-mono text-[0.6rem] uppercase tracking-widest text-ink-faint mt-1">
                   {s.type && SURFACE_TYPE_LABEL[s.type]
                     ? SURFACE_TYPE_LABEL[s.type]
-                    : s.type ?? "—"}
+                    : s.type ?? "-"}
                   {" · "}
                   <a
                     href={s.origin}
@@ -455,7 +455,7 @@ function SurfaceList({ surfaces }: { surfaces: SurfaceRow[] }) {
                 OPPETID 90D
               </p>
               <p className="font-serif text-xl text-ink mt-0.5">
-                {s.uptime90d === null ? "—" : `${s.uptime90d.toFixed(1)}%`}
+                {s.uptime90d === null ? "-" : `${s.uptime90d.toFixed(1)}%`}
               </p>
             </div>
             <span
@@ -527,7 +527,7 @@ function ExternalValidators() {
         </h2>
         <p className="text-base text-ink-soft">
           Tallene over kommer fra våre egne skanninger. Sjekk digilist.no
-          parallelt hos uavhengige sikkerhets- og kvalitetsmålere — de gir
+          parallelt hos uavhengige sikkerhets- og kvalitetsmålere. De gir
           sanntidsdom du selv kan kjøre.
         </p>
       </div>
@@ -554,7 +554,7 @@ function ExternalValidators() {
           {
             name: "PageSpeed Insights",
             provider: "Google",
-            desc: "Core Web Vitals — LCP, CLS, INP. Mobile + desktop.",
+            desc: "Core Web Vitals: LCP, CLS, INP. Mobile + desktop.",
             href: "https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fdigilist.no",
           },
         ].map((tool) => (
@@ -622,7 +622,7 @@ function CTASection() {
         </h2>
         <p className="text-base lg:text-lg text-ink-soft leading-relaxed">
           Full transparensrapport, sikkerhetsmøte under NDA og ansvarlig
-          sårbarhetsrapportering — alt under.
+          sårbarhetsrapportering. Alt under.
         </p>
       </header>
 
@@ -631,7 +631,7 @@ function CTASection() {
           icon={FileText}
           eyebrow="DETALJER"
           title="Full transparensrapport"
-          body="Per-overflate scoringer for SEO, tilgjengelighet, sikkerhet og lenker — samme data vårt interne team ser."
+          body="Per-overflate scoringer for SEO, tilgjengelighet, sikkerhet og lenker, samme data vårt interne team ser."
           href="/transparens"
           cta="Se rapport"
         />

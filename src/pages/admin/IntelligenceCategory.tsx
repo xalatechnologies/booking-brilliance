@@ -409,7 +409,7 @@ export function IntelligenceCategoryPage({
                         colSpan={5}
                         className="px-4 py-8 text-center text-ink-faint"
                       >
-                        Ingen funn — pent ryddet
+                        Ingen funn, pent ryddet
                       </td>
                     </tr>
                   ) : (

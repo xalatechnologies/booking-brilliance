@@ -103,7 +103,7 @@ export default function Transparens() {
         const type = r.headers.get("content-type") || "";
         if (!type.includes("application/json")) {
           throw new Error(
-            "API svarte med " + (type || "ukjent type") + " — prøv å laste siden på nytt",
+            "API svarte med " + (type || "ukjent type") + ". Prøv å laste siden på nytt",
           );
         }
         return (await r.json()) as PublicSummary;
@@ -119,8 +119,8 @@ export default function Transparens() {
   return (
     <div className="min-h-screen bg-paper overflow-x-hidden">
       <SEO
-        title="Transparens — kvalitetsrapport for Digilist"
-        description="Live kvalitetsrapport: SEO, tilgjengelighet, sikkerhet, oppetid og lenker — automatisk skannet på tvers av Digilist-økosystemet."
+        title="Transparens · kvalitetsrapport for Digilist"
+        description="Live kvalitetsrapport: SEO, tilgjengelighet, sikkerhet, oppetid og lenker, automatisk skannet på tvers av Digilist-økosystemet."
         canonical="https://digilist.no/transparens"
       />
       <ProgressRail />
@@ -160,8 +160,8 @@ export default function Transparens() {
                 <p className="mt-6 text-xl text-ink-soft measure leading-relaxed">
                   En kommunal CIO bør vite hva slags plattform de velger. Denne
                   siden viser{" "}
-                  <em>Digilist sin egen</em> kvalitet — SEO, tilgjengelighet,
-                  sikkerhet, oppetid og lenker — automatisk skannet og oppdatert.
+                  <em>Digilist sin egen</em> kvalitet: SEO, tilgjengelighet,
+                  sikkerhet, oppetid og lenker, automatisk skannet og oppdatert.
                 </p>
                 <p className="mt-3 text-base text-ink-soft measure">
                   Skanninger kjøres minst hver 15. minutt for oppetid og daglig
@@ -170,7 +170,7 @@ export default function Transparens() {
                 </p>
                 <p className="mt-3 text-base text-ink-soft measure">
                   Rapporten dekker fem områder. <strong>SEO</strong> måler hvor
-                  synlig plattformen er i søk — titler, metadata, canonical og
+                  synlig plattformen er i søk: titler, metadata, canonical og
                   strukturert data. <strong>Tilgjengelighet</strong> sjekker
                   WCAG-samsvar: overskriftshierarki, alt-tekster, landemerker og
                   tastaturnavigasjon for skjermlesere. <strong>Sikkerhet</strong>{" "}
@@ -178,8 +178,8 @@ export default function Transparens() {
                   sensitive filer er eksponert. <strong>Oppetid</strong> følger
                   tilgjengelighet og responstid per tjeneste, med varsling ved
                   avvik. <strong>Lenker</strong> verifiserer at ingen utgående
-                  lenker er brutt. Hver overflate i økosystemet — markedssiden,
-                  booking-appen, dashbordet, dokumentasjonen og API-et — skannes
+                  lenker er brutt. Hver overflate i økosystemet (markedssiden,
+                  booking-appen, dashbordet, dokumentasjonen og API-et) skannes
                   uavhengig, og tallene nedenfor er hentet direkte fra siste
                   kjøring, uten manuell redigering eller utvalg.
                 </p>
@@ -196,7 +196,7 @@ export default function Transparens() {
                     KUNNE IKKE HENTE LIVE DATA
                   </p>
                   <p className="text-base text-ink">
-                    Beklager — kommer tilbake snart. {error}
+                    Beklager, kommer tilbake snart. {error}
                   </p>
                 </div>
               ) : data ? (
@@ -285,17 +285,17 @@ export default function Transparens() {
                             </div>
                             <p className="mt-3 text-sm text-ink-soft leading-relaxed">
                               {p.framework === "iso27001" &&
-                                "Annex A — Organisatoriske, personell-, fysiske og teknologiske kontroller."}
+                                "Annex A: Organisatoriske, personell-, fysiske og teknologiske kontroller."}
                               {p.framework === "soc2" &&
-                                "Common Criteria — kontrollmiljø, risiko, tilgang og systemoperasjoner."}
+                                "Common Criteria: kontrollmiljø, risiko, tilgang og systemoperasjoner."}
                               {p.framework === "gdpr" &&
-                                "Kjerneartikler — personvern, lovlig grunnlag, sletting og brudd-håndtering."}
+                                "Kjerneartikler: personvern, lovlig grunnlag, sletting og brudd-håndtering."}
                             </p>
                           </div>
                         ))}
                       </div>
                       <p className="mt-4 text-sm text-ink-faint italic max-w-3xl">
-                        Tallene viser implementeringsgrad — andelen
+                        Tallene viser implementeringsgrad, andelen
                         anvendelige kontroller med dokumentert tilstand
                         «Implementert» (full kreditt) eller «Delvis» (halv).
                         Detaljer over hver kontroll er tilgjengelig på
@@ -368,33 +368,33 @@ export default function Transparens() {
                             <span className="font-serif text-lg font-medium text-green-700">
                               95–100
                             </span>{" "}
-                            <span className="text-ink-soft">— utmerket</span>
+                            <span className="text-ink-soft">· utmerket</span>
                           </li>
                           <li>
                             <span className="font-serif text-lg font-medium text-green-700">
                               85–94
                             </span>{" "}
-                            <span className="text-ink-soft">— bra</span>
+                            <span className="text-ink-soft">· bra</span>
                           </li>
                           <li>
                             <span className="font-serif text-lg font-medium text-amber-700">
                               70–84
                             </span>{" "}
-                            <span className="text-ink-soft">— akseptabelt</span>
+                            <span className="text-ink-soft">· akseptabelt</span>
                           </li>
                           <li>
                             <span className="font-serif text-lg font-medium text-amber-700">
                               50–69
                             </span>{" "}
                             <span className="text-ink-soft">
-                              — trenger forbedring
+                              · trenger forbedring
                             </span>
                           </li>
                           <li>
                             <span className="font-serif text-lg font-medium text-red-700">
                               0–49
                             </span>{" "}
-                            <span className="text-ink-soft">— kritisk</span>
+                            <span className="text-ink-soft">· kritisk</span>
                           </li>
                         </ul>
                         <p className="text-xs text-ink-soft mt-4 font-mono uppercase tracking-widest">
@@ -416,7 +416,7 @@ export default function Transparens() {
                         Vi kjører våre egne automatiske skanninger (oversikten
                         over), men du bør ikke ta vårt ord for det. Sjekk
                         digilist.no selv hos disse uavhengige
-                        sikkerhets- og kvalitetsmålerne — de gir sanntidsdom.
+                        sikkerhets- og kvalitetsmålerne. De gir sanntidsdom.
                       </p>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-rule border border-rule">
@@ -442,7 +442,7 @@ export default function Transparens() {
                         {
                           name: "PageSpeed Insights",
                           provider: "Google",
-                          desc: "Core Web Vitals — LCP, CLS, INP. Mobile + desktop.",
+                          desc: "Core Web Vitals: LCP, CLS, INP. Mobile + desktop.",
                           href: "https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fdigilist.no",
                         },
                       ].map((tool) => (
@@ -470,7 +470,7 @@ export default function Transparens() {
                       ))}
                     </div>
                     <p className="text-xs text-ink-faint mt-4 font-mono uppercase tracking-widest">
-                      Live oppslag — Klikk en boks for å kjøre skanning hos
+                      Live oppslag. Klikk en boks for å kjøre skanning hos
                       tredjepart i sanntid.
                     </p>
                   </section>
@@ -509,7 +509,7 @@ export default function Transparens() {
                       </h2>
                       <p className="text-base lg:text-lg text-ink-soft leading-relaxed">
                         Vi deler gjerne sammendrag av siste penetrasjonstest og
-                        sårbarhetsstatus under NDA. Be om et møte — vi viser
+                        sårbarhetsstatus under NDA. Be om et møte. Vi viser
                         rapportene side-om-side med plattformen.
                       </p>
                     </header>
@@ -714,7 +714,7 @@ function ScoreChip({ value, label }: { value: number | null; label: string }) {
           scoreClass(value),
         )}
       >
-        {isNA ? "—" : value}
+        {isNA ? "-" : value}
       </span>
       <span className="font-mono text-[0.55rem] tracking-widest uppercase text-ink-faint mt-1.5 text-center leading-tight">
         {label}
@@ -740,7 +740,7 @@ function SurfaceRow({ s }: { s: PublicSurface }) {
         </div>
         <div className={cn("flex items-baseline gap-2", scoreClass(s.overall))}>
           <span className="font-serif text-5xl lg:text-6xl font-medium leading-none">
-            {s.overall ?? "—"}
+            {s.overall ?? "-"}
           </span>
           <span className="editorial-mono-caption text-ink-faint">overall</span>
         </div>

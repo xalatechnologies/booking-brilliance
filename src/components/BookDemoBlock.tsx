@@ -43,7 +43,7 @@ const ROLE_OPTIONS = [
 const HVA_FAAR_DU = [
   "30–45 minutters demo, tilpasset ditt bruksområde",
   "Gjennomgang av booking, betaling, sesongleie og fakturering",
-  "Spørsmål og svar — vi pakker ikke inn standarddemoen vår",
+  "Spørsmål og svar: vi pakker ikke inn standarddemoen vår",
   "Et notat med konkrete neste steg dersom dere vurderer pilot",
 ];
 
@@ -99,7 +99,7 @@ export function BookDemoBlock({
         persona: form.role || "ukjent",
         topic: "Demo-forespørsel",
         message: form.message,
-        summary: `Demo-forespørsel — ${form.organization} (${roleLabel})`,
+        summary: `Demo-forespørsel: ${form.organization} (${roleLabel})`,
         source,
         page: typeof window !== "undefined" ? window.location.pathname : "/",
         userAgent: typeof navigator !== "undefined" ? navigator.userAgent : "unknown",
@@ -154,7 +154,7 @@ export function BookDemoBlock({
           style={{ fontVariationSettings: getFraunces("sub") }}
         >
           Vi pakker ikke inn en standarddemo. Fortell oss kort hva dere driver
-          med — så viser vi delene som faktisk angår dere.
+          med, så viser vi delene som faktisk angår dere.
         </p>
 
         <motion.div
@@ -224,7 +224,7 @@ export function BookDemoBlock({
               >
                 Snakk med oss
               </button>{" "}
-              — vi svarer i chat på under et minutt i kontortid.
+              og få svar i chat på under et minutt i kontortid.
             </p>
           </motion.div>
 
@@ -257,12 +257,12 @@ export function BookDemoBlock({
                   letterSpacing: "-0.015em",
                 }}
               >
-                Takk — vi tar kontakt.
+                Takk, vi tar kontakt.
               </SubHeading>
               <p className="text-lg text-ink-soft measure mx-auto leading-relaxed mb-8">
                 Forespørselen er sendt til{" "}
                 <span className="font-mono text-sm">admin@digilist.no</span>. En av oss
-                svarer innen 24 timer på hverdager — som regel raskere.
+                svarer innen 24 timer på hverdager, som regel raskere.
               </p>
               <div className="flex flex-wrap justify-center gap-3">
                 <EditorialButton variant="primary" size="md" href="/">

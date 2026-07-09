@@ -13,14 +13,14 @@ export default function UseCaseKulturhus() {
       breadcrumb="Kulturhus og kantiner"
       title="Kulturhus og kantiner"
       dek="Forestillinger, konserter, åpne dager. Adgangskontroll via Salto KS, automatisk varsling av driftsroller og bilag direkte til regnskap."
-      lead="Kulturhus og kantiner er offentlige arenaer — de skal være tilgjengelige, drives sikkert, og levere alt fra en intim teater-forestilling til en åpen lørdagskafé på samme uke. Digilist gir kulturhus-administrasjonen sanntidskalender, billettsalgs-integrasjon, vakts-varsling, og automatiske bilag til regnskapssystemet — uten å fjerne det menneskelige preget."
-      seoTitle="Kulturhus og kantiner: bookingsystem for kommunale arenaer — Digilist"
+      lead="Kulturhus og kantiner er offentlige arenaer. De skal være tilgjengelige, drives sikkert, og levere alt fra en intim teater-forestilling til en åpen lørdagskafé på samme uke. Digilist gir kulturhus-administrasjonen sanntidskalender, billettsalgs-integrasjon, vakts-varsling, og automatiske bilag til regnskapssystemet, uten å fjerne det menneskelige preget."
+      seoTitle="Kulturhus og kantiner: bookingsystem for kommunale arenaer · Digilist"
       seoDescription="Bookingsystem for kulturhus, kantiner og kommunale arenaer. Forestillinger, konserter, åpne dager. Adgangskontroll, driftsrolle-varsling, EHF-fakturering."
       keywords="kulturhus booking, kantine booking, kommunal kantine, kulturhus arrangement, Salto KS, kulturhus utleie, kommunal kultur, åpne dager"
       audience={[
         {
           persona: "Kommunale kulturhus",
-          context: "Hovedarena for kommunens kulturliv — bruk av kulturkonsulent for arrangement, ekstern utleie til konserter og bryllup, åpne dager for innbyggere.",
+          context: "Hovedarena for kommunens kulturliv: bruk av kulturkonsulent for arrangement, ekstern utleie til konserter og bryllup, åpne dager for innbyggere.",
         },
         {
           persona: "Stiftelser og kulturhus-AS",
@@ -28,11 +28,11 @@ export default function UseCaseKulturhus() {
         },
         {
           persona: "Kantiner i kommunehus",
-          context: "Lunsj-kantiner som også brukes som arrangement-areal kveld og helg — for jubileer, foreningsmøter eller eksterne arrangement.",
+          context: "Lunsj-kantiner som også brukes som arrangement-areal kveld og helg, for jubileer, foreningsmøter eller eksterne arrangement.",
         },
         {
           persona: "Konsert- og scenekunstaktører",
-          context: "Eksterne arrangører som leier kulturhus eller scenearealer for konsert, teater, foredrag — trenger forutsigbar pris og rask bekreftelse.",
+          context: "Eksterne arrangører som leier kulturhus eller scenearealer for konsert, teater, foredrag, trenger forutsigbar pris og rask bekreftelse.",
         },
         {
           persona: "Bibliotek og museer",
@@ -44,11 +44,11 @@ export default function UseCaseKulturhus() {
         },
       ]}
       problems={[
-        "Forestillinger, konserter og åpne dager krever forskjellig drift — men alt går gjennom samme kalender uten differensiering.",
-        "Vakter, renhold, AV-tekniker, kafé-personale må alle informeres separat — i dag via separate e-poster eller ringerunde dagen før.",
+        "Forestillinger, konserter og åpne dager krever forskjellig drift, men alt går gjennom samme kalender uten differensiering.",
+        "Vakter, renhold, AV-tekniker, kafé-personale må alle informeres separat, i dag via separate e-poster eller ringerunde dagen før.",
         "Eksterne kunder ringer kulturhus-administrasjon for booking-forespørsel; pris og tilgjengelighet svares manuelt etter 'la meg sjekke kalenderen'.",
         "Kantiner brukes til arrangement på kvelden, men kafé-driften vet ikke om noen booket lokalet før folk møter opp.",
-        "Bilag for utleie og bookinger må manuelt registreres i regnskapet — kulturhus-administrasjon bruker timer per måned på dette.",
+        "Bilag for utleie og bookinger må manuelt registreres i regnskapet. Kulturhus-administrasjon bruker timer per måned på dette.",
       ]}
       features={[
         {
@@ -57,11 +57,11 @@ export default function UseCaseKulturhus() {
         },
         {
           title: "Driftsrolle-varsling",
-          body: "Vakter, renhold, lyd-teknikker, kafé-leder, vekter — får alle automatisk SMS med relevant info når en booking er bekreftet. Ingen mottakerlister å vedlikeholde manuelt.",
+          body: "Vakter, renhold, lyd-teknikker, kafé-leder, vekter, får alle automatisk SMS med relevant info når en booking er bekreftet. Ingen mottakerlister å vedlikeholde manuelt.",
         },
         {
           title: "Sanntidskalender + ekstern booking",
-          body: "Kulturhus-administrasjon ser alle bookinger samme sted. Eksterne kunder kan se ledige datoer på offentlig nettside og forhåndsbestille — saksbehandler godkjenner med ett klikk.",
+          body: "Kulturhus-administrasjon ser alle bookinger samme sted. Eksterne kunder kan se ledige datoer på offentlig nettside og forhåndsbestille. Saksbehandler godkjenner med ett klikk.",
         },
         {
           title: "Salto KS adgangskontroll",
@@ -69,7 +69,7 @@ export default function UseCaseKulturhus() {
         },
         {
           title: "Billettsalgs-integrasjon",
-          body: "For arrangement med billett kobles vi mot ekstern billettleverandør (Ticketmaster, Hoopla, ven) — antall solgte plasser oppdateres mot kapasitetsgrensen.",
+          body: "For arrangement med billett kobles vi mot ekstern billettleverandør (Ticketmaster, Hoopla, ven). Antall solgte plasser oppdateres mot kapasitetsgrensen.",
         },
         {
           title: "Bilag og EHF-faktura",
@@ -81,7 +81,7 @@ export default function UseCaseKulturhus() {
           customer: "Kommunalt kulturhus",
           role: "Kulturkonsulent (eksempel-persona)",
           headline: "Tre arrangementer per kveld uten å miste oversikten",
-          body: "Vi har storsal, kafé, blackbox og foajé — fire arenaer som ofte kjøres parallelt. Tidligere brukte vi Outlook og en delt Excel for å koordinere. Nå har vi én sanntidskalender, og når en konsert bekreftes får lyd-tekniker og renhold automatisk SMS med scenisk plan og oppmøtetid. Vi fikk satt opp 23 arrangementer den siste måneden uten en eneste koordineringsfeil.",
+          body: "Vi har storsal, kafé, blackbox og foajé, fire arenaer som ofte kjøres parallelt. Tidligere brukte vi Outlook og en delt Excel for å koordinere. Nå har vi én sanntidskalender, og når en konsert bekreftes får lyd-tekniker og renhold automatisk SMS med scenisk plan og oppmøtetid. Vi fikk satt opp 23 arrangementer den siste måneden uten en eneste koordineringsfeil.",
           outcome: [
             { label: "Koordineringsfeil", value: "0" },
             { label: "Adm.-tid", value: "−55%" },
@@ -91,8 +91,8 @@ export default function UseCaseKulturhus() {
         {
           customer: "Bygdas frivillighetshus",
           role: "Frivillig daglig leder",
-          headline: "Bygda har 60 arrangementer i året — alle gjennom plattformen",
-          body: "Vi drives av frivillighet og har ingen kontortid. Bygdas folk bruker huset til møter, fester, korøvelser, dugnadsmøter — alt mulig. Tidligere måtte folk ringe meg på fritiden eller sende SMS. Nå booker de selv via Digilist, betaler hvis nødvendig, og får tilgang automatisk. Jeg ser hva som skjer hver kveld i et oversiktsbilde, men trenger ikke gjøre noe annet enn å åpne dørene mentalt.",
+          headline: "Bygda har 60 arrangementer i året, alle gjennom plattformen",
+          body: "Vi drives av frivillighet og har ingen kontortid. Bygdas folk bruker huset til møter, fester, korøvelser, dugnadsmøter, alt mulig. Tidligere måtte folk ringe meg på fritiden eller sende SMS. Nå booker de selv via Digilist, betaler hvis nødvendig, og får tilgang automatisk. Jeg ser hva som skjer hver kveld i et oversiktsbilde, men trenger ikke gjøre noe annet enn å åpne dørene mentalt.",
           outcome: [
             { label: "Bookinger/år", value: "~60" },
             { label: "Min/uke på admin", value: "<30 min" },
@@ -139,7 +139,7 @@ export default function UseCaseKulturhus() {
         },
       ]}
       pullQuote={{
-        text: "Tre arrangement parallelt på en lørdagskveld — uten en eneste e-post mellom oss og lyd-teknikker. Alle vet hvor de skal være og når.",
+        text: "Tre arrangement parallelt på en lørdagskveld, uten en eneste e-post mellom oss og lyd-teknikker. Alle vet hvor de skal være og når.",
         byline: "Kulturkonsulent, norsk kommune",
       }}
       faq={[
@@ -166,7 +166,7 @@ export default function UseCaseKulturhus() {
         {
           question: "Kan saksbehandlere booke på vegne av innbyggere som ikke kan logge inn?",
           answer:
-            "Ja. Saksbehandler kan registrere booking på telefon-/personlig oppmøte og bekrefte direkte — innbyggeren får e-post-/SMS-kvittering. All bookinghistorikk er knyttet til personen, ikke saksbehandleren.",
+            "Ja. Saksbehandler kan registrere booking på telefon-/personlig oppmøte og bekrefte direkte. Innbyggeren får e-post-/SMS-kvittering. All bookinghistorikk er knyttet til personen, ikke saksbehandleren.",
         },
         {
           question: "Hvordan integrerer vi med kommunens eksisterende driftsstyringssystem?",
@@ -184,7 +184,7 @@ export default function UseCaseKulturhus() {
           slug: "faktura-refusjon-avstemming",
         },
         {
-          title: "Min Side — alle bookinger på ett sted",
+          title: "Min Side: alle bookinger på ett sted",
           slug: "min-side-alle-bookinger-paa-ett-sted",
         },
       ]}

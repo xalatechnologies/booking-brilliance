@@ -37,7 +37,7 @@ const BrukerhistorierSection = () => {
               style={{ fontVariationSettings: getFraunces("sub") }}
             >
               Hverdagshistorier fra norske utleiere. Bookinger, automatisering og
-              regnskap — sammenhengende.
+              regnskap, sammenhengende.
             </p>
           </div>
         </div>
@@ -107,7 +107,7 @@ const BrukerhistorierSection = () => {
                   <p>
                     Kulturkonsulenten håndterer sesongleie til lag og foreninger,
                     privatbookinger og sambruk mellom kantiner og møterom. Driftsroller
-                    — vaktmestere, renhold, vektere — varsles automatisk ved
+                    (vaktmestere, renhold, vektere) varsles automatisk ved
                     bookingbekreftelse. Tilskudd til lag og foreninger fordeles via
                     sesongleie-modulen.
                   </p>
@@ -115,7 +115,7 @@ const BrukerhistorierSection = () => {
               }
               quote={{
                 text:
-                  "Vi har samlet tolv anlegg, hundrevis av foreninger og kommunal fakturering i én plattform — og innbyggerne booker via ID-porten.",
+                  "Vi har samlet tolv anlegg, hundrevis av foreninger og kommunal fakturering i én plattform, og innbyggerne booker via ID-porten.",
                 byline: "Kulturkonsulent",
                 role: "Nordre Follo kommune",
               }}
@@ -144,7 +144,7 @@ const BrukerhistorierSection = () => {
         </motion.div>
 
         <p className="mt-12 editorial-mono-caption text-center">
-          Flere referanser tilgjengelig på forespørsel — kontakt salg for kunde- og
+          Flere referanser tilgjengelig på forespørsel. Kontakt salg for kunde- og
           nøkkeltallreferanser.
         </p>
       </div>

@@ -80,7 +80,7 @@ const stacks = [
     Icon: ShieldCheck,
     category: "Sikkerhet & etterlevelse",
     tagline:
-      "Bygget for norske krav — ISO-sertifisert, GDPR-kompatibel, WCAG-testet og pentestet årlig.",
+      "Bygget for norske krav: ISO-sertifisert, GDPR-kompatibel, WCAG-testet og pentestet årlig.",
     items: [
       { name: "ISO 27001", value: "sertifisert" },
       { name: "ISO 27701", value: "sertifisert" },
@@ -100,7 +100,7 @@ const reliabilityPillars = [
     eyebrow: "Overvåking",
     title: "24/7 driftsovervåking",
     body:
-      "Helsesjekker hvert 30. sekund. Avvik som overskrider terskel sender automatisk varsel til vakt — på SMS, e-post og dashbord. Statusside oppdateres uten manuell innsats.",
+      "Helsesjekker hvert 30. sekund. Avvik som overskrider terskel sender automatisk varsel til vakt, på SMS, e-post og dashbord. Statusside oppdateres uten manuell innsats.",
     spec: [
       { label: "Sjekkfrekvens", value: "30 s" },
       { label: "Alarm kanaler", value: "SMS · e-post · Slack" },
@@ -210,7 +210,7 @@ const complianceGroups = [
     Icon: Building2,
     eyebrow: "Offentlig sektor",
     title: "DigDir + Anskaffelse",
-    body: "Bygget for norsk forvaltning — ID-porten, Altinn, EHF, BRREG og SSA-L 2026-kontraktsmal.",
+    body: "Bygget for norsk forvaltning: ID-porten, Altinn, EHF, BRREG og SSA-L 2026-kontraktsmal.",
     items: [
       { label: "ID-porten / BankID (eIDAS)", status: "Implementert" },
       { label: "EHF / Peppol-fakturering", status: "Implementert" },
@@ -351,7 +351,7 @@ const TechnologyStackSection = () => {
                 <span className="font-mono text-2xl md:text-3xl lg:text-4xl text-accent-text tracking-tight">
                   ID-porten
                 </span>{" "}
-                for innbyggertilgang — valg som holder gjennom drift,
+                for innbyggertilgang, valg som holder gjennom drift,
                 revisjon og kontrakt.
               </blockquote>
               <figcaption className="mt-8 lg:mt-10 flex items-center gap-3 editorial-mono-caption">
@@ -402,7 +402,7 @@ const TechnologyStackSection = () => {
             <div className="lg:col-span-5 flex items-end">
               <p className="text-base lg:text-lg text-ink-soft measure leading-relaxed">
                 Plattformen oppfyller norsk og europeisk regelverk for offentlig
-                sektor — universell utforming, informasjonssikkerhet, personvern
+                sektor: universell utforming, informasjonssikkerhet, personvern
                 og digital forvaltning. Hver kategori er dokumentert og kan
                 etterprøves i tilbudsfasen.
               </p>

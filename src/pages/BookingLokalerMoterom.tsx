@@ -30,7 +30,7 @@ const FAQ = [
   {
     question: "Hva er booking av lokaler og møterom?",
     answer:
-      "Booking av lokaler og møterom er den digitale prosessen der innbyggere, bedrifter, lag eller foreninger reserverer fysiske rom — selskapslokaler, møterom, idrettshaller, kantiner, kulturhus — for et bestemt tidsrom. En moderne plattform håndterer sanntidstilgjengelighet, betaling, kontrakt, varsling av driftsroller og fakturering i én sammenhengende flyt.",
+      "Booking av lokaler og møterom er den digitale prosessen der innbyggere, bedrifter, lag eller foreninger reserverer fysiske rom (selskapslokaler, møterom, idrettshaller, kantiner, kulturhus) for et bestemt tidsrom. En moderne plattform håndterer sanntidstilgjengelighet, betaling, kontrakt, varsling av driftsroller og fakturering i én sammenhengende flyt.",
   },
   {
     question: "Hvordan booker man et lokale eller møterom på Digilist?",
@@ -45,7 +45,7 @@ const FAQ = [
   {
     question: "Hvor mye koster det å booke et lokale via Digilist?",
     answer:
-      "Prisen avhenger av lokalet, varigheten, brukergruppen og kommunens regler. Lag og foreninger får ofte 30–100 % rabatt avhengig av kommunens prioriteringsregler. Selve plattformen er gratis å bruke for innbyggere — du betaler kun leieprisen til utleier.",
+      "Prisen avhenger av lokalet, varigheten, brukergruppen og kommunens regler. Lag og foreninger får ofte 30–100 % rabatt avhengig av kommunens prioriteringsregler. Selve plattformen er gratis å bruke for innbyggere. Du betaler kun leieprisen til utleier.",
   },
   {
     question: "Kan kommuner og bedrifter bruke Digilist for å sette opp egne booking-tjenester?",
@@ -78,12 +78,12 @@ const BENEFITS = [
   {
     Icon: CreditCard,
     title: "Betaling i én flyt",
-    body: "Vipps, kort eller faktura — uten å forlate booking-skjemaet. EHF/Peppol til organisasjoner. Automatisk avstemming mot regnskapssystemet.",
+    body: "Vipps, kort eller faktura, uten å forlate booking-skjemaet. EHF/Peppol til organisasjoner. Automatisk avstemming mot regnskapssystemet.",
   },
   {
     Icon: Users,
     title: "Sesongleie og brukergrupper",
-    body: "Lag og foreninger med BRREG-verifisering, regelstyrt fordeling, og dokumentert prioritering. Saksbehandler får forslag — beholder skjønnet.",
+    body: "Lag og foreninger med BRREG-verifisering, regelstyrt fordeling, og dokumentert prioritering. Saksbehandler får forslag, beholder skjønnet.",
   },
   {
     Icon: ShieldCheck,
@@ -93,12 +93,12 @@ const BENEFITS = [
   {
     Icon: Building2,
     title: "Bygget for norske krav",
-    body: "Vipps, BankID, ID-porten, EHF, BRREG og Digdir Designsystemet — innebygd. SSA-L 2026-klar for kommunale anskaffelser.",
+    body: "Vipps, BankID, ID-porten, EHF, BRREG og Digdir Designsystemet, innebygd. SSA-L 2026-klar for kommunale anskaffelser.",
   },
   {
     Icon: Sparkles,
     title: "Én plattform, ingen siloer",
-    body: "Booking, betaling, sesongleie, fakturering, regnskap og driftsvarsling — én datakilde. Ingen dobbelinntastinger, ingen synkroniseringsfeil.",
+    body: "Booking, betaling, sesongleie, fakturering, regnskap og driftsvarsling: én datakilde. Ingen dobbelinntastinger, ingen synkroniseringsfeil.",
   },
 ];
 
@@ -113,7 +113,7 @@ const USE_CASES = [
   {
     title: "Møterom",
     Icon: Users2,
-    body: "Kommunale møterom, næringsbygg, foreningslokaler — med sambruk og pris per brukergruppe.",
+    body: "Kommunale møterom, næringsbygg, foreningslokaler, med sambruk og pris per brukergruppe.",
     href: "/bruksomrader/moterom",
     cta: "Les om møterom",
   },
@@ -137,8 +137,8 @@ const BookingLokalerMoterom = () => {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <SEO
-        title="Booking av lokaler og møterom — Digilist | Norsk bookingplattform for kommuner og utleiere"
-        description="Booking av lokaler og møterom i Norge — sanntidskalender, Vipps, BankID, EHF og sesongleie. Bygget for kommuner, selskapslokaler, idrettshaller og kulturhus. SSA-L 2026-klar, ISO 27001-sertifisert."
+        title="Booking av lokaler og møterom · Digilist | Norsk bookingplattform for kommuner og utleiere"
+        description="Booking av lokaler og møterom i Norge: sanntidskalender, Vipps, BankID, EHF og sesongleie. Bygget for kommuner, selskapslokaler, idrettshaller og kulturhus. SSA-L 2026-klar, ISO 27001-sertifisert."
         keywords="booking av lokaler og møterom, booking lokale, booking møterom, leie lokale, leie møterom, bookingplattform Norge, kommunal booking, selskapslokale booking, idrettshall booking, kulturhus booking, Vipps booking, BankID booking, EHF, sesongleie"
         canonical="https://digilist.no/booking-av-lokaler-og-moterom"
         breadcrumbs={[
@@ -195,12 +195,12 @@ const BookingLokalerMoterom = () => {
                     >
                       lokaler og møterom
                     </em>{" "}
-                    — én norsk plattform.
+                    · én norsk plattform.
                   </EditorialHeading>
                   <p className="mt-6 text-xl text-ink-soft measure leading-relaxed">
                     Digilist er en norsk bookingplattform for kommuner,
                     selskapslokaler, idrettshaller, kulturhus og møterom. Søk,
-                    book og betal i én flyt — med Vipps, BankID, EHF og
+                    book og betal i én flyt, med Vipps, BankID, EHF og
                     sesongleie innebygd.
                   </p>
                   <div className="mt-8 flex flex-wrap gap-3">
@@ -437,7 +437,7 @@ const BookingLokalerMoterom = () => {
                     </h2>
                     <p className="text-base lg:text-lg text-ink leading-relaxed">
                       Få en gratis 30-minutters demo for kommunen eller utleier.
-                      Vi viser plattformen i ditt bruksområde — ingen
+                      Vi viser plattformen i ditt bruksområde. Ingen
                       forpliktelser.
                     </p>
                   </div>

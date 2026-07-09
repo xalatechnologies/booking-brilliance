@@ -252,7 +252,7 @@ export function ChatPanel({ controller }: Props) {
                     </button>
                   </div>
                   <p className="editorial-mono-caption text-ink-faint mt-2 px-1">
-                    SVAR ER BASERT PÅ DIGILISTS FAQ — FOR PERSONLIGE TILBUD,
+                    SVAR ER BASERT PÅ DIGILISTS FAQ. FOR PERSONLIGE TILBUD,
                     SEND FORESPØRSEL.
                   </p>
                 </form>

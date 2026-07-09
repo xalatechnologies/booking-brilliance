@@ -24,8 +24,8 @@ const FAQ = () => {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <SEO
-        title="FAQ — Digilist | Vanlige spørsmål om kommunal booking, sesongleie og samsvar"
-        description="Svar på de vanligste spørsmålene om Digilist — bookingsystem for kommuner og utleiere. SSA-L 2026, GDPR, ISO 27001, Vipps, BankID, sesongleie og mer."
+        title="FAQ · Digilist | Vanlige spørsmål om kommunal booking, sesongleie og samsvar"
+        description="Svar på de vanligste spørsmålene om Digilist, bookingsystem for kommuner og utleiere. SSA-L 2026, GDPR, ISO 27001, Vipps, BankID, sesongleie og mer."
         canonical="https://digilist.no/faq"
         breadcrumbs={[
           { name: "Hjem", url: "https://digilist.no/" },
@@ -55,7 +55,7 @@ const FAQ = () => {
                   .
                 </EditorialHeading>
                 <p className="mt-6 text-xl text-ink-soft measure leading-relaxed">
-                  Alt du trenger å vite om Digilist — fra SSA-L 2026 og GDPR
+                  Alt du trenger å vite om Digilist: fra SSA-L 2026 og GDPR
                   til sesongleie, betaling og integrasjoner.
                 </p>
               </div>

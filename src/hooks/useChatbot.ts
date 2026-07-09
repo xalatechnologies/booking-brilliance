@@ -32,7 +32,7 @@ const emptyDraft: InquiryDraft = {
 const greeting = (): ChatMessage => ({
   id: cryptoId(),
   role: "assistant",
-  text: `Hei — jeg er Digilist-assistenten. Jeg kan svare på spørsmål om plattformen vår basert på ${FAQ_COUNT} ofte stilte spørsmål, eller sette deg i kontakt med en rådgiver.`,
+  text: `Hei, jeg er Digilist-assistenten. Jeg kan svare på spørsmål om plattformen vår basert på ${FAQ_COUNT} ofte stilte spørsmål, eller sette deg i kontakt med en rådgiver.`,
   suggestions: [
     "Hva er Digilist?",
     "Pris for kommuner",

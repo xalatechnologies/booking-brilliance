@@ -86,7 +86,7 @@ const BlogPreviewSection = () => {
                 lineHeight: 1.45,
               }}
             >
-              Tre artikler om kommunal booking, sesongleie og samsvar — skrevet
+              Tre artikler om kommunal booking, sesongleie og samsvar, skrevet
               for saksbehandlere, kulturkonsulenter og digitaliseringsledere.
             </p>
             <div className="flex items-center justify-between border-t border-rule pt-6">

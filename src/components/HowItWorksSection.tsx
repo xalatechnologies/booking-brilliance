@@ -20,7 +20,7 @@ const steps = [
     step: "03",
     title: "Bekreftelse",
     description:
-      "Automatisk bekreftelse med detaljer og betaling via Vipps eller kort. Driftsroller — vaktmester, renhold, vekter — varsles automatisk.",
+      "Automatisk bekreftelse med detaljer og betaling via Vipps eller kort. Driftsroller (vaktmester, renhold, vekter) varsles automatisk.",
   },
   {
     step: "04",
@@ -58,7 +58,7 @@ const HowItWorksSection = () => {
               className="text-xl text-ink-soft italic"
               style={{ fontVariationSettings: getFraunces("sub") }}
             >
-              Fra forespørsel til oppgjør — én sammenhengende prosess.
+              Fra forespørsel til oppgjør: én sammenhengende prosess.
             </p>
           </div>
         </div>

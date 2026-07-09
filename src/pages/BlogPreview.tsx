@@ -212,7 +212,7 @@ export default function BlogPreview() {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <SEO
-        title={`[PREVIEW] ${parsed.title} — Digilist`}
+        title={`[PREVIEW] ${parsed.title} · Digilist`}
         description={parsed.description}
         robots="noindex,nofollow"
       />
@@ -286,7 +286,7 @@ export default function BlogPreview() {
                     />
                   </div>
                   <figcaption className="mt-3 editorial-mono-caption text-ink-faint">
-                    FIG. — {parsed.tag ?? "Illustrasjon"}
+                    FIG. · {parsed.tag ?? "Illustrasjon"}
                   </figcaption>
                 </figure>
               )}

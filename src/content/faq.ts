@@ -28,7 +28,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
     questions: [
       {
         q: "Hva er Digilist?",
-        a: "Digilist er en norsk digital plattform for utleie og booking av selskapslokaler, idrettshaller, møterom, kantiner og kulturhus. Plattformen håndterer booking, betaling, kalender, sesongleie, fakturering og rapportering i én løsning — bygget for både private utleiere og norske kommuner.",
+        a: "Digilist er en norsk digital plattform for utleie og booking av selskapslokaler, idrettshaller, møterom, kantiner og kulturhus. Plattformen håndterer booking, betaling, kalender, sesongleie, fakturering og rapportering i én løsning, bygget for både private utleiere og norske kommuner.",
         keywords: ["digilist", "hva er", "bookingplattform"],
       },
       {
@@ -43,7 +43,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         q: "Hva skiller Digilist fra andre bookingsystemer?",
-        a: "Digilist er bygget for norske krav fra grunnen — Vipps, BankID, ID-porten, EHF/Peppol, BRREG og Digdir Designsystemet er innebygd. Én plattform håndterer både privat utleie og kommunal drift. Convex' reaktive runtime gir sanntid uten polling, og all data lagres i Norge og EU.",
+        a: "Digilist er bygget for norske krav fra grunnen: Vipps, BankID, ID-porten, EHF/Peppol, BRREG og Digdir Designsystemet er innebygd. Én plattform håndterer både privat utleie og kommunal drift. Convex' reaktive runtime gir sanntid uten polling, og all data lagres i Norge og EU.",
         keywords: ["differensiering", "konkurrenter", "fordeler"],
       },
     ],
@@ -51,7 +51,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
   {
     id: "funksjonalitet",
     label: "Funksjonalitet",
-    description: "Hva plattformen kan gjøre — fra booking og betaling til sesongleie og rapportering.",
+    description: "Hva plattformen kan gjøre: fra booking og betaling til sesongleie og rapportering.",
     questions: [
       {
         q: "Hvilke betalingsmetoder støtter Digilist?",
@@ -60,7 +60,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         q: "Støtter Digilist sanntidstilgjengelighet?",
-        a: "Ja. Kalenderen viser ledig, opptatt og blokkert tid i sanntid. Endringer fra bookinger, avlysninger eller administrasjon oppdateres umiddelbart for alle brukere — drevet av Convex' reaktive runtime, ingen polling eller refresh nødvendig.",
+        a: "Ja. Kalenderen viser ledig, opptatt og blokkert tid i sanntid. Endringer fra bookinger, avlysninger eller administrasjon oppdateres umiddelbart for alle brukere, drevet av Convex' reaktive runtime, ingen polling eller refresh nødvendig.",
         keywords: ["sanntid", "kalender", "real-time"],
       },
       {
@@ -70,7 +70,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         q: "Hva er forskjellen på auto-godkjenning og manuell godkjenning?",
-        a: "Auto-godkjenning bekrefter bookinger umiddelbart basert på regler (lave verdier, korte bookinger, verifiserte brukere). Manuell godkjenning sender bookinger til saksbehandler-kø for kontroll. Begge moduser kan kombineres — auto for hovedtidsperiode, manuell for unntak.",
+        a: "Auto-godkjenning bekrefter bookinger umiddelbart basert på regler (lave verdier, korte bookinger, verifiserte brukere). Manuell godkjenning sender bookinger til saksbehandler-kø for kontroll. Begge moduser kan kombineres: auto for hovedtidsperiode, manuell for unntak.",
         keywords: ["godkjenning", "automatisk", "manuell"],
       },
       {
@@ -80,7 +80,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         q: "Hvordan varsles vaktmestere og driftspersonell?",
-        a: "Når en booking bekreftes, sendes automatiske varsler til vaktmester, renholdspersonell, vekter og andre relevante driftsroller — via e-post, SMS eller varsler i Digilist-appen. Varslene tilpasses per anlegg.",
+        a: "Når en booking bekreftes, sendes automatiske varsler til vaktmester, renholdspersonell, vekter og andre relevante driftsroller, via e-post, SMS eller varsler i Digilist-appen. Varslene tilpasses per anlegg.",
         keywords: ["varsling", "drift", "vaktmester"],
       },
     ],
@@ -144,7 +144,7 @@ export const FAQ_CATEGORIES: FAQCategory[] = [
       },
       {
         q: "Hva inneholder audit-loggen?",
-        a: "Hver mutasjon i systemet — bookinger, godkjenninger, endringer, slettinger, brukerhandlinger — registreres med tidsstempel, brukerident og endringsdetaljer. Loggen er uforanderlig og kan eksporteres til kommunens systemer ved revisjon.",
+        a: "Hver mutasjon i systemet (bookinger, godkjenninger, endringer, slettinger, brukerhandlinger) registreres med tidsstempel, brukerident og endringsdetaljer. Loggen er uforanderlig og kan eksporteres til kommunens systemer ved revisjon.",
         keywords: ["audit", "logg", "revisjon"],
       },
     ],

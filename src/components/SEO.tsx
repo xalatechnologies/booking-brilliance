@@ -42,9 +42,9 @@ interface SEOProps {
   robots?: string;
 }
 
-const DEFAULT_TITLE = "Digilist — Én plattform for alt som leies ut";
+const DEFAULT_TITLE = "Digilist · Én plattform for alt som leies ut";
 const DEFAULT_DESCRIPTION =
-  "Selskapslokaler, idrettshaller, møterom, kantiner og kulturhus. Sanntidskalender, betaling, sesongleie og fakturering — én digital plattform for det norske utleiemarkedet.";
+  "Selskapslokaler, idrettshaller, møterom, kantiner og kulturhus. Sanntidskalender, betaling, sesongleie og fakturering: én digital plattform for det norske utleiemarkedet.";
 const DEFAULT_KEYWORDS =
   "booking, utleie, selskapslokale, kulturhus, idrettshall, møterom, kommune, kontorbygg, foreninger, Vipps, BankID, ID-porten, EHF, Peppol, ISO 27001, GDPR, universell utforming, bookingsystem, lokalbooking, ressurstyring, Norge";
 
@@ -145,7 +145,7 @@ const SEO = ({
       "@type": "Organization",
       "@id": "https://digilist.no/#organization",
       name: "Digilist",
-      alternateName: "Digilist — Enkel booking",
+      alternateName: "Digilist · Enkel booking",
       url: "https://digilist.no",
       logo: "https://digilist.no/logo.svg",
       image: "https://digilist.no/og-image.png",

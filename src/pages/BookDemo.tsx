@@ -11,8 +11,8 @@ const BookDemo = () => {
   return (
     <div className="min-h-screen bg-paper overflow-x-hidden">
       <SEO
-        title="Book demo av Digilist — Norsk bookingplattform for kommuner og utleiere"
-        description="Be om en gratis 30–45 minutters demo av Digilist. Vi viser hvordan plattformen håndterer ditt bruksområde — kommune, selskapslokale, idrettsanlegg eller kulturhus."
+        title="Book demo av Digilist · Norsk bookingplattform for kommuner og utleiere"
+        description="Be om en gratis 30–45 minutters demo av Digilist. Vi viser hvordan plattformen håndterer ditt bruksområde: kommune, selskapslokale, idrettsanlegg eller kulturhus."
         canonical="https://digilist.no/book-demo"
         breadcrumbs={[
           { name: "Hjem", url: "https://digilist.no/" },

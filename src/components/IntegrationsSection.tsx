@@ -61,7 +61,7 @@ const IntegrationsSection = () => {
               className="text-xl text-ink-soft italic"
               style={{ fontVariationSettings: getFraunces("sub") }}
             >
-              Betaling, autentisering, regnskap og samsvar — bygget for norske
+              Betaling, autentisering, regnskap og samsvar, bygget for norske
               utleiere fra første dag.
             </p>
           </div>

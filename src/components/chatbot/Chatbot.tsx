@@ -88,7 +88,7 @@ export function Chatbot() {
           <motion.div
             key="chat-teaser"
             role="dialog"
-            aria-label="Digilist-assistenten — forslag"
+            aria-label="Digilist-assistenten, forslag"
             initial={reduced ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduced ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.96 }}
@@ -105,7 +105,7 @@ export function Chatbot() {
                     letterSpacing: "-0.015em",
                   }}
                 >
-                  Hei — lurer du på noe?
+                  Hei, lurer du på noe?
                 </p>
                 <p className="editorial-mono-caption text-ink-faint mt-1">
                   DIGILIST-ASSISTENT · NORSK
@@ -122,7 +122,7 @@ export function Chatbot() {
             </div>
             <div className="px-4 py-3 space-y-2">
               <p className="text-sm text-ink-soft leading-relaxed">
-                Velg et raskt forslag — eller åpne chat for å spørre fritt.
+                Velg et raskt forslag, eller åpne chat for å spørre fritt.
               </p>
               <div className="flex flex-wrap gap-2 pt-1">
                 {TEASER_SUGGESTIONS.map((q) => (

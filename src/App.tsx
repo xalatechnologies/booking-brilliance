@@ -294,7 +294,7 @@ export function AppShell() {
                   <IntelligenceCategoryPage
                     auditType="performance"
                     title="Ytelse"
-                    description="Core Web Vitals (LCP, CLS, INP, FCP, TTFB) + Lighthouse-score. Hentet fra Google PageSpeed Insights — målt mot Chrome User Experience Report-data der det finnes RUM-data."
+                    description="Core Web Vitals (LCP, CLS, INP, FCP, TTFB) + Lighthouse-score. Hentet fra Google PageSpeed Insights. Målt mot Chrome User Experience Report-data der det finnes RUM-data."
                   />
                 }
               />

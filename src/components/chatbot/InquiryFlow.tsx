@@ -48,7 +48,7 @@ export function InquiryFlow({
             letterSpacing: "-0.015em",
           }}
         >
-          Takk — vi er på{" "}
+          Takk, vi er på{" "}
           <em
             className="italic"
             style={{

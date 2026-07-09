@@ -18,7 +18,7 @@ const FAQ = [
   {
     question: "Hva er et kommunalt bookingsystem?",
     answer:
-      "Et kommunalt bookingsystem er en digital plattform som lar innbyggere, lag og foreninger søke om og booke kommunale lokaler — idrettshaller, svømmehaller, møterom, kantiner og kulturhus — i sanntid. Plattformen håndterer kalender, godkjenning, betaling, sesongleie og fakturering.",
+      "Et kommunalt bookingsystem er en digital plattform som lar innbyggere, lag og foreninger søke om og booke kommunale lokaler (idrettshaller, svømmehaller, møterom, kantiner og kulturhus) i sanntid. Plattformen håndterer kalender, godkjenning, betaling, sesongleie og fakturering.",
   },
   {
     question: "Oppfyller Digilist SSA-L 2026-kravene?",
@@ -93,7 +93,7 @@ const BookingsystemKommune = () => {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <SEO
-        title="Bookingsystem for kommuner — Digilist | SSA-L 2026 klar"
+        title="Bookingsystem for kommuner · Digilist | SSA-L 2026 klar"
         description="Digital bookingplattform for norske kommuner. Sanntidskalender, sesongleie, ID-porten, EHF, ISO 27001. Bygget for SSA-L 2026-krav."
         canonical="https://digilist.no/bookingsystem-kommune"
         ogImage="https://digilist.no/og-image.png"
@@ -125,7 +125,7 @@ const BookingsystemKommune = () => {
                 </EditorialHeading>
                 <p className="text-xl text-ink-soft measure leading-relaxed mb-10">
                   Sanntidskalender, sesongleie, ID-porten-innlogging, EHF-fakturering
-                  og automatisk driftsvarsling — i én plattform bygget for{" "}
+                  og automatisk driftsvarsling, i én plattform bygget for{" "}
                   <strong className="text-ink">SSA-L 2026-krav</strong>.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -184,7 +184,7 @@ const BookingsystemKommune = () => {
                   className="text-xl text-ink-soft italic"
                   style={{ fontVariationSettings: getFraunces("sub") }}
                 >
-                  Hver SSA-L 2026-funksjon dekket fra dag én — ikke som tillegg.
+                  Hver SSA-L 2026-funksjon dekket fra dag én, ikke som tillegg.
                 </p>
               </div>
             </div>

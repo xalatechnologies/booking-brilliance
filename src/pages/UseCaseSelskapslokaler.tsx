@@ -13,14 +13,14 @@ export default function UseCaseSelskapslokaler() {
       breadcrumb="Selskapslokaler"
       title="Selskapslokaler"
       dek="Bryllup, jubileer, firmafester. Bookinger som binder seg juridisk, betaler depositum og åpner døren med digital nøkkel."
-      lead="Eier du et selskapslokale, vet du at hver helg blir bestilt av folk som planlegger en stor dag. Det krever en bookingplattform som tar gjestene seriøst — med ledige helger i sanntid, juridisk leieavtale signert med BankID, depositum reservert via Vipps og dørtilgang når dagen kommer."
-      seoTitle="Selskapslokaler: bookingsystem for bryllup og selskap — Digilist"
+      lead="Eier du et selskapslokale, vet du at hver helg blir bestilt av folk som planlegger en stor dag. Det krever en bookingplattform som tar gjestene seriøst: med ledige helger i sanntid, juridisk leieavtale signert med BankID, depositum reservert via Vipps og dørtilgang når dagen kommer."
+      seoTitle="Selskapslokaler: bookingsystem for bryllup og selskap · Digilist"
       seoDescription="Bookingplattform for selskapslokaler: sanntidskalender, depositum via Vipps, BankID-signert leieavtale, digital nøkkel og automatisk faktura."
       keywords="selskapslokale, booking selskapslokale, leie selskapslokale, bryllupslokale booking, depositum Vipps, BankID leieavtale, digital nøkkel, jubileum"
       audience={[
         {
           persona: "Eiere av selskapslokaler",
-          context: "Privatpersoner eller småbedrifter som leier ut én eller flere saler — gjerne i tilknytning til gård, museum, restaurant eller historisk eiendom.",
+          context: "Privatpersoner eller småbedrifter som leier ut én eller flere saler, gjerne i tilknytning til gård, museum, restaurant eller historisk eiendom.",
         },
         {
           persona: "Kulturhus og bedehus",
@@ -32,23 +32,23 @@ export default function UseCaseSelskapslokaler() {
         },
         {
           persona: "Kommunale festhus",
-          context: "Kommuner som leier ut storstuer, samfunnshus eller historiske selskapslokaler til innbyggere — som regel via egne avdelinger.",
+          context: "Kommuner som leier ut storstuer, samfunnshus eller historiske selskapslokaler til innbyggere, som regel via egne avdelinger.",
         },
         {
           persona: "Idrettslag og foreninger",
-          context: "Klubbhus med selskapsareal, som leies ut for å støtte foreningsdriften — uten at det skal kreve ansatte for å håndtere.",
+          context: "Klubbhus med selskapsareal, som leies ut for å støtte foreningsdriften, uten at det skal kreve ansatte for å håndtere.",
         },
         {
           persona: "Borettslag og sameier",
-          context: "Felleslokaler som beboere booker for selskap, fødselsdager og familieselskap — typisk med depositum og rengjøringsavtale.",
+          context: "Felleslokaler som beboere booker for selskap, fødselsdager og familieselskap, typisk med depositum og rengjøringsavtale.",
         },
       ]}
       problems={[
-        "Telefon og e-post fylles opp av forespørsler om ledige helger — ingen sentral oversikt for utleier.",
+        "Telefon og e-post fylles opp av forespørsler om ledige helger. Ingen sentral oversikt for utleier.",
         "Excel-regneark for booking gir dobbeltbookinger som først oppdages når to brudefølger møtes i samme sal.",
         "Depositum-håndtering er manuell: bankoverføring, kvittering, papirkontrakt, tilbakebetaling. Krever oppfølging i ukevis.",
-        "Leieavtale signeres på papir eller PDF — vanskelig å arkivere, vanskelig å håndheve hvis ting skjer.",
-        "Nøkkel må overleveres fysisk — eier blir bundet til faste klokkeslett for utlevering og innlevering.",
+        "Leieavtale signeres på papir eller PDF. Vanskelig å arkivere, vanskelig å håndheve hvis ting skjer.",
+        "Nøkkel må overleveres fysisk. Eier blir bundet til faste klokkeslett for utlevering og innlevering.",
       ]}
       features={[
         {
@@ -57,7 +57,7 @@ export default function UseCaseSelskapslokaler() {
         },
         {
           title: "Depositum via Vipps eller kort",
-          body: "Beløpet reserveres ved booking, frigis automatisk etter bruk hvis ingenting er meldt — eller belastes ved skade etter eierens vurdering.",
+          body: "Beløpet reserveres ved booking, frigis automatisk etter bruk hvis ingenting er meldt, eller belastes ved skade etter eierens vurdering.",
         },
         {
           title: "Leieavtale signert med BankID",
@@ -69,7 +69,7 @@ export default function UseCaseSelskapslokaler() {
         },
         {
           title: "Tilleggstjenester per booking",
-          body: "Rengjøring, dekorering, AV-utstyr, ekstra møblement — som pakkepris eller per stykk. Gjesten ser totalpris før hun signerer.",
+          body: "Rengjøring, dekorering, AV-utstyr, ekstra møblement, som pakkepris eller per stykk. Gjesten ser totalpris før hun signerer.",
         },
         {
           title: "Automatisk faktura og bilag",
@@ -92,7 +92,7 @@ export default function UseCaseSelskapslokaler() {
           customer: "Kulturhus (eksempel-persona)",
           role: "Frivillig drift",
           headline: "Storsalen leid ut hver helg uten ansatt på vakt",
-          body: "Bygdas kulturhus drives av frivillige. Storsalen leies ut til konfirmasjoner, jubileer og bygdefester. Vi har ingen ansatt som kan ta imot kontanter eller møte opp for nøkkelovertaking. Med Digilist går alt automatisk — leietaker booker, betaler depositum, signerer avtalen og får adgangskode. Vi får automatisk faktura ført direkte til regnskapet.",
+          body: "Bygdas kulturhus drives av frivillige. Storsalen leies ut til konfirmasjoner, jubileer og bygdefester. Vi har ingen ansatt som kan ta imot kontanter eller møte opp for nøkkelovertaking. Med Digilist går alt automatisk: leietaker booker, betaler depositum, signerer avtalen og får adgangskode. Vi får automatisk faktura ført direkte til regnskapet.",
           outcome: [
             { label: "Bookinger per måned", value: "~14" },
             { label: "Fakturarunde", value: "0 min/uke" },
@@ -157,7 +157,7 @@ export default function UseCaseSelskapslokaler() {
         {
           question: "Hvordan håndteres skader på lokalet etter arrangement?",
           answer:
-            "Du har 48 timer på å registrere skader via plattformen — med bilde og beskrivelse. Hele eller deler av depositumet kan brukes til dekning. Leietaker varsles automatisk og kan klage hvis uenig — saksbehandler avgjør tvist.",
+            "Du har 48 timer på å registrere skader via plattformen, med bilde og beskrivelse. Hele eller deler av depositumet kan brukes til dekning. Leietaker varsles automatisk og kan klage hvis uenig. Saksbehandler avgjør tvist.",
         },
         {
           question: "Kan flere personer i samme husholdning booke under samme konto?",
@@ -167,12 +167,12 @@ export default function UseCaseSelskapslokaler() {
         {
           question: "Vi er en kommune. Kan vi bruke Digilist for selskapslokaler som tilhører kommunen?",
           answer:
-            "Absolutt. Kommunale selskapslokaler kan administreres på lik linje med private — med ID-porten-pålogging, EHF-fakturering og kommunal driftsrolle-varsling. Se også /bookingsystem-kommune for SSA-L 2026-overflate.",
+            "Absolutt. Kommunale selskapslokaler kan administreres på lik linje med private, med ID-porten-pålogging, EHF-fakturering og kommunal driftsrolle-varsling. Se også /bookingsystem-kommune for SSA-L 2026-overflate.",
         },
       ]}
       relatedPosts={[
         {
-          title: "Booking på 90 sekunder — for innbyggeren",
+          title: "Booking på 90 sekunder, for innbyggeren",
           slug: "booking-paa-90-sekunder-innbygger",
         },
         {
@@ -180,7 +180,7 @@ export default function UseCaseSelskapslokaler() {
           slug: "somlos-betaling-vipps-ehf",
         },
         {
-          title: "Magic-link, SMS og BankID — sikker innlogging",
+          title: "Magic-link, SMS og BankID: sikker innlogging",
           slug: "magic-link-sms-bankid-sikker-innlogging",
         },
       ]}

@@ -13,14 +13,14 @@ export default function UseCaseMoterom() {
       breadcrumb="Møterom"
       title="Møterom"
       dek="Kommunale møterom, næringsbygg, foreningslokaler. Sambruk mellom avdelinger, pris per brukergruppe, og hver booking i samme kalender."
-      lead="Møterom er det mest brukte og oftest dobbeltbookede rommet i en organisasjon. Digilist gir deg én sanntidskalender for alle møterom, prising som vet om brukeren er ansatt, lag, forening eller innbygger — og automatiske varsler til vaktmester når et nytt møte skal arrangeres utenom åpningstid."
-      seoTitle="Møterom: bookingsystem for kommuner og næringsbygg — Digilist"
+      lead="Møterom er det mest brukte og oftest dobbeltbookede rommet i en organisasjon. Digilist gir deg én sanntidskalender for alle møterom, prising som vet om brukeren er ansatt, lag, forening eller innbygger, og automatiske varsler til vaktmester når et nytt møte skal arrangeres utenom åpningstid."
+      seoTitle="Møterom: bookingsystem for kommuner og næringsbygg · Digilist"
       seoDescription="Bookingsystem for kommunale møterom, næringsbygg og foreningslokaler. Sanntidskalender, sambruk, prising per brukergruppe og Outlook-integrasjon."
       keywords="møterom booking, kommunal møterom, næringsbygg møterom, Outlook integrasjon, sambruk møterom, prising per brukergruppe, foreningslokaler"
       audience={[
         {
           persona: "Kommuner og fylkeskommuner",
-          context: "Rådhus, sektorbygg og kulturhus med møterom som brukes av ansatte, politikere, lag og foreninger — og av og til innbyggere.",
+          context: "Rådhus, sektorbygg og kulturhus med møterom som brukes av ansatte, politikere, lag og foreninger, og av og til innbyggere.",
         },
         {
           persona: "Næringsbygg og co-working",
@@ -36,7 +36,7 @@ export default function UseCaseMoterom() {
         },
         {
           persona: "Skoler og høyskoler",
-          context: "Klasserom og auditorier som brukes som møterom utenfor undervisningstid — med behov for sambruk uten konflikt.",
+          context: "Klasserom og auditorier som brukes som møterom utenfor undervisningstid, med behov for sambruk uten konflikt.",
         },
         {
           persona: "Helseforetak og kontorbygg",
@@ -44,11 +44,11 @@ export default function UseCaseMoterom() {
         },
       ]}
       problems={[
-        "Møterom står tomme fordi de er reservert i Outlook av noen som ikke møtte opp — ingen frigjøring, ingen sanksjon.",
-        "Foreninger og innbyggere må sende e-post for å booke kommunale møterom — saksbehandlere bruker timer per uke på dette.",
-        "Prising er kompleks: ansatte gratis, foreninger redusert, kommersielle full pris — men det blir aldri konsekvent håndhevet.",
-        "Vaktmester får ikke beskjed når en booking er utenfor åpningstid — bruker må vente på inngangen til noen kommer.",
-        "Møterom-data lever i 3-4 systemer (Outlook, Excel, kalenderapp, regneark for utleie til foreninger) — ingen kan svare på 'er det ledig på torsdag?'",
+        "Møterom står tomme fordi de er reservert i Outlook av noen som ikke møtte opp. Ingen frigjøring, ingen sanksjon.",
+        "Foreninger og innbyggere må sende e-post for å booke kommunale møterom. Saksbehandlere bruker timer per uke på dette.",
+        "Prising er kompleks: ansatte gratis, foreninger redusert, kommersielle full pris, men det blir aldri konsekvent håndhevet.",
+        "Vaktmester får ikke beskjed når en booking er utenfor åpningstid. Bruker må vente på inngangen til noen kommer.",
+        "Møterom-data lever i 3-4 systemer (Outlook, Excel, kalenderapp, regneark for utleie til foreninger). Ingen kan svare på 'er det ledig på torsdag?'",
       ]}
       features={[
         {
@@ -69,7 +69,7 @@ export default function UseCaseMoterom() {
         },
         {
           title: "Sambruksregler",
-          body: "Møterom kan deles mellom avdelinger eller institusjoner med faste tidsblokk og prioriteringsregler — eller helt åpen sambruk hvor først-til-mølla gjelder.",
+          body: "Møterom kan deles mellom avdelinger eller institusjoner med faste tidsblokk og prioriteringsregler, eller helt åpen sambruk hvor først-til-mølla gjelder.",
         },
         {
           title: "Bekreftelse og frigjøring",
@@ -80,7 +80,7 @@ export default function UseCaseMoterom() {
         {
           customer: "Nordre Follo kommune",
           role: "Kulturkonsulent (Viken)",
-          headline: "12 anlegg, én kalender — alle ser samme bilde",
+          headline: "12 anlegg, én kalender: alle ser samme bilde",
           body: "Vi hadde tidligere én Outlook-kalender per anlegg og separat e-post-håndtering for forenings-bookinger. Nå booker både ansatte, politikere og lag og foreninger gjennom Digilist. Saksbehandlere godkjenner forenings-bookinger med ett klikk, vaktmester får automatisk varsel om kveld-arrangementer, og vi ser i sanntid hvor mye hvert rom faktisk brukes.",
           outcome: [
             { label: "Anlegg i drift", value: "12" },
@@ -91,7 +91,7 @@ export default function UseCaseMoterom() {
         {
           customer: "Næringsbygg-eksempel",
           role: "Eiendomsdrift",
-          headline: "Møterom som tilleggstjeneste — uten manuell oppfølging",
+          headline: "Møterom som tilleggstjeneste, uten manuell oppfølging",
           body: "Vi leier ut møterom til våre faste kontorleietakere og til eksterne på timesbasis. Tidligere ringte folk resepsjonen, vi sjekket Excel, sendte e-post med bekreftelse, fulgte opp betaling. Nå booker leietakerne selv via en lenke, betaler med Vipps eller faktura, og får adgangskode automatisk. Eksterne kunder oppdager møterommene via Google og booker uten å snakke med oss.",
           outcome: [
             { label: "Tomgang", value: "−45%" },
@@ -142,7 +142,7 @@ export default function UseCaseMoterom() {
         {
           question: "Hva skjer hvis to ansatte prøver å booke samme rom samtidig?",
           answer:
-            "Kalenderen oppdateres med optimistisk lås — den første som klikker 'bekreft booking' vinner. Den andre ser umiddelbart at tiden er borte og må velge et annet rom eller tid. Ingen dobbeltbooking mulig.",
+            "Kalenderen oppdateres med optimistisk lås. Den første som klikker 'bekreft booking' vinner. Den andre ser umiddelbart at tiden er borte og må velge et annet rom eller tid. Ingen dobbeltbooking mulig.",
         },
         {
           question: "Kan vi importere våre eksisterende Outlook-bookinger?",
@@ -157,7 +157,7 @@ export default function UseCaseMoterom() {
         {
           question: "Kan foreninger booke gratis hvis vi har avtale med dem?",
           answer:
-            "Ja. Foreningstilskudd er en egen prisregel — foreninger som er registrert hos kommunen kan booke utvalgte rom gratis innenfor et årlig tildelt antall timer. Plattformen holder regnskap.",
+            "Ja. Foreningstilskudd er en egen prisregel: foreninger som er registrert hos kommunen kan booke utvalgte rom gratis innenfor et årlig tildelt antall timer. Plattformen holder regnskap.",
         },
         {
           question: "Hva med universell utforming for innbyggere som ikke er digitale?",

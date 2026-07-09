@@ -78,7 +78,7 @@ const Navbar = () => {
       <div className="container mx-auto md:px-8 lg:px-12 flex items-center gap-4 lg:gap-6">
         <Link
           to="/"
-          aria-label="Digilist — gå til forsiden"
+          aria-label="Digilist, gå til forsiden"
           className="group inline-flex items-center gap-3 shrink-0"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >

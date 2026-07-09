@@ -123,7 +123,7 @@ const SAMPLE_PROMPTS: Record<string, string[]> = {
   ],
   sikkerhet: [
     "Hvilke security headers mangler vi?",
-    "Vurder CSP-en min — er den trygg å stramme inn?",
+    "Vurder CSP-en min. Er den trygg å stramme inn?",
     "Hvordan kommer jeg fra B til A+ på Mozilla Observatory?",
     "Hvilke OWASP topp 10 risikoer ser du i økosystemet?",
   ],
@@ -344,7 +344,7 @@ export default function IntelligenceAgents() {
         </h2>
         <p className="text-base text-ink mt-3 max-w-prose leading-relaxed">
           Spesialiserte AI-agenter med dyp domenekunnskap. Hver agent har
-          egen systemprompt og kontekst — velg en agent som matcher
+          egen systemprompt og kontekst. Velg en agent som matcher
           problemstillingen din. Skift agent for å nullstille samtalen.
         </p>
       </header>
@@ -414,7 +414,7 @@ export default function IntelligenceAgents() {
           })}
         </ul>
         <p className="font-mono text-[0.6rem] uppercase tracking-widest text-ink-faint mt-6">
-          Samtaler lagres lokalt per agent — tilgjengelig neste gang du
+          Samtaler lagres lokalt per agent, tilgjengelig neste gang du
           besøker.
         </p>
       </aside>
@@ -495,7 +495,7 @@ export default function IntelligenceAgents() {
                   )}
                 </div>
                 <p className="font-mono text-[0.6rem] uppercase tracking-widest text-ink-faint mt-4">
-                  Klikk for å fylle inn — rediger før du sender.
+                  Klikk for å fylle inn. Rediger før du sender.
                 </p>
               </div>
             </div>

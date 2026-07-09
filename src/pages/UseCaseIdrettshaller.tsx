@@ -12,19 +12,19 @@ export default function UseCaseIdrettshaller() {
       slug="idrettshaller-gymsaler"
       breadcrumb="Idrettshaller og gymsaler"
       title="Idrettshaller og gymsaler"
-      dek="Halvhalls-, hel-halls- og blandingsbookinger med sesongleie til lag og foreninger. Privat trening, treningsturneringer og åpen hall — i samme kalender."
-      lead="Idrettshaller er det mest komplekse å booke i en kommune. Du har lag som trenger fast tid hele sesongen, foreninger som vil leie inn fra utsiden, innbyggere som vil booke gymsal en lørdag — og halvhalls-bookinger som må kunne kombineres uten å låse motsatte halvdel. Digilist løser dette med sesongleie-modul, sambruk og automatisk fordeling."
-      seoTitle="Idrettshall booking: bookingsystem for kommuner og foreninger — Digilist"
+      dek="Halvhalls-, hel-halls- og blandingsbookinger med sesongleie til lag og foreninger. Privat trening, treningsturneringer og åpen hall, i samme kalender."
+      lead="Idrettshaller er det mest komplekse å booke i en kommune. Du har lag som trenger fast tid hele sesongen, foreninger som vil leie inn fra utsiden, innbyggere som vil booke gymsal en lørdag, og halvhalls-bookinger som må kunne kombineres uten å låse motsatte halvdel. Digilist løser dette med sesongleie-modul, sambruk og automatisk fordeling."
+      seoTitle="Idrettshall booking: bookingsystem for kommuner og foreninger · Digilist"
       seoDescription="Bookingsystem for idrettshaller og gymsaler. Sesongleie til lag og foreninger, halvhalls-bookinger, sambruk, kommunal innbyggerinnlogging via ID-porten."
       keywords="idrettshall booking, gymsal booking, sesongleie idrettslag, halvhalls booking, foreningstilskudd, kommunal idrett, idrettsanlegg, fritidsdrift"
       audience={[
         {
           persona: "Kommuner og fylkeskommuner",
-          context: "Eiere av idrettshaller, gymsaler, fotballbaner, svømmehaller — som leies ut til lag, foreninger, skoler og innbyggere.",
+          context: "Eiere av idrettshaller, gymsaler, fotballbaner, svømmehaller, som leies ut til lag, foreninger, skoler og innbyggere.",
         },
         {
           persona: "Idrettsklubber og lag",
-          context: "Brukere av kommunale anlegg — trenger fast trening flere ganger per uke gjennom hele sesongen, og enkeltbookinger for kamper og turneringer.",
+          context: "Brukere av kommunale anlegg: trenger fast trening flere ganger per uke gjennom hele sesongen, og enkeltbookinger for kamper og turneringer.",
         },
         {
           persona: "Skoler og videregående",
@@ -36,19 +36,19 @@ export default function UseCaseIdrettshaller() {
         },
         {
           persona: "Velforeninger og bydeler",
-          context: "Mindre anlegg drevet av velforening eller bydelsadministrasjon — gjerne med begrenset administrasjon men mange brukere.",
+          context: "Mindre anlegg drevet av velforening eller bydelsadministrasjon, gjerne med begrenset administrasjon men mange brukere.",
         },
         {
           persona: "Private treningsanlegg",
-          context: "Private bedrifter som leier ut tennishaller, paddelbaner, klatrevegger — på timesbasis til private og bedrifter.",
+          context: "Private bedrifter som leier ut tennishaller, paddelbaner, klatrevegger, på timesbasis til private og bedrifter.",
         },
       ]}
       problems={[
-        "Sesongtildeling gjøres manuelt i Excel — det tar uker hver høst, og konflikter løses i lukkede møter uten åpenhet for foreningene.",
+        "Sesongtildeling gjøres manuelt i Excel. Det tar uker hver høst, og konflikter løses i lukkede møter uten åpenhet for foreningene.",
         "Halvhalls-bookinger blir feilbooket fordi systemet ikke skjønner at to halve haller = én hel hall. Doble bookinger på den motsatte halvdelen oppdages midt i treningen.",
-        "Foreningstilskudd holdes regnskap for i Excel — hver forening har et tildelt antall timer, men ingen kan svare på hvor mye som er brukt midtveis i sesongen.",
-        "Vaktmester får ikke alltid beskjed om kveld-bookinger, og må fysisk komme for å låse opp — eller innbyggere står ute i kulden.",
-        "Lag som ikke møter opp blokkerer halltimer som andre kunne brukt — uten automatisk frigjøring eller vurdering av faste tildelinger.",
+        "Foreningstilskudd holdes regnskap for i Excel. Hver forening har et tildelt antall timer, men ingen kan svare på hvor mye som er brukt midtveis i sesongen.",
+        "Vaktmester får ikke alltid beskjed om kveld-bookinger, og må fysisk komme for å låse opp, eller innbyggere står ute i kulden.",
+        "Lag som ikke møter opp blokkerer halltimer som andre kunne brukt, uten automatisk frigjøring eller vurdering av faste tildelinger.",
       ]}
       features={[
         {
@@ -81,7 +81,7 @@ export default function UseCaseIdrettshaller() {
           customer: "Norsk kommune",
           role: "Idrettskoordinator (anonymisert)",
           headline: "Sesongtildeling som tok 3 uker, nå tar 4 dager",
-          body: "Tidligere brukte vi hele september på sesongtildeling — møter, e-poster, Excel-tabeller, konflikter. Med Digilist søker lagene digitalt, vi ser alle søknader i et dashboard, tildeler basert på regler vi har definert opp, og hele tildelingen er klar før månedsslutt. Lagene får automatisk varsel om sine tildelte tider, og kan bytte seg imellom hvis avtalt.",
+          body: "Tidligere brukte vi hele september på sesongtildeling: møter, e-poster, Excel-tabeller, konflikter. Med Digilist søker lagene digitalt, vi ser alle søknader i et dashboard, tildeler basert på regler vi har definert opp, og hele tildelingen er klar før månedsslutt. Lagene får automatisk varsel om sine tildelte tider, og kan bytte seg imellom hvis avtalt.",
           outcome: [
             { label: "Sesongtildelings-tid", value: "−85%" },
             { label: "Konfliktsaker", value: "−70%" },
@@ -127,7 +127,7 @@ export default function UseCaseIdrettshaller() {
         },
         {
           label: "Kamper og turneringer",
-          value: "Engangsbookinger på toppen av sesongleie. Kan kreve fysisk vakthold (vekter) og dobbel renhold — alt varsles automatisk.",
+          value: "Engangsbookinger på toppen av sesongleie. Kan kreve fysisk vakthold (vekter) og dobbel renhold. Alt varsles automatisk.",
         },
         {
           label: "Pålogging",
@@ -139,22 +139,22 @@ export default function UseCaseIdrettshaller() {
         },
       ]}
       pullQuote={{
-        text: "Sesongtildeling tok hele september. Nå er den ferdig før månedsslutt — og lagene har færre konflikter fordi prosessen er åpen og spillereglene er kjent.",
+        text: "Sesongtildeling tok hele september. Nå er den ferdig før månedsslutt, og lagene har færre konflikter fordi prosessen er åpen og spillereglene er kjent.",
         byline: "Idrettskoordinator, norsk kommune",
       }}
       faq={[
         {
           question: "Kan vi håndtere både kommunale anlegg og private treningsanlegg samme sted?",
           answer:
-            "Ja. Plattformen kjenner forskjellen — kommunale anlegg har foreningstilskudd og innbyggertilgang via ID-porten, private anlegg har egne priser og kortbetaling. Du kan ha begge i samme installasjon.",
+            "Ja. Plattformen kjenner forskjellen: kommunale anlegg har foreningstilskudd og innbyggertilgang via ID-porten, private anlegg har egne priser og kortbetaling. Du kan ha begge i samme installasjon.",
         },
         {
           question: "Hvordan håndteres prioritering mellom lag i sesongtildeling?",
           answer:
-            "Prioritetsregler defineres av kommunen — typisk: aldersbestemt prioritet, kjønnsfordeling, geografisk tilhørighet, antall lag i samme klubb. Systemet kjører tildelingen automatisk basert på dine regler, og saksbehandler godkjenner eller justerer.",
+            "Prioritetsregler defineres av kommunen. Typisk: aldersbestemt prioritet, kjønnsfordeling, geografisk tilhørighet, antall lag i samme klubb. Systemet kjører tildelingen automatisk basert på dine regler, og saksbehandler godkjenner eller justerer.",
         },
         {
-          question: "Hva med svømmehaller — har de samme bookingflyt?",
+          question: "Hva med svømmehaller, har de samme bookingflyt?",
           answer:
             "Svømmehaller har samme grunnlogikk men ofte mer komplekse driftsbehov (klorlys, vannprøver, vaktbemanning). Vi har egne integrasjoner for svømmehall-spesifikk drift. Spør om en demo av svømmehall-konfigurasjon.",
         },
@@ -184,7 +184,7 @@ export default function UseCaseIdrettshaller() {
           slug: "sanntidskalender-kommunal-booking",
         },
         {
-          title: "Saksbehandler — godkjenne, avvise, kommunisere",
+          title: "Saksbehandler: godkjenne, avvise, kommunisere",
           slug: "saksbehandler-godkjenne-avvise-kommunisere",
         },
       ]}

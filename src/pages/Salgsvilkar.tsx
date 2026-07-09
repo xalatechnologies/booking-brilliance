@@ -11,7 +11,7 @@ const Salgsvilkar = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Salgsvilkår — Digilist | Vilkår for bruk av bookingplattformen"
+        title="Salgsvilkår · Digilist | Vilkår for bruk av bookingplattformen"
         description="Salgs- og leveransevilkår for Digilist bookingplattform. SLA, oppsigelse, datalokasjon, databehandleravtale og kundens rettigheter."
         canonical="https://digilist.no/salgsvilkar"
         breadcrumbs={[

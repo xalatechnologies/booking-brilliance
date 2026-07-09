@@ -11,8 +11,8 @@ const Cookies = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Cookies og informasjonskapsler — Digilist"
-        description="Slik bruker Digilist informasjonskapsler. Privacy-first analytics uten cookies — ingen sporing, ingen tredjepart, full GDPR-suverenitet."
+        title="Cookies og informasjonskapsler · Digilist"
+        description="Slik bruker Digilist informasjonskapsler. Privacy-first analytics uten cookies: ingen sporing, ingen tredjepart, full GDPR-suverenitet."
         canonical="https://digilist.no/cookies"
         breadcrumbs={[
           { name: "Hjem", url: "https://digilist.no/" },

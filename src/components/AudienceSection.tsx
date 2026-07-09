@@ -54,7 +54,7 @@ const AudienceSection = () => {
 
         <div className="columns-1 lg:columns-2 gap-12 mb-12 text-ink-soft">
           <DropCap>
-            Digilist er bygd for norske utleiere — fra eieren av et selskapslokale med
+            Digilist er bygd for norske utleiere: fra eieren av et selskapslokale med
             bookinger til kommunale fritidsetater med tolv anlegg. Den samme plattformen
             håndterer privatbookinger, sesongleie til lag og foreninger, sambruk mellom
             avdelinger og offentlige bookinger med kommunal innbyggerautentisering via
@@ -62,7 +62,7 @@ const AudienceSection = () => {
           </DropCap>
           <p className="mt-6 text-lg leading-relaxed">
             Betaling tas direkte via Vipps eller kort med øyeblikkelig kvittering.
-            Driftsroller — vaktmestere, renholdspersonell, vektere — varsles
+            Driftsroller (vaktmestere, renholdspersonell, vektere) varsles
             automatisk når en booking bekreftes. Faktura og bilag genereres til
             ditt regnskapssystem (Visma, Tripletex, Fiken, PowerOffice, DNB
             Regnskap eller EHF/Peppol).

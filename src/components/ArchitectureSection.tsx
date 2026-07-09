@@ -48,7 +48,7 @@ const clients: Node[] = [
 const runtime: Node = {
   id: "convex",
   label: "Convex",
-  sub: "Reaktiv runtime — sanntid uten polling",
+  sub: "Reaktiv runtime: sanntid uten polling",
   Icon: Zap,
   marker: 1,
 };
@@ -163,7 +163,7 @@ const ArchitectureSection = () => {
               className="text-xl text-ink-soft italic"
               style={{ fontVariationSettings: getFraunces("sub") }}
             >
-              Tre klienter mot én reaktiv runtime — med transaksjonell
+              Tre klienter mot én reaktiv runtime, med transaksjonell
               hendelsesbus og fullstendig revisjon.
             </p>
           </div>
@@ -308,7 +308,7 @@ const ArchitectureSection = () => {
 
           <figcaption className="mt-4 flex items-baseline justify-between editorial-mono-caption">
             <span className="text-ink-faint">
-              FIG. II — Systemarkitektur (forenklet)
+              FIG. II · Systemarkitektur (forenklet)
             </span>
             <span className="text-ink-faint">
               3 KLIENTER · 1 RUNTIME · 4 TJENESTER
@@ -323,7 +323,7 @@ const ArchitectureSection = () => {
               Convex
             </strong>{" "}
             er en reaktiv runtime: spørringer abonnerer på data og oppdateres
-            umiddelbart når underliggende tabeller endres — uten polling, uten
+            umiddelbart når underliggende tabeller endres, uten polling, uten
             refresh.
           </Sidenote>
           <Sidenote marker={2}>
@@ -338,8 +338,8 @@ const ArchitectureSection = () => {
             <strong className="font-serif italic text-ink not-italic">
               Revisjonsloggen
             </strong>{" "}
-            registrerer hver mutasjon — booking, godkjenning, prisendring,
-            sletting — med tidsstempel, brukerident og endringsdetaljer.
+            registrerer hver mutasjon (booking, godkjenning, prisendring,
+            sletting) med tidsstempel, brukerident og endringsdetaljer.
             Uforanderlig og eksporterbar.
           </Sidenote>
         </div>

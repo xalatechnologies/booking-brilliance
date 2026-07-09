@@ -31,7 +31,7 @@ const timeline = [
   {
     year: "2024",
     title: "Etablert",
-    body: "Xala Technologies starter arbeidet med Digilist — én plattform for det norske utleiemarkedet.",
+    body: "Xala Technologies starter arbeidet med Digilist, én plattform for det norske utleiemarkedet.",
   },
   {
     year: "2025",
@@ -55,7 +55,7 @@ const creed = [
     n: "I",
     Icon: Flag,
     title: "Norsk fra grunnen",
-    body: "Vipps, BankID, ID-porten, EHF, BRREG og Digdir-designsystemet er innebygd — ikke bolt-on på en amerikansk SaaS.",
+    body: "Vipps, BankID, ID-porten, EHF, BRREG og Digdir-designsystemet er innebygd, ikke bolt-on på en amerikansk SaaS.",
   },
   {
     n: "II",
@@ -73,7 +73,7 @@ const creed = [
     n: "IV",
     Icon: Layers,
     title: "Sammenhengende",
-    body: "Booking, betaling, sesongleie, fakturering, regnskap og rapportering i én plattform — ikke fem integrerte verktøy.",
+    body: "Booking, betaling, sesongleie, fakturering, regnskap og rapportering i én plattform, ikke fem integrerte verktøy.",
   },
 ];
 
@@ -111,7 +111,7 @@ const AboutUsSection = () => {
                 Digilist er en SaaS-plattform for det norske utleiemarkedet,
                 utviklet av Xala Technologies AS. Plattformen samler booking,
                 betaling, kalender, rapportering og integrasjoner mot offentlige
-                tjenester i én løsning — bygd for både private utleiere,
+                tjenester i én løsning, bygd for både private utleiere,
                 kulturhus, foreninger og kommuner.
               </DropCap>
 
@@ -124,9 +124,9 @@ const AboutUsSection = () => {
                   className="italic"
                   style={{ fontVariationSettings: '"opsz" 16, "wght" 420, "SOFT" 60' }}
                 >
-                  Ikke amerikansk SaaS oversatt til bokmål
+                  Ikke amerikansk SaaS oversatt til bokmål,
                 </em>{" "}
-                — men en plattform bygd fra grunnen for norske krav.
+                men en plattform bygd fra grunnen for norske krav.
               </p>
 
               <p>

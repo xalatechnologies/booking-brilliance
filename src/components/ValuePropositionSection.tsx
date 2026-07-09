@@ -47,7 +47,7 @@ const ValuePropositionSection = () => {
               className="text-xl text-ink-soft italic"
               style={{ fontVariationSettings: getFraunces("sub") }}
             >
-              Hvorfor velge Digilist? — fire grunner som gjelder uansett størrelse,
+              Hvorfor velge Digilist? Fire grunner som gjelder uansett størrelse,
               fra ett lokale til en hel kommune.
             </p>
           </div>

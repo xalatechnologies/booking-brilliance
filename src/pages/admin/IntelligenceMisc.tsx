@@ -295,7 +295,7 @@ export function IntelligenceSettings() {
       <PageHeader
         caption="KONFIGURASJON"
         title="Innstillinger"
-        description="Konfigurasjon av Intelligence Center. RBAC + audit-logg kommer i en senere fase — i dag bruker vi basic-auth."
+        description="Konfigurasjon av Intelligence Center. RBAC + audit-logg kommer i en senere fase. I dag bruker vi basic-auth."
       />
 
       <div className="grid lg:grid-cols-2 gap-px bg-rule border border-rule">
@@ -380,7 +380,7 @@ export function IntelligenceTransparensPreview() {
               /transparens
             </code>
             . Den viser rolled-up scores per overflate uten finnings-detaljer
-            eller URLs — trygg å dele med kommune-CIOer.
+            eller URLs, trygg å dele med kommune-CIOer.
           </>
         }
       />
@@ -404,7 +404,7 @@ export function IntelligenceTransparensPreview() {
         className="w-full h-[80vh] border border-rule rounded-sm bg-paper"
       />
       <p className="text-sm text-ink mt-3 max-w-prose leading-relaxed">
-        Sender du denne lenken til en kommune-CIO er den åpen — ingen
+        Sender du denne lenken til en kommune-CIO er den åpen. Ingen
         innlogging kreves. Hvis du vil endre hva som vises, rediger{" "}
         <code className="font-mono text-xs bg-paper-deep px-1.5 py-0.5 rounded-sm">
           src/pages/Transparens.tsx

@@ -123,7 +123,7 @@ const Footer = () => {
               className="text-2xl lg:text-3xl text-ink-soft italic measure leading-snug"
               style={{ fontVariationSettings: getFraunces("sub") }}
             >
-              Én plattform for norske kommuner og utleiere — booking,
+              Én plattform for norske kommuner og utleiere: booking,
               betaling, kalender og rapportering, sammenhengende.
             </p>
           </div>
@@ -187,8 +187,8 @@ const Footer = () => {
                   Klar for å se Digilist i praksis?
                 </p>
                 <p className="mt-3 text-lg text-ink-soft measure leading-relaxed">
-                  Book en personlig demo, eller still spørsmål direkte i chat —
-                  vi svarer på under et minutt i kontortid.
+                  Book en personlig demo, eller still spørsmål direkte i chat.
+                  Vi svarer på under et minutt i kontortid.
                 </p>
               </div>
               <div className="lg:col-span-5 flex flex-wrap gap-3 lg:justify-end">

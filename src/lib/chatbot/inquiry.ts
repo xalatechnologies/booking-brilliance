@@ -67,5 +67,5 @@ export function summarizeInquiry(draft: {
 }): string {
   const personaLabel =
     PERSONA_OPTIONS.find((p) => p.value === draft.persona)?.label ?? "Ukjent";
-  return `${personaLabel} · ${draft.organization || "—"} · ${draft.topic}`;
+  return `${personaLabel} · ${draft.organization || "-"} · ${draft.topic}`;
 }

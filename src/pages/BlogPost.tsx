@@ -99,7 +99,7 @@ const BlogPost = () => {
   return (
     <div className="min-h-screen bg-background overflow-x-clip">
       <SEO
-        title={post.title.length > 50 ? post.title : `${post.title} — Digilist`}
+        title={post.title.length > 50 ? post.title : `${post.title} · Digilist`}
         description={post.description}
         canonical={url}
         ogType="article"

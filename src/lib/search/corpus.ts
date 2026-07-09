@@ -18,7 +18,7 @@ export interface SearchItem {
 }
 
 const SECTION_ITEMS: SearchItem[] = [
-  { id: "sec-funksjonalitet", kind: "section", title: "Funksjonalitet", subtitle: "Slik fungerer Digilist — fire steg", href: "#funksjonalitet", isAnchor: true, keywords: ["howitworks", "steg", "flyt"] },
+  { id: "sec-funksjonalitet", kind: "section", title: "Funksjonalitet", subtitle: "Slik fungerer Digilist: fire steg", href: "#funksjonalitet", isAnchor: true, keywords: ["howitworks", "steg", "flyt"] },
   { id: "sec-brukerhistorier", kind: "section", title: "Brukerhistorier", subtitle: "Kunder som bruker Digilist", href: "#brukerhistorier", isAnchor: true, keywords: ["kunder", "case", "stories"] },
   { id: "sec-integrasjoner", kind: "section", title: "Integrasjoner", subtitle: "Vipps, BankID, EHF, regnskap", href: "#integrasjoner", isAnchor: true, keywords: ["vipps", "bankid", "ehf", "visma", "stripe"] },
   { id: "sec-teknologi", kind: "section", title: "Teknologi", subtitle: "Hva vi bygger på, og hvorfor", href: "#teknologi", isAnchor: true, keywords: ["stack", "react", "postgres", "convex"] },
@@ -39,7 +39,7 @@ const ROUTE_ITEMS: SearchItem[] = [
 ];
 
 const ACTION_ITEMS: SearchItem[] = [
-  { id: "a-chatbot", kind: "action", title: "Snakk med oss", subtitle: "Åpne chat — svar på under et minutt", href: "#chat", action: "open-chatbot", keywords: ["chat", "spørsmål", "kontakt"] },
+  { id: "a-chatbot", kind: "action", title: "Snakk med oss", subtitle: "Åpne chat: svar på under et minutt", href: "#chat", action: "open-chatbot", keywords: ["chat", "spørsmål", "kontakt"] },
 ];
 
 let cached: SearchItem[] | null = null;

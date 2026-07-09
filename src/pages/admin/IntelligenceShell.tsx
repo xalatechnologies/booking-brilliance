@@ -153,7 +153,7 @@ export default function IntelligenceShell() {
         const msg = err instanceof Error ? err.message : String(err);
         if (msg.includes("Unauthorized")) {
           localStorage.removeItem(AUTH_KEY);
-          setAuthError("Sesjonen utløpte — logg inn på nytt.");
+          setAuthError("Sesjonen utløpte. Logg inn på nytt.");
         } else {
           setAuthError(`Kunne ikke kontakte tjenesten: ${msg.slice(0, 160)}`);
         }
@@ -347,7 +347,7 @@ export default function IntelligenceShell() {
     return (
       <div className="min-h-screen bg-paper flex items-center justify-center px-4 py-12">
         <SEO
-          title="Intelligence — innlogging"
+          title="Intelligence · innlogging"
           description="Digilist Ecosystem Intelligence Center."
           robots="noindex,nofollow"
         />
@@ -744,7 +744,7 @@ export default function IntelligenceShell() {
             onUnauthorized={() => {
               localStorage.removeItem(AUTH_KEY);
               setAuth(null);
-              setAuthError("Sesjonen utløpte — logg inn på nytt.");
+              setAuthError("Sesjonen utløpte. Logg inn på nytt.");
             }}
           >
             <Outlet context={ctx} />

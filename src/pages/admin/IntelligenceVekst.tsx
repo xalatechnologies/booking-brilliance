@@ -679,7 +679,7 @@ export function VekstKeywords() {
       <PageHeader
         icon={KeyRound}
         title="Keyword Intelligence"
-        caption="Klynger av søkefraser samlet fra Google Trends, Reddit, HN, RSS, SerpAPI og Claude-utvidelse — rangert etter signalstyrke × gap mot eksisterende Digilist-innhold."
+        caption="Klynger av søkefraser samlet fra Google Trends, Reddit, HN, RSS, SerpAPI og Claude-utvidelse, rangert etter signalstyrke × gap mot eksisterende Digilist-innhold."
         actions={
           <button
             type="button"
@@ -923,7 +923,7 @@ export function VekstDrafts() {
     if (!draft._id) {
       setToast({
         kind: "err",
-        text: "Draften har ikke en Convex-id ennå — kjør migreringsskriptet først.",
+        text: "Draften har ikke en Convex-id ennå. Kjør migreringsskriptet først.",
       });
       return;
     }
@@ -980,7 +980,7 @@ export function VekstDrafts() {
       setCopied(id);
       window.setTimeout(() => setCopied((c) => (c === id ? null : c)), 1800);
     } catch {
-      setToast({ kind: "err", text: "Kunne ikke kopiere — clipboard blokkert." });
+      setToast({ kind: "err", text: "Kunne ikke kopiere: clipboard blokkert." });
     }
   };
 
@@ -1016,7 +1016,7 @@ export function VekstDrafts() {
       <PageHeader
         icon={FileEdit}
         title="Godkjenningskø"
-        caption="Hver generert draft venter her på menneskelig godkjenning. Ingenting publiseres automatisk — selv etter godkjenning må Publiser-knappen trykkes eksplisitt."
+        caption="Hver generert draft venter her på menneskelig godkjenning. Ingenting publiseres automatisk. Selv etter godkjenning må Publiser-knappen trykkes eksplisitt."
         actions={
           <button
             type="button"
@@ -1332,7 +1332,7 @@ export function VekstConnections() {
       name: "X (Twitter)",
       docs: "https://developer.x.com/",
       notes:
-        "Krever Basic tier ($200/mnd) for å POST /tweets. Access token har 2-timers TTL — refresh-cron må settes opp separat.",
+        "Krever Basic tier ($200/mnd) for å POST /tweets. Access token har 2-timers TTL. Refresh-cron må settes opp separat.",
     },
   ];
 
@@ -1341,7 +1341,7 @@ export function VekstConnections() {
       <PageHeader
         icon={Plug}
         title="Publishing Connections"
-        caption="OAuth-tilkoblinger til LinkedIn og X. Disse er valgfrie — uten dem holdes alle drafts som drafts. Sett opp credentials i /etc/digilist-api.env og restart digilist-api."
+        caption="OAuth-tilkoblinger til LinkedIn og X. Disse er valgfrie. Uten dem holdes alle drafts som drafts. Sett opp credentials i /etc/digilist-api.env og restart digilist-api."
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-rule border border-rule">
@@ -1447,7 +1447,7 @@ export function VekstConnections() {
       <div className="mt-8 border border-amber-700 border-dashed rounded-sm p-4 bg-amber-50/30 dark:bg-amber-950/20">
         <p className="font-mono text-[0.65rem] tracking-widest uppercase text-amber-700 mb-2 inline-flex items-center gap-2">
           <AlertTriangle className="h-3.5 w-3.5" />
-          MERK — INGEN AUTO-PUBLISERING
+          MERK: INGEN AUTO-PUBLISERING
         </p>
         <p className="text-sm text-ink-soft">
           Selv når tilkoblinger er aktive, publiseres ingenting automatisk.

@@ -97,7 +97,7 @@ export default function IntelligenceIssues() {
         </h2>
         <p className="text-base text-ink mt-3 max-w-prose leading-relaxed">
           Issue-feed på tvers av økosystemet, rangert etter alvorlighetsgrad.
-          Klikk en rad for AI-anbefaling om fiks — automatisk generert med
+          Klikk en rad for AI-anbefaling om fiks, automatisk generert med
           kontekst fra hele systemet.
         </p>
       </header>
@@ -196,7 +196,7 @@ export default function IntelligenceIssues() {
             {visible.length === 0 ? (
               <tr>
                 <td colSpan={7} className="px-4 py-8 text-center text-ink-faint">
-                  Ingen issues på dette nivået — pent ryddet
+                  Ingen issues på dette nivået, pent ryddet
                 </td>
               </tr>
             ) : (

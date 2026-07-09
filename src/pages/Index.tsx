@@ -56,7 +56,7 @@ const Index = () => {
           {
             question: "Hvilke kommuner og utleiere bruker Digilist?",
             answer:
-              "Digilist brukes av norske kommuner og private utleiere — blant andre Nordre Follo kommune, Rønningen Selskapslokale, Lier Bygdetun og RightSize Group.",
+              "Digilist brukes av norske kommuner og private utleiere: blant andre Nordre Follo kommune, Rønningen Selskapslokale, Lier Bygdetun og RightSize Group.",
           },
           {
             question: "Hvilke betalingsmetoder støttes?",
@@ -87,7 +87,7 @@ const Index = () => {
         howTo={{
           name: "Slik booker du med Digilist",
           description:
-            "Fra forespørsel til oppgjør på fire steg — gjennom Digilist-plattformen.",
+            "Fra forespørsel til oppgjør på fire steg, gjennom Digilist-plattformen.",
           steps: [
             {
               name: "Søknad",
@@ -99,7 +99,7 @@ const Index = () => {
             },
             {
               name: "Bekreftelse",
-              text: "Automatisk bekreftelse med detaljer og betaling via Vipps eller kort. Driftsroller — vaktmester, renhold, vekter — varsles automatisk.",
+              text: "Automatisk bekreftelse med detaljer og betaling via Vipps eller kort. Driftsroller (vaktmester, renhold, vekter) varsles automatisk.",
             },
             {
               name: "Oppfølging",

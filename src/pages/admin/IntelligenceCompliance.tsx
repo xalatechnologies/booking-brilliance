@@ -132,7 +132,7 @@ export default function IntelligenceCompliance() {
           Kontroller, bevis & RoPA
         </h1>
         <p className="text-sm text-ink-soft mt-2 max-w-3xl">
-          Sentralisert register over alle kontroller vi opererer — ISO/IEC
+          Sentralisert register over alle kontroller vi opererer: ISO/IEC
           27001:2022 (Annex A, 93 kontroller), SOC 2 Common Criteria (33
           kontroller) og GDPR (12 kjerneartikler). Automatisk innsamlede
           bevis kommer fra TLS-skann, audit-funn, alarm-MTTR og oppetid.
@@ -567,7 +567,7 @@ function RisksTab({ risks }: { risks: any[] }) {
     return (
       <p className="text-sm text-ink-faint py-8">
         Risikoregister er tomt. ISO 27001 klausul 6.1.2 krever en
-        dokumentert risikovurdering — legg inn de viktigste risikoene
+        dokumentert risikovurdering. Legg inn de viktigste risikoene
         her med sannsynlighet × konsekvens.
       </p>
     );
@@ -607,7 +607,7 @@ function AssetsTab({ assets }: { assets: any[] }) {
     return (
       <p className="text-sm text-ink-faint py-8">
         Aktivainventar er tomt. ISO 27001 A.5.9 krever inventar over
-        informasjonsaktiva — legg inn domener, tjenester og databehandlere.
+        informasjonsaktiva. Legg inn domener, tjenester og databehandlere.
       </p>
     );
   }

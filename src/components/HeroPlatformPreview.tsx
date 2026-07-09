@@ -111,7 +111,7 @@ export function HeroPlatformPreview() {
                   letterSpacing: "-0.015em",
                 }}
               >
-                Lier Bygdetun — Festsalen
+                Lier Bygdetun, Festsalen
               </div>
               <p className="mt-1.5 flex items-center gap-1.5 text-xs text-ink-soft">
                 <MapPin className="w-3 h-3" aria-hidden="true" />
@@ -182,7 +182,7 @@ export function HeroPlatformPreview() {
 
       {/* Caption */}
       <p className="mt-3 editorial-mono-caption">
-        Fig. I — Plattformen, listingvisning · app.digilist.no
+        Fig. I · Plattformen, listingvisning · app.digilist.no
       </p>
     </div>
   );
@@ -227,7 +227,7 @@ function DashboardCalendarPeek() {
             className="font-serif text-xl text-ink"
             style={{ fontVariationSettings: '"opsz" 36, "wght" 460' }}
           >
-            Lier Bygdetun — Festsalen
+            Lier Bygdetun, Festsalen
           </div>
           <div className="flex items-center gap-2 text-[0.65rem] font-mono uppercase tracking-widest">
             <span className="flex items-center gap-1.5">

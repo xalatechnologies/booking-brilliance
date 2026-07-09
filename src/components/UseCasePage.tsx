@@ -272,7 +272,7 @@ export default function UseCasePage({
                       &ldquo;{pullQuote.text}&rdquo;
                     </p>
                     <footer className="mt-4 editorial-mono-caption text-ink-faint">
-                      — {pullQuote.byline}
+                      · {pullQuote.byline}
                     </footer>
                   </blockquote>
                 </section>
@@ -412,7 +412,7 @@ export default function UseCasePage({
                       Vil du se det fungere?
                     </h2>
                     <p className="text-base text-ink-soft leading-relaxed">
-                      Book 30 minutter — vi viser plattformen med dine
+                      Book 30 minutter. Vi viser plattformen med dine
                       konkrete bookingscenarier. Ingen forpliktelser.
                     </p>
                   </div>

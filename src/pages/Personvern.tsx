@@ -11,7 +11,7 @@ const Personvern = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="Personvernerklæring — Digilist | GDPR, ISO 27701, data i Norge og EU"
+        title="Personvernerklæring · Digilist | GDPR, ISO 27701, data i Norge og EU"
         description="Slik behandler Digilist personopplysninger. GDPR-kompatibel, ISO 27701-sertifisert, data lagret i Norge og EU. Innsyn, retting og sletting på forespørsel."
         canonical="https://digilist.no/personvern"
         breadcrumbs={[

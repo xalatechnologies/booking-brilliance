@@ -98,7 +98,7 @@ export function followUpSuggestions(lastHit?: RagHit): string[] {
 /** Fallback when no FAQ entry matches. */
 export const FALLBACK_NO_MATCH = [
   "Jeg fant ikke svar på det i kunnskapsbasen min. Vil du snakke med en rådgiver, eller skal jeg sende en forespørsel på dine vegne?",
-  "Hmm — jeg er ikke sikker på det. Vil du at jeg setter deg i kontakt med en rådgiver?",
+  "Hmm, jeg er ikke sikker på det. Vil du at jeg setter deg i kontakt med en rådgiver?",
   "Det er utenfor det jeg vet. Skal jeg lage en kort forespørsel til teamet for deg?",
 ];
 
@@ -119,7 +119,7 @@ export function buildLLMContext(
         `[${i + 1}] (${h.category})\nSpørsmål: ${h.q}\nSvar: ${h.a}`,
     )
     .join("\n\n");
-  const system = `Du er Digilist-assistenten — en norsk AI-rådgiver for Digilist, en bookingplattform for norske utleiere og kommuner. Svar kort, presist og på norsk bokmål. Hold deg til informasjonen i KILDER nedenfor og henvis til /faq for utfyllende svar. Hvis du ikke vet svaret, foreslå at brukeren snakker med en rådgiver via skjemaet.
+  const system = `Du er Digilist-assistenten, en norsk AI-rådgiver for Digilist, en bookingplattform for norske utleiere og kommuner. Svar kort, presist og på norsk bokmål. Hold deg til informasjonen i KILDER nedenfor og henvis til /faq for utfyllende svar. Hvis du ikke vet svaret, foreslå at brukeren snakker med en rådgiver via skjemaet.
 
 KILDER:
 ${corpus || "(ingen relevante treff i kunnskapsbasen)"}

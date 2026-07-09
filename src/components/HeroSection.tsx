@@ -102,7 +102,7 @@ const HeroSection = () => {
               style={{ fontVariationSettings: '"wght" 380' }}
             >
               Selskapslokaler, idrettshaller, møterom, kantiner og kulturhus.
-              Sanntidskalender, betaling, sesongleie og fakturering —{" "}
+              Sanntidskalender, betaling, sesongleie og fakturering:{" "}
               <em
                 style={{
                   fontVariationSettings: '"wght" 420, "SOFT" 30',
@@ -195,7 +195,7 @@ const HeroSection = () => {
           <div className="flex items-baseline justify-between gap-6 mb-10">
             <span className="editorial-mono-caption">Kunder · I bruk</span>
             <span className="editorial-mono-caption text-ink-faint hidden md:inline">
-              To av flere — referanser på forespørsel
+              To av flere: referanser på forespørsel
             </span>
           </div>
 

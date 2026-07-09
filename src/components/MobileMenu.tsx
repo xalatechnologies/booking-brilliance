@@ -91,7 +91,7 @@ export function MobileMenu() {
             to="/"
             onClick={() => setOpen(false)}
             className="inline-flex items-center gap-3"
-            aria-label="Digilist — forsiden"
+            aria-label="Digilist, forsiden"
           >
             <img src="/logo.svg" alt="" aria-hidden="true" className="h-9 w-auto" />
             <span
