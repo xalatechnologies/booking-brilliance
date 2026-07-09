@@ -57,16 +57,15 @@ async function main() {
   for (const key of Object.keys(REPOS) as RepoKey[]) {
     const r = REPOS[key];
     const status = await repoStatus(r.path, nowIso()).catch(() => null);
-    let project: string = r.project;
     if (!args.noIndex) {
       console.log(`[improvements] indexing ${key} (${r.path}) …`);
-      const p = await indexRepo(r.path, "moderate").catch((e) => {
-        console.warn(`[improvements] index ${key} failed: ${String(e).slice(0, 120)}`);
-        return null;
-      });
-      project = p?.name ?? project;
+      await indexRepo(r.path, "fast").catch((e) =>
+        console.warn(`[improvements] index ${key} failed: ${String(e).slice(0, 120)}`),
+      );
     }
-    if (!project) project = (await projectForPath(r.path))?.name ?? "";
+    // Resolve the project name from the actual path — portable across machines
+    // (project ids differ by root path, e.g. root-Digilist vs Volumes-…-Digilist).
+    const project = (await projectForPath(r.path).catch(() => null))?.name ?? r.project;
     const sha = status?.sha ?? "unknown";
     repoMeta[key] = { project, sha };
     if (status) {
