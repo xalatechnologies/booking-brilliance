@@ -953,6 +953,48 @@ ${sitemapEntries
   await fs.writeFile(join(DIST, "sitemap.xml"), sitemapXML, "utf-8");
   console.log(`  ✓ /sitemap.xml regenerated (${sitemapEntries.length} URLs)`);
 
+  // Inline critical CSS on every prerendered page and load the full 107KB
+  // stylesheet asynchronously. Without this, first paint waits on the
+  // render-blocking <link rel="stylesheet">, which on slow 4G is starved
+  // behind ~1MB of high-priority modulepreloaded JS — the dominant FCP/LCP
+  // factor on marketing (5.3s) and status (9.6s). The full sheet is kept
+  // (pruneSource:false) and swapped in on load, so anything the critical
+  // pass misses still styles correctly a moment later. Wrapped in try/catch
+  // so a failure here can never break the build or the deploy pipeline.
+  try {
+    const { default: Beasties } = await import("beasties");
+    const beasties = new Beasties({
+      path: DIST,
+      publicPath: "/",
+      pruneSource: false,
+      preload: "swap",
+      logLevel: "silent",
+    });
+    const htmlFiles = [];
+    const walk = async (dir) => {
+      for (const entry of await fs.readdir(dir, { withFileTypes: true })) {
+        const p = join(dir, entry.name);
+        if (entry.isDirectory()) await walk(p);
+        else if (entry.name.endsWith(".html")) htmlFiles.push(p);
+      }
+    };
+    await walk(DIST);
+    let inlined = 0;
+    for (const file of htmlFiles) {
+      try {
+        const html = await fs.readFile(file, "utf-8");
+        const out = await beasties.process(html);
+        await fs.writeFile(file, out, "utf-8");
+        inlined++;
+      } catch {
+        /* keep the original file on a per-page failure */
+      }
+    }
+    console.log(`  ✓ Critical CSS inlined on ${inlined}/${htmlFiles.length} pages`);
+  } catch (e) {
+    console.warn(`  ⚠ Critical CSS step skipped: ${e?.message ?? e}`);
+  }
+
   console.log(`\nPre-rendered ${ROUTES.length + 1 + 1 + posts.length} pages + sitemap.`);
 }
 
