@@ -26,6 +26,7 @@
     "content:sync": "tsx scripts/sync-convex-blog-to-fs.ts",
     "content:autopublish": "tsx scripts/auto-publish-blogs.ts",
     "content:ideas": "tsx scripts/generate-feature-ideas.ts",
+    "improvements:run": "tsx tools/improvements-agent/src/run.ts",
     "docs:index": "tsx tools/docs-rag/src/index.ts"
   },
   "dependencies": {
