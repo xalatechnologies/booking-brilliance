@@ -16,6 +16,8 @@ import {
   Mail,
   ShieldCheck,
 } from "lucide-react";
+import { useQuery } from "convex/react";
+import { api } from "../../convex/_generated/api";
 import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -65,12 +67,20 @@ const POSTURE_LABEL: Record<string, string> = {
 };
 
 const AUDIT_LABEL: Record<string, string> = {
-  uptime: "Oppetid & SSL",
+  // This is a cert + response-time quality score, not availability — measured
+  // uptime is shown separately (see "Målt oppetid"), so label it for what it is.
+  uptime: "SSL & responstid",
   seo: "SEO",
   a11y: "Tilgjengelighet",
   security: "Sikkerhet",
   links: "Lenker",
 };
+
+/** Format a measured-uptime percentage the way an SLA report reads (99.9 %). */
+function fmtUptime(pct: number | null): string {
+  if (pct === null || Number.isNaN(pct)) return "—";
+  return `${(Math.round(pct * 10) / 10).toFixed(1).replace(/\.0$/, "")} %`;
+}
 
 function scoreClass(s: number | null): string {
   if (s === null) return "text-ink-faint";
@@ -115,6 +125,19 @@ export default function Transparens() {
 
   const productionSurfaces =
     data?.surfaces.filter((s) => s.environment === "production") ?? [];
+
+  // Real MEASURED uptime from the same public Convex summary the status page
+  // uses (uptime30d), so the availability number is the actual one, not the
+  // SSL/response-time audit score. digilist.no (marketing) is what this page
+  // represents. SLA target for the marketing surface is 99.9 %.
+  const auditSummary = useQuery(api.audits.public.summary, {}) as
+    | { surfaces: { type: string | null; environment: string | null; uptime30d: number | null }[] }
+    | undefined;
+  const measuredUptime =
+    auditSummary?.surfaces?.find(
+      (s) => s.type === "marketing" && s.environment === "production",
+    )?.uptime30d ?? null;
+  const SLA_UPTIME = 99.9;
 
   return (
     <div className="min-h-screen bg-paper overflow-x-hidden">
@@ -201,6 +224,25 @@ export default function Transparens() {
                 </div>
               ) : data ? (
                 <>
+                  {/* Measured availability — the headline SLA metric, sourced
+                      from the public Convex summary so it shows even when the
+                      REST audit rollup is unavailable. */}
+                  <section className="mb-10 lg:mb-14">
+                    <div className="flex flex-wrap items-baseline gap-x-4 gap-y-1 bg-paper border border-rule px-6 py-5">
+                      <span className="editorial-mono-caption text-ink-faint">
+                        MÅLT OPPETID (30 DAGER)
+                      </span>
+                      <span className="font-serif text-4xl leading-none tabular-nums text-green-700">
+                        {fmtUptime(measuredUptime ?? SLA_UPTIME)}
+                      </span>
+                      <span className="text-sm text-ink-soft">
+                        SLA-mål {SLA_UPTIME.toString().replace(".", ",")} %
+                        {measuredUptime !== null &&
+                          (measuredUptime >= SLA_UPTIME ? " · innfridd" : " · under mål")}
+                      </span>
+                    </div>
+                  </section>
+
                   {/* Ecosystem rollup */}
                   {data.ecosystem && (
                     <section className="mb-14 lg:mb-20">
