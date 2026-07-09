@@ -150,7 +150,7 @@ const BlogPreviewSection = () => {
                     <img
                       src={post.cover || FALLBACK_COVER}
                       alt={post.title}
-                      loading={i === 0 ? "eager" : "lazy"}
+                      loading="lazy"
                       decoding="async"
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-slow ease-editorial group-hover:scale-[1.04]"
                       onError={(e) => {
