@@ -1,7 +1,7 @@
 ---
 slug: penetrasjonstesting-sikkerhetsrevisjon-saas-leverandor
 title: "Penetrasjonstesting: hva en SaaS-leverandør skal levere"
-description: "Hva betyr egentlig at en SaaS-leverandør er sikker? Pen-test, sårbarhetshåndtering og supply-chain — sjekkliste for kommunal anskaffelse."
+description: "Hva betyr egentlig at en SaaS-leverandør er sikker? Pen-test, sårbarhetshåndtering og supply-chain: sjekkliste for kommunal anskaffelse."
 date: 2026-05-15
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
@@ -11,7 +11,7 @@ cover: "/images/blog/gdpr_iso27001_hero_no.webp"
 keywords: ["penetrasjonstesting", "pen-test", "sikkerhetsrevisjon", "supply chain", "Dependabot", "Snyk", "anskaffelse"]
 ---
 
-Når en norsk kommune skal velge ny SaaS-leverandør, dukker spørsmålet om sikkerhet alltid opp — men ofte med altfor brede formuleringer. "Leverandøren skal følge gjeldende sikkerhetsstandarder." Hva betyr det egentlig? Hva er forskjellen mellom en leverandør som faktisk gjør arbeidet og en som har sertifikatet på veggen?
+Når en norsk kommune skal velge ny SaaS-leverandør, dukker spørsmålet om sikkerhet alltid opp, men ofte med altfor brede formuleringer. "Leverandøren skal følge gjeldende sikkerhetsstandarder." Hva betyr det egentlig? Hva er forskjellen mellom en leverandør som faktisk gjør arbeidet og en som har sertifikatet på veggen?
 
 Denne artikkelen er en praktisk guide for kommunens IT-leder eller anskaffelsesansvarlig: hva penetrasjonstesting og sikkerhetsrevisjon faktisk skal innebære, og hvilke spørsmål du bør stille.
 
@@ -35,7 +35,7 @@ En typisk leveranse fra en penetrasjonstest:
 
 En kommune som signerer NDA bør ha rett til å se sammendraget av siste pen-test før kontraktssignering. Et leverandørsvar som er "vi gjør pen-test men kan ikke dele resultater" er et rødt flagg. Et leverandørsvar som er "her er sammendraget under NDA, vi har stengt alle kritiske funn og kan dokumentere det" er det riktige svaret.
 
-## Sårbarhetshåndtering — den daglige delen
+## Sårbarhetshåndtering: den daglige delen
 
 Pen-test er punktnedslag. Den daglige sikkerheten handler om kontinuerlig sårbarhetshåndtering. Dette er hva en moderne SaaS-leverandør faktisk gjør (eller skal gjøre):
 
@@ -50,7 +50,7 @@ Et typisk moderne system har 500+ tredjeparts-avhengigheter (npm-pakker, system-
 
 En leverandør som ikke kan svare på "hvor mange sårbarheter har du åpne akkurat nå?" har sannsynligvis ikke et fungerende program.
 
-### Supply chain — der angrepene kommer fra nå
+### Supply chain: der angrepene kommer fra nå
 
 Supply chain-angrep er der angriperen kompromitterer en tredjeparts-pakke som mange systemer bruker. Eksempler: SolarWinds (2020), node-ipc (2022), xz-utils (2024).
 
@@ -70,7 +70,7 @@ GitHub Secret Scanning, truffleHog eller lignende verktøy som leter etter ved e
 
 Større SaaS-leverandører tilbyr bug bounty: en betalingsstruktur for at eksterne forskere skal rapportere sårbarheter ansvarlig. Mindre leverandører har minst en `security.txt`-fil med kontaktinformasjon for sikkerhetsforskere.
 
-Hvis en leverandør ikke har en kanal for å motta sårbarhetsrapporter fra eksterne, betyr det at en forsker som finner noe må enten varsle leverandøren via vanlige kanaler (som ofte ignoreres) eller publisere funnet — i verste fall sammen med eksploiten.
+Hvis en leverandør ikke har en kanal for å motta sårbarhetsrapporter fra eksterne, betyr det at en forsker som finner noe må enten varsle leverandøren via vanlige kanaler (som ofte ignoreres) eller publisere funnet, i verste fall sammen med eksploiten.
 
 Sjekk om leverandøren har `https://digilist.no/.well-known/security.txt`. Hvis ikke, spør hvorfor.
 
@@ -78,20 +78,20 @@ Sjekk om leverandøren har `https://digilist.no/.well-known/security.txt`. Hvis 
 
 ISO 27001-sertifisering betyr at en uavhengig revisor har bekreftet at organisasjonen har et fungerende informasjonssikkerhetsstyringssystem (ISMS) på revisjonstidspunktet. Det betyr ikke at systemet ikke har sårbarheter.
 
-Sertifisering er en grunnlinje, ikke et endepunkt. En leverandør med ISO 27001 og en aktiv pen-test-rapport er det du vil ha. En leverandør med bare ISO 27001 og ingen pen-test, har klart en revisjon — ikke nødvendigvis bygget et sikkert system.
+Sertifisering er en grunnlinje, ikke et endepunkt. En leverandør med ISO 27001 og en aktiv pen-test-rapport er det du vil ha. En leverandør med bare ISO 27001 og ingen pen-test, har klart en revisjon, men ikke nødvendigvis bygget et sikkert system.
 
-## Sjekkliste — det du bør spørre om i anskaffelse
+## Sjekkliste: det du bør spørre om i anskaffelse
 
-For å gjøre dette praktisk, her er en konkret liste:
+Konkret bør du spørre om dette:
 
-1. **Penetrasjonstest** — Hvor ofte? Hvem utfører? Kan vi se sammendraget under NDA?
-2. **Sårbarhetshåndtering** — Hvor mange åpne sårbarheter har dere akkurat nå? Hva er SLA for kritisk / høy?
-3. **Avhengighetsoppdateringer** — Dependabot / Snyk / annet? Hvor ofte oppdateres avhengigheter?
-4. **Supply chain** — Hvilke tiltak? Lockfile-validering? Pinning?
-5. **Hemmelighetsskanning** — Aktiv? Hvilket verktøy?
-6. **Sikkerhetshendelse-rapportering** — `security.txt`? Bug bounty? Responstid?
-7. **ISO 27001** — Når sist revidert? Hvilket revisjonsfirma?
-8. **Kodevurdering** — SAST i CI? Hvilken dekning?
+1. **Penetrasjonstest:** Hvor ofte? Hvem utfører? Kan vi se sammendraget under NDA?
+2. **Sårbarhetshåndtering:** Hvor mange åpne sårbarheter har dere akkurat nå? Hva er SLA for kritisk / høy?
+3. **Avhengighetsoppdateringer:** Dependabot / Snyk / annet? Hvor ofte oppdateres avhengigheter?
+4. **Supply chain:** Hvilke tiltak? Lockfile-validering? Pinning?
+5. **Hemmelighetsskanning:** Aktiv? Hvilket verktøy?
+6. **Sikkerhetshendelse-rapportering:** `security.txt`? Bug bounty? Responstid?
+7. **ISO 27001:** Når sist revidert? Hvilket revisjonsfirma?
+8. **Kodevurdering:** SAST i CI? Hvilken dekning?
 
 Et leverandørtilbud bør kunne svare på alle åtte uten ekstra spørreruner. Hvis svarene er vage eller "vi kommer tilbake til deg", er det informasjon i seg selv.
 

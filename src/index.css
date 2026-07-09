@@ -182,8 +182,13 @@
   /* Blog post markdown body styling */
   .post-body {
     color: hsl(var(--ink-soft));
-    font-size: 1.0625rem;
-    line-height: 1.75;
+    font-size: 1.1875rem;
+    line-height: 1.8;
+  }
+  @media (min-width: 1024px) {
+    .post-body {
+      font-size: 1.25rem;
+    }
   }
   .post-body h2 {
     font-family: "Fraunces", "Iowan Old Style", Georgia, serif;

@@ -109,7 +109,7 @@ const Blog = () => {
                     .
                   </EditorialHeading>
                   <p className="mt-6 text-xl text-ink-soft measure leading-relaxed">
-                    Artikler fra arbeid med norske kommuner og utleiere — fra
+                    Artikler fra arbeidet med norske kommuner og utleiere: fra
                     veiviser og saksbehandling til sesongleie, sikker
                     innlogging, fakturering og samsvar.
                   </p>
@@ -131,7 +131,7 @@ const Blog = () => {
                       <input
                         id="blog-search"
                         type="search"
-                        placeholder="Søk i artikler — SSA-L, sesongleie, GDPR …"
+                        placeholder="Søk i artikler: SSA-L, sesongleie, GDPR …"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         className="w-full bg-paper border border-hairline-strong rounded-sm pl-9 pr-9 py-2.5 text-base text-ink placeholder:text-ink-faint focus:outline-none focus:border-ink"

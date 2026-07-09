@@ -1,8 +1,7 @@
 import { Link, useParams, Navigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { motion } from "framer-motion";
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -15,7 +14,6 @@ import {
 } from "@/components/editorial";
 import { getPostBySlug, getAllPosts, formatPostDate } from "@/lib/posts";
 import { getFraunces } from "@/lib/fonts";
-import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
 import { openChatbot } from "@/lib/chatbot/open";
 
 const CHAT_HREFS = new Set([
@@ -75,9 +73,31 @@ const BlogPost = () => {
     { label: "X", href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(post.title)}` },
     { label: "E-post", href: `mailto:?subject=${encodeURIComponent(post.title)}&body=${encodeURIComponent(url)}` },
   ];
+  // Sidebar recommendations: same-tag articles first (topically relevant while
+  // reading), backfilled with the newest others. Distinct from the "Fortsett å
+  // lese" latest strip at the foot of the page.
+  const sidebarRelated = [
+    ...getAllPosts().filter(
+      (p) => p.slug !== post.slug && p.tag && p.tag === post.tag,
+    ),
+    ...related,
+  ]
+    .filter((p, i, arr) => arr.findIndex((x) => x.slug === p.slug) === i)
+    .slice(0, 3);
+  // Strip a trailing "book a demo" CTA from the body — the CTA band below the
+  // article already provides one, so an in-article copy is a duplicate. Only
+  // pops CTA paragraph(s) at the very end, so mid-article mentions are safe.
+  const isCta = (p: string) =>
+    /\[book\s+(?:en\s+)?demo/i.test(p) ||
+    /^\*\*\s*book\s+en\s+demo/i.test(p.trim()) ||
+    /book\s+demo\s*→/i.test(p);
+  const bodyParas = post.content.trimEnd().split(/\n{2,}/);
+  while (bodyParas.length > 1 && isCta(bodyParas[bodyParas.length - 1]))
+    bodyParas.pop();
+  const body = bodyParas.join("\n\n");
 
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
+    <div className="min-h-screen bg-background overflow-x-clip">
       <SEO
         title={post.title.length > 50 ? post.title : `${post.title} — Digilist`}
         description={post.description}
@@ -112,35 +132,37 @@ const BlogPost = () => {
 
       <PageTransition>
       <main id="main">
-        <article className="pt-28 lg:pt-32 pb-16 lg:pb-24 bg-paper">
+        <article className="pt-24 lg:pt-28 pb-16 lg:pb-24 bg-paper">
           <div className="container mx-auto md:px-8 lg:px-12">
-            <nav
-              className="editorial-mono-caption mb-10"
-              aria-label="Brødsmuler"
-            >
-              <Link
-                to="/blogg"
-                className="group inline-flex items-center gap-2 text-accent-text"
-              >
-                <ArrowLeft
-                  className="h-3.5 w-3.5 transition-transform duration-quick ease-editorial group-hover:-translate-x-1"
-                  aria-hidden="true"
-                />
-                <span className="group-hover:underline underline-offset-4 decoration-[0.5px]">
-                  Tilbake til blogg
+            {/* Breadcrumb + category share one line to keep the top tight. */}
+            <div className="flex items-center justify-between gap-4 mb-7">
+              <nav className="editorial-mono-caption" aria-label="Brødsmuler">
+                <Link
+                  to="/blogg"
+                  className="group inline-flex items-center gap-2 text-accent-text"
+                >
+                  <ArrowLeft
+                    className="h-3.5 w-3.5 transition-transform duration-quick ease-editorial group-hover:-translate-x-1"
+                    aria-hidden="true"
+                  />
+                  <span className="group-hover:underline underline-offset-4 decoration-[0.5px]">
+                    Tilbake til blogg
+                  </span>
+                </Link>
+              </nav>
+              {post.tag && (
+                <span className="editorial-mono-caption text-accent-text">
+                  {post.tag}
                 </span>
-              </Link>
-            </nav>
+              )}
+            </div>
 
-            <div className="grid lg:grid-cols-12 gap-x-8 lg:gap-x-gutter gap-y-12">
+            {/* Full-width split: article fills the left, a wide sidebar on the
+                right, spanning the container (no centering). */}
+            <div className="grid gap-x-10 gap-y-12 lg:grid-cols-[minmax(0,1fr)_20rem] xl:gap-x-16 xl:grid-cols-[minmax(0,1fr)_22rem]">
               {/* Main article column */}
-              <div className="lg:col-span-8 min-w-0">
+              <div className="min-w-0">
                 <header className="mb-10 lg:mb-12">
-                  {post.tag && (
-                    <p className="editorial-mono-caption text-accent-text mb-4">
-                      {post.tag}
-                    </p>
-                  )}
                   <EditorialHeading as="h1" size="display" className="mb-6">
                     {post.title}
                   </EditorialHeading>
@@ -167,7 +189,7 @@ const BlogPost = () => {
                       />
                     </div>
                     <figcaption className="mt-3 editorial-mono-caption text-ink-faint">
-                      FIG. — {post.tag ?? "Illustrasjon"}
+                      FIG. · {post.tag ?? "Illustrasjon"}
                     </figcaption>
                   </figure>
                 )}
@@ -205,13 +227,13 @@ const BlogPost = () => {
                       },
                     }}
                   >
-                    {post.content}
+                    {body}
                   </ReactMarkdown>
                 </div>
               </div>
 
-              {/* Sticky sidebar — TOC, reading meta, share, CTA */}
-              <aside className="lg:col-span-4" aria-label="Artikkelinfo">
+              {/* Sticky sidebar — reading meta, TOC, related, share */}
+              <aside aria-label="Artikkelinfo">
                 <div className="lg:sticky lg:top-28 flex flex-col gap-8 lg:border-l lg:border-rule lg:pl-8">
                   <p className="editorial-mono-caption text-ink-faint flex flex-wrap items-center gap-x-3 gap-y-1">
                     <span>{readingMin} min lesetid</span>
@@ -241,6 +263,34 @@ const BlogPost = () => {
                     </nav>
                   )}
 
+                  {sidebarRelated.length > 0 && (
+                    <div>
+                      <p className="editorial-mono-caption text-accent-text mb-4">
+                        Relaterte artikler
+                      </p>
+                      <ul className="flex flex-col divide-y divide-rule border-y border-rule">
+                        {sidebarRelated.map((r) => (
+                          <li key={r.slug}>
+                            <Link
+                              to={`/blogg/${r.slug}`}
+                              className="group flex flex-col gap-1.5 py-3.5"
+                            >
+                              <span className="editorial-mono-caption text-ink-faint">
+                                {r.tag ?? "Artikkel"}
+                              </span>
+                              <span
+                                className="font-serif text-[1.05rem] leading-snug text-ink transition-colors group-hover:text-accent-text"
+                                style={{ letterSpacing: "-0.01em" }}
+                              >
+                                {r.title}
+                              </span>
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
                   <div>
                     <p className="editorial-mono-caption text-accent-text mb-3">
                       Del artikkelen
@@ -259,18 +309,6 @@ const BlogPost = () => {
                       ))}
                     </div>
                   </div>
-
-                  <div className="rounded-sm border border-hairline-strong bg-accent-tinted p-6">
-                    <p
-                      className="mb-4 font-serif text-xl leading-snug text-ink"
-                      style={{ fontVariationSettings: getFraunces("sub") }}
-                    >
-                      Vil du se hvordan det fungerer i praksis?
-                    </p>
-                    <EditorialButton variant="primary" size="md" href="/book-demo">
-                      Book en demo
-                    </EditorialButton>
-                  </div>
                 </div>
               </aside>
             </div>
@@ -278,7 +316,7 @@ const BlogPost = () => {
           </div>
         </article>
 
-        {/* End-of-article CTA — full-bleed tinted band, matches PilotInvitation */}
+        {/* End-of-article call to action */}
         <section
           aria-label="Neste steg"
           className="bg-accent-tinted border-t border-hairline-strong py-14 lg:py-20"
@@ -289,7 +327,7 @@ const BlogPost = () => {
                 <span className="editorial-mono-caption text-accent-text">
                   NESTE STEG
                 </span>
-                <h3
+                <h2
                   className="mt-3 font-serif text-3xl lg:text-4xl text-ink leading-tight"
                   style={{
                     fontVariationSettings: getFraunces("section"),
@@ -297,10 +335,10 @@ const BlogPost = () => {
                   }}
                 >
                   Klar for å se Digilist i praksis?
-                </h3>
+                </h2>
                 <p className="mt-3 text-lg text-ink-soft measure leading-relaxed">
-                  Book en personlig demo, eller still spørsmål direkte i chat
-                  — vi svarer på under et minutt i kontortid.
+                  Book en personlig demo, eller still spørsmål direkte i chat.
+                  Vi svarer på under et minutt i kontortid.
                 </p>
               </div>
               <div className="lg:col-span-4 flex flex-wrap gap-3 lg:justify-end">
@@ -318,60 +356,6 @@ const BlogPost = () => {
             </div>
           </div>
         </section>
-
-        {related.length > 0 && (
-          <section className="py-14 lg:py-20 bg-paper-deep/40 border-t border-rule">
-            <div className="container mx-auto md:px-8 lg:px-12">
-              <p className="editorial-mono-caption mb-8">Fortsett å lese</p>
-              <motion.ol
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportOnce}
-                variants={staggerParent}
-                className="grid md:grid-cols-3 gap-px bg-rule border border-rule"
-              >
-                {related.map((p) => (
-                  <motion.li
-                    key={p.slug}
-                    variants={staggerChild}
-                    className="bg-paper"
-                  >
-                    <Link
-                      to={`/blogg/${p.slug}`}
-                      className="group flex flex-col h-full p-6 lg:p-8 transition-colors duration-quick ease-editorial hover:bg-paper-deep/40"
-                    >
-                      {p.tag && (
-                        <span className="editorial-mono-caption text-accent-text mb-3 inline-block">
-                          {p.tag}
-                        </span>
-                      )}
-                      <h3
-                        className="font-serif text-2xl text-ink mb-3 transition-transform duration-normal ease-editorial group-hover:translate-x-1"
-                        style={{
-                          fontVariationSettings: getFraunces("section"),
-                          letterSpacing: "-0.015em",
-                          lineHeight: 1.15,
-                        }}
-                      >
-                        {p.title}
-                      </h3>
-                      <p className="text-base text-ink-soft leading-relaxed flex-1">
-                        {p.description.slice(0, 120)}...
-                      </p>
-                      <span className="mt-5 pt-4 border-t border-rule editorial-mono-caption text-accent-text inline-flex items-center gap-1">
-                        Les artikkel
-                        <ArrowUpRight
-                          className="h-3.5 w-3.5 transition-transform duration-quick ease-editorial group-hover:translate-x-1 group-hover:-translate-y-1"
-                          aria-hidden="true"
-                        />
-                      </span>
-                    </Link>
-                  </motion.li>
-                ))}
-              </motion.ol>
-            </div>
-          </section>
-        )}
       </main>
       </PageTransition>
 
