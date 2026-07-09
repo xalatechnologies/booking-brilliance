@@ -70,6 +70,10 @@ jobs:
           if [ -z "$changed" ]; then echo "none=1" >> "$GITHUB_OUTPUT"; echo "No new blogs today."; exit 0; fi
           today=$(date -u +%F)
           for f in $changed; do sed -i "s/^date:.*/date: $today/" "$f"; done
+          # Emit the new post slugs so the post-deploy "Verify live" step can
+          # confirm each one actually renders (body + cover image) on digilist.no.
+          slugs=$(echo "$changed" | tr ' ' '\n' | sed -n 's#.*/\(.*\)\.md$#\1#p' | tr '\n' ' ')
+          echo "slugs=$slugs" >> "$GITHUB_OUTPUT"
           git config user.name "digilist-blog-agent"
           git config user.email "bot@digilist.no"
           git add src/content/blog
@@ -105,3 +109,12 @@ jobs:
           EOF
           chmod 600 ~/.ssh/config
           ./deploy.sh
+
+      # 6. verify the new posts actually render LIVE end-to-end: URL 200s, the
+      #    prerendered article carries real prose, and the cover image loads.
+      #    This is the hands-free "verify everything live with images, text"
+      #    gate — a green run means the day's posts are provably live, not just
+      #    committed.
+      - name: Verify live
+        if: steps.commit.outputs.none != '1'
+        run: ./scripts/verify-live-posts.sh https://digilist.no ${{ steps.commit.outputs.slugs }}
