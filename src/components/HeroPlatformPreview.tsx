@@ -22,7 +22,7 @@ export function HeroPlatformPreview() {
         <header className="flex items-center justify-between px-5 py-3 border-b border-rule bg-paper-deep/60">
           <div className="flex items-center gap-2.5">
             <img
-              src="/logo.svg"
+              src="/logo-64.webp"
               alt=""
               aria-hidden="true"
               className="h-7 w-7 object-contain"

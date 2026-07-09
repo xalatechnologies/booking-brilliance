@@ -82,7 +82,7 @@ const Footer = () => {
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             >
               <img
-                src="/logo.svg"
+                src="/logo-64.webp"
                 alt=""
                 aria-hidden="true"
                 className="h-16 lg:h-20 w-auto transition-opacity group-hover:opacity-80"

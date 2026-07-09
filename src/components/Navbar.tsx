@@ -83,7 +83,7 @@ const Navbar = () => {
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
           <img
-            src="/logo.svg"
+            src="/logo-64.webp"
             alt=""
             aria-hidden="true"
             className="h-11 md:h-12 w-auto transition-opacity group-hover:opacity-80"
