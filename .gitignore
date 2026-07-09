@@ -33,3 +33,6 @@ tools/site-intelligence/reports/
 *.njsproj
 *.sln
 *.sw?
+
+# Improvements-agent local operational brain (machine-specific)
+tools/improvements-agent/brain/
