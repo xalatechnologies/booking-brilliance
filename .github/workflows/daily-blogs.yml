@@ -66,18 +66,29 @@ jobs:
       - name: Date + commit new posts
         id: commit
         run: |
-          changed=$(git status --porcelain src/content/blog | awk '{print $2}')
-          if [ -z "$changed" ]; then echo "none=1" >> "$GITHUB_OUTPUT"; echo "No new blogs today."; exit 0; fi
           today=$(date -u +%F)
+          # Re-date any posts content:sync touched to today so they surface at the
+          # top of /blogg. (Empty list → the loop is a no-op.)
+          changed=$(git status --porcelain src/content/blog | awk '{print $2}')
           for f in $changed; do sed -i "s/^date:.*/date: $today/" "$f"; done
-          # Emit the new post slugs so the post-deploy "Verify live" step can
-          # confirm each one actually renders (body + cover image) on digilist.no.
-          slugs=$(echo "$changed" | tr ' ' '\n' | sed -n 's#.*/\(.*\)\.md$#\1#p' | tr '\n' ' ')
+          git add src/content/blog
+          # If nothing is genuinely staged, there's no new content to ship. This
+          # happens on a no-new-post day: sync re-emits existing posts with their
+          # original Convex date, git flags a diff, then the re-date above cancels
+          # it back to what's already committed. Treat that as a clean no-op rather
+          # than letting `git commit` fail with "nothing to commit" (exit 1).
+          if git diff --cached --quiet; then
+            echo "none=1" >> "$GITHUB_OUTPUT"
+            echo "No new blog content today — nothing to deploy."
+            exit 0
+          fi
+          # Slugs of the posts that genuinely changed, for the live-verify gate.
+          slugs=$(git diff --cached --name-only -- src/content/blog | sed -n 's#.*/\(.*\)\.md$#\1#p' | tr '\n' ' ')
+          n=$(git diff --cached --name-only -- src/content/blog | grep -c '\.md$' || true)
           echo "slugs=$slugs" >> "$GITHUB_OUTPUT"
           git config user.name "digilist-blog-agent"
           git config user.email "bot@digilist.no"
-          git add src/content/blog
-          git commit -m "Daily blog agent: $(echo "$changed" | wc -w | tr -d ' ') new post(s) [$today]"
+          git commit -m "Daily blog agent: ${n} new post(s) [$today]"
           git push
 
       # 5. build + deploy to Hostinger (self-contained; doesn't rely on the
