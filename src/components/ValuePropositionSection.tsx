@@ -33,7 +33,7 @@ const values = [
 const ValuePropositionSection = () => {
   return (
     <section id="verdi" className="py-14 lg:py-20 bg-paper">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto md:px-8 lg:px-12">
         <SectionRule label="I. PLATTFORMEN" />
 
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-10 lg:mb-14">

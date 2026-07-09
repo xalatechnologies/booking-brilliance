@@ -129,7 +129,7 @@ export default function Transparens() {
       <PageTransition>
         <main id="main">
           <article className="pt-28 lg:pt-32 pb-16 lg:pb-24">
-            <div className="container mx-auto px-4">
+            <div className="container mx-auto md:px-8 lg:px-12">
               <div className="flex items-baseline justify-between gap-4 mb-10 pb-4 border-b border-rule">
                 <nav
                   className="editorial-mono-caption"

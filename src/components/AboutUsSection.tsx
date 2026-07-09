@@ -80,7 +80,7 @@ const creed = [
 const AboutUsSection = () => {
   return (
     <section id="om-oss" className="py-16 lg:py-24 bg-paper-deep/40">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto md:px-8 lg:px-12">
         <SectionRule label="VIII. KOLOFON" />
 
         {/* Headline + lede */}

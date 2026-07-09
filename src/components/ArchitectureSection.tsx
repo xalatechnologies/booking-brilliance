@@ -149,7 +149,7 @@ const ArchNode = ({
 const ArchitectureSection = () => {
   return (
     <section id="arkitektur" className="py-16 lg:py-24 bg-paper">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto md:px-8 lg:px-12">
         <SectionRule label="VII. ARKITEKTUR" />
 
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-12 lg:mb-16">

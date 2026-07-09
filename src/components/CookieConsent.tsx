@@ -33,7 +33,7 @@ const CookieConsent = () => {
       aria-label="Samtykke til informasjonskapsler"
       className="fixed bottom-0 left-0 right-0 z-50 p-4 md:p-6 animate-slide-up"
     >
-      <div className="container mx-auto max-w-6xl">
+      <div className="container mx-auto md:px-8 lg:px-12 max-w-6xl">
         <div className="bg-card/95 dark:bg-card/90 backdrop-blur-xl border-2 border-border/50 rounded-2xl shadow-2xl p-6 md:p-8">
           <div className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
             {/* Left: Icon and Content */}

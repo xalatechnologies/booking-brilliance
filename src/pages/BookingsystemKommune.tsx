@@ -108,7 +108,7 @@ const BookingsystemKommune = () => {
 
       <main id="main">
         <section className="pt-28 lg:pt-32 pb-16 lg:pb-24 bg-paper">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto md:px-8 lg:px-12">
             <SectionRule label="KOMMUNAL BOOKING · 2026" />
 
             <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter items-start">
@@ -170,7 +170,7 @@ const BookingsystemKommune = () => {
         </section>
 
         <section className="py-14 lg:py-20 bg-paper-deep/40">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto md:px-8 lg:px-12">
             <SectionRule label="I. SSA-L 2026 KRAV" />
             <div className="grid lg:grid-cols-12 gap-8 mb-10">
               <div className="lg:col-span-7">
@@ -204,7 +204,7 @@ const BookingsystemKommune = () => {
         </section>
 
         <section className="py-14 lg:py-20 bg-paper">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto md:px-8 lg:px-12">
             <SectionRule label="II. FUNKSJONALITET" />
             <div className="grid lg:grid-cols-12 gap-8 mb-10">
               <div className="lg:col-span-7">
@@ -239,7 +239,7 @@ const BookingsystemKommune = () => {
         </section>
 
         <section className="py-14 lg:py-20 bg-paper-deep/40">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto md:px-8 lg:px-12">
             <SectionRule label="III. NORSKE INTEGRASJONER" />
             <div className="grid lg:grid-cols-12 gap-8 mb-10">
               <div className="lg:col-span-7">
@@ -276,7 +276,7 @@ const BookingsystemKommune = () => {
         </section>
 
         <section className="py-14 lg:py-20 bg-accent-tinted">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto md:px-8 lg:px-12">
             <SectionRule label="IV. KONTAKT" />
             <div className="grid lg:grid-cols-12 gap-8">
               <div className="lg:col-span-7">
@@ -325,7 +325,7 @@ const BookingsystemKommune = () => {
         </section>
 
         <section className="py-14 lg:py-20 bg-paper">
-          <div className="container mx-auto px-4">
+          <div className="container mx-auto md:px-8 lg:px-12">
             <SectionRule label="V. SPØRSMÅL OG SVAR" />
             <EditorialHeading as="h2" size="section" className="mb-10">
               Vanlige spørsmål fra kommuner.

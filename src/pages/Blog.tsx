@@ -93,7 +93,7 @@ const Blog = () => {
       <PageTransition>
         <main id="main">
           <section className="pt-28 lg:pt-32 pb-14 lg:pb-20 bg-paper">
-            <div className="container mx-auto px-4">
+            <div className="container mx-auto md:px-8 lg:px-12">
               <SectionRule label="DIGILIST · BLOGG" />
 
               <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-12">

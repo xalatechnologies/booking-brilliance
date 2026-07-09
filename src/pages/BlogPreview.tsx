@@ -222,7 +222,7 @@ export default function BlogPreview() {
       {/* Preview banner — unmissable, makes it obvious this is not the
           public version. */}
       <div className="sticky top-16 z-50 bg-amber-500 text-on-navy">
-        <div className="container mx-auto px-4 py-2 flex items-center justify-between gap-4 text-xs">
+        <div className="container mx-auto md:px-8 lg:px-12 py-2 flex items-center justify-between gap-4 text-xs">
           <p className="font-mono uppercase tracking-widest">
             PREVIEW · DRAFT #{draft._id.slice(0, 8)} · {draft.status} ·{" "}
             {draft.channel.toUpperCase()} · {draft.model}
@@ -239,7 +239,7 @@ export default function BlogPreview() {
       <PageTransition>
         <main id="main">
           <article className="pt-12 lg:pt-16 pb-16 lg:pb-24 bg-paper">
-            <div className="container mx-auto px-4">
+            <div className="container mx-auto md:px-8 lg:px-12">
               <nav
                 className="editorial-mono-caption mb-10"
                 aria-label="Brødsmuler"

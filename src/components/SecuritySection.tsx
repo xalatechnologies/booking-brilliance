@@ -42,7 +42,7 @@ const SecuritySection = () => {
 
   return (
     <section id="om-oss" className="py-16 md:py-24 bg-background relative section-border">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto md:px-8 lg:px-12">
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="section-heading mb-4">

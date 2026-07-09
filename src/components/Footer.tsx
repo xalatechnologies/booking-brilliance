@@ -72,7 +72,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-paper-deep border-t border-hairline-strong">
-      <div className="container mx-auto px-4 py-16 lg:py-24">
+      <div className="container mx-auto md:px-8 lg:px-12 py-16 lg:py-24">
         {/* Editorial colophon header */}
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-14 lg:mb-20 pb-10 lg:pb-14 border-b border-rule">
           <div className="lg:col-span-7">

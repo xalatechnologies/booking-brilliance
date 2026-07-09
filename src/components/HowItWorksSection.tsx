@@ -36,7 +36,7 @@ const HowItWorksSection = () => {
       id="funksjonalitet"
       className="py-14 lg:py-20 bg-paper-deep/40"
     >
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto md:px-8 lg:px-12">
         <SectionRule label="IV. FUNKSJONALITET" />
 
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-10 lg:mb-14">

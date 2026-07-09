@@ -24,7 +24,7 @@ const Salgsvilkar = () => {
       <main id="main">
       {/* Content */}
       <section className="pt-32 pb-16">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto md:px-8 lg:px-12">
           <div className="max-w-3xl mx-auto prose prose-lg dark:prose-invert">
             
             {/* Title */}

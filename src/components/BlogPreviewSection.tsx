@@ -55,7 +55,7 @@ const BlogPreviewSection = () => {
       aria-labelledby="blogg-preview-heading"
       className="py-20 lg:py-32 bg-paper-deep/40 border-y border-rule"
     >
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto md:px-8 lg:px-12">
         <SectionRule label="V. INNSIKT" />
 
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-12 lg:mb-20">

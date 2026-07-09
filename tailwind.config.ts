@@ -24,6 +24,9 @@ export default {
     },
     container: {
       center: true,
+      // Base gutter. Wider screens get more via the md/lg/xl px utilities added
+      // to `.container` usages (the container's own responsive padding is
+      // coupled to `screens` below, so utilities are the reliable lever).
       padding: "1.5rem",
       screens: {
         "2xl": "1600px",

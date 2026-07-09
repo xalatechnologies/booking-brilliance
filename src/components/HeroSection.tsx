@@ -66,7 +66,7 @@ const HeroSection = () => {
       id="hjem"
       className="relative pt-20 lg:pt-24 pb-0 overflow-hidden"
     >
-      <div className="container mx-auto px-4 pt-4 lg:pt-6 pb-20 lg:pb-28">
+      <div className="container mx-auto md:px-8 lg:px-12 pt-4 lg:pt-6 pb-20 lg:pb-28">
         {/* Hero is above-the-fold — paint in final state immediately so
             Lighthouse measures LCP correctly. The on-mount fade-in was
             blowing LCP up to 12.8s because framer-motion held the
@@ -191,7 +191,7 @@ const HeroSection = () => {
         variants={staggerParent}
         className="border-y border-rule"
       >
-        <div className="container mx-auto px-4 py-12 lg:py-14">
+        <div className="container mx-auto md:px-8 lg:px-12 py-12 lg:py-14">
           <div className="flex items-baseline justify-between gap-6 mb-10">
             <span className="editorial-mono-caption">Kunder · I bruk</span>
             <span className="editorial-mono-caption text-ink-faint hidden md:inline">
@@ -258,7 +258,7 @@ const HeroSection = () => {
         variants={staggerParent}
         className="border-b border-rule bg-paper-deep/40"
       >
-        <div className="container mx-auto px-4 py-12 lg:py-14">
+        <div className="container mx-auto md:px-8 lg:px-12 py-12 lg:py-14">
           <div className="flex items-baseline justify-between gap-6 mb-10">
             <span className="editorial-mono-caption">
               Integrasjoner & samsvar

@@ -26,7 +26,7 @@ const FeaturesSection = () => {
 
   return (
     <section id="funksjoner" className="py-24 bg-background relative">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto md:px-8 lg:px-12">
         {/* Header */}
         <div className="text-center mb-16">
           <span className="text-sm font-bold text-primary mb-4 block uppercase tracking-wider">Komplett løsning</span>
