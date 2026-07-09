@@ -14,6 +14,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export interface ContentAgentConfig {
   // LLM
+  // Provider: "api" calls the Anthropic API per-token (needs ANTHROPIC_API_KEY);
+  // "claude-cli" shells out to the Claude Code CLI (`claude -p`), billed to a
+  // Claude Max/Pro subscription (OAuth login) instead of per-token — ideal for
+  // running the agents autonomously on a local machine or VPS.
+  llmProvider: "api" | "claude-cli";
   anthropicApiKey: string;
   anthropicDraftModel: string;       // best model — writes the blog (the content)
   anthropicReviewModel: string;      // best model — deep editorial review pass
@@ -65,6 +70,10 @@ function envList(key: string, fallback: string[]): string[] {
 
 export function loadConfig(): ContentAgentConfig {
   return {
+    llmProvider:
+      (process.env.LLM_PROVIDER ?? process.env.CONTENT_AGENT_LLM_PROVIDER ?? "api").toLowerCase() === "claude-cli"
+        ? "claude-cli"
+        : "api",
     anthropicApiKey: process.env.ANTHROPIC_API_KEY ?? "",
     // The blog is the product, so it gets the most capable model. The brief and
     // low-stakes social drafts run on a mid model; clustering stays on haiku.

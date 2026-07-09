@@ -57,6 +57,9 @@ export async function anthropic(
     maxTokens?: number;
   },
 ): Promise<AnthropicCallResult> {
+  // Route through the Claude Code CLI (Max/Pro subscription) instead of the
+  // per-token API when configured — same prompts, no ANTHROPIC_API_KEY needed.
+  if (cfg.llmProvider === "claude-cli") return claudeCli(opts);
   const r = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: {
@@ -98,6 +101,39 @@ export async function anthropic(
     outputTokens: tOut,
     costUsd,
     model: opts.model,
+  };
+}
+
+/**
+ * Claude Code CLI provider — runs the same system+user prompt headlessly via
+ * `claude -p`, billed to the logged-in Max/Pro subscription. The user message
+ * goes on stdin (avoids ARG_MAX on large prompts); the system prompt and model
+ * are flags. No token counts from text mode, so cost is reported as 0 (flat
+ * subscription). Sidesteps the extended-thinking-empty-text issue too, since
+ * the CLI always returns the final assistant text.
+ */
+async function claudeCli(opts: {
+  model: string;
+  systemPrompt: string;
+  userMessage: string;
+}): Promise<AnthropicCallResult> {
+  const { execFile } = await import("node:child_process");
+  const { promisify } = await import("node:util");
+  const run = promisify(execFile);
+  // Prompt as the -p argument (execFile has no stdin `input`); system + model
+  // as flags. Prompts here are a few KB, well under ARG_MAX.
+  const args = ["-p", opts.userMessage, "--output-format", "text", "--model", opts.model];
+  if (opts.systemPrompt) args.push("--append-system-prompt", opts.systemPrompt);
+  const { stdout } = await run("claude", args, {
+    maxBuffer: 64 * 1024 * 1024,
+    timeout: 8 * 60_000,
+  });
+  return {
+    text: String(stdout).trim(),
+    inputTokens: 0,
+    outputTokens: 0,
+    costUsd: 0,
+    model: `${opts.model} (max-cli)`,
   };
 }
 

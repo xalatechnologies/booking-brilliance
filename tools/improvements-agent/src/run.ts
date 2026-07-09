@@ -44,7 +44,8 @@ async function main() {
   const ideasRepo = process.env.IMPROVEMENTS_IDEAS_REPO ?? "xalatechnologies/booking-brilliance";
   const minConf = Number(process.env.IMPROVEMENTS_MIN_CONFIDENCE ?? 0.7) || 0.7;
   const projectName = process.env.IMPROVEMENTS_LINEAR_PROJECT ?? "Digilist - Improvements Agent";
-  if (!cfg.anthropicApiKey) throw new Error("ANTHROPIC_API_KEY required");
+  if (cfg.llmProvider === "api" && !cfg.anthropicApiKey)
+    throw new Error("ANTHROPIC_API_KEY required (or set LLM_PROVIDER=claude-cli to use the Claude Max subscription)");
   if (!convexUrl || !admin) throw new Error("VITE_CONVEX_URL + ADMIN_BASIC_AUTH required");
 
   const brain = OpenBrain.load();
