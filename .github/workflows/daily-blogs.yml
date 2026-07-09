@@ -21,6 +21,11 @@ jobs:
   generate-and-publish:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    # The commit step pushes the day's new posts back to the repo. The default
+    # Actions token is read-only unless we grant write here — without this the
+    # `git push` failed with exit 128.
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
