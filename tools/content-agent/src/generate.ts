@@ -117,32 +117,50 @@ async function claudeCli(opts: {
   systemPrompt: string;
   userMessage: string;
 }): Promise<AnthropicCallResult> {
-  const { execFile } = await import("node:child_process");
-  const { promisify } = await import("node:util");
-  const run = promisify(execFile);
-  // `claude -p` is a full agent, so constrain it hard to a single tool-free
-  // turn and read the structured JSON envelope (`.result` = final text), which
-  // is more robust than text mode. A per-call timeout + one retry handles the
-  // occasional hang. Prompt is the -p arg (execFile has no stdin `input`).
+  const { spawn } = await import("node:child_process");
+  // `claude -p` is a full agent, so pin it to a single tool-free turn and read
+  // the structured JSON envelope (`.result`). The prompt goes on STDIN (an argv
+  // prompt over a few KB overflows claude's arg-size limit and the call fails);
+  // system prompt + model are flags. Per-call timeout + one retry for hangs.
   const args = [
-    "-p", opts.userMessage,
+    "-p",
     "--output-format", "json",
     "--model", opts.model,
     "--max-turns", "1",
     "--allowedTools", "",
   ];
   if (opts.systemPrompt) args.push("--append-system-prompt", opts.systemPrompt);
-  const call = async (): Promise<string> => {
-    const { stdout } = await run("claude", args, { maxBuffer: 64 * 1024 * 1024, timeout: 4 * 60_000 });
-    const env = JSON.parse(String(stdout)) as { result?: string; is_error?: boolean };
-    if (env.is_error) throw new Error(`claude -p returned is_error`);
-    return (env.result ?? "").trim();
-  };
+  const call = () =>
+    new Promise<string>((resolve, reject) => {
+      const child = spawn("claude", args, { stdio: ["pipe", "pipe", "pipe"] });
+      let out = "";
+      let err = "";
+      const timer = setTimeout(() => {
+        child.kill("SIGKILL");
+        reject(new Error("claude -p timeout"));
+      }, 4 * 60_000);
+      child.stdout.on("data", (d) => (out += d));
+      child.stderr.on("data", (d) => (err += d));
+      child.on("error", reject);
+      child.on("close", (code) => {
+        clearTimeout(timer);
+        if (code !== 0) return reject(new Error(`claude -p exit ${code}: ${err.slice(0, 200)}`));
+        try {
+          const env = JSON.parse(out) as { result?: string; is_error?: boolean };
+          if (env.is_error) return reject(new Error("claude -p is_error"));
+          resolve((env.result ?? "").trim());
+        } catch {
+          reject(new Error(`claude -p parse fail: ${out.slice(0, 160)}`));
+        }
+      });
+      child.stdin.write(opts.userMessage);
+      child.stdin.end();
+    });
   let text: string;
   try {
     text = await call();
   } catch {
-    text = await call(); // one retry on hang/parse failure
+    text = await call();
   }
   return { text, inputTokens: 0, outputTokens: 0, costUsd: 0, model: `${opts.model} (max-cli)` };
 }
