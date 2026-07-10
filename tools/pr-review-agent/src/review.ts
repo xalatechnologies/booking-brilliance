@@ -147,7 +147,7 @@ export async function reviewPr(
 
   const checkout = localCheckout(repo);
   const groundingNote = checkout
-    ? `\nDu står i repoet (${repo}). Du HAR verktøy: repository-map (codebase-memory: search_graph/get_code_snippet/get_architecture), Read/Grep/Glob, og docs-RAG. Bruk dem til å verifisere at diffen henger sammen med resten av koden (kallere, typer, tester, RBAC) før du konkluderer. Kun review — ikke endre filer.`
+    ? `\nDu står i repoet (${repo}). Du HAR verktøy: repository-map (codebase-memory: search_graph/get_code_snippet/get_architecture/trace_path), Read/Grep/Glob. Bruk dem til å verifisere at diffen henger sammen med resten av koden (kallere, typer, tester, RBAC) før du konkluderer. Kun review — ikke endre filer.`
     : "";
   const userMessage = `PR #${pr.number}: ${pr.title}
 Forfatter: ${pr.author} · ${pr.headRefName} → ${pr.baseRefName}
