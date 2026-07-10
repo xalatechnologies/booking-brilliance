@@ -38,9 +38,21 @@ pnpm pr-review:run -- --org xalatechnologies       # discover + review org-wide
 
 Env: `GH_TOKEN` (repo access) · `PR_REVIEW_REPOS` (comma slugs `owner/name`) ·
 `PR_REVIEW_ORGS` (comma orgs to auto-discover) · `PR_REVIEW_ONLY_AGENT=1` (only
-`agent/*` branches) · `PR_REVIEW_INCLUDE_BOTS=1` (also review dependabot etc.).
-Flags: `--dry-run`, `--limit N`, `--all` (drafts), `--repo <slug|name>`,
-`--org <owner>`, `--pr N`, `--include-bots`.
+`agent/*` branches) · `PR_REVIEW_INCLUDE_BOTS=1` (also review dependabot etc.) ·
+`PR_REVIEW_MULTILENS=1` (multi-agent review). Flags: `--dry-run`, `--limit N`,
+`--all` (drafts), `--repo <slug|name>`, `--org <owner>`, `--pr N`,
+`--include-bots`, `--multi-lens`.
+
+## Capabilities
+
+On `LLM_PROVIDER=claude-cli` the reviewer runs in **capable mode** (full tools),
+grounded in the repo checkout, with:
+- **Repository map** (`codebase-memory` MCP) — verify callers/types/RBAC in real code.
+- **Docs-RAG** (`docs-rag` MCP) — `docs_search`/`docs_get` over the Digilist docs.
+- **Skill** — the `digilist-code-review` rubric.
+- **`--multi-lens`** — one capable agent per lens (correctness, security/RBAC,
+  WCAG/UX, tests/CI) runs in parallel, findings merged. More thorough; ~4× the
+  work per PR (fine on the flat Max subscription).
 
 ## On the VPS
 
