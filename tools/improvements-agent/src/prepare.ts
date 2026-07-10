@@ -43,6 +43,7 @@ async function git(repo: string, args: string[]): Promise<string> {
 export interface PrepareResult {
   branch: string;
   worktree: string;
+  pushed: boolean;
 }
 
 /**
@@ -105,7 +106,15 @@ export async function prepareBranch(issue: LinearIssue, parsed: ParsedGoal): Pro
   await git(worktree, ["-c", "user.name=digilist-improvements-agent", "-c", "user.email=bot@digilist.no",
     "commit", "-m", `chore(agent): prepare ${issue.identifier} — ${issue.title.slice(0, 60)}`]);
 
-  return { branch, worktree };
+  // Push so it's a remote branch you can pull + work on from anywhere.
+  let pushed = false;
+  try {
+    await git(worktree, ["push", "-u", "origin", branch]);
+    pushed = true;
+  } catch (e) {
+    console.warn(`[prepare] ${issue.identifier}: push failed (branch is local only) — ${String(e).slice(0, 120)}`);
+  }
+  return { branch, worktree, pushed };
 }
 
 /** Prepare every approval-state issue not already prepared, and comment back. */
@@ -128,10 +137,13 @@ export async function prepareApproved(
     if (!parsed) { console.warn(`[prepare] ${issue.identifier}: no /loop goal in body — skip`); continue; }
     if (dryRun) { console.log(`[prepare] would prepare ${issue.identifier} in ${parsed.repoPath}`); prepared++; continue; }
 
-    const { branch, worktree } = await prepareBranch(issue, parsed);
+    const { branch, worktree, pushed } = await prepareBranch(issue, parsed);
+    const howto = pushed
+      ? `Hent den lokalt:\n\`\`\`\ngit fetch origin && git checkout ${branch}\n\`\`\``
+      : `Åpne worktreen \`${worktree}\` (branchen er kun lokal på agent-maskinen).`;
     await client.addComment(
       issue.id,
-      `🌿 Branch **\`${branch}\`** klargjort i \`${worktree}\`.\n\nÅpne worktreen og kjør:\n\`\`\`\n/loop ${parsed.goal.split("\n")[0]}…\n\`\`\`\nSe \`AGENT-GOAL.md\` for hele målet. Claude implementerer → tester → commit → push → PR (aldri main).`,
+      `🌿 Branch **\`${branch}\`** klargjort${pushed ? " og pushet" : ""}.\n\n${howto}\n\nKjør så:\n\`\`\`\n/loop ${parsed.goal.split("\n")[0]}…\n\`\`\`\nSe \`AGENT-GOAL.md\` for hele målet. Claude implementerer → tester → commit → push → PR (aldri main).`,
     );
     brain.recordPrepared({ item_key: key, repo: parsed.repoPath, branch, worktree_path: worktree, goal_file: "AGENT-GOAL.md", prepared_at: nowIso() });
     console.log(`[prepare] ✓ ${issue.identifier} → ${branch}`);
