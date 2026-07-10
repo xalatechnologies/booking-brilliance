@@ -128,6 +128,10 @@ async function claudeCli(opts: {
     "--model", opts.model,
     "--max-turns", "1",
     "--allowedTools", "",
+    // Exclude auto-loaded MCP connectors (e.g. the claude.ai Google/Gmail ones,
+    // or a globally-installed codebase-memory server). Otherwise claude tries a
+    // tool_use for generation prompts and hits the 1-turn cap → error_max_turns.
+    "--strict-mcp-config",
   ];
   if (opts.systemPrompt) args.push("--append-system-prompt", opts.systemPrompt);
   // An ANTHROPIC_API_KEY in the environment takes precedence over the claude.ai
