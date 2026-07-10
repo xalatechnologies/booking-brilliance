@@ -32,7 +32,7 @@
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { loadConfig } from "../../content-agent/src/config";
-import { alreadyReviewed, postReview, renderReview, verdictEvent } from "./post";
+import { alreadyReviewed, postReview, renderReview } from "./post";
 import { reviewPr, reviewPrMultiLens } from "./review";
 import { ReviewStore } from "./store";
 
@@ -171,15 +171,16 @@ async function main() {
     try {
       console.log(`  ⚙ reviewing ${key}${pr.headRefName ? ` (${pr.headRefName})` : ""}${isUpdate ? " [re-review: new commits]" : ""}${multiLens ? " [multi-lens]" : ""}…`);
       const reviewer = multiLens && cfg.llmProvider === "claude-cli" ? reviewPrMultiLens : reviewPr;
-      const { pr: full, verdict, model } = await reviewer(cfg, pr.repo, pr.number);
-      const event = verdictEvent(verdict, allowVerdicts);
-      const body = renderReview(full, verdict, model, event, isUpdate);
+      const result = await reviewer(cfg, pr.repo, pr.number);
+      // The reviewer chose the verdict; the gate can downgrade to advisory comment.
+      const event = allowVerdicts ? result.event : "comment";
+      const body = renderReview(result.body, isUpdate);
       if (dryRun) {
-        console.log(`\n----- ${key} — ${full.title} [${event}${isUpdate ? ", update" : ""}] -----\n${body}\n`);
+        console.log(`\n----- ${key} — ${result.pr.title} [${event}${isUpdate ? ", update" : ""}] -----\n${body}\n`);
       } else {
         const posted = await postReview(pr.repo, pr.number, body, event);
-        store.record(key, { headOid: pr.headRefOid, url: full.url, reviewed_at: nowIso(), blocking: verdict.blocking });
-        console.log(`  ✓ ${posted.toUpperCase()} on ${key} — risk=${verdict.risk} blocking=${verdict.blocking} (${verdict.findings.length} findings)${isUpdate ? " [update]" : ""}`);
+        store.record(key, { headOid: pr.headRefOid, url: result.pr.url, reviewed_at: nowIso(), blocking: event === "request-changes" });
+        console.log(`  ✓ ${posted.toUpperCase()} on ${key}${isUpdate ? " [update]" : ""}`);
       }
       reviewed++;
     } catch (e) {

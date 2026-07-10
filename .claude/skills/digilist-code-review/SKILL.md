@@ -1,52 +1,47 @@
 ---
 name: digilist-code-review
-description: Use when reviewing a Digilist pull request, diff, or code change. Provides the Digilist review rubric — security/RBAC, WCAG/universell utforming, Norwegian UX, Convex/data patterns, performance, and test coverage — so reviews are consistent and catch what matters for a Norwegian municipal booking SaaS.
+description: Use when reviewing a Digilist pull request or code change. How a 30+-year veteran reviews Digilist code — judgment about what actually matters (real bugs, RBAC/tenant leaks, regressions), not an exhaustive checklist. Keeps reviews short, human, and grounded in the real code.
 ---
 
-# Digilist code-review rubric
+# Reviewing Digilist code like a veteran
 
 Digilist is a Norwegian municipal booking SaaS: a Vite+React marketing site
-(`booking-brilliance`) and a Convex-backed app (`Digilist`). Review against these
-dimensions, most-critical first. Ground every claim in the actual code (use the
-repository map: `search_graph`, `get_code_snippet`, `trace_path`, and `Read`).
+(`booking-brilliance`) and a Convex-backed app (`Digilist`). Review the way a
+staff engineer with decades of scars does — not by running a checklist.
 
-## 1. Correctness & regressions
-- Does the change do what the PR title/description claims? Verify against the code.
-- Trace callers of changed functions (`trace_path` / `search_graph`) — any caller
-  whose assumptions now break? Route changes: check for redirect loops and that
-  the target route actually matches a handler.
-- Boundary conditions: empty/missing ids, slug-vs-id resolution, off-by-one on
-  thresholds, null/undefined guards.
+## The instinct
 
-## 2. Security & RBAC
-- Digilist RBAC: platform `admin` (superadmin) + tenant roles ranked
-  `tenant_admin(4) > saksbehandler(3) > finance(2) > support(1)`, plus front-end
-  `user`/`arranger`. Does the change respect the right role/tenant scope?
-- Cross-tenant leakage: does a query/mutation filter by tenant? Does a link/route
-  send a platform/admin user into a tenant context (or vice-versa)?
-- Secrets/PII: no keys, tokens, or personal data in code, logs, URLs, or query
-  strings. Auth: ID-porten/BankID + Entra ID — don't weaken it.
+Read the change, then ask: **what would actually bite in production?** Lead with
+that. Usually it's one to three things. Say them plainly, point at `file:line`,
+explain *why* it bites and what you'd do instead. Then stop.
 
-## 3. Universell utforming (WCAG 2.1 AA) — when UI changes
-- Semantic structure (headings, landmarks, `role`/`aria-*` where grouping is only
-  visual), keyboard operability, focus handling, contrast (Digdir Designsystemet).
-- Norwegian bokmål UX copy: concrete, sober; avoid AI clichés and em-dashes.
+Don't find everything. A review that lists eight things teaches nothing; a
+review that names the one real bug and the one risky design choice is worth
+reading. Skip style, naming, and micro-optimizations unless they cause real
+problems.
 
-## 4. Convex / data patterns (app repo)
-- Queries/mutations validated (args), indexed where filtered, no N+1 fetches.
-- Schema changes are backward compatible or migrated.
+## Where Digilist actually goes wrong
 
-## 5. Performance
-- Bundle/render cost, unnecessary re-renders, image sizing, caching.
+These are the failure modes worth checking the code for (via the repo map —
+`search_graph`, `get_code_snippet`, `trace_path` — and `Read`), because they're
+what breaks:
 
-## 6. Tests
-- Are the risk-carrying paths covered (not just the happy util)? Boundary tests
-  for thresholds; component/route tests for routing changes.
-- **Verify the tests actually run in CI** — check the root `package.json` test
-  scripts include the package's suite (a common gap: `pnpm -r test` not wired
-  into `test:all`).
+- **Tenant/RBAC leaks.** Roles rank `tenant_admin > saksbehandler > finance >
+  support`, plus platform `admin` and front-end `user`/`arranger`. Does a query
+  filter by tenant? Does an id-based read skip the owner scope a slug-based one
+  has? Does a link send a platform user into a tenant route (or vice-versa)?
+- **Routing regressions.** Redirect loops, a target route that doesn't match a
+  handler, an id-vs-slug dispatch that no-ops for the common case.
+- **Guards that silently narrow.** A fallback that used to fire on `slug` now
+  requiring `id`; a threshold that reclassifies real inputs.
+- **Untested risk surface.** The pure util is tested but the component/route that
+  actually caused the bug isn't — and check the test *actually runs in CI* (a
+  recurring gap: `pnpm -r test` not wired into `test:all`).
+- **Auth weakening** (ID-porten/BankID/Entra) and **secrets/PII** in code, logs,
+  or URLs.
 
-## Output
-Be specific and cite `file:symbol`. Classify findings `blocker | major | minor |
-nit`. Say plainly when the change is good — don't invent problems. Never approve
-or merge; the review is advisory.
+## Verdict
+
+Conclude like a reviewer: **approve** if it's fine (mention small stuff without
+blocking), **request-changes** if something must be fixed first, **comment**
+otherwise. Never approve or merge blindly — a human still owns the merge.

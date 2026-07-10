@@ -1,30 +1,15 @@
 /**
- * PR-review agent — the poster. Renders a ReviewVerdict as markdown and submits
- * it to GitHub as a review. The review EVENT reflects the verdict:
- *   - blocker finding      → REQUEST_CHANGES (a proper change request)
- *   - clean / only minor   → APPROVE
- *   - otherwise (major…)   → COMMENT (advisory)
- * The agent NEVER merges — approval is a review state, not a merge. A hidden
- * marker lets us detect our own prior review so re-runs don't duplicate.
+ * PR-review agent — the poster. Posts the reviewer's human-voice review to
+ * GitHub with the event it chose (approve / request-changes / comment) and a
+ * matching verdict label. The agent NEVER merges — approval is a review state.
+ * A hidden marker lets us detect our own prior review so re-runs don't dup.
  */
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
-import type { PullRequest, ReviewVerdict } from "./review";
+import type { ReviewEvent } from "./review";
 
 const exec = promisify(execFile);
 const MARKER = "<!-- digilist-pr-review -->";
-
-export type ReviewEvent = "approve" | "request-changes" | "comment";
-
-/** Map a verdict to a GitHub review event. Gated: when verdicts are disabled we
- *  only ever COMMENT (advisory). Blocker → change request; major → comment;
- *  otherwise (clean / minor / nit) → approve. */
-export function verdictEvent(v: ReviewVerdict, allowVerdicts: boolean): ReviewEvent {
-  if (!allowVerdicts) return "comment";
-  if (v.blocking || v.findings.some((f) => f.severity === "blocker")) return "request-changes";
-  if (v.findings.some((f) => f.severity === "major") || v.risk === "high") return "comment";
-  return "approve";
-}
 
 /**
  * gh token for REVIEW actions. GitHub blocks approving/requesting-changes on
@@ -64,51 +49,17 @@ async function setVerdictLabel(repo: string, number: number, event: ReviewEvent)
   }
 }
 
-const SEV_ICON: Record<string, string> = {
-  blocker: "⛔",
-  major: "🔴",
-  minor: "🟡",
-  nit: "💬",
-};
-
-/** Render the verdict as a GitHub-flavoured markdown review body. */
-export function renderReview(pr: PullRequest, v: ReviewVerdict, model: string, event: ReviewEvent = "comment", isUpdate = false): string {
-  const riskBadge = v.risk === "high" ? "🔴 Høy" : v.risk === "medium" ? "🟡 Middels" : "🟢 Lav";
-  const eventLabel =
-    event === "request-changes" ? "🔴 Endringer forespurt (blocker)" :
-    event === "approve" ? "🟢 Godkjent (rådgivende — ingen auto-merge)" :
-    "💬 Kommentar (rådgivende)";
-  const lines: string[] = [
-    MARKER,
-    `## 🤖 Automatisk kode-review${isUpdate ? " — oppdatert etter nye commits" : ""}`,
-    ``,
-    v.summary,
-    ``,
-    `**Risiko:** ${riskBadge} · **Konklusjon:** ${eventLabel}`,
-    ``,
-  ];
-
-  if (v.findings.length > 0) {
-    lines.push(`### Funn (${v.findings.length})`, ``);
-    for (const f of v.findings) {
-      const loc = f.file ? ` \`${f.file}\`` : "";
-      lines.push(`- ${SEV_ICON[f.severity] ?? "•"} **${f.severity}**${loc} — ${f.note}`);
-    }
-    lines.push(``);
-  } else {
-    lines.push(`### Funn`, ``, `Ingen vesentlige funn. 👍`, ``);
-  }
-
-  if (v.strengths.length > 0) {
-    lines.push(`### Styrker`, ``, ...v.strengths.map((s) => `- ${s}`), ``);
-  }
-  if (v.tests) lines.push(`### Tester`, ``, v.tests, ``);
-
-  lines.push(
-    `---`,
-    `_Rådgivende review av Digilist PR-review-agent (${model}). Ingen godkjenning/merge — et menneske bestemmer._`,
-  );
-  return lines.join("\n");
+/**
+ * Wrap the reviewer's own prose for posting: a hidden dedup marker, an optional
+ * one-line note when it's a re-review, the review itself, and a single small
+ * disclosure line. No template, no sections — the body is what the reviewer
+ * wrote.
+ */
+export function renderReview(body: string, isUpdate = false): string {
+  const parts = [MARKER];
+  if (isUpdate) parts.push("_Oppdatert etter nye commits._");
+  parts.push("", body.trim(), "", "_— automatisk review (Digilist). Ikke en merge-godkjenning; et menneske bestemmer._");
+  return parts.join("\n");
 }
 
 /** Has our agent already posted a review on this PR? (marker match). */
