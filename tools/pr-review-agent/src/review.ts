@@ -121,14 +121,45 @@ export async function fetchDiff(repo: string, number: number): Promise<string> {
   return stdout;
 }
 
-function tryJson<T>(text: string): T | null {
-  const m = text.match(/\{[\s\S]*\}/);
-  if (!m) return null;
-  try {
-    return JSON.parse(m[0]) as T;
-  } catch {
-    return null;
+/** All balanced {...} substrings (tolerates prose / markdown fences around them). */
+function extractJsonObjects(text: string): string[] {
+  const out: string[] = [];
+  let depth = 0;
+  let start = -1;
+  let inStr = false;
+  let esc = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inStr) {
+      if (esc) esc = false;
+      else if (c === "\\") esc = true;
+      else if (c === '"') inStr = false;
+      continue;
+    }
+    if (c === '"') inStr = true;
+    else if (c === "{") { if (depth === 0) start = i; depth++; }
+    else if (c === "}") { depth--; if (depth === 0 && start >= 0) { out.push(text.slice(start, i + 1)); start = -1; } }
   }
+  return out;
+}
+
+/** Robustly pull the review verdict JSON from a capable agent's free-form final
+ *  message: prefer a balanced object that has the review keys, largest first. */
+function tryJson<T>(text: string): T | null {
+  const candidates = extractJsonObjects(text).sort((a, b) => b.length - a.length);
+  // Prefer objects that look like a verdict.
+  const ordered = [
+    ...candidates.filter((c) => /"(summary|findings|risk)"\s*:/.test(c)),
+    ...candidates,
+  ];
+  for (const c of ordered) {
+    try {
+      return JSON.parse(c) as T;
+    } catch {
+      /* try next */
+    }
+  }
+  return null;
 }
 
 /** Review one PR: pull metadata + diff, ask Claude, return a structured verdict. */
@@ -171,7 +202,7 @@ Gi en grundig review. Din SISTE melding skal være KUN JSON-objektet (ingen pros
   if (cfg.llmProvider === "claude-cli") {
     // Capable mode: full tools + the repository map, grounded in the checkout.
     const r = await runCapableAgent({
-      prompt: userMessage,
+      prompt: `${userMessage}\n\nAvslutt med verdict-objektet som REN JSON på siste linje — ingen \`\`\`-kodeblokk, ingen tekst etter.`,
       systemPrompt: SYSTEM,
       model: cfg.anthropicReviewModel,
       cwd: checkout,
@@ -187,6 +218,10 @@ Gi en grundig review. Din SISTE melding skal være KUN JSON-objektet (ingen pros
     model = call.model;
   }
   const parsed = tryJson<Partial<ReviewVerdict>>(text);
+  if (!parsed || !parsed.summary) {
+    // Don't post an empty/garbage review — skip and let the next cycle retry.
+    throw new Error(`no JSON verdict parsed. Tail: ${text.slice(-300).replace(/\n/g, " ")}`);
+  }
   const okSev = ["blocker", "major", "minor", "nit"];
   const verdict: ReviewVerdict = {
     summary: parsed?.summary ?? "Klarte ikke å produsere et sammendrag.",
