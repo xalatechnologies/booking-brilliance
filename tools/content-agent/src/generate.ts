@@ -127,9 +127,10 @@ async function claudeCli(opts: {
   // --disallowedTools blocks every built-in tool. Without this, opus in
   // particular attempts a tool_use on generation prompts and hits the turn cap
   // → error_max_turns. (--allowedTools "" alone does NOT block tools.)
+  // Exact valid names only — an unknown name errors the whole call.
   const BUILTIN_TOOLS = [
-    "Bash", "Read", "Edit", "Write", "MultiEdit", "Glob", "Grep", "Task",
-    "WebFetch", "WebSearch", "NotebookEdit", "TodoWrite", "BashOutput", "KillShell",
+    "Bash", "Read", "Edit", "Write", "Glob", "Grep", "Task",
+    "WebFetch", "WebSearch", "NotebookEdit", "TodoWrite",
   ];
   const args = [
     "-p",
