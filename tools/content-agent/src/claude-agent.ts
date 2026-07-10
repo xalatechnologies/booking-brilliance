@@ -33,7 +33,9 @@ export interface CapableAgentResult {
  */
 export const CAPABILITY_PREAMBLE = `Du er en Digilist-agent med FULL verktøytilgang. Bruk verktøyene aktivt før du konkluderer:
 - Repository-map (codebase-memory MCP): search_graph / get_code_snippet / get_architecture / trace_path / query_graph — for å finne symboler, kallere, dataflyt og arkitektur i den faktiske koden (raskere og mer presist enn grep).
+- Docs-RAG (docs-rag MCP): docs_search / docs_get — autoritativ Digilist-dokumentasjon (produkt, compliance/SSA-L, arkitektur, drift). Bruk for fakta om hva Digilist gjør og hvordan.
 - Fil-verktøy: Read / Grep / Glob / Bash — les faktiske filer, tester og config.
+- Ferdigheter (skills): påkall relevante Digilist-skills for etablerte fremgangsmåter når de finnes.
 - Kontokoblinger (om nødvendig): Linear, Gmail, Kalender, Drive, Notion.
 - Minne/kontekst: agent-hjernene ligger i tools/*-agent/brain og content-memory; les dem for tidligere lærdom når det er relevant.
 Ikke gjett når du kan slå opp. Jobb read-only med mindre oppgaven eksplisitt ber om endringer.`;
