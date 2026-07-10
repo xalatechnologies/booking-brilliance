@@ -24,6 +24,20 @@ export interface CapableAgentResult {
   ok: boolean;
 }
 
+/**
+ * Prepended to every capable-mode agent's system prompt so it KNOWS what it can
+ * reach. The tools themselves are wired at the CLI level (built-ins on via
+ * --dangerously-skip-permissions; MCP servers registered for the Claude CLI —
+ * the repository map via codebase-memory, plus the account connectors). This
+ * just makes the agent aware and inclined to use them.
+ */
+export const CAPABILITY_PREAMBLE = `Du er en Digilist-agent med FULL verktøytilgang. Bruk verktøyene aktivt før du konkluderer:
+- Repository-map (codebase-memory MCP): search_graph / get_code_snippet / get_architecture / trace_path / query_graph — for å finne symboler, kallere, dataflyt og arkitektur i den faktiske koden (raskere og mer presist enn grep).
+- Fil-verktøy: Read / Grep / Glob / Bash — les faktiske filer, tester og config.
+- Kontokoblinger (om nødvendig): Linear, Gmail, Kalender, Drive, Notion.
+- Minne/kontekst: agent-hjernene ligger i tools/*-agent/brain og content-memory; les dem for tidligere lærdom når det er relevant.
+Ikke gjett når du kan slå opp. Jobb read-only med mindre oppgaven eksplisitt ber om endringer.`;
+
 export function runCapableAgent(opts: {
   prompt: string;
   systemPrompt?: string;
@@ -40,7 +54,9 @@ export function runCapableAgent(opts: {
     "--dangerously-skip-permissions",
     "--max-turns", String(opts.maxTurns ?? 30),
   ];
-  if (opts.systemPrompt) args.push("--append-system-prompt", opts.systemPrompt);
+  // Every capable agent gets the capability preamble + its own system prompt.
+  const sys = opts.systemPrompt ? `${CAPABILITY_PREAMBLE}\n\n${opts.systemPrompt}` : CAPABILITY_PREAMBLE;
+  args.push("--append-system-prompt", sys);
   const env = { ...process.env };
   delete env.ANTHROPIC_API_KEY; // use the Max login, not a key
   delete env.ANTHROPIC_AUTH_TOKEN;

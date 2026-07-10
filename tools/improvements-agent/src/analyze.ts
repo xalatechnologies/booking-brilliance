@@ -9,10 +9,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { runCapableAgent } from "../../content-agent/src/claude-agent";
 import type { ContentAgentConfig } from "../../content-agent/src/config";
 import { anthropic, type AnthropicCallResult } from "../../content-agent/src/generate";
 import { searchGraph, type GraphSymbol } from "./code-map";
-import type { Item, RepoKey } from "./inputs";
+import { REPOS, type Item, type RepoKey } from "./inputs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -115,12 +116,28 @@ ${evidence}
 
 Avgjør status (kryss mot KJENTE FUNKSJONER først) og lag et /loop-mål bare hvis genuint actionable. Returner JSON.`;
 
-  const call = await anthropic(cfg, {
-    model: cfg.anthropicReviewModel, // best model — architectural judgement
-    systemPrompt: SYSTEM,
-    userMessage,
-    maxTokens: 2048,
-  });
+  let call: AnthropicCallResult;
+  if (cfg.llmProvider === "claude-cli") {
+    // Capable mode: let the analyzer use the repository map + Read to verify the
+    // CLI-gathered evidence in the actual checkout before judging.
+    const cwd = REPOS[item.target_repo]?.path;
+    const r = await runCapableAgent({
+      prompt: `${userMessage}\n\nDin SISTE melding skal være KUN JSON-objektet.`,
+      systemPrompt: SYSTEM,
+      model: cfg.anthropicReviewModel,
+      cwd: cwd && fs.existsSync(path.join(cwd, ".git")) ? cwd : undefined,
+      maxTurns: 30,
+      timeoutMin: 10,
+    });
+    call = { text: r.text, inputTokens: 0, outputTokens: 0, costUsd: 0, model: r.model };
+  } else {
+    call = await anthropic(cfg, {
+      model: cfg.anthropicReviewModel, // best model — architectural judgement
+      systemPrompt: SYSTEM,
+      userMessage,
+      maxTokens: 2048,
+    });
+  }
   const parsed = tryJson<Partial<Verdict>>(call.text);
   // Sensible fallbacks when the model omits a field: ideas → feature/improvement,
   // findings → bug; severity from the finding severity; priority from severity.
