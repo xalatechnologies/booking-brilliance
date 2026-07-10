@@ -122,16 +122,22 @@ async function claudeCli(opts: {
   // the structured JSON envelope (`.result`). The prompt goes on STDIN (an argv
   // prompt over a few KB overflows claude's arg-size limit and the call fails);
   // system prompt + model are flags. Per-call timeout + one retry for hangs.
+  // Make `claude -p` a pure single-turn text model: --strict-mcp-config drops
+  // auto-loaded MCP connectors (claude.ai Google/Gmail, codebase-memory), and
+  // --disallowedTools blocks every built-in tool. Without this, opus in
+  // particular attempts a tool_use on generation prompts and hits the turn cap
+  // → error_max_turns. (--allowedTools "" alone does NOT block tools.)
+  const BUILTIN_TOOLS = [
+    "Bash", "Read", "Edit", "Write", "MultiEdit", "Glob", "Grep", "Task",
+    "WebFetch", "WebSearch", "NotebookEdit", "TodoWrite", "BashOutput", "KillShell",
+  ];
   const args = [
     "-p",
     "--output-format", "json",
     "--model", opts.model,
     "--max-turns", "1",
-    "--allowedTools", "",
-    // Exclude auto-loaded MCP connectors (e.g. the claude.ai Google/Gmail ones,
-    // or a globally-installed codebase-memory server). Otherwise claude tries a
-    // tool_use for generation prompts and hits the 1-turn cap → error_max_turns.
     "--strict-mcp-config",
+    "--disallowedTools", ...BUILTIN_TOOLS,
   ];
   if (opts.systemPrompt) args.push("--append-system-prompt", opts.systemPrompt);
   // An ANTHROPIC_API_KEY in the environment takes precedence over the claude.ai
