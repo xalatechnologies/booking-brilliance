@@ -27,10 +27,17 @@ export function loadCapabilities(repo: RepoKey): string {
   }
 }
 
+export type IssueType = "bug" | "feature" | "improvement" | "nice-to-have";
+export type Severity = "critical" | "major" | "minor";
+export type Priority = "P0" | "P1" | "P2" | "P3";
+
 export interface Verdict {
   status: "exists" | "partial" | "gap" | "fixable" | "not-actionable";
   actionable: boolean;
   confidence: number; // 0..1
+  type: IssueType;
+  severity: Severity;
+  priority: Priority;
   code_evidence: { ref: string; note: string }[];
   fix: string;
   goal_prompt: string;
@@ -46,10 +53,15 @@ Avgjør status:
 
 Sett actionable=true bare når det er reelt arbeid å gjøre (gap, partial-forbedring, eller fixable funn). Ikke foreslå å bygge noe som allerede finnes.
 
+Kategoriser hvert actionable emne:
+- type: "bug" (noe er ødelagt/feil), "feature" (ny funksjon / ekte gap), "improvement" (forbedring av noe som finnes), "nice-to-have" (lav verdi, kosmetisk).
+- severity: "critical" (blokkerer bruk / sikkerhet / datatap), "major" (tydelig funksjons- eller kvalitetstap), "minor" (liten effekt).
+- priority: "P0" (haster nå), "P1" (høy), "P2" (medium), "P3" (lav). Utled fra severity + brukerpåvirkning + søkeetterspørsel/bevis.
+
 For actionable emner, lag et SELVSTENDIG Claude-mål (goal_prompt) som en utvikler kan kjøre med /loop i riktig repo: konkret hva som skal bygges/fikses, hvilke filer/moduler (fra bevisene), akseptansekriterier, og at tester skal være grønne før PR. Norsk bokmål, ingen tankestrek som skilletegn.
 
 Returner KUN gyldig JSON:
-{"status":"...","actionable":true|false,"confidence":0.0-1.0,"code_evidence":[{"ref":"fil/symbol","note":"kort"}],"fix":"hva som skal gjøres","goal_prompt":"selvstendig /loop-mål"}`;
+{"status":"...","actionable":true|false,"confidence":0.0-1.0,"type":"bug|feature|improvement|nice-to-have","severity":"critical|major|minor","priority":"P0|P1|P2|P3","code_evidence":[{"ref":"fil/symbol","note":"kort"}],"fix":"hva som skal gjøres","goal_prompt":"selvstendig /loop-mål"}`;
 
 function tryJson<T>(text: string): T | null {
   const m = text.match(/\{[\s\S]*\}/);
@@ -110,10 +122,24 @@ Avgjør status (kryss mot KJENTE FUNKSJONER først) og lag et /loop-mål bare hv
     maxTokens: 2048,
   });
   const parsed = tryJson<Partial<Verdict>>(call.text);
+  // Sensible fallbacks when the model omits a field: ideas → feature/improvement,
+  // findings → bug; severity from the finding severity; priority from severity.
+  const defaultType: IssueType =
+    item.kind === "idea" ? (parsed?.status === "partial" ? "improvement" : "feature") : "bug";
+  const defaultSeverity: Severity = item.severity === "error" ? "major" : "minor";
+  const okType = ["bug", "feature", "improvement", "nice-to-have"];
+  const okSev = ["critical", "major", "minor"];
+  const okPrio = ["P0", "P1", "P2", "P3"];
+  const severity = (okSev.includes(parsed?.severity as string) ? parsed!.severity : defaultSeverity) as Severity;
   const verdict: Verdict = {
     status: (parsed?.status as Verdict["status"]) ?? "not-actionable",
     actionable: Boolean(parsed?.actionable),
     confidence: typeof parsed?.confidence === "number" ? Math.max(0, Math.min(1, parsed.confidence)) : 0.5,
+    type: (okType.includes(parsed?.type as string) ? parsed!.type : defaultType) as IssueType,
+    severity,
+    priority: (okPrio.includes(parsed?.priority as string)
+      ? parsed!.priority
+      : severity === "critical" ? "P0" : severity === "major" ? "P1" : "P2") as Priority,
     code_evidence: Array.isArray(parsed?.code_evidence) ? parsed!.code_evidence!.slice(0, 8) : [],
     fix: parsed?.fix ?? "",
     goal_prompt: parsed?.goal_prompt ?? "",

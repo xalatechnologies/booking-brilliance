@@ -8,6 +8,11 @@ import { REPOS, type Item } from "./inputs";
 
 const norm = (s: string) => s.toLowerCase().replace(/[^a-zæøå0-9 ]/gi, "").replace(/\s+/g, " ").trim();
 
+/** Map the agent's P-priority to Linear's native priority field. */
+export function linearPriority(p: Verdict["priority"]): number {
+  return { P0: 1, P1: 2, P2: 3, P3: 4 }[p] ?? 3;
+}
+
 export function goalMarkdown(item: Item, verdict: Verdict, codeSha: string): string {
   const repo = REPOS[item.target_repo];
   const evidence = verdict.code_evidence.length
@@ -18,6 +23,8 @@ export function goalMarkdown(item: Item, verdict: Verdict, codeSha: string): str
       ? `Produktidé (${item.source_ref}), fra søkeetterspørsel`
       : `Skann-funn: ${item.category}/${item.severity}${item.url ? ` — ${item.url}` : ""}`;
   return [
+    `**Klassifisering:** ${verdict.type} · alvorlighet ${verdict.severity} · prioritet ${verdict.priority}`,
+    ``,
     `## Mål`,
     verdict.fix || item.title,
     ``,
@@ -45,19 +52,41 @@ export function goalMarkdown(item: Item, verdict: Verdict, codeSha: string): str
 
 export async function fileGoal(
   client: LinearClient,
-  ctx: { teamId: string; projectId: string; existingTitles: Set<string> },
+  ctx: {
+    teamId: string;
+    projectId: string;
+    existingTitles: Set<string>;
+    labelMap?: Record<string, string>;
+  },
   item: Item,
   verdict: Verdict,
   codeSha: string,
 ): Promise<LinearIssue | null> {
   const title = item.title.length > 120 ? `${item.title.slice(0, 117)}…` : item.title;
   if (ctx.existingTitles.has(norm(title))) return null; // deduped
+  // type + severity as labels (native priority carries priority).
+  const labelIds = [verdict.type, verdict.severity]
+    .map((n) => ctx.labelMap?.[n])
+    .filter((x): x is string => Boolean(x));
   const issue = await client.createIssue({
     teamId: ctx.teamId,
     projectId: ctx.projectId,
     title,
     description: goalMarkdown(item, verdict, codeSha),
+    priority: linearPriority(verdict.priority),
+    labelIds: labelIds.length ? labelIds : undefined,
   });
   ctx.existingTitles.add(norm(title));
   return issue;
 }
+
+/** The categorization labels the agent maintains (name → Linear color). */
+export const CATEGORY_LABELS: { name: string; color: string }[] = [
+  { name: "bug", color: "#e11d48" },
+  { name: "feature", color: "#3b82f6" },
+  { name: "improvement", color: "#8b5cf6" },
+  { name: "nice-to-have", color: "#94a3b8" },
+  { name: "critical", color: "#b91c1c" },
+  { name: "major", color: "#f59e0b" },
+  { name: "minor", color: "#64748b" },
+];

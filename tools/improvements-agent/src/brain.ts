@@ -45,6 +45,9 @@ export interface Verdict {
   actionable: boolean;
   confidence: number; // 0..1
   status: string; // exists | partial | gap | fixable | not-found
+  type?: string; // bug | feature | improvement | nice-to-have
+  severity?: string; // critical | major | minor
+  priority?: string; // P0 | P1 | P2 | P3
   code_evidence: CodeEvidence[];
   fix: string; // the concrete improvement / fix summary
   goal_prompt: string; // the self-contained Claude /loop goal

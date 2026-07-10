@@ -20,7 +20,7 @@ import { analyzeItem } from "./analyze";
 import { OpenBrain } from "./brain";
 import { indexRepo, projectForPath, repoStatus } from "./code-map";
 import { githubIdeas, intelligenceFindings, REPOS, type Item, type RepoKey } from "./inputs";
-import { fileGoal, goalMarkdown } from "./linear-goals";
+import { CATEGORY_LABELS, fileGoal, goalMarkdown } from "./linear-goals";
 
 const nowIso = () => new Date().toISOString();
 
@@ -88,19 +88,21 @@ async function main() {
   console.log(`[improvements] ${items.length} item(s): ${items.filter((i) => i.kind === "idea").length} ideas, ${items.filter((i) => i.kind === "finding").length} findings`);
 
   // 3. Linear context (only when filing) ------------------------------------
-  let linearCtx: { client: LinearClient; teamId: string; projectId: string; existingTitles: Set<string> } | null = null;
+  let linearCtx: { client: LinearClient; teamId: string; projectId: string; existingTitles: Set<string>; labelMap?: Record<string, string> } | null = null;
   if (filing) {
     const client = new LinearClient(linearKey);
     const team = await client.resolveTeam(process.env.LINEAR_TEAM_KEY ?? "XAL");
     const project = await client.ensureProject(projectName, team.id, "Auto-forslag fra Digilist Improvements Agent.");
     const existing = await client.issuesInProject(project.id);
+    const labelMap = await client.ensureLabels(CATEGORY_LABELS, team.id).catch(() => ({}));
     linearCtx = {
       client,
       teamId: team.id,
       projectId: project.id,
       existingTitles: new Set(existing.map((i) => i.title.toLowerCase().replace(/[^a-zæøå0-9 ]/gi, "").replace(/\s+/g, " ").trim())),
+      labelMap,
     };
-    console.log(`[improvements] Linear project "${project.name}" (${existing.length} existing issues)`);
+    console.log(`[improvements] Linear project "${project.name}" (${existing.length} existing issues, ${Object.keys(labelMap).length} labels)`);
   }
 
   // 4. analyze + file -------------------------------------------------------
@@ -119,6 +121,9 @@ async function main() {
       actionable: verdict.actionable,
       confidence: verdict.confidence,
       status: verdict.status,
+      type: verdict.type,
+      severity: verdict.severity,
+      priority: verdict.priority,
       code_evidence: verdict.code_evidence,
       fix: verdict.fix,
       goal_prompt: verdict.goal_prompt,
@@ -130,11 +135,11 @@ async function main() {
     const genuine = verdict.actionable && verdict.confidence >= minConf;
     if (!genuine) {
       notActionable++;
-      console.log(`  · ${verdict.status} (${(verdict.confidence * 100).toFixed(0)}%) — ${item.title.slice(0, 64)}`);
+      console.log(`  · ${verdict.status} ${verdict.type}/${verdict.severity}/${verdict.priority} (${(verdict.confidence * 100).toFixed(0)}%) — ${item.title.slice(0, 60)}`);
       continue;
     }
     if (!filing || !linearCtx) {
-      console.log(`\n  ▸ GENUINE [${verdict.status} ${(verdict.confidence * 100).toFixed(0)}%] ${item.title}`);
+      console.log(`\n  ▸ GENUINE [${verdict.type}/${verdict.severity}/${verdict.priority} · ${verdict.status} ${(verdict.confidence * 100).toFixed(0)}%] ${item.title}`);
       console.log(goalMarkdown(item, verdict, meta.sha).split("\n").map((l) => `    ${l}`).join("\n"));
       continue;
     }

@@ -84,11 +84,37 @@ export class LinearClient {
     );
   }
 
+  /** Find-or-create workspace labels; returns a name→id map (case-insensitive). */
+  async ensureLabels(
+    labels: { name: string; color: string }[],
+    teamId: string,
+  ): Promise<Record<string, string>> {
+    const { issueLabels } = await this.gql<{ issueLabels: { nodes: { id: string; name: string }[] } }>(
+      `query { issueLabels(first: 250) { nodes { id name } } }`,
+    );
+    const byName = new Map(issueLabels.nodes.map((l) => [l.name.toLowerCase(), l.id]));
+    const out: Record<string, string> = {};
+    for (const l of labels) {
+      let id = byName.get(l.name.toLowerCase());
+      if (!id) {
+        const res = await this.gql<{ issueLabelCreate: { issueLabel: { id: string } } }>(
+          `mutation($input: IssueLabelCreateInput!) { issueLabelCreate(input: $input) { issueLabel { id } } }`,
+          { input: { name: l.name, color: l.color, teamId } },
+        ).catch(() => null);
+        id = res?.issueLabelCreate?.issueLabel?.id;
+      }
+      if (id) out[l.name] = id;
+    }
+    return out;
+  }
+
   async createIssue(input: {
     teamId: string;
     projectId: string;
     title: string;
     description: string;
+    priority?: number; // Linear native: 0 none, 1 urgent, 2 high, 3 normal, 4 low
+    labelIds?: string[];
   }): Promise<LinearIssue> {
     const res = await this.gql<{ issueCreate: { success: boolean; issue: LinearIssue } }>(
       `mutation($input: IssueCreateInput!) { issueCreate(input: $input) {
