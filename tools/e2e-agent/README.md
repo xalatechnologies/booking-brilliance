@@ -17,8 +17,26 @@ E2E_BASE_URL=https://digilist.no  # target (default)
 ```
 
 Coverage (`tests/public-surfaces.spec.ts`): home + nav, blog index→post, book-demo
-form, chatbot, key pages render, transparens uptime. Login-gated app flows
-(app.digilist.no, ID-porten/BankID) are deferred until test auth exists.
+form, chatbot, key pages render, transparens uptime.
+
+### Authenticated, per-role app journeys
+
+`tests/app/**` run per role (innbygger, saksbehandler, driftsleder, IT-leder,
+plattform-admin — see `auth/roles.ts`), each pre-authenticated via a saved
+session. BankID/ID-porten can't be automated headlessly, so this needs **one**
+of:
+
+1. **A test-login endpoint** in the Digilist app (the clean, autonomous path) —
+   gated to test/staging or behind a secret — that mints a session for
+   `{role, tenant}`. Configure: `E2E_APP_BASE_URL`, `E2E_TEST_LOGIN_URL`,
+   `E2E_TEST_LOGIN_SECRET`, `E2E_TEST_TENANT`, and `E2E_<ROLE>_ENABLED=true` per
+   role. `auth/global-setup.ts` logs each in and saves `auth/.auth/<role>.json`.
+2. **Pre-captured sessions** — drop a manually-captured `auth/.auth/<role>.json`
+   per role (refresh when it expires) and set `E2E_<ROLE>_ENABLED=true`.
+
+Without either, the app suite is skipped and only the public suite runs. The
+test-login endpoint is itself a small Digilist-repo feature (a good `/loop`
+goal). The user stories the app suite should cover live in `SCENARIOS.md`.
 
 On the VPS: `digilist-e2e.timer` (every 6h) → `vps-e2e-runner.sh`.
 

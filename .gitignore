@@ -41,3 +41,5 @@ tools/improvements-agent/brain/
 tools/e2e-agent/report.json
 tools/e2e-agent/test-results/
 tools/e2e-agent/playwright-report/
+
+tools/e2e-agent/auth/.auth/
