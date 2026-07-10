@@ -131,4 +131,50 @@ export class LinearClient {
       { input: { issueId, body } },
     );
   }
+
+  /** Ensure a label exists (by name) and attach it to an issue (additive). */
+  async addLabel(issueId: string, teamId: string, name: string, color = "#eb5757"): Promise<void> {
+    const map = await this.ensureLabels([{ name, color }], teamId);
+    const labelId = map[name];
+    if (!labelId) return;
+    await this.gql(
+      `mutation($id: String!, $labelId: String!) { issueAddLabel(id: $id, labelId: $labelId) { success } }`,
+      { id: issueId, labelId },
+    ).catch(() => {});
+  }
+
+  /** Remove a label from an issue by name (best-effort; no-op if absent). */
+  async removeLabel(issueId: string, teamId: string, name: string): Promise<void> {
+    const { issueLabels } = await this.gql<{ issueLabels: { nodes: { id: string; name: string }[] } }>(
+      `query { issueLabels(first: 250) { nodes { id name } } }`,
+    );
+    const labelId = issueLabels.nodes.find((l) => l.name.toLowerCase() === name.toLowerCase())?.id;
+    if (!labelId) return;
+    await this.gql(
+      `mutation($id: String!, $labelId: String!) { issueRemoveLabel(id: $id, labelId: $labelId) { success } }`,
+      { id: issueId, labelId },
+    ).catch(() => {});
+  }
+
+  /** Workflow states for a team (id, name, type). */
+  async teamStates(teamId: string): Promise<{ id: string; name: string; type: string }[]> {
+    const { team } = await this.gql<{ team: { states: { nodes: { id: string; name: string; type: string }[] } } }>(
+      `query($id: String!) { team(id: $id) { states { nodes { id name type } } } }`,
+      { id: teamId },
+    );
+    return team.states.nodes;
+  }
+
+  /** Move an issue to a workflow state by name (case/punctuation-insensitive). */
+  async moveIssue(issueId: string, teamId: string, stateName: string): Promise<boolean> {
+    const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
+    const states = await this.teamStates(teamId);
+    const state = states.find((s) => norm(s.name) === norm(stateName));
+    if (!state) return false;
+    await this.gql(
+      `mutation($id: String!, $stateId: String!) { issueUpdate(id: $id, input: { stateId: $stateId }) { success } }`,
+      { id: issueId, stateId: state.id },
+    );
+    return true;
+  }
 }

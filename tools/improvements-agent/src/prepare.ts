@@ -124,8 +124,10 @@ export async function prepareApproved(
   approveState: string,
   brain: OpenBrain,
   dryRun: boolean,
+  teamId?: string,
 ): Promise<number> {
   const issues = await client.issuesInState(projectId, approveState);
+  const inProgressState = process.env.IMPROVEMENTS_INPROGRESS_STATE ?? "In Progress";
   let prepared = 0;
   for (const issue of issues) {
     const key = `linear:${issue.id}`;
@@ -145,7 +147,9 @@ export async function prepareApproved(
       issue.id,
       `🌿 Branch **\`${branch}\`** klargjort${pushed ? " og pushet" : ""}.\n\n${howto}\n\nKjør så:\n\`\`\`\n/loop ${parsed.goal.split("\n")[0]}…\n\`\`\`\nSe \`AGENT-GOAL.md\` for hele målet. Claude implementerer → tester → commit → push → PR (aldri main).`,
     );
-    brain.recordPrepared({ item_key: key, repo: parsed.repoPath, branch, worktree_path: worktree, goal_file: "AGENT-GOAL.md", prepared_at: nowIso() });
+    // Reflect on the board that the agent has picked it up.
+    if (teamId) await client.moveIssue(issue.id, teamId, inProgressState).catch(() => false);
+    brain.recordPrepared({ item_key: key, repo: resolveRepoPath(parsed.repoPath), branch, worktree_path: worktree, goal_file: "AGENT-GOAL.md", goal: parsed.goal, linear_id: issue.id, prepared_at: nowIso() });
     console.log(`[prepare] ✓ ${issue.identifier} → ${branch}`);
     prepared++;
   }

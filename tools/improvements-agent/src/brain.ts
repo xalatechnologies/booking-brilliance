@@ -71,7 +71,11 @@ export interface Prepared {
   branch: string;
   worktree_path: string;
   goal_file: string;
+  goal?: string; // the /loop goal, for the auto-implement stage
+  linear_id?: string;
   prepared_at: string;
+  implemented_at?: string;
+  pr_url?: string;
 }
 
 export interface CodeSnapshot {

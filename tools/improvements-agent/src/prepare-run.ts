@@ -9,6 +9,7 @@
  */
 import { LinearClient } from "../../content-agent/src/linear";
 import { OpenBrain } from "./brain";
+import { implementPending } from "./implement-run";
 import { prepareApproved } from "./prepare";
 
 async function main() {
@@ -24,9 +25,17 @@ async function main() {
   const brain = OpenBrain.load();
 
   console.log(`[prepare] project "${project.name}", approval state "${approveState}"${dryRun ? " (dry run)" : ""}`);
-  const n = await prepareApproved(client, project.id, approveState, brain, dryRun);
+  const n = await prepareApproved(client, project.id, approveState, brain, dryRun, team.id);
   brain.save(new Date().toISOString());
   console.log(`[prepare] done — ${n} issue(s) prepared.`);
+
+  // Fully hands-off: after preparing, code them too. Opt-in so prepare stays a
+  // pure "set up a branch" step by default. `moving an issue to Todo` then runs
+  // the whole Todo → branch → implement → PR pipeline unattended.
+  if (!dryRun && process.env.IMPROVEMENTS_AUTO_IMPLEMENT === "1") {
+    console.log(`[prepare] auto-implement enabled — building prepared issues…`);
+    await implementPending({});
+  }
 }
 
 main().catch((e) => {

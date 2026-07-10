@@ -28,6 +28,7 @@
     "content:ideas": "tsx scripts/generate-feature-ideas.ts",
     "improvements:run": "tsx tools/improvements-agent/src/run.ts",
     "improvements:prepare": "tsx tools/improvements-agent/src/prepare-run.ts",
+    "improvements:implement": "tsx tools/improvements-agent/src/implement-run.ts",
     "improvements:install-timer": "bash scripts/install-improvements-timer.sh",
     "docs:index": "tsx tools/docs-rag/src/index.ts",
     "e2e:test": "playwright test --config tools/e2e-agent/playwright.config.ts",
