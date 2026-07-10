@@ -25,12 +25,17 @@ export interface Role {
   description: string;
 }
 
+// Role values match the app's RBAC (convex/lib/roleCatalog.ts +
+// tenantRoleCapabilities.ts). Tenant rank: tenant_admin 4 > saksbehandler 3 >
+// finance 2 > support 1; plus platform `admin` and the front-end `user`/`arranger`.
 export const ROLES: Role[] = [
-  { key: "innbygger", label: "Innbygger", tenantRole: "member", description: "Sluttbruker som søker og booker lokaler" },
-  { key: "saksbehandler", label: "Saksbehandler", tenantRole: "case_worker", description: "Godkjenner/avviser bookinger og søknader, kommuniserer" },
-  { key: "driftsleder", label: "Driftsleder", tenantRole: "operator", description: "Eier anlegg/ressurser, priser, tilleggstjenester, innsjekk" },
-  { key: "it-leder", label: "IT-leder / tenant-admin", tenantRole: "tenant_admin", description: "Tenant-administrasjon, team/roller, integrasjoner, faktura" },
-  { key: "plattform-admin", label: "Plattform-admin", tenantRole: "platform_staff", description: "Super-admin på tvers av tenants" },
+  { key: "innbygger", label: "Innbygger", tenantRole: "user", description: "Sluttbruker: søk, book, betal, mine bookinger, billetter, personvern" },
+  { key: "arrangor", label: "Arrangør (lag/forening)", tenantRole: "arranger", description: "Søker sesongtildeling og booker på vegne av org" },
+  { key: "support", label: "Support", tenantRole: "support", description: "Kundedialog: lese/svare meldinger, CRM-les, lese bookinger" },
+  { key: "finance", label: "Økonomiansvarlig", tenantRole: "finance", description: "Lese abonnement/faktura/utbetaling/rapport/revisjon + eksport" },
+  { key: "saksbehandler", label: "Saksbehandler", tenantRole: "saksbehandler", description: "Bookinger ende-til-ende, kalender, meldinger, CRM-skriv, lokaler-kladd" },
+  { key: "tenant-admin", label: "Tenant-admin / Eier", tenantRole: "tenant_admin", description: "Full tenant-kontroll: team/roller, betaling, integrasjoner, publisere, priser" },
+  { key: "plattform-admin", label: "Plattform-admin / Superadmin", tenantRole: "admin", description: "Kryss-tenant super-admin (step-up på sensitive handlinger)" },
 ];
 
 export const storageStatePath = (roleKey: string) => path.join(AUTH_DIR, `${roleKey}.json`);
