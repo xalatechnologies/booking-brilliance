@@ -32,6 +32,7 @@
     "improvements:install-timer": "bash scripts/install-improvements-timer.sh",
     "pr-review:run": "tsx tools/pr-review-agent/src/run.ts",
     "docs:index": "tsx tools/docs-rag/src/index.ts",
+    "docs:mcp": "tsx tools/docs-rag/src/mcp-server.ts",
     "e2e:test": "playwright test --config tools/e2e-agent/playwright.config.ts",
     "e2e:run": "tsx tools/e2e-agent/src/run.ts"
   },
