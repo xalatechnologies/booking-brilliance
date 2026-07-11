@@ -29,13 +29,13 @@ export async function implementGoal(
   opts: { model?: string; timeoutMin?: number; idleMin?: number } = {},
 ): Promise<{ ok: boolean; result: string }> {
   const prompt =
-    `${goal}\n\nRegler: jobb kun i denne worktreen på gjeldende branch (aldri main). ` +
-    `Implementer, kjør bygg og tester til de er grønne, commit med en klar melding, ` +
-    `push branchen, og åpne en PR (aldri merge direkte). Slett AGENT-GOAL.md før PR.\n\n` +
-    `VIKTIG: Hvis du blir BLOKKERT, mangler kontekst, eller trenger en AVKLARING, ` +
-    `ikke gjett — avslutt med en tydelig siste melding som starter med "BLOKKERT:" eller ` +
-    `"AVKLARING:" og forklarer nøyaktig hva som stopper deg og hvilket svar du trenger. ` +
-    `Commit gjerne det du har kommet frem til først.`;
+    `${goal}\n\nRules: work only in this worktree on the current branch (never main). ` +
+    `Implement, run the build and tests until they're green, commit with a clear message, ` +
+    `push the branch, and open a PR (never merge directly). Delete AGENT-GOAL.md before the PR.\n\n` +
+    `IMPORTANT: If you get BLOCKED, are missing context, or need a CLARIFICATION, ` +
+    `don't guess — end with a clear final message that starts with "BLOCKED:" or ` +
+    `"CLARIFICATION:" and explains exactly what's stopping you and what answer you need. ` +
+    `Commit what you've got so far first if you can.`;
   const r = await runClaudeAgent({
     prompt,
     model: opts.model ?? "claude-opus-4-8",

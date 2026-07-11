@@ -77,24 +77,26 @@ export async function implementPending(opts: { dryRun?: boolean; limit?: number 
     console.log(`  ⚙ implementing ${p.branch} (Claude Max, this can take a while)…`);
     const { ok, result } = await implementGoal(p.worktree_path, goal, { model, timeoutMin, idleMin });
     const pr = await findPrForBranch(p.worktree_path, p.branch);
-    const blocked = /^(blokkert|avklaring)\b/i.test(result.trim());
+    // Match the English guardrail keywords; keep the Norwegian ones too so a
+    // worktree prepared before the switch still signals "blocked" correctly.
+    const blocked = /^(blocked|clarification|blokkert|avklaring)\b/i.test(result.trim());
     await saveBrain(p, pr ?? undefined);
 
     if (pr && !blocked) {
       console.log(`  ✓ ${p.branch} → ${pr}`);
-      await comment(p.linear_id, `🤖 Implementert av agenten på Claude Max. **PR:** ${pr}\n\nGjennomgå og merge når du er klar.`);
-      if (linear && p.linear_id) await linear.removeLabel(p.linear_id, teamId, "blokkert").catch(() => {});
+      await comment(p.linear_id, `🤖 Implemented by the agent on Claude Max. **PR:** ${pr}\n\nReview and merge when you're ready.`);
+      if (linear && p.linear_id) await linear.removeLabel(p.linear_id, teamId, "blocked").catch(() => {});
       await move(p.linear_id, S_REVIEW);
     } else if (blocked) {
       console.log(`  🚧 ${p.branch} BLOCKED — needs clarification`);
-      await comment(p.linear_id, `🚧 **Agenten er blokkert / trenger avklaring** på branch \`${p.branch}\`:\n\n> ${result.slice(0, 800).replace(/\n/g, "\n> ")}\n\nSvar her, så plukker agenten den opp igjen.`);
+      await comment(p.linear_id, `🚧 **The agent is blocked / needs clarification** on branch \`${p.branch}\`:\n\n> ${result.slice(0, 800).replace(/\n/g, "\n> ")}\n\nReply here and the agent will pick it up again.`);
       // The XAL board has no "Blocked" state, so flag it with a label too
       // (moveIssue is a graceful no-op if the state is ever added later).
-      if (linear && p.linear_id) await linear.addLabel(p.linear_id, teamId, "blokkert").catch(() => {});
+      if (linear && p.linear_id) await linear.addLabel(p.linear_id, teamId, "blocked").catch(() => {});
       await move(p.linear_id, S_BLOCKED);
     } else {
       console.log(`  ⚠ ${p.branch} — ran, no PR detected`);
-      await comment(p.linear_id, `🤖 Agenten kjørte på branch \`${p.branch}\`${ok ? "" : " (stoppet underveis)"}, men ingen PR ble oppdaget. Kort logg:\n\n> ${result.slice(0, 500).replace(/\n/g, " ")}`);
+      await comment(p.linear_id, `🤖 The agent ran on branch \`${p.branch}\`${ok ? "" : " (stopped partway)"}, but no PR was detected. Short log:\n\n> ${result.slice(0, 500).replace(/\n/g, " ")}`);
     }
   };
 
@@ -111,7 +113,7 @@ export async function implementPending(opts: { dryRun?: boolean; limit?: number 
 function readGoalFile(worktree: string, goalFile: string): string {
   try {
     const md = fs.readFileSync(path.join(worktree, goalFile), "utf-8");
-    const m = md.match(/`\/loop ([\s\S]*?)`/) ?? md.match(/## Mål\n([\s\S]*?)\n\n/);
+    const m = md.match(/`\/loop ([\s\S]*?)`/) ?? md.match(/## (?:Goal|Mål)\n([\s\S]*?)\n\n/);
     return (m?.[1] ?? md).trim();
   } catch {
     return "";

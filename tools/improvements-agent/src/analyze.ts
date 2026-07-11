@@ -45,25 +45,25 @@ export interface Verdict {
   goal_prompt: string;
 }
 
-const SYSTEM = `Du er teknisk produkt- og arkitektur-analytiker for Digilist, en kommunal SaaS-bookingplattform (Convex-backend + React, pakker: booking-core, discovery-core, billing, ticketing-core, ds, digilist).
+const SYSTEM = `You are a technical product and architecture analyst for Digilist, a municipal SaaS booking platform (Convex backend + React, packages: booking-core, discovery-core, billing, ticketing-core, ds, digilist).
 
-Du får ETT arbeidsemne (enten en produktidé, eller et skann-funn fra kvalitetsovervåkingen) sammen med BEVIS fra kodegrafen: hvilke symboler/moduler som finnes eller mangler. Bruk bevisene strengt, ikke gjett.
+You get ONE work item (either a product idea, or a scan finding from quality monitoring) together with EVIDENCE from the code graph: which symbols/modules exist or are missing. Use the evidence strictly, don't guess.
 
-Avgjør status:
-- For en IDÉ: "exists" (finnes allerede i koden), "partial" (delvis dekket), eller "gap" (ekte manglende funksjon).
-- For et FUNN: "fixable" (reelt problem med en klar fiks), eller "not-actionable" (falsk positiv / ikke noe å gjøre i koden).
+Decide status:
+- For an IDEA: "exists" (already in the code), "partial" (partially covered), or "gap" (genuinely missing feature).
+- For a FINDING: "fixable" (real problem with a clear fix), or "not-actionable" (false positive / nothing to do in the code).
 
-Sett actionable=true bare når det er reelt arbeid å gjøre (gap, partial-forbedring, eller fixable funn). Ikke foreslå å bygge noe som allerede finnes.
+Set actionable=true only when there is real work to do (gap, partial improvement, or fixable finding). Don't propose building something that already exists.
 
-Kategoriser hvert actionable emne:
-- type: "bug" (noe er ødelagt/feil), "feature" (ny funksjon / ekte gap), "improvement" (forbedring av noe som finnes), "nice-to-have" (lav verdi, kosmetisk).
-- severity: "critical" (blokkerer bruk / sikkerhet / datatap), "major" (tydelig funksjons- eller kvalitetstap), "minor" (liten effekt).
-- priority: "P0" (haster nå), "P1" (høy), "P2" (medium), "P3" (lav). Utled fra severity + brukerpåvirkning + søkeetterspørsel/bevis.
+Categorize each actionable item:
+- type: "bug" (something is broken/wrong), "feature" (new capability / genuine gap), "improvement" (improving something that exists), "nice-to-have" (low value, cosmetic).
+- severity: "critical" (blocks use / security / data loss), "major" (clear loss of function or quality), "minor" (small effect).
+- priority: "P0" (urgent now), "P1" (high), "P2" (medium), "P3" (low). Derive from severity + user impact + search demand/evidence.
 
-For actionable emner, lag et SELVSTENDIG Claude-mål (goal_prompt) som en utvikler kan kjøre med /loop i riktig repo: konkret hva som skal bygges/fikses, hvilke filer/moduler (fra bevisene), akseptansekriterier, og at tester skal være grønne før PR. Norsk bokmål, ingen tankestrek som skilletegn.
+For actionable items, write a SELF-CONTAINED Claude goal (goal_prompt) a developer can run with /loop in the right repo: concrete what to build/fix, which files/modules (from the evidence), acceptance criteria, and that tests must be green before a PR. Write in English.
 
-Returner KUN gyldig JSON:
-{"status":"...","actionable":true|false,"confidence":0.0-1.0,"type":"bug|feature|improvement|nice-to-have","severity":"critical|major|minor","priority":"P0|P1|P2|P3","code_evidence":[{"ref":"fil/symbol","note":"kort"}],"fix":"hva som skal gjøres","goal_prompt":"selvstendig /loop-mål"}`;
+Return ONLY valid JSON:
+{"status":"...","actionable":true|false,"confidence":0.0-1.0,"type":"bug|feature|improvement|nice-to-have","severity":"critical|major|minor","priority":"P0|P1|P2|P3","code_evidence":[{"ref":"file/symbol","note":"short"}],"fix":"what to do","goal_prompt":"self-contained /loop goal"}`;
 
 function tryJson<T>(text: string): T | null {
   const m = text.match(/\{[\s\S]*\}/);
@@ -87,14 +87,14 @@ async function gatherEvidence(
     all.push(...hits);
     lines.push(
       hits.length
-        ? `- "${hint}": ${hits.length} treff, f.eks. ${hits
+        ? `- "${hint}": ${hits.length} hits, e.g. ${hits
             .slice(0, 3)
             .map((h) => `${h.name} (${h.file_path})`)
             .join("; ")}`
-        : `- "${hint}": 0 treff (finnes ikke i koden)`,
+        : `- "${hint}": 0 hits (not present in the code)`,
     );
   }
-  return { text: lines.join("\n") || "(ingen prober kjørt)", hits: all };
+  return { text: lines.join("\n") || "(no probes run)", hits: all };
 }
 
 export async function analyzeItem(
@@ -105,17 +105,17 @@ export async function analyzeItem(
   const { text: evidence } = await gatherEvidence(project, item);
   const capabilities = loadCapabilities(item.target_repo);
   const capBlock = capabilities
-    ? `KJENTE FUNKSJONER I KODEN (autoritativ, kodeavledet oversikt over hva repoet ALLEREDE har — kryss emnet mot denne FØRST; hvis det dekkes her, er status "exists"/"partial" selv om graf-prober ga null treff, fordi prober kan bruke feil ordlyd):\n${capabilities}\n\n`
+    ? `KNOWN FEATURES IN THE CODE (authoritative, code-derived overview of what the repo ALREADY has — check the item against this FIRST; if it's covered here, status is "exists"/"partial" even if the graph probes returned zero hits, because probes can use the wrong wording):\n${capabilities}\n\n`
     : "";
-  const userMessage = `${capBlock}EMNE (${item.kind === "idea" ? "produktidé" : `skann-funn: ${item.category}/${item.severity}`}):
-Tittel: ${item.title}
-Detaljer: ${item.detail}
-Mål-repo: ${item.target_repo}
+  const userMessage = `${capBlock}ITEM (${item.kind === "idea" ? "product idea" : `scan finding: ${item.category}/${item.severity}`}):
+Title: ${item.title}
+Details: ${item.detail}
+Target repo: ${item.target_repo}
 
-KODEGRAF-BEVIS (navnesøk i mål-repo; null treff kan skyldes ordlyd, ikke fravær):
+CODE-GRAPH EVIDENCE (name search in the target repo; zero hits may be wording, not absence):
 ${evidence}
 
-Avgjør status (kryss mot KJENTE FUNKSJONER først) og lag et /loop-mål bare hvis genuint actionable. Returner JSON.`;
+Decide status (check against KNOWN FEATURES first) and write a /loop goal only if genuinely actionable. Return JSON.`;
 
   const repoCwd = REPOS[item.target_repo]?.path;
   const cwd = repoCwd && fs.existsSync(path.join(repoCwd, ".git")) ? repoCwd : undefined;
@@ -129,13 +129,13 @@ Avgjør status (kryss mot KJENTE FUNKSJONER først) og lag et /loop-mål bare hv
     // known failure mode of re-proposing features that already exist.
     const framings = [
       "", // balanced
-      "LINSE: Vær EKSTRA skeptisk til 'gap'. Anta at funksjonen finnes helt/delvis til du har motbevist det i koden (search_graph/get_code_snippet/Read). Ikke foreslå noe som allerede er dekket.",
-      "LINSE: Vurder VERDI og prioritet strengt. Er dette genuint verdt å bygge NÅ for en kommunal booking-SaaS? Vær ærlig om lav verdi (nice-to-have).",
+      "LENS: Be EXTRA skeptical of 'gap'. Assume the feature exists fully/partially until you've disproven it in the code (search_graph/get_code_snippet/Read). Don't propose anything already covered.",
+      "LENS: Judge VALUE and priority strictly. Is this genuinely worth building NOW for a municipal booking SaaS? Be honest about low value (nice-to-have).",
     ];
     const parts = await parallel(
       framings.map((f) => async () => {
         const r = await runCapableAgent({
-          prompt: `${userMessage}${f ? `\n\n${f}` : ""}\n\nDin SISTE melding skal være KUN JSON-objektet.`,
+          prompt: `${userMessage}${f ? `\n\n${f}` : ""}\n\nYour LAST message must be ONLY the JSON object.`,
           systemPrompt: SYSTEM,
           model: cfg.anthropicReviewModel,
           cwd,
@@ -151,7 +151,7 @@ Avgjør status (kryss mot KJENTE FUNKSJONER først) og lag et /loop-mål bare hv
     // Capable mode: let the analyzer use the repository map + Read to verify the
     // CLI-gathered evidence in the actual checkout before judging.
     const r = await runCapableAgent({
-      prompt: `${userMessage}\n\nDin SISTE melding skal være KUN JSON-objektet.`,
+      prompt: `${userMessage}\n\nYour LAST message must be ONLY the JSON object.`,
       systemPrompt: SYSTEM,
       model: cfg.anthropicReviewModel,
       cwd,

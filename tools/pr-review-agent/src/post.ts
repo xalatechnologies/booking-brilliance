@@ -57,8 +57,8 @@ async function setVerdictLabel(repo: string, number: number, event: ReviewEvent)
  */
 export function renderReview(body: string, isUpdate = false): string {
   const parts = [MARKER];
-  if (isUpdate) parts.push("_Oppdatert etter nye commits._");
-  parts.push("", body.trim(), "", "_— automatisk review (Digilist). Ikke en merge-godkjenning; et menneske bestemmer._");
+  if (isUpdate) parts.push("_Updated after new commits._");
+  parts.push("", body.trim(), "", "_— automated review (Digilist). Not a merge approval; a human decides._");
   return parts.join("\n");
 }
 

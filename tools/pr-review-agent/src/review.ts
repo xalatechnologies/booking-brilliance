@@ -66,27 +66,27 @@ export interface ReviewResult {
 const MAX_DIFF = 60_000;
 
 // The voice. A 30+-year veteran staff engineer's PR comment — not a checklist.
-const SYSTEM = `Du er en staff-ingeniør med 30+ års erfaring som ser over en kollegas PR i Digilist (kommunal booking-SaaS: React-marketing + Convex-app). Du har sett tusenvis av PR-er, vet hva som faktisk går galt i produksjon, og har verken tid eller behov for å vise deg fram. Skriv som et menneske til et menneske.
+const SYSTEM = `You are a staff engineer with 30+ years of experience looking over a colleague's PR in Digilist (municipal booking SaaS: React marketing site + Convex app). You've seen thousands of PRs, you know what actually breaks in production, and you have neither the time nor the need to show off. Write like a human to a human.
 
-Slik en veteran reviewer:
-- Instinkt for hva som betyr noe: du ser rett på den reelle risikoen — en bug, et RBAC-hull, en regresjon, et designvalg som vil svi senere — og lar resten ligge. Vanligvis 1-3 poeng.
-- Du gjetter ikke: du åpner koden (repository-map: search_graph/get_code_snippet, Read) og sjekker kallere, typer, RBAC og tester. Pek på fil:linje for det som teller.
-- Du forklarer kort HVORFOR det biter og hva du ville gjort — som en mentor, ikke en linter. Del gjerne en kort "sett dette gå galt før"-innsikt når den er relevant.
-- Du bryr deg ikke om nitplukk (stil, navn, mikro-optimalisering) med mindre det faktisk skaper problemer.
+How a veteran reviewer works:
+- Instinct for what matters: you go straight at the real risk — a bug, an RBAC hole, a regression, a design choice that'll hurt later — and leave the rest alone. Usually 1-3 points.
+- You don't guess: you open the code (repository map: search_graph/get_code_snippet, Read) and check callers, types, RBAC and tests. Point to file:line for what counts.
+- You briefly explain WHY it bites and what you'd do instead — like a mentor, not a linter. Share a short "I've seen this go wrong before" insight when it's relevant.
+- You don't care about nitpicks (style, naming, micro-optimization) unless they actually cause problems.
 
-Stemme:
-- Kort, rolig, direkte. Naturlig norsk prosa, som en erfaren kollega på Slack.
-- INGEN maler: ingen "Risiko/Funn/Styrker/Tester"-seksjoner, ingen emoji-overskrifter, ingen poengsummer.
-- INGEN AI-fyll: ikke "Denne PR-en...", "Samlet sett", "Det er verdt å merke seg", "Her er...". Ikke ramse opp alt som er bra — hvis den er solid, si det på én linje og gå videre.
-- 3-8 setninger. Maks 2-3 korte kulepunkter, og bare hvis det gjør konkrete funn tydeligere.
+Voice:
+- Short, calm, direct. Natural English prose, like an experienced colleague on Slack.
+- NO templates: no "Risk/Findings/Strengths/Tests" sections, no emoji headings, no scores.
+- NO AI filler: no "This PR...", "Overall", "It's worth noting", "Here's...". Don't list everything that's good — if it's solid, say so in one line and move on.
+- 3-8 sentences. At most 2-3 short bullets, and only when they make concrete findings clearer.
 
-Konkluder som en anmelder:
-- approve: grei å merge (småting kan nevnes uten å blokkere).
-- request-changes: noe MÅ fikses først (reell bug/regresjon/sikkerhetshull).
-- comment: verdt å se på, men ikke en hard blokker.
+Conclude like a reviewer:
+- approve: fine to merge (small things can be mentioned without blocking).
+- request-changes: something MUST be fixed first (real bug/regression/security hole).
+- comment: worth a look, but not a hard blocker.
 
-Svar til slutt med JSON på siste linje (ingen kodeblokk):
-{"verdict":"approve|request-changes|comment","review":"<reviewen i kort markdown, menneskelig stemme>"}`;
+End your reply with JSON on the last line (no code block):
+{"verdict":"approve|request-changes|comment","review":"<the review in short markdown, human voice>"}`;
 
 /** Fetch a PR's metadata + file list via gh (by repo slug, no checkout). */
 export async function fetchPr(repo: string, number: number): Promise<PullRequest> {
@@ -136,12 +136,12 @@ function coerce(raw: RawReview | null): { event: ReviewEvent; body: string } | n
 }
 
 function prContext(pr: PullRequest, diff: string): string {
-  const capped = diff.length > MAX_DIFF ? `${diff.slice(0, MAX_DIFF)}\n\n[diff avkortet ved ${MAX_DIFF} tegn]` : diff;
+  const capped = diff.length > MAX_DIFF ? `${diff.slice(0, MAX_DIFF)}\n\n[diff truncated at ${MAX_DIFF} chars]` : diff;
   return `PR #${pr.number}: ${pr.title}
-${pr.headRefName} → ${pr.baseRefName} · +${pr.additions}/-${pr.deletions} i ${pr.changedFiles} filer
+${pr.headRefName} → ${pr.baseRefName} · +${pr.additions}/-${pr.deletions} in ${pr.changedFiles} files
 
-BESKRIVELSE:
-${(pr.body || "(ingen)").slice(0, 2000)}
+DESCRIPTION:
+${(pr.body || "(none)").slice(0, 2000)}
 
 DIFF:
 \`\`\`diff
@@ -154,7 +154,7 @@ export async function reviewPr(cfg: ContentAgentConfig, repo: string, number: nu
   const pr = await fetchPr(repo, number);
   const diff = await fetchDiff(repo, number);
   const checkout = localCheckout(repo);
-  const prompt = `${prContext(pr, diff)}\n\nReview denne som en erfaren kollega. Svar til slutt med JSON: {"verdict":"...","review":"..."}`;
+  const prompt = `${prContext(pr, diff)}\n\nReview this like an experienced colleague. End your reply with JSON: {"verdict":"...","review":"..."}`;
 
   let text: string;
   let model: string;
@@ -175,9 +175,9 @@ export async function reviewPr(cfg: ContentAgentConfig, repo: string, number: nu
 // ── Multi-lens: deep parallel analysis, one concise human synthesis ─────────
 
 const LENSES: { key: string; focus: string }[] = [
-  { key: "korrekthet", focus: "reelle bugs og regresjoner: gjør endringen det den påstår? Sjekk kallere (trace_path/search_graph), grenseverdier, ruting (redirect-løkker, feil målrute)." },
-  { key: "sikkerhet", focus: "sikkerhet/RBAC: tenant-scoping og cross-tenant-lekkasje, auth (ID-porten/BankID/Entra), secrets/PII." },
-  { key: "design", focus: "designvalg verdt å utfordre og manglende testdekning på de risikofylte stiene (inkl. om testene faktisk kjøres i CI)." },
+  { key: "correctness", focus: "real bugs and regressions: does the change do what it claims? Check callers (trace_path/search_graph), boundary values, routing (redirect loops, wrong target route)." },
+  { key: "security", focus: "security/RBAC: tenant scoping and cross-tenant leaks, auth (ID-porten/BankID/Entra), secrets/PII." },
+  { key: "design", focus: "design choices worth challenging and missing test coverage on the risky paths (including whether the tests actually run in CI)." },
 ];
 
 /**
@@ -195,8 +195,8 @@ export async function reviewPrMultiLens(cfg: ContentAgentConfig, repo: string, n
   const notes = await parallel(
     LENSES.map((lens) => async (): Promise<string> => {
       const r = await runCapableAgent({
-        prompt: `${context}\n\nDu ser KUN på: ${lens.focus}\nGrunn deg i koden (repo-map + Read). List de REELLE problemene du finner, kort og med fil:linje. Skriv "ingen" hvis alt er greit på din dimensjon. Ikke nitplukk.`,
-        systemPrompt: `Du er senior Digilist-reviewer med ansvar for ${lens.key}. Vær presis og kodegrunnet. Bare reelle problemer.`,
+        prompt: `${context}\n\nYou look ONLY at: ${lens.focus}\nGround yourself in the code (repo map + Read). List the REAL problems you find, briefly and with file:line. Write "none" if everything's fine on your dimension. Don't nitpick.`,
+        systemPrompt: `You are a senior Digilist reviewer responsible for ${lens.key}. Be precise and code-grounded. Real problems only.`,
         model: cfg.anthropicReviewModel,
         cwd: checkout,
         maxTurns: 30,
@@ -208,7 +208,7 @@ export async function reviewPrMultiLens(cfg: ContentAgentConfig, repo: string, n
   const lensNotes = notes.filter((n): n is string => Boolean(n)).join("\n\n");
 
   // Synthesize one concise human review from the lens notes.
-  const synthPrompt = `${context}\n\nSpesialist-reviewers rapporterte dette (rådata, kan inneholde støy og "ingen"):\n${lensNotes}\n\nSkriv ÉN kort, menneskelig review som en erfaren kollega. Plukk KUN det som faktisk betyr noe (ignorer "ingen" og nitplukk). Konkluder. Svar til slutt med JSON: {"verdict":"...","review":"..."}`;
+  const synthPrompt = `${context}\n\nSpecialist reviewers reported this (raw notes, may contain noise and "none"):\n${lensNotes}\n\nWrite ONE short, human review like an experienced colleague. Pick ONLY what actually matters (ignore "none" and nitpicks). Conclude. End your reply with JSON: {"verdict":"...","review":"..."}`;
   const r = await runCapableAgent({ prompt: synthPrompt, systemPrompt: SYSTEM, model: cfg.anthropicReviewModel, cwd: checkout, maxTurns: 8, timeoutMin: 6 });
   const out = coerce(extractJson<RawReview>(r.text));
   if (!out) throw new Error(`multi-lens synthesis produced no review. Tail: ${r.text.slice(-300).replace(/\n/g, " ")}`);

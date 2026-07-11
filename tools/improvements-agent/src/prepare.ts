@@ -22,9 +22,12 @@ export interface ParsedGoal {
   goal: string;
 }
 
-/** Extract the target repo path + the /loop goal from a filed issue body. */
+/** Extract the target repo path + the /loop goal from a filed issue body.
+ *  Matches the English header ("Run as a Claude loop (in `…`") and the older
+ *  Norwegian one ("Kjør som Claude-loop (i `…`") so issues filed before the
+ *  language switch still parse. */
 export function parseGoal(body: string): ParsedGoal | null {
-  const repo = body.match(/Kjør som Claude-loop \(i `([^`]+)`/);
+  const repo = body.match(/Claude[- ]loop \(in? `([^`]+)`/);
   const goal = body.match(/```[^\n]*\n\/loop ([\s\S]*?)\n```/);
   if (!repo || !goal) return null;
   return { repoPath: repo[1].trim(), goal: goal[1].trim() };
@@ -86,16 +89,16 @@ export async function prepareBranch(issue: LinearIssue, parsed: ParsedGoal): Pro
     [
       `# ${issue.identifier}: ${issue.title}`,
       ``,
-      `> Auto-forberedt av Digilist Improvements Agent. Kjør Claude i denne worktreen:`,
+      `> Auto-prepared by the Digilist Improvements Agent. Run Claude in this worktree:`,
       `> \`/loop ${goal}\``,
       ``,
-      `## Mål`,
+      `## Goal`,
       goal,
       ``,
-      `## Regler`,
-      `- Jobb kun på denne branchen (\`${branch}\`), aldri main.`,
-      `- Kjør bygg + tester. Åpne PR bare når de er grønne (ellers draft-PR med notat).`,
-      `- Slett denne filen før du åpner PR.`,
+      `## Rules`,
+      `- Work only on this branch (\`${branch}\`), never main.`,
+      `- Run the build + tests. Open a PR only when they're green (otherwise a draft PR with a note).`,
+      `- Delete this file before you open the PR.`,
       ``,
       `Linear: ${issue.url}`,
       ``,
@@ -145,11 +148,11 @@ export async function prepareApproved(
 
     const { branch, worktree, pushed } = await prepareBranch(issue, parsed);
     const howto = pushed
-      ? `Hent den lokalt:\n\`\`\`\ngit fetch origin && git checkout ${branch}\n\`\`\``
-      : `Åpne worktreen \`${worktree}\` (branchen er kun lokal på agent-maskinen).`;
+      ? `Fetch it locally:\n\`\`\`\ngit fetch origin && git checkout ${branch}\n\`\`\``
+      : `Open the worktree \`${worktree}\` (the branch is local to the agent machine only).`;
     await client.addComment(
       issue.id,
-      `🌿 Branch **\`${branch}\`** klargjort${pushed ? " og pushet" : ""}.\n\n${howto}\n\nKjør så:\n\`\`\`\n/loop ${parsed.goal.split("\n")[0]}…\n\`\`\`\nSe \`AGENT-GOAL.md\` for hele målet. Claude implementerer → tester → commit → push → PR (aldri main).`,
+      `🌿 Branch **\`${branch}\`** prepared${pushed ? " and pushed" : ""}.\n\n${howto}\n\nThen run:\n\`\`\`\n/loop ${parsed.goal.split("\n")[0]}…\n\`\`\`\nSee \`AGENT-GOAL.md\` for the full goal. Claude implements → tests → commit → push → PR (never main).`,
     );
     // Reflect on the board that the agent has picked it up.
     if (teamId) await client.moveIssue(issue.id, teamId, inProgressState).catch(() => false);

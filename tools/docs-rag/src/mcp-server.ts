@@ -128,7 +128,7 @@ const TOOLS = [
     inputSchema: {
       type: "object",
       properties: {
-        query: { type: "string", description: "Fritekst-spørring på norsk eller engelsk" },
+        query: { type: "string", description: "Free-text query in English or Norwegian" },
         k: { type: "number", description: "Antall treff (default 5)" },
       },
       required: ["query"],
