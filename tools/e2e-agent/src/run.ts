@@ -120,8 +120,8 @@ async function main() {
       severity,
       priority: severity === "critical" ? "P0" : "P1",
       code_evidence: [],
-      fix: `Rett den feilende E2E-journeyen "${f.title}" på ${target}-overflaten.`,
-      goal_prompt: `Rett E2E-feilen "${f.title}" (mot ${baseUrl}). Feil: ${f.error}. Reproduser med Playwright-suiten i tools/e2e-agent (pnpm e2e:test), finn og fiks rotårsaken i koden, verifiser at journeyen blir grønn, kjør full test/bygg og åpne PR. Ikke jobb på main.`,
+      fix: `Fix the failing E2E journey "${f.title}" on the ${target} surface.`,
+      goal_prompt: `Fix the E2E failure "${f.title}" (against ${baseUrl}). Error: ${f.error}. Reproduce with the Playwright suite in tools/e2e-agent (pnpm e2e:test), find and fix the root cause in the code, verify the journey goes green, run the full test/build and open a PR. Do not work on main.`,
     };
     if (!ctx) {
       console.log(`  ▸ [bug/${verdict.severity}/${verdict.priority}] ${f.title}\n    ${f.error.slice(0, 120)}`);

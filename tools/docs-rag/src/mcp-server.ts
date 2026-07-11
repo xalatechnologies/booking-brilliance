@@ -124,7 +124,7 @@ const TOOLS = [
   {
     name: "docs_search",
     description:
-      "Søk i Digilist-dokumentasjonen (produkt, compliance/SSA-L, arkitektur, API, drift). Returnerer de mest relevante seksjonene. Bruk dette for autoritative fakta om hva Digilist gjør og hvordan.",
+      "Search the Digilist documentation (product, compliance/SSA-L, architecture, API, operations). Returns the most relevant sections. Use this for authoritative facts about what Digilist does and how.",
     inputSchema: {
       type: "object",
       properties: {

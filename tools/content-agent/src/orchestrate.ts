@@ -95,7 +95,7 @@ export async function runStructured<T>(opts: {
 }): Promise<T | null> {
   const r = await runCapableAgent({
     ...opts,
-    prompt: `${opts.prompt}\n\nAvslutt med svaret som REN JSON på siste linje — ingen kodeblokk, ingen tekst etter.`,
+    prompt: `${opts.prompt}\n\nEnd with the answer as PURE JSON on the last line — no code block, no text after.`,
   });
   return extractJson<T>(r.text);
 }

@@ -31,14 +31,14 @@ export interface CapableAgentResult {
  * the repository map via codebase-memory, plus the account connectors). This
  * just makes the agent aware and inclined to use them.
  */
-export const CAPABILITY_PREAMBLE = `Du er en Digilist-agent med FULL verktøytilgang. Bruk verktøyene aktivt før du konkluderer:
-- Repository-map (codebase-memory MCP): search_graph / get_code_snippet / get_architecture / trace_path / query_graph — for å finne symboler, kallere, dataflyt og arkitektur i den faktiske koden (raskere og mer presist enn grep).
-- Docs-RAG (docs-rag MCP): docs_search / docs_get — autoritativ Digilist-dokumentasjon (produkt, compliance/SSA-L, arkitektur, drift). Bruk for fakta om hva Digilist gjør og hvordan.
-- Fil-verktøy: Read / Grep / Glob / Bash — les faktiske filer, tester og config.
-- Ferdigheter (skills): påkall relevante Digilist-skills for etablerte fremgangsmåter når de finnes.
-- Kontokoblinger (om nødvendig): Linear, Gmail, Kalender, Drive, Notion.
-- Minne/kontekst: agent-hjernene ligger i tools/*-agent/brain og content-memory; les dem for tidligere lærdom når det er relevant.
-Ikke gjett når du kan slå opp. Jobb read-only med mindre oppgaven eksplisitt ber om endringer.`;
+export const CAPABILITY_PREAMBLE = `You are a Digilist agent with FULL tool access. Use the tools actively before you conclude:
+- Repository map (codebase-memory MCP): search_graph / get_code_snippet / get_architecture / trace_path / query_graph — to find symbols, callers, data flow and architecture in the actual code (faster and more precise than grep).
+- Docs-RAG (docs-rag MCP): docs_search / docs_get — authoritative Digilist documentation (product, compliance/SSA-L, architecture, operations). Use it for facts about what Digilist does and how.
+- File tools: Read / Grep / Glob / Bash — read the actual files, tests and config.
+- Skills: invoke the relevant Digilist skills for established procedures when they exist.
+- Account connectors (when needed): Linear, Gmail, Calendar, Drive, Notion.
+- Memory/context: the agent brains live in tools/*-agent/brain and content-memory; read them for prior learnings when relevant.
+Don't guess when you can look it up. Work read-only unless the task explicitly asks for changes.`;
 
 export interface AgentRunOptions {
   prompt: string;
@@ -139,7 +139,7 @@ export function runClaudeAgent(opts: AgentRunOptions): Promise<CapableAgentResul
     child.on("close", (code) => {
       cleanup();
       if (killedFor) {
-        resolve({ text: `BLOKKERT: ${label} ble stoppet (${killedFor === "idle" ? `ingen aktivitet på ${idleMin} min` : "tidsgrense nådd"}). Delvis arbeid kan ligge i worktreen.`, model: `${model} (max-cli)`, ok: false });
+        resolve({ text: `BLOCKED: ${label} was stopped (${killedFor === "idle" ? `no activity for ${idleMin} min` : "time limit reached"}). Partial work may remain in the worktree.`, model: `${model} (max-cli)`, ok: false });
         return;
       }
       const r = parseStreamResult(out);
