@@ -21,15 +21,15 @@ export interface InjectOptions {
 }
 
 const TYPE_TAG: Record<LearningType, string> = {
-  "repo-pattern": "mønster",
-  "best-practice": "praksis",
-  mistake: "unngå",
-  "user-feedback": "bruker",
-  "content-signal": "innhold",
+  "repo-pattern": "pattern",
+  "best-practice": "practice",
+  mistake: "avoid",
+  "user-feedback": "user",
+  "content-signal": "content",
   "tech-trend": "trend",
 };
 
-/** One learning on one compact line: `- [unngå] statement (kilde)`. */
+/** One learning on one compact line: `- [avoid] statement (source)`. */
 function line(l: Learning): string {
   const src = l.source_ref ? ` (${l.source_ref})` : "";
   return `- [${TYPE_TAG[l.type]}] ${l.statement}${src}`;
@@ -85,7 +85,7 @@ export function relevantLearnings(
 
   const block = chosen.length
     ? [
-        "LÆRDOM FRA FLÅTEN (bruk disse aktivt; de er destillert fra egne feil, review-er, bruker-tilbakemeldinger, repo-mønstre og bransjepraksis):",
+        "FLEET LEARNINGS (use these actively; they are distilled from our own mistakes, reviews, user feedback, repo patterns and industry practice):",
         ...chosen.map(line),
       ].join("\n")
     : "";

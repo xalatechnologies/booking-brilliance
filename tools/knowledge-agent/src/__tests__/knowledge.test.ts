@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Learning } from "../../../improvements-agent/src/brain";
+import { mergeSignals, type Learning, type Signal } from "../../../improvements-agent/src/brain";
 import {
   applyDistilled,
   parseDistilled,
@@ -129,7 +129,7 @@ describe("renderWiki", () => {
     seed(store, { type: "mistake", statement: "Ikke gjenta feil", applies_to: ["improvements"], confidence: 0.8, source_ref: "pr#1" });
     seed(store, { type: "tech-trend", statement: "Vite 7 tilgjengelig", applies_to: ["*"], confidence: 0.6 });
     const { index, topics } = renderWiki(store.knowledge, NOW);
-    expect(index).toContain("# Digilist flåte: kunnskapsbase");
+    expect(index).toContain("# Digilist fleet: knowledge base");
     expect(index).toContain("docs/knowledge/mistakes.md");
     expect(index).toContain("docs/knowledge/tech-trends.md");
     expect(topics.map((t) => t.file)).toContain("mistakes.md");
@@ -146,7 +146,7 @@ describe("renderWiki", () => {
     const { topics } = renderWiki(store.knowledge, NOW);
     const mistakes = topics.find((t) => t.file === "mistakes.md")!;
     expect(mistakes.content).not.toContain("Utdatert regel");
-    expect(mistakes.content).toContain("Ingen lærdommer");
+    expect(mistakes.content).toContain("No learnings");
   });
 });
 
@@ -193,5 +193,49 @@ describe("applyDistilled", () => {
     expect(res.demoted).toEqual(["Gammel praksis som skal bort"]);
     expect(store.knowledge.find((l) => l.statement === "Gammel praksis som skal bort")?.status).toBe("demoted");
     expect(store.knowledge.some((l) => l.statement === "Uten kilde")).toBe(false);
+  });
+});
+
+describe("mergeSignals — capture durability (no signal loss)", () => {
+  const sig = (id: string, over: Partial<Signal> = {}): Signal => ({
+    id,
+    kind: "pr-review",
+    agent: "pr-review",
+    text: `signal ${id}`,
+    source_ref: `ref-${id}`,
+    created_at: `2026-07-11T00:00:0${id.length}.000Z`,
+    ...over,
+  });
+
+  it("keeps a signal a concurrent capture wrote to disk after we loaded", () => {
+    // We loaded [a]; capture.ts wrote [b, a] to disk via its own instance; we now
+    // save our stale [a]. Without merge, b is clobbered. With merge, both survive.
+    const memory = [sig("a")];
+    const onDisk = [sig("b"), sig("a")];
+    const merged = mergeSignals(memory, onDisk);
+    expect(merged.map((s) => s.id).sort()).toEqual(["a", "b"]);
+  });
+
+  it("never un-distills: OR-s the flag across both copies", () => {
+    // Disk marked `a` distilled; our in-memory copy predates that. Merge must keep
+    // it distilled so the distiller doesn't reprocess it forever (and vice-versa).
+    const distilledOnDisk = mergeSignals([sig("a", { distilled: false })], [sig("a", { distilled: true })]);
+    expect(distilledOnDisk.find((s) => s.id === "a")?.distilled).toBe(true);
+    const distilledInMem = mergeSignals([sig("a", { distilled: true })], [sig("a", { distilled: false })]);
+    expect(distilledInMem.find((s) => s.id === "a")?.distilled).toBe(true);
+  });
+
+  it("dedupes by id (no duplicate when the same signal is in both)", () => {
+    const merged = mergeSignals([sig("a")], [sig("a")]);
+    expect(merged).toHaveLength(1);
+  });
+
+  it("caps the inbox at 500, newest first", () => {
+    const many = Array.from({ length: 600 }, (_, i) =>
+      sig(`m${i}`, { created_at: `2026-07-11T00:00:00.${String(i).padStart(3, "0")}Z` }),
+    );
+    const merged = mergeSignals(many, []);
+    expect(merged).toHaveLength(500);
+    expect(merged[0].created_at > merged[merged.length - 1].created_at).toBe(true);
   });
 });

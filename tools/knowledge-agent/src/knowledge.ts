@@ -30,10 +30,20 @@ export interface KnowledgeStore {
 }
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-/** Repo root — the wiki lives in the tracked tree so humans + docs-rag see it. */
+/**
+ * Where the rendered wiki is written. The knowledge is distilled from the
+ * PRIVATE Digilist app repo's internals, so it must NOT land in the public
+ * booking-brilliance tree. Resolution order:
+ *   1. KNOWLEDGE_WIKI_ROOT   — explicit override (the VPS runner sets this)
+ *   2. DIGILIST_REPO_PATH    — the private app repo (default target)
+ *   3. this repo root        — local fallback ONLY; the wiki is .gitignored here
+ *                              so it can never be committed to the public repo.
+ */
 export const REPO_ROOT = path.resolve(__dirname, "..", "..", "..");
-export const KNOWLEDGE_INDEX = path.join(REPO_ROOT, "KNOWLEDGE.md");
-export const KNOWLEDGE_DIR = path.join(REPO_ROOT, "docs", "knowledge");
+export const WIKI_ROOT =
+  process.env.KNOWLEDGE_WIKI_ROOT || process.env.DIGILIST_REPO_PATH || REPO_ROOT;
+export const KNOWLEDGE_INDEX = path.join(WIKI_ROOT, "KNOWLEDGE.md");
+export const KNOWLEDGE_DIR = path.join(WIKI_ROOT, "docs", "knowledge");
 
 export type { Learning, LearningType };
 
@@ -183,12 +193,12 @@ export function recall(store: KnowledgeStore, q: RecallQuery = {}): Learning[] {
 // ── Wiki rendering ────────────────────────────────────────────────────────────
 
 const TYPE_META: Record<LearningType, { title: string; slug: string }> = {
-  "repo-pattern": { title: "Repository-mønstre", slug: "repo-patterns" },
-  "best-practice": { title: "Bransjeprinsipper (best practice)", slug: "best-practices" },
-  mistake: { title: "Egne feil (unngå disse)", slug: "mistakes" },
-  "user-feedback": { title: "Tilbakemeldinger fra bruker", slug: "user-feedback" },
-  "content-signal": { title: "Innholdssignaler", slug: "content-signals" },
-  "tech-trend": { title: "Teknologitrender og stack-oppdateringer", slug: "tech-trends" },
+  "repo-pattern": { title: "Repository patterns", slug: "repo-patterns" },
+  "best-practice": { title: "Industry principles (best practice)", slug: "best-practices" },
+  mistake: { title: "Our own mistakes (avoid these)", slug: "mistakes" },
+  "user-feedback": { title: "User feedback", slug: "user-feedback" },
+  "content-signal": { title: "Content signals", slug: "content-signals" },
+  "tech-trend": { title: "Technology trends and stack updates", slug: "tech-trends" },
 };
 
 const TYPE_ORDER: LearningType[] = [
@@ -202,16 +212,16 @@ const TYPE_ORDER: LearningType[] = [
 
 function renderLearning(l: Learning): string {
   const conf = `${Math.round(clamp01(l.confidence) * 100)} %`;
-  const applies = l.applies_to.length ? l.applies_to.join(", ") : "hele flåten";
+  const applies = l.applies_to.length ? l.applies_to.join(", ") : "the whole fleet";
   const lines = [
     `### ${l.statement}`,
     "",
-    `- **Hvorfor:** ${l.why || "(ikke angitt)"}`,
-    `- **Gjelder:** ${applies}`,
-    `- **Konfidens:** ${conf} · **treff:** ${l.hits}`,
-    `- **Kilde:** ${l.source_ref || "(ukjent)"}`,
+    `- **Why:** ${l.why || "(not specified)"}`,
+    `- **Applies to:** ${applies}`,
+    `- **Confidence:** ${conf} · **hits:** ${l.hits}`,
+    `- **Source:** ${l.source_ref || "(unknown)"}`,
   ];
-  if (l.status === "demoted") lines.push(`- _Nedgradert. Vises ikke lenger til agentene._`);
+  if (l.status === "demoted") lines.push(`- _Demoted. No longer shown to the agents._`);
   return lines.join("\n");
 }
 
@@ -234,37 +244,37 @@ export function renderWiki(learnings: Learning[], now: string): RenderResult {
 
   const topics: { file: string; content: string }[] = [];
   const indexLines: string[] = [
-    "# Digilist flåte: kunnskapsbase",
+    "# Digilist fleet: knowledge base",
     "",
-    "> Autogenerert fra Open Brain av kunnskapsagenten (`pnpm learning:run`).",
-    "> Én kilde til sannhet: Open Brain. Rediger gjerne her for kuratering, men",
-    "> husk at neste distill-kjøring skriver filene på nytt fra hjernen.",
+    "> Auto-generated from the Open Brain by the knowledge agent (`pnpm learning:run`).",
+    "> Single source of truth: the Open Brain. Edit here for curation if you like, but",
+    "> remember the next distill run rewrites these files from the brain.",
     "",
-    `Sist oppdatert: ${now.slice(0, 10)} · ${active.length} aktive lærdommer.`,
+    `Last updated: ${now.slice(0, 10)} · ${active.length} active learnings.`,
     "",
-    "## Innhold",
+    "## Contents",
     "",
   ];
 
   for (const type of TYPE_ORDER) {
     const items = (byType.get(type) ?? []).slice().sort(sortByConf);
     const meta = TYPE_META[type];
-    indexLines.push(`- [${meta.title}](docs/knowledge/${meta.slug}.md): ${items.length} lærdom(mer)`);
+    indexLines.push(`- [${meta.title}](docs/knowledge/${meta.slug}.md): ${items.length} learning(s)`);
     const body = [
       `# ${meta.title}`,
       "",
-      `> Autogenerert fra Open Brain. ${items.length} lærdom(mer). Sist: ${now.slice(0, 10)}.`,
+      `> Auto-generated from the Open Brain. ${items.length} learning(s). Last: ${now.slice(0, 10)}.`,
       "",
-      items.length ? items.map(renderLearning).join("\n\n") : "_Ingen lærdommer registrert ennå._",
+      items.length ? items.map(renderLearning).join("\n\n") : "_No learnings recorded yet._",
       "",
     ].join("\n");
     topics.push({ file: `${meta.slug}.md`, content: body });
   }
 
-  indexLines.push("", "## Hvordan dette brukes", "");
+  indexLines.push("", "## How this is used", "");
   indexLines.push(
-    "Agentene henter relevante lærdommer automatisk (injeksjon i systemprompten) via",
-    "`relevantLearnings(agent, kontekst)`. Loopen er: **capture -> distill -> inject**.",
+    "Agents pull relevant learnings automatically (injected into the system prompt) via",
+    "`relevantLearnings(agent, context)`. The loop is: **capture -> distill -> inject**.",
     "",
   );
   return { index: indexLines.join("\n"), topics };

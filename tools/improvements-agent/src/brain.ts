@@ -98,7 +98,7 @@ export type SignalKind =
   | "pr-review" // a request-changes / blocking review verdict
   | "ci-fix" // a CI failure an agent then fixed
   | "false-positive" // a verdict that flagged something already shipped
-  | "blocked-run" // an implement run that ended BLOKKERT/AVKLARING
+  | "blocked-run" // an implement run that ended BLOCKED/CLARIFICATION
   | "no-pr" // an implement run that produced no PR
   | "user-feedback" // a human correction
   | "content-signal"; // a blog/keyword signal from the content memory
@@ -194,6 +194,12 @@ export class OpenBrain {
   save(nowIso: string): void {
     this.data.updated_at = nowIso;
     fs.mkdirSync(BRAIN_DIR, { recursive: true });
+    // Merge the capture inbox with whatever is on disk before writing. A signal
+    // is captured via its OWN fresh OpenBrain (capture.ts) that loads → adds →
+    // saves; a caller holding a long-lived instance would otherwise clobber that
+    // signal on its next save(). Union by id — a signal counts as distilled if
+    // either copy is — so no captured signal is ever lost to a stale writer.
+    this.data.signals = mergeSignals(this.data.signals, readDiskSignals());
     fs.writeFileSync(BRAIN_FILE, `${JSON.stringify(this.data, null, 2)}\n`, "utf-8");
   }
 
@@ -295,4 +301,33 @@ function upsert<T>(arr: T[], item: T, match: (x: T) => boolean): void {
   const idx = arr.findIndex(match);
   if (idx >= 0) arr[idx] = item;
   else arr.unshift(item);
+}
+
+/** Read just the signals array off disk (empty if the file is missing/unreadable). */
+function readDiskSignals(): Signal[] {
+  try {
+    const raw = JSON.parse(fs.readFileSync(BRAIN_FILE, "utf-8")) as Partial<Brain>;
+    return raw.signals ?? [];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Union two signal lists by id so a stale writer can't drop signals another
+ * instance/process captured. In-memory wins the field values (it's the newer
+ * intent), but `distilled` is OR-ed across both copies so neither a concurrent
+ * capture nor markSignalsDistilled can undo the other. Newest first, capped at
+ * 500 like addSignal. Pure — no I/O — so it is unit-testable.
+ */
+export function mergeSignals(memory: Signal[], onDisk: Signal[]): Signal[] {
+  const byId = new Map<string, Signal>();
+  for (const s of onDisk) byId.set(s.id, s);
+  for (const s of memory) {
+    const prev = byId.get(s.id);
+    byId.set(s.id, prev ? { ...s, distilled: Boolean(s.distilled || prev.distilled) } : s);
+  }
+  return [...byId.values()]
+    .sort((a, b) => (a.created_at < b.created_at ? 1 : a.created_at > b.created_at ? -1 : 0))
+    .slice(0, 500);
 }

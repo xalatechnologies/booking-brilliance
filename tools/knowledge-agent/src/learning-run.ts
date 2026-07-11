@@ -120,7 +120,7 @@ async function fileUpgrades(
   const client = new LinearClient(linearKey);
   const team = await client.resolveTeam(process.env.LINEAR_TEAM_KEY ?? "XAL");
   const projectName = process.env.KNOWLEDGE_LINEAR_PROJECT ?? "Digilist - Improvements Agent";
-  const project = await client.ensureProject(projectName, team.id, "Auto-forslag fra Digilist agent-flåten.");
+  const project = await client.ensureProject(projectName, team.id, "Auto-suggestions from the Digilist agent fleet.");
   const backlogState = process.env.KNOWLEDGE_BACKLOG_STATE ?? "Backlog";
   const norm = (s: string) => s.toLowerCase().replace(/[^a-zæøå0-9 ]/gi, "").replace(/\s+/g, " ").trim();
   const existing = new Set((await client.issuesInProject(project.id)).map((i) => norm(i.title)));

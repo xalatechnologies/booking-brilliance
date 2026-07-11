@@ -71,20 +71,20 @@ export function capturePrReview(input: {
   return captureSignal({
     kind: "pr-review",
     agent: "pr-review",
-    text: `PR-review ba om endringer på ${input.repo}#${input.number}${input.branch ? ` (${input.branch})` : ""}: ${input.body}`,
+    text: `PR review requested changes on ${input.repo}#${input.number}${input.branch ? ` (${input.branch})` : ""}: ${input.body}`,
     source_ref: `${input.repo}#${input.number}`,
     // Blocking reviews of agent branches are the fleet learning from itself.
     applies_to: agentBranch ? ["improvements", "implement"] : ["pr-review"],
   });
 }
 
-/** An implement run that ended BLOKKERT / AVKLARING — a recurring blocker the
+/** An implement run that ended BLOCKED / CLARIFICATION — a recurring blocker the
  *  fleet should learn to avoid or clarify up front. */
 export function captureBlockedRun(input: { branch: string; result: string; linearId?: string }): boolean {
   return captureSignal({
     kind: "blocked-run",
     agent: "implement",
-    text: `Implement-kjøring blokkert på ${input.branch}: ${input.result}`,
+    text: `Implement run blocked on ${input.branch}: ${input.result}`,
     source_ref: input.linearId ?? input.branch,
     applies_to: ["improvements", "implement"],
   });
@@ -96,7 +96,7 @@ export function captureNoPr(input: { branch: string; result: string; linearId?: 
   return captureSignal({
     kind: "no-pr",
     agent: "implement",
-    text: `Implement-kjøring ga ingen PR på ${input.branch}: ${input.result}`,
+    text: `Implement run produced no PR on ${input.branch}: ${input.result}`,
     source_ref: input.linearId ?? input.branch,
     applies_to: ["improvements", "implement"],
   });
@@ -117,7 +117,7 @@ export function captureFalsePositive(input: {
   return captureSignal({
     kind: "false-positive",
     agent: "improvements",
-    text: `Skanneren flagget "${input.title}" (${input.category ?? "?"}) men analysen fant status "${input.status}" — sannsynlig falsk positiv.`,
+    text: `The scanner flagged "${input.title}" (${input.category ?? "?"}) but analysis found status "${input.status}" — likely false positive.`,
     source_ref: input.itemKey,
     applies_to: ["improvements", "site-intelligence"],
   });
@@ -128,7 +128,7 @@ export function captureCiFix(input: { branch: string; failure: string; fix: stri
   return captureSignal({
     kind: "ci-fix",
     agent: "implement",
-    text: `CI feilet (${input.failure}) og ble rettet: ${input.fix}`,
+    text: `CI failed (${input.failure}) and was fixed: ${input.fix}`,
     source_ref: input.branch,
     applies_to: ["implement", "improvements"],
   });
@@ -164,7 +164,7 @@ export async function captureContentSignals(): Promise<number> {
         captureSignal({
           kind: "content-signal",
           agent: "content",
-          text: `Innholds-husregel: ${note}`,
+          text: `Content house rule: ${note}`,
           source_ref: "content-memory:style_notes",
           applies_to: ["content"],
         })

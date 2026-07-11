@@ -37,8 +37,16 @@ tools/site-intelligence/reports/
 
 # Improvements-agent local operational brain (machine-specific). This is also
 # the knowledge layer's store: its raw `signals` inbox and distilled `knowledge`
-# live in brain.json (rendered to the tracked wiki KNOWLEDGE.md on each distill).
+# live in brain.json, distilled from the PRIVATE Digilist repo's internals.
 tools/improvements-agent/brain/
+
+# Fleet knowledge wiki — distilled from the private Digilist repo, so it must
+# NEVER be committed to THIS public repo. The knowledge agent renders + publishes
+# it to a dedicated branch in the private Digilist repo instead (see
+# tools/knowledge-agent/vps-knowledge-runner.sh). Ignored here as a hard guard
+# in case a render ever targets this tree by default.
+/KNOWLEDGE.md
+/docs/knowledge/
 
 # PR-review-agent local state (machine-specific)
 tools/pr-review-agent/state/

@@ -25,17 +25,27 @@ into one loop every agent feeds and reads from.
   store: it extends Open Brain with a `signals` inbox (raw, undistilled
   capture) and a `knowledge` array (distilled, provenance-tracked
   `Learning[]`). Agents read it programmatically via `recall()`/`inject.ts`.
-- **The wiki** (`KNOWLEDGE.md` + `docs/knowledge/<topic>.md`, tracked in git)
-  is a human-readable render of the same data, one topic file per learning
-  type. Open Brain is the single source of truth; the wiki is regenerated
-  from it on every distill run (`renderWikiFromStore`) — edits to the wiki
-  files themselves are overwritten on the next run.
+- **The wiki** (`KNOWLEDGE.md` + `docs/knowledge/<topic>.md`) is a
+  human-readable render of the same data, one topic file per learning type.
+  Open Brain is the single source of truth; the wiki is regenerated from it on
+  every distill run (`renderWikiFromStore`) — edits to the wiki files
+  themselves are overwritten on the next run.
 
-The wiki is **not** wired into `docs-rag`'s public index
-(`apps/docs/dist-rag`): that index feeds the customer-facing `/api/docs-ask`
-endpoint, and fleet learnings (own mistakes, user corrections about the
-agents) must not leak to end users. Humans browse the wiki directly in the
-repo; agents recall it programmatically via Open Brain.
+**Where the wiki lives (privacy).** The learnings are distilled from the
+**private** Digilist app repo's internals (security/convex/auth patterns) and
+from verbatim agent output, so the wiki must **never** be committed to *this*
+public `booking-brilliance` repo. It is therefore:
+- **`.gitignore`d here** (`/KNOWLEDGE.md`, `/docs/knowledge/`) — a hard guard so
+  a stray render can't leak it, even locally.
+- **published to the private Digilist repo** on a dedicated **`fleet-knowledge`**
+  branch, via an isolated worktree, by the VPS runner. Never `main`/`dev`, so it
+  can't trigger an app deploy or collide with real development.
+- The render target is `KNOWLEDGE_WIKI_ROOT` (defaults to `DIGILIST_REPO_PATH`);
+  the runner points it at the knowledge worktree.
+
+Agents never need the wiki files — they recall the same learnings
+programmatically via Open Brain (`recall()`/`inject.ts`). The wiki is purely
+for humans to browse in the private repo.
 
 ## Capture
 
@@ -44,7 +54,7 @@ store) wired at the obvious points:
 
 - `capturePrReview` — a `request-changes` review verdict (`pr-review-agent/src/run.ts`)
 - `captureBlockedRun` / `captureNoPr` — an implement run that ended
-  BLOKKERT/AVKLARING or produced no PR (`improvements-agent/src/implement-run.ts`)
+  BLOCKED/CLARIFICATION or produced no PR (`improvements-agent/src/implement-run.ts`)
 - `captureFalsePositive` — a scanner verdict that turned out to be
   exists/not-actionable/not-found (`improvements-agent/src/run.ts`)
 - `captureUserFeedback` — direct human corrections, call manually
@@ -96,9 +106,15 @@ real brain.
 ## On the VPS
 
 `vps-knowledge-runner.sh` mirrors the other `vps-*-runner.sh` scripts: pulls
-`main`, runs `learning:run` on the Claude Max login, and commits+pushes the
-regenerated wiki (`KNOWLEDGE.md` + `docs/knowledge/`) straight to `main`
-(same pattern as the blog agent's daily posts) when it changed.
+`main`, runs `learning:run` on the Claude Max login, then commits+pushes the
+regenerated wiki (`KNOWLEDGE.md` + `docs/knowledge/`) to the **`fleet-knowledge`**
+branch of the **private** Digilist repo (via an isolated worktree), never to
+this public repo and never to the app's `main`/`dev`. Best-effort — skipped
+cleanly when unchanged or when the private repo isn't reachable.
+
+Optional env: `KNOWLEDGE_WIKI_BRANCH` (default `fleet-knowledge`),
+`KNOWLEDGE_WIKI_WORKTREE` (default `/root/digilist-knowledge`),
+`DIGILIST_REPO_PATH` (default `/root/Digilist`).
 
 Not installed by this repo — a suggested systemd timer, daily or weekly
 (distillation is cheap to run more often than the content/improvements

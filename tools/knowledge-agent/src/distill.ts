@@ -63,46 +63,46 @@ export function buildDistillPrompt(input: {
 }): string {
   const signalsText = input.signals.length
     ? input.signals
-        .map((s, i) => `${i + 1}. [${s.kind} · ${s.agent}] ${s.text} (kilde: ${s.source_ref})`)
+        .map((s, i) => `${i + 1}. [${s.kind} · ${s.agent}] ${s.text} (source: ${s.source_ref})`)
         .join("\n")
-    : "(ingen nye rå-signaler denne kjøringen)";
+    : "(no new raw signals this run)";
   const existingText = input.existing.length
     ? input.existing
         .slice(0, 60)
         .map((l) => `- [${l.type}] ${l.statement}`)
         .join("\n")
-    : "(tom kunnskapsbase)";
+    : "(empty knowledge base)";
 
-  return `Du er kunnskaps-destillereren for Digilist agent-flåten. Målet ditt: gjøre rå-signaler + repo-mønstre + bransjepraksis + siste stack-nytt om til KONKRETE, handlingsrettede, deduprede lærdommer som injiseres i alle agentene.
+  return `You are the knowledge distiller for the Digilist agent fleet. Your goal: turn raw signals + repo patterns + industry practice + the latest stack news into CONCRETE, actionable, deduped learnings that get injected into every agent.
 
-Seks kilder (dekk alle relevante):
-1. repo-mønstre: hvordan denne kodebasen faktisk gjør ting (bruk codebase-memory: search_graph / get_code_snippet / get_architecture).
-2. bransjepraksis (best-practice): etablerte prinsipper for stacken.
-3. egne feil (mistake): fra rå-signalene under (review-er som ba om endringer, blokkerte kjøringer, falske positiver).
-4. bruker-tilbakemelding (user-feedback): fra rå-signalene.
-5. innholdssignaler (content-signal): fra rå-signalene.
-6. teknologitrender (tech-trend): ${input.allowWeb ? "bruk WebSearch/docs for å oppdage nye major-versjoner, deprecations og skifter i beste praksis for: " + STACK_WATCH.join(", ") + "." : "web er avslått denne kjøringen. Hopp over trend-research, bruk kun det du vet sikkert."}
+Six sources (cover all the relevant ones):
+1. repo patterns: how this codebase actually does things (use codebase-memory: search_graph / get_code_snippet / get_architecture).
+2. industry practice (best-practice): established principles for the stack.
+3. own mistakes (mistake): from the raw signals below (reviews that requested changes, blocked runs, false positives).
+4. user feedback (user-feedback): from the raw signals.
+5. content signals (content-signal): from the raw signals.
+6. technology trends (tech-trend): ${input.allowWeb ? "use WebSearch/docs to spot new major versions, deprecations and shifts in best practice for: " + STACK_WATCH.join(", ") + "." : "web is off this run. Skip trend research, use only what you know for certain."}
 
-RÅ-SIGNALER Å DESTILLERE:
+RAW SIGNALS TO DISTILL:
 ${signalsText}
 
-EKSISTERENDE LÆRDOMMER (IKKE dupliser; forbedre/dedupliser mot disse; foreslå demote for de som ikke lenger gjelder):
+EXISTING LEARNINGS (do NOT duplicate; improve/dedupe against these; propose demote for ones that no longer apply):
 ${existingText}
 
-Repo å inspisere: ${input.repoPath}
+Repo to inspect: ${input.repoPath}
 
-Krav til hver lærdom:
-- statement: én setning, handlingsrettet, presis. Norsk bokmål, ingen tankestrek.
-- why: kort begrunnelse/bevis. ALDRI dikt opp. Hver lærdom må spores til et signal, en fil/symbol, eller en navngitt kilde/URL.
-- applies_to: liste med agent-navn (pr-review, improvements, implement, content, e2e), domener (security, a11y, convex, react, seo) eller path-glober. Bruk ["*"] bare når den gjelder hele flåten.
-- source_ref: eksakt kilde (signal-kilde, fil:symbol, eller URL). Aldri tom.
-- confidence: 0..1. Vær ærlig; lavt for spekulativt.
-- Kun for tech-trend som TILSIER en oppgradering (f.eks. ny TS-major): sett "upgrade" med { title, goal, rationale }, en rådgivende oppgraderingsjobb flåten kan foreslå.
+Requirements for each learning:
+- statement: one sentence, actionable, precise. Write in English.
+- why: short rationale/evidence. NEVER make it up. Every learning must trace to a signal, a file/symbol, or a named source/URL.
+- applies_to: list of agent names (pr-review, improvements, implement, content, e2e), domains (security, a11y, convex, react, seo) or path globs. Use ["*"] only when it applies to the whole fleet.
+- source_ref: exact source (signal source, file:symbol, or URL). Never empty.
+- confidence: 0..1. Be honest; low for speculative.
+- Only for a tech-trend that IMPLIES an upgrade (e.g. a new TS major): set "upgrade" with { title, goal, rationale }, an advisory upgrade job the fleet can propose.
 
-Ikke fabrikkér. Hvis en kilde er tynn, hopp over den heller enn å gjette. Maks ~15 lærdommer per kjøring; kvalitet over kvantitet.
+Don't fabricate. If a source is thin, skip it rather than guess. Max ~15 learnings per run; quality over quantity.
 
-Svar til SLUTT med KUN ett JSON-objekt på denne formen (ingen tekst etter):
-{"learnings":[{"type":"...","statement":"...","why":"...","applies_to":["..."],"source_ref":"...","confidence":0.0,"upgrade":{"title":"...","goal":"...","rationale":"..."}}],"demote":["gammel statement som ikke lenger gjelder"]}`;
+End with ONLY one JSON object of this shape (no text after):
+{"learnings":[{"type":"...","statement":"...","why":"...","applies_to":["..."],"source_ref":"...","confidence":0.0,"upgrade":{"title":"...","goal":"...","rationale":"..."}}],"demote":["old statement that no longer applies"]}`;
 }
 
 /** Extract the last JSON object from the agent transcript and validate it into a
@@ -212,23 +212,23 @@ export function applyDistilled(store: KnowledgeStore, output: DistillOutput, now
  *  the human Todo gate decides whether it ever runs). */
 export function upgradeGoalMarkdown(u: NonNullable<DistilledLearning["upgrade"]>, sourceRef: string): string {
   return [
-    `**Rådgivende oppgradering foreslått av kunnskapsagenten** (fra en observert teknologitrend).`,
+    `**Advisory upgrade proposed by the knowledge agent** (from an observed technology trend).`,
     ``,
-    `## Mål`,
+    `## Goal`,
     u.goal,
     ``,
-    `## Begrunnelse`,
-    u.rationale || "(ingen)",
+    `## Rationale`,
+    u.rationale || "(none)",
     ``,
-    `## Kilde`,
+    `## Source`,
     sourceRef,
     ``,
-    `## Kjør som Claude-loop (på en ny branch, aldri main)`,
+    `## Run as a Claude loop (on a new branch, never main)`,
     "```",
     `/loop ${u.goal}`,
     "```",
     ``,
     `---`,
-    `_Auto-arkivert av Digilist kunnskapsagent. Dette er et FORSLAG i Backlog. Flytt til Todo først når et menneske har vurdert det._`,
+    `_Auto-filed by the Digilist knowledge agent. This is a SUGGESTION in Backlog. Move it to Todo only after a human has reviewed it._`,
   ].join("\n");
 }
