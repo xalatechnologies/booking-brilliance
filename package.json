@@ -35,7 +35,10 @@
     "docs:index": "tsx tools/docs-rag/src/index.ts",
     "docs:mcp": "tsx tools/docs-rag/src/mcp-server.ts",
     "e2e:test": "playwright test --config tools/e2e-agent/playwright.config.ts",
-    "e2e:run": "tsx tools/e2e-agent/src/run.ts"
+    "e2e:run": "tsx tools/e2e-agent/src/run.ts",
+    "cto:run": "tsx tools/orchestrator-agent/src/run.ts",
+    "cto:loop": "tsx tools/orchestrator-agent/src/loop.ts",
+    "cto:test": "vitest run tools/orchestrator-agent/src/__tests__"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

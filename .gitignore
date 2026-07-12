@@ -41,6 +41,9 @@ tools/improvements-agent/brain/
 # PR-review-agent local state (machine-specific)
 tools/pr-review-agent/state/
 
+# CTO / orchestrator-agent briefings (machine-specific)
+tools/orchestrator-agent/state/
+
 # E2E agent artifacts
 tools/e2e-agent/report.json
 tools/e2e-agent/test-results/

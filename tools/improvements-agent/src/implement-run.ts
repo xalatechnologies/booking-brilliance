@@ -11,6 +11,7 @@
  * PR comment; optional).
  */
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { LinearClient } from "../../content-agent/src/linear";
 import { parallel } from "../../content-agent/src/orchestrate";
@@ -19,8 +20,75 @@ import { findPrForBranch, implementGoal } from "./implement";
 
 const nowIso = () => new Date().toISOString();
 
-/** Implement every prepared-but-unbuilt issue. Reused by the prepare chain. */
+// Cross-process advisory lock. implementPending is called by BOTH the
+// improvements-implement systemd timer AND the CTO orchestrator (drive.ts),
+// each in its own process against the SAME file-based Open Brain + shared
+// worktrees. Two concurrent runs would filter the same `pending` branches and
+// both build/push them → double PRs, git contention, and last-write-wins on
+// brain.json. A PID lockfile serializes them; a stale lock (dead holder) is
+// stolen so a crashed run can't wedge the queue forever.
+const LOCK_FILE = process.env.IMPROVEMENTS_IMPLEMENT_LOCK || path.join(os.tmpdir(), "digilist-implement.lock");
+
+function pidAlive(pid: number): boolean {
+  if (!Number.isInteger(pid) || pid <= 0) return false;
+  try {
+    process.kill(pid, 0);
+    return true;
+  } catch (e) {
+    // EPERM = the process exists but we can't signal it (still alive).
+    return (e as NodeJS.ErrnoException).code === "EPERM";
+  }
+}
+
+/** Take the implement lock. Returns a release fn, or null if a LIVE run holds it. */
+function acquireImplementLock(): (() => void) | null {
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const fd = fs.openSync(LOCK_FILE, "wx"); // O_CREAT|O_EXCL — fails if it exists
+      fs.writeSync(fd, String(process.pid));
+      fs.closeSync(fd);
+      return () => {
+        try {
+          fs.unlinkSync(LOCK_FILE);
+        } catch {
+          /* already released / stolen */
+        }
+      };
+    } catch (e) {
+      if ((e as NodeJS.ErrnoException).code !== "EEXIST") throw e;
+      const holder = Number((fs.readFileSync(LOCK_FILE, "utf-8").trim() || "0"));
+      if (pidAlive(holder)) return null; // another implement run is active — skip
+      try {
+        fs.unlinkSync(LOCK_FILE); // stale (dead holder) — steal it and retry
+      } catch {
+        /* raced with another stealer; loop retries */
+      }
+    }
+  }
+  return null;
+}
+
+/**
+ * Implement every prepared-but-unbuilt issue. Reused by the prepare chain AND
+ * the CTO orchestrator. Guarded by a cross-process lock so only one implement
+ * run touches the shared queue/worktrees at a time; a second concurrent caller
+ * skips cleanly (returns 0) rather than double-building. A dry run holds no lock.
+ */
 export async function implementPending(opts: { dryRun?: boolean; limit?: number } = {}): Promise<number> {
+  const release = opts.dryRun ? (() => {}) : acquireImplementLock();
+  if (!release) {
+    console.log("[implement] another implement run holds the lock — skipping this run.");
+    return 0;
+  }
+  try {
+    return await runImplementQueue(opts);
+  } finally {
+    release();
+  }
+}
+
+/** The actual queue runner (see implementPending for the lock that guards it). */
+async function runImplementQueue(opts: { dryRun?: boolean; limit?: number } = {}): Promise<number> {
   const dryRun = opts.dryRun ?? false;
   const limit = opts.limit ?? Infinity;
 
