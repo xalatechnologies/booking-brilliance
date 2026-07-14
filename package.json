@@ -34,7 +34,6 @@
     "pr-review:run": "xala-agents run pr-review",
     "docs:index": "xala-agents run docs-index",
     "docs:mcp": "xala-agents run docs-mcp",
-    "e2e:test": "playwright test --config node_modules/@xala/agent-fleet/tools/e2e-agent/playwright.config.ts",
     "e2e:run": "xala-agents run e2e"
   },
   "dependencies": {
@@ -99,7 +98,6 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@xala/agent-fleet": "file:../xala-agent-fleet",
     "@eslint/js": "^9.32.0",
     "@playwright/test": "^1.61.1",
     "@tailwindcss/typography": "^0.5.16",
