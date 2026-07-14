@@ -51,5 +51,7 @@ tools/e2e-agent/playwright-report/
 tools/e2e-agent/auth/.auth/
 .xaheen/
 test-results/
-content/
+# Root-level agent runtime dir only — anchored so it does NOT also ignore
+# src/content/blog (the daily blog agent's committed posts → the deploy source).
+/content/
 apps/docs/public/demos/
