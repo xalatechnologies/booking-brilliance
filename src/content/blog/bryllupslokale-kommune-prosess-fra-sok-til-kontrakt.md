@@ -1,6 +1,6 @@
 ---
 slug: bryllupslokale-kommune-prosess-fra-sok-til-kontrakt
-title: "Bryllupslokale i kommunen: hele prosessen fra søk til signert kontrakt"
+title: "Bryllupslokale i kommunen: prosessen fra søk til signert kontrakt"
 description: "Praktisk prosessguide for å leie bryllupslokale i kommunen: sjekk ledige datoer, send søknad, unngå dobbeltbooking og forstå avbestillingsreglene."
 date: 2026-07-14
 author: "Ibrahim Rahmani"

@@ -1,6 +1,6 @@
 ---
 slug: idrettshall-kommune-booke-enkelttime-trening-arrangement
-title: "Idrettshall i kommunen: alle måtene å finne og booke en ledig hall"
+title: "Idrettshall i kommunen: slik finner og booker du en ledig hall"
 description: "Enkelttime, fast trening, arrangement eller ferie: her er alle bookingveiene til kommunal idrettshall samlet, med pris, regler og ledige tider forklart."
 date: 2026-07-15
 author: "Ibrahim Rahmani"

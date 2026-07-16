@@ -1,6 +1,6 @@
 ---
 slug: kapasitetsstyring-idrettsanlegg-driftsleder
-title: "Kapasitetsstyring av idrettsanlegg: driftslederens komplette guide"
+title: "Kapasitetsstyring av idrettsanlegg: guide for driftsledere"
 description: "Slik fordeler du halltid mellom lag, skoler og private leietakere uten dobbeltbooking, med kapasitetsoversikt på tvers av flere anlegg i én kommune."
 date: 2026-07-09
 author: "Ibrahim Rahmani"

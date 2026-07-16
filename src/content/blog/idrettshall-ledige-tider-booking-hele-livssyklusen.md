@@ -1,6 +1,6 @@
 ---
 slug: idrettshall-ledige-tider-booking-hele-livssyklusen
-title: "Idrettshall ledige tider: hvorfor timer blir frie og hvordan du booker"
+title: "Idrettshall ledige tider: hvorfor timer blir frie og booking"
 description: "Fra sesongfordeling til lag og foreninger, via avbestillinger, til timene du faktisk kan booke selv. Slik henger idrettshall-booking sammen fra ende til ende."
 date: 2026-07-14
 author: "Ibrahim Rahmani"

@@ -1,6 +1,6 @@
 ---
 slug: leie-kommunalt-lokale-pris-guide
-title: "Leie sal i kommunen: slik settes prisen og hvor du finner den billigst"
+title: "Leie sal i kommunen: slik settes prisen og hvor er billigst"
 description: "Se hva som faktisk avgjør prisen når du leier kommunalt lokale, med eksempeltall for idrettshall, gymsal, møterom og samfunnssal, og hvordan du sammenligner reelt."
 date: 2026-07-14
 author: "Ibrahim Rahmani"

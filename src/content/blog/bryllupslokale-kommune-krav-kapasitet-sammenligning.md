@@ -1,6 +1,6 @@
 ---
 slug: bryllupslokale-kommune-krav-kapasitet-sammenligning
-title: "Bryllupslokale i kommunen: sjekk krav og kapasitet før du booker dato"
+title: "Bryllupslokale i kommunen: sjekk krav og kapasitet før booking"
 description: "Gjestekapasitet, kjøkken, skjenkebevilling, lyd og tilgjengelighet varierer mellom lokaler. Slik sammenligner du flere bryllupslokaler på reelle behov, ikke bare pris."
 date: 2026-07-14
 author: "Ibrahim Rahmani"

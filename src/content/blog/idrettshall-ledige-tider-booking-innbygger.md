@@ -1,6 +1,6 @@
 ---
 slug: idrettshall-ledige-tider-booking-innbygger
-title: "Idrettshall ledige tider: finn og book en ledig time på under to minutter"
+title: "Idrettshall ledige tider: finn og book en ledig time raskt"
 description: "Slik finner du ledige tider i kommunens idrettshaller i sanntid, setter deg på venteliste ved avbestilling og booker en ledig time uten å ringe drift."
 date: 2026-07-14
 author: "Ibrahim Rahmani"

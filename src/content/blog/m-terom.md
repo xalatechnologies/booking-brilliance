@@ -1,6 +1,6 @@
 ---
 slug: mote-rom-kommune-finn-ledige-i-omradet-mine-bookinger
-title: "Møterom i kommunen: finn ledige i ditt område og styr egne bookinger"
+title: "Møterom i kommunen: finn ledige og styr egne bookinger"
 description: "Slik finner innbyggere og foreninger ledige møterom på tvers av alle kommunens bygg, sammenligner kapasitet og utstyr, og styrer egne bookinger fra Min side."
 date: 2026-07-14
 author: "Ibrahim Rahmani"

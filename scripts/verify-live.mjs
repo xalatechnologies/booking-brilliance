@@ -25,6 +25,7 @@ const BASE = (process.env.BASE || "https://digilist.no").replace(/\/$/, "");
 const GENERIC_TITLE = "Digilist — Én plattform for alt som leies ut";
 const GENERIC_OG = "/og-image.png";
 const SAMPLE = process.env.VERIFY_SAMPLE || "10";
+const MAX_TITLE_LEN = 65;
 
 // ── pure helpers (kept small + side-effect free so --self-test can check them) ──
 
@@ -49,6 +50,11 @@ export function expectedTitle(postTitle) {
 export function coverUrl(cover, base = BASE) {
   if (!cover) return `${base}${GENERIC_OG}`;
   return cover.startsWith("http") ? cover : `${base}${cover}`;
+}
+
+/** Google truncates SERP titles past ~65 chars — the 'title.long' SEO check. */
+export function titleTooLong(postTitle) {
+  return postTitle.length > MAX_TITLE_LEN;
 }
 
 export function extractTitle(html) {
@@ -130,6 +136,14 @@ async function main() {
 
   const failures = [];
 
+  // 0) every post's frontmatter title must fit the SERP (no network needed) —
+  // regression guard for the 'title.long' SEO warning.
+  for (const post of all) {
+    const ok = !titleTooLong(post.title);
+    if (!ok) failures.push(`${post.slug}: title is ${post.title.length} chars (max ${MAX_TITLE_LEN}): "${post.title}"`);
+  }
+  console.log(`  ${failures.length === 0 ? "✓" : "✗"} title length ≤ ${MAX_TITLE_LEN} chars (${all.length} posts checked)`);
+
   // 1) homepage + blog index must be live
   for (const [label, path] of [["homepage", "/"], ["blog index", "/blogg"]]) {
     const { status } = await fetchText(`${BASE}${path}`);
@@ -196,6 +210,8 @@ function selfTest() {
   assert(!shell.ok && shell.problems.some((p) => /SPA shell/.test(p)), "detect SPA shell");
   const notfound = judgePost("<title>x</title>", 404, { title: "x", cover: "" });
   assert(!notfound.ok && notfound.problems.some((p) => /HTTP 404/.test(p)), "detect non-200");
+  assert(!titleTooLong("x".repeat(65)), "65 chars is within the limit");
+  assert(titleTooLong("x".repeat(66)), "66 chars is over the limit");
   console.log("verify-live self-test: all parser checks passed.");
 }
 
