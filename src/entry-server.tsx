@@ -8,19 +8,44 @@
  * renderToString is synchronous and renders React.lazy Suspense fallbacks
  * (our "Laster…" shell) instead of the real component — so lazily-imported
  * route pages like BlogPost would prerender with NO <h1>/<main>/content,
- * invisible to crawlers and a11y auditors. To fix this without giving up
- * client-side code-splitting, we render in a loop: the first pass triggers
- * the route's dynamic import(s) (rendering fallbacks); we await a macrotask
- * so the chunk resolves; React.lazy caches the resolved module, so the next
- * renderToString emits the real content. Repeat until the output stabilises
- * (covers nested lazy) or a small cap is hit. This runs at build time only,
- * so the extra passes cost nothing at runtime.
+ * invisible to crawlers and a11y auditors (a11y.landmark.main: 7 blog posts
+ * and /transparens were shipping with an empty <div id="root">, so no
+ * <main> at all in the static HTML a non-JS crawler sees).
+ *
+ * The dynamic import() a lazy route chunk kicks off can take more event-loop
+ * ticks to fully settle (transitively pulling in react-markdown/remark-gfm
+ * for BlogPost, or the Convex client for ConvexScope) than a couple of
+ * `setTimeout(0)` passes cover — and once the render output stops changing
+ * for two passes in a row we assumed it had "settled", even though a still-
+ * pending Suspense boundary renders byte-identical fallback HTML every
+ * pass. That false convergence is what let the first several prerendered
+ * routes in a run through with the "Laster…" shell instead of real content.
+ *
+ * Node's ESM loader caches a module by specifier, so awaiting these same
+ * import()s once up front — before the retry loop below ever starts —
+ * resolves the same promise React.lazy() will pick up when AppShell
+ * renders, with no race left to lose.
  */
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import { AppShell } from "./App";
 
+let lazyChunksWarmed: Promise<unknown> | null = null;
+
+/** Pre-resolve every route-level lazy() chunk this SSR pass can hit, once per process. */
+function warmLazyChunks(): Promise<unknown> {
+  if (!lazyChunksWarmed) {
+    lazyChunksWarmed = Promise.all([
+      import("./pages/BlogPost"),
+      import("./pages/Status"),
+      import("./components/ConvexScope"),
+    ]);
+  }
+  return lazyChunksWarmed;
+}
+
 export async function render(url: string): Promise<string> {
+  await warmLazyChunks();
   const tree = (
     <StaticRouter location={url}>
       <AppShell />

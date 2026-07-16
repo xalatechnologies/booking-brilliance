@@ -11,6 +11,7 @@
     "build": "vite build && vite build --ssr src/entry-server.tsx --outDir dist-server --ssrManifest false && node scripts/prerender.mjs",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
+    "test": "vitest run",
     "preview": "vite preview",
     "audit:all": "xala-agents run audit",
     "audit:psi": "xala-agents run audit-psi",
