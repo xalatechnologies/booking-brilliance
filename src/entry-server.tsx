@@ -10,15 +10,25 @@
  * route pages like BlogPost would prerender with NO <h1>/<main>/content,
  * invisible to crawlers and a11y auditors. To fix this without giving up
  * client-side code-splitting, we render in a loop: the first pass triggers
- * the route's dynamic import(s) (rendering fallbacks); we await a macrotask
- * so the chunk resolves; React.lazy caches the resolved module, so the next
- * renderToString emits the real content. Repeat until the output stabilises
- * (covers nested lazy) or a small cap is hit. This runs at build time only,
- * so the extra passes cost nothing at runtime.
+ * the route's dynamic import(s) (rendering fallbacks); we wait for it to
+ * resolve; React.lazy caches the resolved module, so a later renderToString
+ * emits the real content. This runs at build time only, so the extra passes
+ * cost nothing at runtime.
+ *
+ * The loop retries until React's own "unresolved boundary" marker is gone
+ * from the output, not until two passes look byte-identical — a cold
+ * dynamic import() of an on-disk chunk (e.g. BlogPost's react-markdown/
+ * remark-gfm graph) is real file I/O that can outlast a couple of 0ms
+ * macrotask ticks, so two consecutive passes can both still be the pending
+ * fallback shell and look "stable" while actually unresolved.
  */
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import { AppShell } from "./App";
+
+const UNRESOLVED_SUSPENSE_MARKER = "<!--$!-->";
+const RETRY_DEADLINE_MS = 5000;
+const RETRY_INTERVAL_MS = 20;
 
 export async function render(url: string): Promise<string> {
   const tree = (
@@ -27,12 +37,10 @@ export async function render(url: string): Promise<string> {
     </StaticRouter>
   );
   let html = renderToString(tree);
-  for (let pass = 0; pass < 5; pass++) {
-    // Let any dynamic import() kicked off during the last render resolve.
-    await new Promise((resolve) => setTimeout(resolve, 0));
-    const next = renderToString(tree);
-    if (next === html) break;
-    html = next;
+  const deadline = Date.now() + RETRY_DEADLINE_MS;
+  while (html.includes(UNRESOLVED_SUSPENSE_MARKER) && Date.now() < deadline) {
+    await new Promise((resolve) => setTimeout(resolve, RETRY_INTERVAL_MS));
+    html = renderToString(tree);
   }
   return html;
 }
