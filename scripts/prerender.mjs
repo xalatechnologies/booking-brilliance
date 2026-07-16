@@ -90,6 +90,7 @@ async function loadSsr() {
     const mod = await import(url);
     if (typeof mod.render === "function") {
       ssrRenderer = mod.render;
+      if (typeof mod.warm === "function") await mod.warm();
       console.log("  [ssr] entry loaded — bodies will be rendered to HTML");
     } else {
       console.warn("  [ssr] entry has no render() export — skipping");

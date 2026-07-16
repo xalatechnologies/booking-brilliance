@@ -15,10 +15,20 @@
  * renderToString emits the real content. Repeat until the output stabilises
  * (covers nested lazy) or a small cap is hit. This runs at build time only,
  * so the extra passes cost nothing at runtime.
+ *
+ * The BlogPost chunk itself (react-markdown + remark-gfm pulled in
+ * transitively) is heavy enough that its cold import() doesn't always settle
+ * within that per-route retry loop — whichever blog post prerenders first
+ * would still ship the "Laster…" shell instead of the article body. warm()
+ * pre-loads it once, before any route is rendered, so every post benefits.
  */
 import { renderToString } from "react-dom/server";
 import { StaticRouter } from "react-router-dom/server";
 import { AppShell } from "./App";
+
+export async function warm(): Promise<void> {
+  await import("./pages/BlogPost");
+}
 
 export async function render(url: string): Promise<string> {
   const tree = (
