@@ -1,6 +1,6 @@
 ---
 slug: datalokasjon-norge-gdpr-kommunal-booking
-title: "Kommunal booking-SaaS: Derfor er norsk datalokasjon ikke valgfritt"
+title: "Kommunal booking-SaaS: norsk datalokasjon er ikke valgfritt"
 description: "IT-ledere i kommuner må sikre at bookingdata lagres i Norge. Her er hva GDPR krever, og hvordan Digilist løser det i praksis."
 date: 2026-07-11
 author: "Ibrahim Rahmani"
