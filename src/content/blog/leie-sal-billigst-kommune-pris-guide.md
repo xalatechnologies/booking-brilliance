@@ -1,7 +1,7 @@
 ---
 slug: leie-sal-billigst-kommune-pris-guide
 title: "Leie sal billigst i kommunen: se prisen før du booker"
-description: "Prisguide for innbyggere: hva koster det å leie sal, gymsal eller lokale i kommunen, hvorfor prisen varierer mellom lag, privat og bedrift, og hvordan du finner det rimeligste ledige."
+description: "Prisguide for innbyggere: hva koster det å leie sal, gymsal eller lokale i kommunen, hvorfor prisen varierer, og hvordan du finner det rimeligste ledige."
 date: 2026-07-14
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"

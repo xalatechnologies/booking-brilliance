@@ -815,6 +815,24 @@ async function main() {
 
   // Blog index + each post — pre-rendered with Article schema
   const posts = await loadBlogPosts();
+
+  // Guard: SEO meta descriptions over ~165 chars get truncated by Google in
+  // search results, so fail the build instead of shipping a clipped snippet
+  // (mirrors the ≤165 convention documented at src/components/UseCasePage.tsx).
+  const MAX_DESCRIPTION_CHARS = 165;
+  const overLimit = posts.filter(
+    (p) => (p.description || "").length > MAX_DESCRIPTION_CHARS,
+  );
+  if (overLimit.length > 0) {
+    console.error(
+      `Pre-render failed: ${overLimit.length} blog post(s) have a description over ${MAX_DESCRIPTION_CHARS} chars:`,
+    );
+    for (const p of overLimit) {
+      console.error(`  - ${p.slug}: ${p.description.length} chars`);
+    }
+    process.exit(1);
+  }
+
   const blogIndex = {
     route: "/blogg",
     title: "Blogg — Innsikt om norsk booking · Digilist",

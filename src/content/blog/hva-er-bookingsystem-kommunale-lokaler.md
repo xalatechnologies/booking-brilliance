@@ -1,7 +1,7 @@
 ---
 slug: hva-er-bookingsystem-kommunale-lokaler
 title: "Hva er et bookingsystem for kommunale lokaler? Full guide for IT-ledere"
-description: "Komplett guide for IT-ledere: hva et bookingsystem for kommunale lokaler er, hvilke lokaltyper som kan bookes, priser og anbud, GDPR og datalokasjon, ID-porten, SSA-L og målbar gevinst etter innføring."
+description: "Komplett guide for IT-ledere: hva et bookingsystem for kommunale lokaler er, lokaltyper, priser, GDPR, ID-porten og SSA-L – og gevinstene etter innføring."
 date: 2026-07-15
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
