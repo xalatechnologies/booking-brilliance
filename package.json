@@ -12,6 +12,7 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
+    "check:title-lengths": "node scripts/check-title-lengths.mjs",
     "audit:all": "xala-agents run audit",
     "audit:psi": "xala-agents run audit-psi",
     "audit:daily": "xala-agents run audit -- --trigger cron && xala-agents run audit-psi",
