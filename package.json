@@ -10,6 +10,7 @@
     "dev:api": "node --watch server/index.mjs",
     "build": "vite build && vite build --ssr src/entry-server.tsx --outDir dist-server --ssrManifest false && node scripts/prerender.mjs",
     "build:dev": "vite build --mode development",
+    "test": "vitest run",
     "lint": "eslint .",
     "preview": "vite preview",
     "audit:all": "xala-agents run audit",
