@@ -849,9 +849,10 @@ async function main() {
       }
     }
     if (!settled) {
-      console.warn(
-        `  [ssr] blog warm-up did not settle after ${MAX_WARMUP_ATTEMPTS} attempts — early posts may still be thin`,
+      console.error(
+        `  [ssr] blog warm-up did not settle after ${MAX_WARMUP_ATTEMPTS} attempts — early posts would ship with only the Suspense fallback ("Laster…") as their body. Failing the build instead of shipping thin content.`,
       );
+      process.exit(1);
     }
   }
 
