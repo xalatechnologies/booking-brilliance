@@ -2,7 +2,7 @@
 slug: kommunalt-bookingsystem-hva-er-det
 title: "Kommunalt bookingsystem: hva IT-lederen må vite før kravspec"
 description: "Hva et kommunalt bookingsystem er, hvorfor det skiller seg fra Calendly, og hvilke krav til ID-porten, SSA-L og datalokasjon du bør stille før anskaffelse."
-date: 2026-07-16
+date: 2026-07-17
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8

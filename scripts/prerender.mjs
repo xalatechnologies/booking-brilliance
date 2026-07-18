@@ -111,8 +111,11 @@ async function renderBody(route) {
     // (e.g. BlogPost) resolve to real content instead of the Suspense shell.
     return await render(route);
   } catch (err) {
-    console.warn(`  [ssr] render(${route}) failed:`, err?.message ?? err);
-    return null;
+    // render() only throws when a Suspense boundary never resolved (XAL-310):
+    // swallowing this would ship a no-<h1> page with a green build, exactly
+    // the bug this guard exists to catch. Let it fail the build instead.
+    console.error(`  [ssr] render(${route}) failed:`, err?.message ?? err);
+    throw err;
   }
 }
 
@@ -830,31 +833,6 @@ async function main() {
   await fs.mkdir(blogDir, { recursive: true });
   await fs.writeFile(join(blogDir, "index.html"), blogIndexHTML, "utf-8");
   console.log(`  ✓ /blogg/index.html (${blogIndexHTML.length} bytes)`);
-
-  // BlogPost is React.lazy()-loaded, and renderToString can't suspend across
-  // it — the retry loop in entry-server.tsx needs several full render() calls
-  // before the underlying dynamic-import graph resolves for the very first
-  // time. Burn that one-time warm-up cost here, on a throwaway render, before
-  // looping over real posts below — otherwise the first several posts in
-  // `posts` bake in only the Suspense fallback ("Laster…") as their body.
-  if (posts.length > 0) {
-    const warmupRoute = `/blogg/${posts[0].slug}`;
-    const MAX_WARMUP_ATTEMPTS = 80;
-    let settled = false;
-    for (let i = 0; i < MAX_WARMUP_ATTEMPTS; i++) {
-      const html = await renderBody(warmupRoute);
-      if (html && !html.includes("Laster…")) {
-        settled = true;
-        break;
-      }
-    }
-    if (!settled) {
-      console.error(
-        `  [ssr] blog warm-up did not settle after ${MAX_WARMUP_ATTEMPTS} attempts — early posts would ship with only the Suspense fallback ("Laster…") as their body. Failing the build instead of shipping thin content.`,
-      );
-      process.exit(1);
-    }
-  }
 
   for (const post of posts) {
     const postRoute = `/blogg/${post.slug}`;

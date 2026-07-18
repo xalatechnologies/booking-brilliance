@@ -61,6 +61,17 @@ export function extractOgImage(html) {
   return m ? m[1].trim() : null;
 }
 
+/** Group posts by the <title> prerender.mjs would emit for them; return only the groups with >1 slug. */
+export function findDuplicateTitles(posts) {
+  const bySlugTitle = new Map();
+  for (const p of posts) {
+    const title = expectedTitle(p.title);
+    if (!bySlugTitle.has(title)) bySlugTitle.set(title, []);
+    bySlugTitle.get(title).push(p.slug);
+  }
+  return [...bySlugTitle.entries()].filter(([, slugs]) => slugs.length > 1);
+}
+
 /** Decide a single post's verdict from the served HTML + its expected values. */
 export function judgePost(html, status, post) {
   const problems = [];
@@ -130,6 +141,18 @@ async function main() {
 
   const failures = [];
 
+  // 0) no two posts may render the same <title> (rule: title.duplicate)
+  const dupes = findDuplicateTitles(all);
+  if (dupes.length > 0) {
+    console.log(`  ✗ ${dupes.length} duplicate <title>(s) across ${all.length} post(s):`);
+    for (const [title, slugs] of dupes) {
+      console.log(`      "${title}" — ${slugs.join(", ")}`);
+      failures.push(`duplicate title "${title}": ${slugs.join(", ")}`);
+    }
+  } else {
+    console.log(`  ✓ no duplicate <title> across ${all.length} post(s)`);
+  }
+
   // 1) homepage + blog index must be live
   for (const [label, path] of [["homepage", "/"], ["blog index", "/blogg"]]) {
     const { status } = await fetchText(`${BASE}${path}`);
@@ -196,6 +219,13 @@ function selfTest() {
   assert(!shell.ok && shell.problems.some((p) => /SPA shell/.test(p)), "detect SPA shell");
   const notfound = judgePost("<title>x</title>", 404, { title: "x", cover: "" });
   assert(!notfound.ok && notfound.problems.some((p) => /HTTP 404/.test(p)), "detect non-200");
+  const dupes = findDuplicateTitles([
+    { slug: "a", title: "x".repeat(60) },
+    { slug: "b", title: "x".repeat(60) },
+    { slug: "c", title: "Kort" },
+  ]);
+  assert(dupes.length === 1 && dupes[0][1].join(",") === "a,b", "detect duplicate title");
+  assert(findDuplicateTitles([{ slug: "a", title: "Kort" }]).length === 0, "no false positive on single post");
   console.log("verify-live self-test: all parser checks passed.");
 }
 
