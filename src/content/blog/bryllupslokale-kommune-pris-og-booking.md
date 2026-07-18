@@ -1,6 +1,6 @@
 ---
 slug: bryllupslokale-kommune-pris-og-booking
-title: "Bryllupslokale i kommunen: pris, kapasitet og booking på nett"
+title: "Bryllupslokale i kommunen: slik booker du uten å ringe rundt"
 description: "Slik finner brudepar kommunalt bryllupslokale: pris, kapasitet, hva som er inkludert i leien, depositum og avbestilling, og hvordan du booker uten å ringe rundt."
 date: 2026-07-14
 author: "Ibrahim Rahmani"
