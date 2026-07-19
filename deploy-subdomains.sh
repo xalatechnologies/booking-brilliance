@@ -3,9 +3,7 @@
 # ============================================
 # Digilist - Deploy to Subdomains
 # Deploys book-demo.html to:
-# - demo.digilist.no
 # - backoffice.digilist.no
-# - learning.digilist.no
 # ============================================
 
 set -e
@@ -23,9 +21,7 @@ VPS_HOST="72.61.23.56"
 
 # Subdomain configurations (subdomain:remote_dir)
 SUBDOMAINS=(
-    "demo:/var/www/digilist/demo"
     "backoffice:/var/www/digilist/backoffice"
-    "learning:/var/www/digilist/learning"
 )
 
 echo -e "${GREEN}========================================${NC}"

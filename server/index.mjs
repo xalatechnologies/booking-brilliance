@@ -688,30 +688,32 @@ const server = createServer(async (req, res) => {
     //  - generatedAt
     // Never includes specific finding messages, URLs, or sensitive paths.
     try {
-      // Fetch compliance posture from Convex (public, no-auth query).
-      // Best-effort — if Convex is unreachable, we omit posture rather
-      // than failing the whole endpoint.
-      let posture = null;
+      // Compliance posture + the full status summary both come from
+      // Convex (public, no-auth queries), fetched server-side over the
+      // loopback backend. Best-effort: if Convex is unreachable we return
+      // null for that slice rather than failing the endpoint, so the
+      // public pages degrade gracefully instead of erroring. The browser
+      // never talks to Convex directly for these pages.
       const convexUrl = process.env.VITE_CONVEX_URL || process.env.CONVEX_URL;
-      if (convexUrl) {
+      const convexQuery = async (path) => {
+        if (!convexUrl) return null;
         try {
           const r = await fetch(`${convexUrl.replace(/\/$/, "")}/api/query`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              path: "compliance/state:publicSummary",
-              args: {},
-              format: "json",
-            }),
+            body: JSON.stringify({ path, args: {}, format: "json" }),
           });
-          if (r.ok) {
-            const body = await r.json();
-            if (body.status === "success") posture = body.value;
-          }
+          if (!r.ok) return null;
+          const body = await r.json();
+          return body.status === "success" ? body.value : null;
         } catch {
-          /* silent fallback */
+          return null;
         }
-      }
+      };
+      const [posture, status] = await Promise.all([
+        convexQuery("compliance/state:publicSummary"),
+        convexQuery("audits/public:summary"),
+      ]);
 
       if (!existsSync(AUDIT_SNAPSHOT_PATH)) {
         return json(res, 200, {
@@ -719,6 +721,7 @@ const server = createServer(async (req, res) => {
           surfaces: [],
           ecosystem: null,
           posture,
+          status,
         });
       }
       const raw = readFileSync(AUDIT_SNAPSHOT_PATH, "utf-8");
@@ -759,6 +762,7 @@ const server = createServer(async (req, res) => {
         surfaces,
         ecosystem: snap.ecosystemSummary || null,
         posture,
+        status,
       });
     } catch (e) {
       return json(res, 500, { error: String(e?.message || e) });

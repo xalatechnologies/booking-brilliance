@@ -22,6 +22,34 @@ const CHAT_HREFS = new Set([
   "#snakk-med-oss",
 ]);
 
+// Internal-link the commercial landing ("money") pages from every blog post,
+// mapped by the post's keywords/slug/tag. Blog posts rank on page 1; the money
+// pages don't yet rank for their head terms — this passes them link equity.
+const SOLUTION_PAGES: Array<{ href: string; label: string; match: RegExp }> = [
+  { href: "/bookingsystem-kommune", label: "Bookingsystem for kommuner", match: /kommun|bookingsystem|it-leder|anbud|ssa-l|innkjøp|leverand/i },
+  { href: "/bruksomrader/idrettshaller-gymsaler", label: "Idrettshaller og gymsaler", match: /idrettshall|gymsal|sesong|hall|forening|trening|anlegg/i },
+  { href: "/bruksomrader/moterom", label: "Møterom", match: /m(ø|o)terom|mote-?rom/i },
+  { href: "/bruksomrader/selskapslokaler", label: "Selskapslokaler", match: /selskapslokale|bryllup|fest|selskap/i },
+  { href: "/bruksomrader/kulturhus-kantiner", label: "Kulturhus og kantiner", match: /kulturhus|kantine|konferanse|kultursal|arrangement/i },
+];
+
+function relatedSolutions(post: {
+  slug: string;
+  title: string;
+  tag?: string;
+  keywords?: string[];
+}): Array<{ href: string; label: string }> {
+  const hay = [post.slug, post.title, post.tag ?? "", ...(post.keywords ?? [])]
+    .join(" ")
+    .toLowerCase();
+  const hits = SOLUTION_PAGES.filter((s) => s.match.test(hay)).map(
+    ({ href, label }) => ({ href, label }),
+  );
+  return hits.length
+    ? hits.slice(0, 2)
+    : [{ href: "/booking-av-lokaler-og-moterom", label: "Booking av lokaler og møterom" }];
+}
+
 /** URL-safe anchor slug from a heading's text (matches the TOC to the H2 ids). */
 function slugify(s: string): string {
   return s
@@ -230,6 +258,32 @@ const BlogPost = () => {
                     {body}
                   </ReactMarkdown>
                 </div>
+
+                <aside
+                  aria-label="Relevante løsninger"
+                  className="mt-12 pt-8 border-t border-rule max-w-[68ch]"
+                >
+                  <p className="editorial-mono-caption text-accent-text mb-4">
+                    Relevante løsninger
+                  </p>
+                  <ul className="flex flex-col gap-2.5">
+                    {relatedSolutions(post).map((s) => (
+                      <li key={s.href}>
+                        <Link
+                          to={s.href}
+                          className="group inline-flex items-baseline gap-2 text-ink hover:text-accent-text transition-colors"
+                        >
+                          <span className="text-accent-text font-mono text-xs">
+                            →
+                          </span>
+                          <span className="font-serif text-lg border-b border-rule group-hover:border-accent-text pb-0.5">
+                            {s.label}
+                          </span>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </aside>
               </div>
 
               {/* Sticky sidebar — reading meta, TOC, related, share */}

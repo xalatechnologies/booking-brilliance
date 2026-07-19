@@ -224,22 +224,12 @@ export function AppShell() {
             <Route path="/salgsvilkar" element={<Salgsvilkar />} />
             <Route path="/personvern" element={<Personvern />} />
             <Route path="/cookies" element={<Cookies />} />
-            <Route
-              path="/transparens"
-              element={
-                <ConvexScope>
-                  <Transparens />
-                </ConvexScope>
-              }
-            />
-            <Route
-              path="/status"
-              element={
-                <ConvexScope>
-                  <Status />
-                </ConvexScope>
-              }
-            />
+            {/* Public pages read audit/status data through the same-origin
+                /api/audits/public-summary proxy (server-side Convex), so they
+                need no browser Convex client and stay up during a Convex
+                outage. */}
+            <Route path="/transparens" element={<Transparens />} />
+            <Route path="/status" element={<Status />} />
             <Route path="/bruksomrader/selskapslokaler" element={<UseCaseSelskapslokaler />} />
             <Route path="/bruksomrader/moterom" element={<UseCaseMoterom />} />
             <Route path="/bruksomrader/idrettshaller-gymsaler" element={<UseCaseIdrettshaller />} />

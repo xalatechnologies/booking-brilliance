@@ -7,13 +7,16 @@
  * methodology + external validators, three-card CTA, Footer.
  *
  * Data: convex/audits/public.ts:summary — no auth, scrubbed (never
- * finding messages, never URLs). Reactive via Convex useQuery, so
- * the page auto-updates as audit runs complete.
+ * finding messages, never URLs). Fetched via the same-origin
+ * /api/audits/public-summary proxy (which reads the summary from the
+ * self-hosted backend over loopback), so this public page has no
+ * browser-side Convex dependency and can't be taken down by a Convex
+ * outage — it degrades to an "unavailable" notice instead.
  *
  * SLA commitments are declared in SLA_TARGETS below; actuals are
  * computed from the 30/90-day audit history.
  */
-import { useQuery } from "convex/react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowUpRight,
@@ -23,7 +26,6 @@ import {
   Mail,
   ShieldCheck,
 } from "lucide-react";
-import { api } from "../../convex/_generated/api";
 import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -136,8 +138,36 @@ const ECO_BG: Record<EcosystemStatus, string> = {
 };
 
 export default function Status() {
-  const data = useQuery(api.audits.public.summary, {}) as Summary | undefined;
-  const loading = data === undefined;
+  const [data, setData] = useState<Summary | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    // Same-origin proxy — reads the summary from the self-hosted backend
+    // server-side. Cache-bust to avoid stale CDN/SW copies.
+    fetch(`/api/audits/public-summary?t=${Date.now()}`, {
+      headers: { Accept: "application/json" },
+    })
+      .then(async (r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return (await r.json()) as { status: Summary | null };
+      })
+      .then((d) => {
+        if (cancelled) return;
+        if (d.status) setData(d.status);
+        else setFailed(true);
+      })
+      .catch(() => {
+        if (!cancelled) setFailed(true);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-paper overflow-x-hidden">
@@ -193,7 +223,7 @@ export default function Status() {
 
               {loading ? (
                 <LoadingState />
-              ) : (
+              ) : data ? (
                 <>
                   <EcosystemBanner data={data} />
                   <SLASection surfaces={data.surfaces} />
@@ -205,10 +235,12 @@ export default function Status() {
                   <p className="text-xs text-ink-faint mt-12 font-mono uppercase tracking-widest">
                     Sist oppdatert{" "}
                     {new Date(data.generatedAt).toLocaleString("nb-NO")} ·
-                    skanninger kjøres automatisk · denne siden oppdateres i
-                    sanntid via Convex
+                    skanninger kjøres automatisk · siden viser siste
+                    tilgjengelige skanning
                   </p>
                 </>
+              ) : (
+                <UnavailableState />
               )}
             </div>
           </article>
@@ -225,6 +257,20 @@ function LoadingState() {
     <div className="border border-rule rounded-sm p-12">
       <p className="font-mono text-xs uppercase tracking-widest text-ink-faint">
         Henter live data…
+      </p>
+    </div>
+  );
+}
+
+function UnavailableState() {
+  return (
+    <div className="border-l-2 border-amber-700 bg-paper-deep/60 px-5 py-4">
+      <p className="editorial-mono-caption text-amber-700 mb-1">
+        LIVE DATA MIDLERTIDIG UTILGJENGELIG
+      </p>
+      <p className="text-base text-ink">
+        Statusmålingene lastes ikke akkurat nå. Skanningene kjører videre i
+        bakgrunnen — prøv å laste siden på nytt om litt.
       </p>
     </div>
   );

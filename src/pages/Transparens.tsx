@@ -16,8 +16,6 @@ import {
   Mail,
   ShieldCheck,
 } from "lucide-react";
-import { useQuery } from "convex/react";
-import { api } from "../../convex/_generated/api";
 import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -58,6 +56,15 @@ interface PublicSummary {
     avgScore: number;
   } | null;
   posture?: PostureFramework[] | null;
+  // Full status-page summary, fetched server-side by the proxy. We only
+  // read the measured 30-day uptime for the marketing surface from it.
+  status?: {
+    surfaces?: Array<{
+      type: string | null;
+      environment: string | null;
+      uptime30d: number | null;
+    }>;
+  } | null;
 }
 
 const POSTURE_LABEL: Record<string, string> = {
@@ -126,15 +133,13 @@ export default function Transparens() {
   const productionSurfaces =
     data?.surfaces.filter((s) => s.environment === "production") ?? [];
 
-  // Real MEASURED uptime from the same public Convex summary the status page
-  // uses (uptime30d), so the availability number is the actual one, not the
-  // SSL/response-time audit score. digilist.no (marketing) is what this page
-  // represents. SLA target for the marketing surface is 99.9 %.
-  const auditSummary = useQuery(api.audits.public.summary, {}) as
-    | { surfaces: { type: string | null; environment: string | null; uptime30d: number | null }[] }
-    | undefined;
+  // Real MEASURED uptime (uptime30d) comes from the status summary the
+  // proxy fetches server-side — same number the status page uses, so the
+  // availability figure is the actual one, not the SSL/response-time audit
+  // score. digilist.no (marketing) is what this page represents. SLA target
+  // for the marketing surface is 99.9 %.
   const measuredUptime =
-    auditSummary?.surfaces?.find(
+    data?.status?.surfaces?.find(
       (s) => s.type === "marketing" && s.environment === "production",
     )?.uptime30d ?? null;
   const SLA_UPTIME = 99.9;

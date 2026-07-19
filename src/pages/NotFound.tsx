@@ -26,7 +26,7 @@ const NotFound = () => {
       <SEO
         title="404 · Siden ble ikke funnet | Digilist"
         description="Vi fant ikke siden du leter etter. Gå til forsiden, blogg eller FAQ for å fortsette."
-        canonical="https://digilist.no/404"
+        robots="noindex, follow"
       />
       <ProgressRail />
       <Navbar />
