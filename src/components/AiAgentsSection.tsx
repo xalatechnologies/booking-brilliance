@@ -99,15 +99,17 @@ const AiAgentsSection = () => {
             const Icon = a.icon;
             return (
               <motion.div key={a.title} variants={staggerChild} className="bg-paper p-7 flex flex-col">
-                <span className="w-10 h-10 inline-flex items-center justify-center bg-navy/5 border border-navy/15 rounded-sm text-navy mb-5">
-                  <Icon className="h-5 w-5" strokeWidth={1.5} />
-                </span>
-                <h3
-                  className="font-serif text-xl lg:text-2xl text-ink mb-3"
-                  style={{ fontVariationSettings: getFraunces("sub"), lineHeight: 1.15 }}
-                >
-                  {a.title}
-                </h3>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="w-10 h-10 shrink-0 inline-flex items-center justify-center bg-navy/5 border border-navy/15 rounded-sm text-navy">
+                    <Icon className="h-5 w-5" strokeWidth={1.5} />
+                  </span>
+                  <h3
+                    className="font-serif text-xl lg:text-2xl text-ink"
+                    style={{ fontVariationSettings: getFraunces("sub"), lineHeight: 1.15 }}
+                  >
+                    {a.title}
+                  </h3>
+                </div>
                 <p className="text-base text-ink-soft leading-relaxed">{a.description}</p>
               </motion.div>
             );
