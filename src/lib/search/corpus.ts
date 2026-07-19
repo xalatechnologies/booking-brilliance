@@ -1,4 +1,4 @@
-import { getAllPosts } from "@/lib/posts";
+import { getAllPostsMeta } from "@/lib/postsMeta";
 import { allFAQEntries } from "@/content/faq";
 
 export type SearchKind = "section" | "route" | "blog" | "faq" | "action";
@@ -47,7 +47,7 @@ let cached: SearchItem[] | null = null;
 export function getSearchCorpus(): SearchItem[] {
   if (cached) return cached;
 
-  const blogItems: SearchItem[] = getAllPosts().map((p) => ({
+  const blogItems: SearchItem[] = getAllPostsMeta().map((p) => ({
     id: `b-${p.slug}`,
     kind: "blog",
     title: p.title,

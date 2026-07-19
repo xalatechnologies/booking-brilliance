@@ -7,15 +7,25 @@ import {
   EditorialHeading,
   EditorialButton,
 } from "@/components/editorial";
-import { getAllPosts, formatPostDate } from "@/lib/posts";
+import { getAllPostsMeta, formatPostDate } from "@/lib/postsMeta";
 import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
 import { getFraunces } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 
 const FALLBACK_COVER = "/images/blog/_placeholder.svg";
 
+// These 640×640 cards only ever show a cropped ~320-600px CSS box, so serve
+// the pre-generated small variant (public/images/blog/preview/) instead of
+// the full-size hero image the blog detail page uses — cuts ~70% off each
+// card's transfer size. SVG covers are already tiny; leave them as-is.
+function previewCover(cover: string | undefined): string | undefined {
+  if (!cover || !cover.endsWith(".webp")) return cover;
+  const slash = cover.lastIndexOf("/");
+  return `${cover.slice(0, slash)}/preview${cover.slice(slash)}`;
+}
+
 const BlogPreviewSection = () => {
-  const posts = getAllPosts().slice(0, 6);
+  const posts = getAllPostsMeta().slice(0, 6);
   const scrollerRef = useRef<HTMLDivElement | null>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -148,7 +158,7 @@ const BlogPreviewSection = () => {
                 >
                   <div className="relative aspect-[16/10] overflow-hidden bg-navy">
                     <img
-                      src={post.cover || FALLBACK_COVER}
+                      src={previewCover(post.cover) || FALLBACK_COVER}
                       alt={post.title}
                       loading="lazy"
                       decoding="async"

@@ -7,37 +7,39 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { AnimatePresence, MotionConfig } from "framer-motion";
 
-// Eagerly bundled — small marketing pages prerendered by SSR. Suspense
-// fallbacks would show blank HTML to crawlers if we lazy-loaded these.
+// Eagerly bundled — this is the only route whose JS ships on first paint.
+// Every other route below is lazy: the SSR prerender loop in
+// entry-server.tsx already retries renderToString until React's lazy
+// Suspense boundaries resolve, so crawlers still get full static HTML for
+// every route — only the *client* bundle benefits from the split.
 import Index from "./pages/Index";
-import BookDemo from "./pages/BookDemo";
-import BookingsystemKommune from "./pages/BookingsystemKommune";
-import BookingLokalerMoterom from "./pages/BookingLokalerMoterom";
-import Blog from "./pages/Blog";
-import FAQ from "./pages/FAQ";
-import AiAgenter from "./pages/AiAgenter";
-import AgentSesongtildeling from "./pages/agents/Sesongtildeling";
-import AgentComplianceGodkjenning from "./pages/agents/ComplianceGodkjenning";
-import AgentImporterOppforing from "./pages/agents/ImporterOppforing";
-import Salgsvilkar from "./pages/Salgsvilkar";
-import Personvern from "./pages/Personvern";
-import Cookies from "./pages/Cookies";
-import NotFound from "./pages/NotFound";
-import Transparens from "./pages/Transparens";
-import UseCaseSelskapslokaler from "./pages/UseCaseSelskapslokaler";
-import UseCaseMoterom from "./pages/UseCaseMoterom";
-import UseCaseIdrettshaller from "./pages/UseCaseIdrettshaller";
-import UseCaseKulturhus from "./pages/UseCaseKulturhus";
 
-// Lazy-loaded — heavyweight code paths that real visitors never hit on
-// the homepage. Cuts the initial JS bundle from ~1.28MB to ~300KB on the
-// marketing routes.
+// Lazy-loaded — real visitors on "/" never fetch this code. Splitting these
+// out of the entry chunk is what keeps the homepage's initial JS small.
 //   - Blog detail page + preview: react-markdown + remark-gfm
 //   - Status page: Convex client + Recharts-adjacent code paths
 //   - All /admin/intelligence/* routes: dashboard, Vekst, charts, etc.
 // Scoped Convex provider — lazy so `convex/react` stays out of the marketing
 // entry bundle; wraps only the routes below that call Convex.
 const ConvexScope = lazy(() => import("./components/ConvexScope"));
+const BookDemo = lazy(() => import("./pages/BookDemo"));
+const BookingsystemKommune = lazy(() => import("./pages/BookingsystemKommune"));
+const BookingLokalerMoterom = lazy(() => import("./pages/BookingLokalerMoterom"));
+const Blog = lazy(() => import("./pages/Blog"));
+const FAQ = lazy(() => import("./pages/FAQ"));
+const AiAgenter = lazy(() => import("./pages/AiAgenter"));
+const AgentSesongtildeling = lazy(() => import("./pages/agents/Sesongtildeling"));
+const AgentComplianceGodkjenning = lazy(() => import("./pages/agents/ComplianceGodkjenning"));
+const AgentImporterOppforing = lazy(() => import("./pages/agents/ImporterOppforing"));
+const Salgsvilkar = lazy(() => import("./pages/Salgsvilkar"));
+const Personvern = lazy(() => import("./pages/Personvern"));
+const Cookies = lazy(() => import("./pages/Cookies"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Transparens = lazy(() => import("./pages/Transparens"));
+const UseCaseSelskapslokaler = lazy(() => import("./pages/UseCaseSelskapslokaler"));
+const UseCaseMoterom = lazy(() => import("./pages/UseCaseMoterom"));
+const UseCaseIdrettshaller = lazy(() => import("./pages/UseCaseIdrettshaller"));
+const UseCaseKulturhus = lazy(() => import("./pages/UseCaseKulturhus"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const BlogPreview = lazy(() => import("./pages/BlogPreview"));
 const Status = lazy(() => import("./pages/Status"));

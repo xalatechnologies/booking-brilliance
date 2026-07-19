@@ -206,7 +206,7 @@ function DashboardCalendarPeek() {
       <header className="flex items-center justify-between px-5 py-3 border-b border-rule bg-paper-deep/60">
         <div className="flex items-center gap-2">
           <img
-            src="/logo.svg"
+            src="/logo-64.webp"
             alt=""
             aria-hidden="true"
             className="h-5 w-5 object-contain"
