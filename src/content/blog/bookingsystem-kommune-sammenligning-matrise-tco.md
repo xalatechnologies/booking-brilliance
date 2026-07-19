@@ -1,6 +1,6 @@
 ---
 slug: bookingsystem-kommune-sammenligning-matrise-tco
-title: "Bookingsystem for kommunen: sammenligningsmatrise fremfor prisliste"
+title: "Bookingsystem kommune: sammenligningsmatrise fremfor prisliste"
 description: "Slik sammenligner IT-lederen bookingsystemer på funksjon, sikkerhet og totalkostnad over fem år, og avdekker skjulte kostnader og kontraktsfeller før signering."
 date: 2026-07-11
 author: "Ibrahim Rahmani"

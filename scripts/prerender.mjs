@@ -111,8 +111,11 @@ async function renderBody(route) {
     // (e.g. BlogPost) resolve to real content instead of the Suspense shell.
     return await render(route);
   } catch (err) {
-    console.warn(`  [ssr] render(${route}) failed:`, err?.message ?? err);
-    return null;
+    // render() only throws when a Suspense boundary never resolved (XAL-310):
+    // swallowing this would ship a no-<h1> page with a green build, exactly
+    // the bug this guard exists to catch. Let it fail the build instead.
+    console.error(`  [ssr] render(${route}) failed:`, err?.message ?? err);
+    throw err;
   }
 }
 
