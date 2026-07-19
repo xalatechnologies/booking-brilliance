@@ -15,6 +15,15 @@
  * Performance: web-vitals' callbacks fire on the relevant lifecycle
  * events (LCP on paint, CLS/INP on hidden, FCP/TTFB on load). All
  * deferred — none block first paint.
+ *
+ * Synthetic traffic (Playwright, Lighthouse-CI, uptime bots — anything
+ * driven via WebDriver) is excluded: `navigator.webdriver` is the
+ * standard signal for it. Two reasons: it keeps the RUM dataset
+ * representative of real visitors, and it avoids a beacon race that
+ * automated journeys are especially prone to — the beacon fires from
+ * fetch/sendBeacon fire-and-forget, so a test that navigates the instant
+ * it's done with a page can outrun the in-flight request and see it
+ * reported as a failed network call even though nothing is broken.
  */
 import { useEffect } from "react";
 
@@ -43,6 +52,7 @@ function deviceBucket(): "mobile" | "desktop" {
 export default function RumReporter() {
   useEffect(() => {
     if (typeof window === "undefined") return;
+    if (navigator.webdriver) return;
     if (SKIP_PATH_PREFIXES.some((p) => window.location.pathname.startsWith(p))) {
       return;
     }
@@ -54,45 +64,39 @@ export default function RumReporter() {
     if (!convexUrl) return;
 
     let cancelled = false;
-    // Lazy-load the Convex api reference only when we actually have a
+    // Lazy-load the Convex HTTP client + api only when we actually have a
     // metric to report (after load). This keeps `convex` out of the critical
     // marketing bundle — RUM is fire-and-forget and never blocks paint.
-    //
-    // CLS/INP finalize on page hide, i.e. right as the visitor navigates
-    // away — a plain `fetch()` in flight at that moment gets aborted by the
-    // browser tearing down the document, which Playwright (and real users'
-    // ad-blockers/devtools) sees as a failed network request. `keepalive`
-    // tells the browser to complete the request independently of the
-    // document's lifetime, same guarantee `navigator.sendBeacon` gives, but
-    // keeps a plain JSON POST matching Convex's HTTP mutation API.
-    let pathPromise: Promise<string> | null = null;
-    const getIngestPath = () => {
-      if (!pathPromise) {
-        pathPromise = Promise.all([
-          import("convex/server"),
+    let clientPromise: Promise<{
+      client: { mutation: (ref: unknown, args: unknown) => Promise<unknown> };
+      ingestRef: unknown;
+    }> | null = null;
+    const getClient = () => {
+      if (!clientPromise) {
+        clientPromise = Promise.all([
+          import("convex/browser"),
           import("../../convex/_generated/api"),
-        ]).then(([{ getFunctionName }, { api }]) =>
-          getFunctionName(api.audits.rum.ingest),
-        );
+        ]).then(([{ ConvexHttpClient }, { api }]) => ({
+          client: new ConvexHttpClient(convexUrl),
+          ingestRef: api.audits.rum.ingest,
+        }));
       }
-      return pathPromise;
+      return clientPromise;
     };
     const send = (metric: string, value: number, rating: string, nav_type?: string) => {
       if (cancelled) return;
       // Fire-and-forget. Errors are silenced — RUM is best-effort.
-      void getIngestPath()
-        .then((path) =>
-          fetch(`${convexUrl}/api/mutation`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            keepalive: true,
-            body: JSON.stringify({
-              path,
-              format: "convex_encoded_json",
-              args: [
-                { origin, pathname, metric, value, rating, nav_type, device, visitor_id },
-              ],
-            }),
+      void getClient()
+        .then(({ client, ingestRef }) =>
+          client.mutation(ingestRef, {
+            origin,
+            pathname,
+            metric,
+            value,
+            rating,
+            nav_type,
+            device,
+            visitor_id,
           }),
         )
         .catch(() => {
