@@ -17,7 +17,7 @@ import {
   ProgressRail,
   SectionRule,
 } from "@/components/editorial";
-import { ImagePlaceholder } from "@/components/ImagePlaceholder";
+import { CategoryVisual, iconForSlug } from "@/components/CategoryVisual";
 import { VideoPlaceholder } from "@/components/VideoPlaceholder";
 import { getFraunces } from "@/lib/fonts";
 
@@ -198,25 +198,26 @@ export default function UseCasePage({
                 </div>
                 <div className="lg:col-span-5">
                   <div className="grid grid-cols-2 gap-3 lg:gap-4">
-                    <ImagePlaceholder
-                      label={`FOTO · ${breadcrumb.toUpperCase()}`}
-                      caption={`Bilde av ${breadcrumb.toLowerCase()}`}
+                    <CategoryVisual
+                      icon={iconForSlug(slug)}
+                      label={`DIGILIST · ${breadcrumb.toUpperCase()}`}
                       src={heroImage}
                       alt={heroImageAlt ?? title}
                       aspect="16 / 10"
+                      variant="primary"
                       className="col-span-2"
                     />
-                    <ImagePlaceholder
-                      label="FOTO"
-                      caption="Detalj"
+                    <CategoryVisual
+                      icon={iconForSlug(slug)}
                       src={heroImages?.[0]}
                       aspect="1 / 1"
+                      variant="texture"
                     />
-                    <ImagePlaceholder
-                      label="FOTO"
-                      caption="Detalj"
+                    <CategoryVisual
+                      icon={iconForSlug(slug)}
                       src={heroImages?.[1]}
                       aspect="1 / 1"
+                      variant="texture"
                     />
                   </div>
                 </div>
