@@ -30,10 +30,12 @@ import Overnatting from "./pages/Overnatting";
 import OvernattingHytte from "./pages/OvernattingHytte";
 import OvernattingLeilighet from "./pages/OvernattingLeilighet";
 import OvernattingRom from "./pages/OvernattingRom";
+import OvernattingFeriehus from "./pages/OvernattingFeriehus";
 import Utstyr from "./pages/Utstyr";
 import UtstyrFestutstyr from "./pages/UtstyrFestutstyr";
 import UtstyrVerktoyMaskiner from "./pages/UtstyrVerktoyMaskiner";
 import UtstyrLydOgLys from "./pages/UtstyrLydOgLys";
+import UtstyrSportOgFriluft from "./pages/UtstyrSportOgFriluft";
 import Tjenester from "./pages/Tjenester";
 import TjenesteCatering from "./pages/TjenesteCatering";
 import TjenesteDj from "./pages/TjenesteDj";
@@ -300,10 +302,12 @@ export function AppShell() {
             <Route path="/overnatting/hytte" element={<OvernattingHytte />} />
             <Route path="/overnatting/leilighet" element={<OvernattingLeilighet />} />
             <Route path="/overnatting/rom" element={<OvernattingRom />} />
+            <Route path="/overnatting/feriehus" element={<OvernattingFeriehus />} />
             <Route path="/utstyr" element={<Utstyr />} />
             <Route path="/utstyr/festutstyr" element={<UtstyrFestutstyr />} />
             <Route path="/utstyr/verktoy-maskiner" element={<UtstyrVerktoyMaskiner />} />
             <Route path="/utstyr/lyd-og-lys" element={<UtstyrLydOgLys />} />
+            <Route path="/utstyr/sport-og-friluft" element={<UtstyrSportOgFriluft />} />
             <Route path="/tjenester" element={<Tjenester />} />
             <Route path="/tjenester/catering" element={<TjenesteCatering />} />
             <Route path="/tjenester/dj" element={<TjenesteDj />} />

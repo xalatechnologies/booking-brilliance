@@ -24,6 +24,8 @@ import {
   Drama,
   Tent,
   Medal,
+  Home,
+  Bike,
   type LucideIcon,
 } from "lucide-react";
 
@@ -53,10 +55,12 @@ const ICONS: Record<string, LucideIcon> = {
   hytte: TreePine,
   leilighet: Building2,
   rom: BedDouble,
+  feriehus: Home,
   // utstyr
   festutstyr: PartyPopper,
   "verktoy-maskiner": Wrench,
   "lyd-og-lys": Speaker,
+  "sport-og-friluft": Bike,
   // tjenester
   catering: UtensilsCrossed,
   dj: Disc3,
@@ -95,9 +99,11 @@ const IMAGES: Record<string, string> = {
   hytte: `${CAT}/hytte.jpg`,
   leilighet: `${CAT}/leilighet.jpg`,
   rom: `${CAT}/rom.jpg`,
+  feriehus: `${CAT}/feriehus.jpg`,
   festutstyr: `${CAT}/festutstyr.jpg`,
   "verktoy-maskiner": `${CAT}/verktoy-maskiner.jpg`,
   "lyd-og-lys": `${CAT}/lyd-og-lys.jpg`,
+  "sport-og-friluft": `${CAT}/sport-og-friluft.jpg`,
   catering: `${CAT}/catering.jpg`,
   dj: `${CAT}/dj.jpg`,
   musiker: `${CAT}/musiker.jpg`,
@@ -141,7 +147,7 @@ export function CategoryVisual({
   if (src) {
     return (
       <div
-        className={`relative w-full overflow-hidden rounded-sm border border-rule bg-paper-deep ${className}`}
+        className={`relative w-full overflow-hidden rounded-lg border border-rule/70 bg-paper-deep shadow-sm ${className}`}
         style={{ aspectRatio: aspect }}
       >
         <img
@@ -150,6 +156,10 @@ export function CategoryVisual({
           className="h-full w-full object-cover"
           loading={eager ? "eager" : "lazy"}
           decoding="async"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/15 via-ink/0 to-ink/0"
         />
       </div>
     );

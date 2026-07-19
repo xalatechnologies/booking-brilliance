@@ -1,4 +1,4 @@
-import { TreePine, Building2, BedDouble, Search, CalendarCheck, Wallet } from "lucide-react";
+import { TreePine, Building2, BedDouble, Home, Search, CalendarCheck, Wallet } from "lucide-react";
 import MarketplaceHub, {
   type HubGroup,
   type HubStep,
@@ -11,7 +11,7 @@ const APP = "https://app.digilist.no";
 const GROUPS: HubGroup[] = [
   {
     label: "STED Å BO",
-    meta: "HYTTE · LEILIGHET · ROM",
+    meta: "HYTTE · LEILIGHET · ROM · FERIEHUS",
     items: [
       {
         title: "Hytte",
@@ -30,6 +30,12 @@ const GROUPS: HubGroup[] = [
         Icon: BedDouble,
         to: "/overnatting/rom",
         body: "Rimelig overnatting i gjesterom eller privat rom, med pris per natt og hva som er inkludert synlig før du booker.",
+      },
+      {
+        title: "Feriehus",
+        Icon: Home,
+        to: "/overnatting/feriehus",
+        body: "Familieferie eller gjenforening. Store hus med flere soverom og hage, ofte ved sjøen eller fjellet, med totalpris synlig.",
       },
     ],
   },
@@ -107,7 +113,7 @@ export default function Overnatting() {
       videoLabel="Reklamefilm · Overnatting"
       videoCaption="Kort film om hvordan du finner og booker overnatting"
       categoryCaption="HVA LETER DU ETTER?"
-      categoryMeta="HYTTE · LEILIGHET · ROM"
+      categoryMeta="HYTTE · LEILIGHET · ROM · FERIEHUS"
       groups={GROUPS}
       stepsMeta="FINN · BOOK · BETAL MED VIPPS"
       steps={STEPS}

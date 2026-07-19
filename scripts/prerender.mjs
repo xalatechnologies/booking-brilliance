@@ -592,6 +592,29 @@ const ROUTES = [
     ],
   },
   {
+    route: "/overnatting/feriehus",
+    title: "Leie feriehus: ledige netter, totalpris og booking | Digilist",
+    description:
+      "Leie feriehus til familieferie, gjenforening eller storfamilie: se ledige netter og totalpris uten skjulte gebyrer, og book trygt med Vipps. Feriehus i hele Norge.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Overnatting", url: `${BASE_URL}/overnatting` },
+      { name: "Feriehus", url: `${BASE_URL}/overnatting/feriehus` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie feriehus?",
+        a: "Prisen varierer med sted, størrelse, standard og sesong. Et mindre feriehus kan koste noen tusenlapper for en helg, mens store hus ved sjøen med mange soverom ligger høyere. På Digilist ser du totalprisen for dine netter, inkludert vask og gebyrer, før du booker.",
+      },
+      {
+        q: "Hvor mange er det plass til i et feriehus?",
+        a: "Feriehus har typisk flere soverom og sengeplasser enn en hytte eller leilighet, ofte plass til åtte, tolv eller flere. Antall soverom, bad og sengeplasser står tydelig på hvert hus, og du kan filtrere på antall gjester når du søker.",
+      },
+    ],
+  },
+  {
     route: "/utstyr",
     title: "Leie utstyr: festutstyr, verktøy, maskiner, lyd og lys | Digilist",
     description:
@@ -679,6 +702,29 @@ const ROUTES = [
       {
         q: "Kan jeg få med tekniker som rigger og styrer lyden?",
         a: "Ja, der utleier tilbyr det, legger du til tekniker som tilvalg i samme booking. Teknikeren rigger, lydsjekker og styrer anlegget under arrangementet.",
+      },
+    ],
+  },
+  {
+    route: "/utstyr/sport-og-friluft",
+    title: "Leie sportsutstyr: sykkel, ski og kajakk nær deg | Digilist",
+    description:
+      "Leie sportsutstyr og friluftsutstyr nær deg: leie sykkel, ski, kajakk, SUP og telt per dag eller helg. Se pris og depositum, og book med Vipps.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Utstyr", url: `${BASE_URL}/utstyr` },
+      { name: "Sport og friluft", url: `${BASE_URL}/utstyr/sport-og-friluft` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie sykkel, ski eller kajakk?",
+        a: "En vanlig sykkel eller et par langrennsski leies gjerne for noen hundrelapper per dag, mens elsykkel, alpinutstyr og havkajakk ofte koster noe mer. På Digilist ser du dagspris og eventuelt depositum for din leieperiode før du booker.",
+      },
+      {
+        q: "Kan jeg få utstyret levert, eller må jeg hente selv?",
+        a: "Det varierer per utleier, og begge deler finnes. Hvert utstyr viser om levering tilbys og hva det koster, eller om du henter selv. Kajakker leies ofte ut rett ved vannet, mens sykler og ski som regel hentes hos utleier.",
       },
     ],
   },
@@ -1774,10 +1820,12 @@ async function main() {
     { loc: `${BASE_URL}/overnatting/hytte`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/overnatting/leilighet`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/overnatting/rom`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/overnatting/feriehus`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/utstyr`, priority: "0.9", changefreq: "weekly" },
     { loc: `${BASE_URL}/utstyr/festutstyr`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/utstyr/verktoy-maskiner`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/utstyr/lyd-og-lys`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/utstyr/sport-og-friluft`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/tjenester`, priority: "0.9", changefreq: "weekly" },
     { loc: `${BASE_URL}/tjenester/catering`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/tjenester/dj`, priority: "0.8", changefreq: "monthly" },

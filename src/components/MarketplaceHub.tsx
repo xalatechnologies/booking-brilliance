@@ -202,10 +202,10 @@ export default function MarketplaceHub({
                             <Link
                               key={c.title}
                               to={c.to}
-                              className="group bg-paper border border-rule rounded-sm overflow-hidden flex flex-col transition-colors duration-quick ease-editorial hover:border-accent-text/40"
+                              className="group bg-paper border border-rule rounded-lg overflow-hidden flex flex-col shadow-sm transition-all duration-300 ease-editorial hover:-translate-y-1 hover:shadow-xl hover:border-accent-text/40"
                             >
                               <div
-                                className="relative w-full overflow-hidden border-b border-rule bg-paper-deep"
+                                className="relative w-full overflow-hidden bg-paper-deep"
                                 style={{ aspectRatio: "16 / 9" }}
                               >
                                 {photo ? (
@@ -213,7 +213,7 @@ export default function MarketplaceHub({
                                     src={photo}
                                     alt=""
                                     aria-hidden="true"
-                                    className="h-full w-full object-cover transition-transform duration-500 ease-editorial group-hover:scale-[1.04]"
+                                    className="h-full w-full object-cover transition-transform duration-500 ease-editorial group-hover:scale-[1.06]"
                                     loading="lazy"
                                     decoding="async"
                                   />
@@ -225,12 +225,16 @@ export default function MarketplaceHub({
                                     className="!border-0 !rounded-none"
                                   />
                                 )}
+                                <div
+                                  aria-hidden="true"
+                                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ink/35 via-ink/0 to-ink/0"
+                                />
+                                <span className="absolute left-4 bottom-3 inline-flex items-center justify-center w-11 h-11 rounded-full bg-paper/90 backdrop-blur-sm border border-hairline-strong text-navy shadow-sm transition-transform duration-quick ease-editorial group-hover:-translate-y-0.5">
+                                  <Icon className="h-5 w-5" aria-hidden="true" />
+                                </span>
                               </div>
                               <div className="p-6 lg:p-7 flex flex-col flex-1">
                                 <header className="flex items-center gap-3 mb-2">
-                                  <span className="flex-shrink-0 inline-flex items-center justify-center w-10 h-10 bg-navy/5 border border-navy/15 rounded-sm text-navy group-hover:bg-navy group-hover:text-on-navy transition-colors duration-quick ease-editorial">
-                                    <Icon className="h-5 w-5" aria-hidden="true" />
-                                  </span>
                                   <h4
                                     className="font-serif text-2xl text-ink leading-tight flex-1"
                                     style={{

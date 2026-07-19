@@ -1,4 +1,4 @@
-import { PartyPopper, Wrench, Speaker, Search, CalendarCheck, PackageCheck } from "lucide-react";
+import { PartyPopper, Wrench, Speaker, Bike, Search, CalendarCheck, PackageCheck } from "lucide-react";
 import MarketplaceHub, {
   type HubGroup,
   type HubStep,
@@ -30,6 +30,12 @@ const GROUPS: HubGroup[] = [
         Icon: Speaker,
         to: "/utstyr/lyd-og-lys",
         body: "Lydanlegg, mikrofon, scenelys og projektor til fest, konsert eller konferanse. Spesifikasjoner, pris og tekniker som tilvalg.",
+      },
+      {
+        title: "Sport og friluft",
+        Icon: Bike,
+        to: "/utstyr/sport-og-friluft",
+        body: "Sykkel, ski, kajakk og turutstyr. Prøv en aktivitet uten å kjøpe dyrt utstyr, med pris, ledig dato og Vipps.",
       },
     ],
   },
@@ -107,7 +113,7 @@ export default function Utstyr() {
       videoLabel="Reklamefilm · Utstyr"
       videoCaption="Kort film om hvordan du finner og leier utstyr"
       categoryCaption="HVA TRENGER DU?"
-      categoryMeta="FEST · VERKTØY · LYD & LYS"
+      categoryMeta="FEST · VERKTØY · LYD · FRILUFT"
       groups={GROUPS}
       stepsMeta="FINN · BOOK · HENT ELLER FÅ LEVERT"
       steps={STEPS}
