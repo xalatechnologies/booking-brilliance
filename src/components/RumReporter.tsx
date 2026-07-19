@@ -54,39 +54,45 @@ export default function RumReporter() {
     if (!convexUrl) return;
 
     let cancelled = false;
-    // Lazy-load the Convex HTTP client + api only when we actually have a
+    // Lazy-load the Convex api reference only when we actually have a
     // metric to report (after load). This keeps `convex` out of the critical
     // marketing bundle — RUM is fire-and-forget and never blocks paint.
-    let clientPromise: Promise<{
-      client: { mutation: (ref: unknown, args: unknown) => Promise<unknown> };
-      ingestRef: unknown;
-    }> | null = null;
-    const getClient = () => {
-      if (!clientPromise) {
-        clientPromise = Promise.all([
-          import("convex/browser"),
+    //
+    // CLS/INP finalize on page hide, i.e. right as the visitor navigates
+    // away — a plain `fetch()` in flight at that moment gets aborted by the
+    // browser tearing down the document, which Playwright (and real users'
+    // ad-blockers/devtools) sees as a failed network request. `keepalive`
+    // tells the browser to complete the request independently of the
+    // document's lifetime, same guarantee `navigator.sendBeacon` gives, but
+    // keeps a plain JSON POST matching Convex's HTTP mutation API.
+    let pathPromise: Promise<string> | null = null;
+    const getIngestPath = () => {
+      if (!pathPromise) {
+        pathPromise = Promise.all([
+          import("convex/server"),
           import("../../convex/_generated/api"),
-        ]).then(([{ ConvexHttpClient }, { api }]) => ({
-          client: new ConvexHttpClient(convexUrl),
-          ingestRef: api.audits.rum.ingest,
-        }));
+        ]).then(([{ getFunctionName }, { api }]) =>
+          getFunctionName(api.audits.rum.ingest),
+        );
       }
-      return clientPromise;
+      return pathPromise;
     };
     const send = (metric: string, value: number, rating: string, nav_type?: string) => {
       if (cancelled) return;
       // Fire-and-forget. Errors are silenced — RUM is best-effort.
-      void getClient()
-        .then(({ client, ingestRef }) =>
-          client.mutation(ingestRef, {
-            origin,
-            pathname,
-            metric,
-            value,
-            rating,
-            nav_type,
-            device,
-            visitor_id,
+      void getIngestPath()
+        .then((path) =>
+          fetch(`${convexUrl}/api/mutation`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            keepalive: true,
+            body: JSON.stringify({
+              path,
+              format: "convex_encoded_json",
+              args: [
+                { origin, pathname, metric, value, rating, nav_type, device, visitor_id },
+              ],
+            }),
           }),
         )
         .catch(() => {
