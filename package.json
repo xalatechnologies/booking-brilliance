@@ -8,7 +8,7 @@
     "dev": "concurrently -n api,web -c blue,magenta \"pnpm dev:api\" \"pnpm dev:client\"",
     "dev:client": "vite",
     "dev:api": "node --watch server/index.mjs",
-    "build": "vite build && vite build --ssr src/entry-server.tsx --outDir dist-server --ssrManifest false && node scripts/prerender.mjs && node scripts/check-blog-word-count.mjs",
+    "build": "node scripts/generate-blog-preview-images.mjs && vite build && vite build --ssr src/entry-server.tsx --outDir dist-server --ssrManifest false && node scripts/prerender.mjs && node scripts/check-blog-word-count.mjs",
     "build:dev": "vite build --mode development",
     "content:check-word-count": "node scripts/check-blog-word-count.mjs",
     "content:blog-preview-images": "node scripts/generate-blog-preview-images.mjs",
