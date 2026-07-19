@@ -48,6 +48,7 @@ const Footer = () => {
     { label: "Transparens", href: "/transparens" },
     { label: "Booking av lokaler og møterom", href: "/booking-av-lokaler-og-moterom" },
     { label: "Bookingsystem for kommuner", href: "/bookingsystem-kommune" },
+    { label: "Billettsystem", href: "/billettsystem" },
     { label: "Pilot for kommuner", href: "/#pilot" },
   ];
 

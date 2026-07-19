@@ -24,6 +24,11 @@ const ROUTES: Array<{ label: string; to: string; eyebrow?: string }> = [
     to: "/bookingsystem-kommune",
     eyebrow: "SSA-L 2026",
   },
+  {
+    label: "Billettsystem",
+    to: "/billettsystem",
+    eyebrow: "Rabatt · kupong · gavekort",
+  },
   { label: "Book demo", to: "/book-demo", eyebrow: "30–45 min" },
 ];
 

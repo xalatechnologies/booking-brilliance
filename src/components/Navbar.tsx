@@ -28,6 +28,11 @@ const SOLUTIONS = [
     to: "/bookingsystem-kommune",
     eyebrow: "SSA-L 2026",
   },
+  {
+    label: "Billettsystem",
+    to: "/billettsystem",
+    eyebrow: "Rabatt · kupong · gavekort",
+  },
 ] as const;
 
 // The four B2C marketplaces — grouped under a "Finn" dropdown. These are

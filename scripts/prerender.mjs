@@ -797,6 +797,28 @@ const ROUTES = [
     ],
   },
   {
+    route: "/billettsystem",
+    title: "Billettsystem: selg billetter med rabatt, kupong og gavekort | Digilist",
+    description:
+      "Digilist billettsystem: selg billetter til arrangementet med rabattkoder, kuponger og gavekort. Vipps og kort, QR-billett, skanning ved inngang og oppgjør. Sanntid.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Billettsystem", url: `${BASE_URL}/billettsystem` },
+    ],
+    faq: [
+      {
+        q: "Hvordan fungerer rabattkoder og kuponger?",
+        a: "Du lager rabattkoder med fast beløp eller prosent, med gyldighetsperiode og maks antall bruk. Kuponger kan knyttes til bestemte billettyper eller hele arrangementet. Kjøperen legger inn koden i kassen, og rabatten trekkes fra med en gang.",
+      },
+      {
+        q: "Kan jeg selge og løse inn gavekort?",
+        a: "Ja. Gavekort selges digitalt og kan brukes til å betale for billetter og booking. Saldo og gyldighet håndteres i systemet, og gjenstående beløp følger med til neste kjøp.",
+      },
+    ],
+  },
+  {
     route: "/ai-agenter",
     title: "AI-agenter for booking og utleie — GDPR-sikker automatisering | Digilist",
     description:
@@ -1651,6 +1673,7 @@ async function main() {
     { loc: `${BASE_URL}/bruksomrader/moterom`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/bruksomrader/idrettshaller-gymsaler`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/bruksomrader/kulturhus-kantiner`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/billettsystem`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/ai-agenter`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/ai-agenter/sesongtildeling`, priority: "0.7", changefreq: "monthly" },
     { loc: `${BASE_URL}/ai-agenter/compliance-godkjenning`, priority: "0.7", changefreq: "monthly" },
