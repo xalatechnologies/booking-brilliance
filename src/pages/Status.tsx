@@ -15,6 +15,15 @@
  *
  * SLA commitments are declared in SLA_TARGETS below; actuals are
  * computed from the 30/90-day audit history.
+ *
+ * LCP (XAL-319): the largest contentful element on this page is the intro
+ * <p> under the H1 ("Sanntid for Digilist-økosystemet…"), not an image and
+ * not the fetched surfaces/incidents data — both the H1 and this paragraph
+ * are static and render straight from the prerendered HTML + inlined
+ * critical CSS, before any JS runs. There is no image to preload/convert
+ * and no fetchpriority to set here; per the lesson in c26b6bae (dropping the
+ * homepage hero preload), adding one for a non-LCP resource would only
+ * steal slow-4G bandwidth from this element's actual critical path.
  */
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
