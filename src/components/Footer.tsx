@@ -50,7 +50,7 @@ const Footer = () => {
     { label: "Booking av lokaler og møterom", href: "/booking-av-lokaler-og-moterom" },
     { label: "Bookingsystem for kommuner", href: "/bookingsystem-kommune" },
     { label: "Billettsystem", href: "/billettsystem" },
-    { label: "Pilot for kommuner", href: "/#pilot" },
+    { label: "Pilot for kommuner", href: "/bookingsystem-kommune#pilot" },
   ];
 
   const juridisk = [

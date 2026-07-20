@@ -4,19 +4,13 @@ import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import MarketplaceSection from "@/components/MarketplaceSection";
-import ValuePropositionSection from "@/components/ValuePropositionSection";
-import AudienceSection from "@/components/AudienceSection";
-import BrukerhistorierSection from "@/components/BrukerhistorierSection";
-import PilotInvitationSection from "@/components/PilotInvitationSection";
-import BlogPreviewSection from "@/components/BlogPreviewSection";
-import HowItWorksSection from "@/components/HowItWorksSection";
 import AiAgentsSection from "@/components/AiAgentsSection";
-import IntegrationsSection from "@/components/IntegrationsSection";
-import TechnologyStackSection from "@/components/TechnologyStackSection";
-import ArchitectureSection from "@/components/ArchitectureSection";
-import AboutUsSection from "@/components/AboutUsSection";
-import CTASection from "@/components/CTASection";
+import B2BLaneSection from "@/components/B2BLaneSection";
+import HowItWorksSection from "@/components/HowItWorksSection";
+import BrukerhistorierSection from "@/components/BrukerhistorierSection";
+import BlogPreviewSection from "@/components/BlogPreviewSection";
 import HomepageFAQSection from "@/components/HomepageFAQSection";
+import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import { GrainOverlay, ProgressRail } from "@/components/editorial";
 import { SideRails } from "@/components/editorial/SideRails";
@@ -88,17 +82,11 @@ const Index = () => {
       <main id="main">
         <HeroSection />
         <MarketplaceSection />
-        <ValuePropositionSection />
-        <AudienceSection />
-        <BrukerhistorierSection />
-        <PilotInvitationSection />
-        <BlogPreviewSection />
-        <HowItWorksSection />
         <AiAgentsSection />
-        <IntegrationsSection />
-        <TechnologyStackSection />
-        <ArchitectureSection />
-        <AboutUsSection />
+        <B2BLaneSection />
+        <HowItWorksSection />
+        <BrukerhistorierSection />
+        <BlogPreviewSection />
         <HomepageFAQSection />
         <CTASection />
       </main>

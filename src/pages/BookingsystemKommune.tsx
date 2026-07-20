@@ -13,6 +13,7 @@ import {
   IntegrationLogo,
 } from "@/components/editorial";
 import { getFraunces } from "@/lib/fonts";
+import PilotInvitationSection from "@/components/PilotInvitationSection";
 
 const FAQ = [
   {
@@ -274,6 +275,8 @@ const BookingsystemKommune = () => {
             </div>
           </div>
         </section>
+
+        <PilotInvitationSection />
 
         <section className="py-14 lg:py-20 bg-accent-tinted">
           <div className="container mx-auto md:px-8 lg:px-12">

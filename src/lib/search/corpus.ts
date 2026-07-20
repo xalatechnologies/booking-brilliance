@@ -17,13 +17,16 @@ export interface SearchItem {
   keywords?: string[];
 }
 
+// Homepage section anchors — only sections that actually render on `/`. The
+// relocated content (teknologi, arkitektur, integrasjoner, om-oss) now lives on
+// its own routes and is covered by ROUTE_ITEMS below.
 const SECTION_ITEMS: SearchItem[] = [
-  { id: "sec-funksjonalitet", kind: "section", title: "Funksjonalitet", subtitle: "Slik fungerer Digilist: fire steg", href: "#funksjonalitet", isAnchor: true, keywords: ["howitworks", "steg", "flyt"] },
+  { id: "sec-marketplace", kind: "section", title: "Finn og book", subtitle: "Lokaler, overnatting, arrangementer, utstyr, tjenester", href: "#marketplace", isAnchor: true, keywords: ["finn", "book", "leie", "marketplace"] },
+  { id: "sec-agenter", kind: "section", title: "AI-agenter", subtitle: "Innebygd intelligens", href: "#agenter", isAnchor: true, keywords: ["ai", "agenter", "intelligens", "automatisering"] },
+  { id: "sec-for-utleiere", kind: "section", title: "For utleiere og kommuner", subtitle: "Én plattform, fra ett lokale til hele kommunen", href: "#for-utleiere", isAnchor: true, keywords: ["kommune", "utleier", "pilot", "sesongleie", "plattform"] },
+  { id: "sec-funksjonalitet", kind: "section", title: "Slik fungerer det", subtitle: "Fire steg fra forespørsel til oppgjør", href: "#funksjonalitet", isAnchor: true, keywords: ["howitworks", "steg", "flyt"] },
   { id: "sec-brukerhistorier", kind: "section", title: "Brukerhistorier", subtitle: "Kunder som bruker Digilist", href: "#brukerhistorier", isAnchor: true, keywords: ["kunder", "case", "stories"] },
-  { id: "sec-integrasjoner", kind: "section", title: "Integrasjoner", subtitle: "Vipps, BankID, EHF, regnskap", href: "#integrasjoner", isAnchor: true, keywords: ["vipps", "bankid", "ehf", "visma", "stripe"] },
-  { id: "sec-teknologi", kind: "section", title: "Teknologi", subtitle: "Hva vi bygger på, og hvorfor", href: "#teknologi", isAnchor: true, keywords: ["stack", "react", "postgres", "convex"] },
-  { id: "sec-arkitektur", kind: "section", title: "Arkitektur", subtitle: "Systemdiagram", href: "#arkitektur", isAnchor: true, keywords: ["diagram", "system"] },
-  { id: "sec-om-oss", kind: "section", title: "Om oss", subtitle: "Xala Technologies AS", href: "#om-oss", isAnchor: true, keywords: ["xala", "team"] },
+  { id: "sec-faq", kind: "section", title: "Ofte stilte spørsmål", subtitle: "Booking, betaling, sesongleie, samsvar", href: "#faq", isAnchor: true, keywords: ["faq", "spørsmål", "svar"] },
   { id: "sec-kontakt", kind: "section", title: "Kontakt", subtitle: "Book demo / Snakk med oss", href: "#kontakt", isAnchor: true, keywords: ["demo", "kontakt"] },
 ];
 

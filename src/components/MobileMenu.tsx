@@ -30,6 +30,12 @@ const ROUTES: Array<{ label: string; to: string; eyebrow?: string }> = [
     to: "/billettsystem",
     eyebrow: "Rabatt · kupong · gavekort",
   },
+  {
+    label: "Teknologi og sikkerhet",
+    to: "/teknologi",
+    eyebrow: "Plattform · samsvar",
+  },
+  { label: "Om oss", to: "/om-oss", eyebrow: "Xala Technologies" },
   { label: "Book demo", to: "/book-demo", eyebrow: "30–45 min" },
 ];
 
