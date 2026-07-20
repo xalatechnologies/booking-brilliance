@@ -65,7 +65,7 @@ const Footer = () => {
   const linkClass =
     "group inline-flex items-baseline gap-1.5 font-serif text-lg text-ink-soft hover:text-ink transition-colors duration-quick ease-editorial";
   const linkUnderline =
-    "border-b border-rule group-hover:border-ink transition-colors duration-quick ease-editorial pb-0.5";
+    "border-b border-transparent group-hover:border-ink transition-colors duration-quick ease-editorial pb-0.5";
 
   // Footer nav sections are top-level page landmarks — use h2, not h3. On
   // pages whose main content is client-fetched (e.g. /transparens renders a
@@ -81,9 +81,9 @@ const Footer = () => {
 
   return (
     <footer className="bg-paper-deep border-t border-hairline-strong">
-      <div className="container mx-auto md:px-8 lg:px-12 py-16 lg:py-24">
+      <div className="container mx-auto md:px-8 lg:px-12 pt-16 lg:pt-24 pb-8 lg:pb-10">
         {/* Editorial colophon header */}
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-14 lg:mb-20 pb-10 lg:pb-14 border-b border-rule">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-14 lg:mb-20">
           <div className="lg:col-span-7">
             <Link
               to="/"

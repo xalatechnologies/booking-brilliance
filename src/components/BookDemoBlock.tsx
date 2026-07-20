@@ -411,7 +411,7 @@ export function BookDemoBlock({
                 </div>
               )}
 
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-6 border-t border-rule">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-6">
                 <EditorialButton
                   type="submit"
                   variant="primary"

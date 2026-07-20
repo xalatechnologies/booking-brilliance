@@ -34,7 +34,7 @@ export function SectionHeader({
     <>
       <SectionRule label={label} />
       <div
-        className={`grid lg:grid-cols-12 gap-6 lg:gap-gutter items-end ${className}`}
+        className={`grid lg:grid-cols-12 gap-6 lg:gap-gutter items-start ${className}`}
       >
         <div className="lg:col-span-7">
           <EditorialHeading as="h2" size="section" id={headingId}>
