@@ -32,9 +32,7 @@ const Footer = () => {
   const navigasjon = [
     { label: "Funksjonalitet", hash: "#funksjonalitet" },
     { label: "Brukerhistorier", hash: "#brukerhistorier" },
-    { label: "Teknologi", hash: "#teknologi" },
-    { label: "Arkitektur", hash: "#arkitektur" },
-    { label: "Om oss", hash: "#om-oss" },
+    { label: "Spørsmål", hash: "#faq" },
     { label: "Kontakt", hash: "#kontakt" },
   ];
 
@@ -47,6 +45,8 @@ const Footer = () => {
     { label: "Blogg", href: "/blogg" },
     { label: "FAQ", href: "/faq" },
     { label: "Transparens", href: "/transparens" },
+    { label: "Teknologi og sikkerhet", href: "/teknologi" },
+    { label: "Om oss", href: "/om-oss" },
     { label: "Booking av lokaler og møterom", href: "/booking-av-lokaler-og-moterom" },
     { label: "Bookingsystem for kommuner", href: "/bookingsystem-kommune" },
     { label: "Billettsystem", href: "/billettsystem" },

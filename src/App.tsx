@@ -14,6 +14,8 @@ import BookDemo from "./pages/BookDemo";
 import BookingsystemKommune from "./pages/BookingsystemKommune";
 import BookingLokalerMoterom from "./pages/BookingLokalerMoterom";
 import Billettsystem from "./pages/Billettsystem";
+import Teknologi from "./pages/Teknologi";
+import OmOss from "./pages/OmOss";
 import Leie from "./pages/Leie";
 import LeieSelskapslokale from "./pages/LeieSelskapslokale";
 import LeieMoterom from "./pages/LeieMoterom";
@@ -286,6 +288,8 @@ export function AppShell() {
             <Route path="/bookingsystem-kommune" element={<BookingsystemKommune />} />
             <Route path="/booking-av-lokaler-og-moterom" element={<BookingLokalerMoterom />} />
             <Route path="/billettsystem" element={<Billettsystem />} />
+            <Route path="/teknologi" element={<Teknologi />} />
+            <Route path="/om-oss" element={<OmOss />} />
             <Route path="/leie" element={<Leie />} />
             <Route path="/leie/selskapslokale" element={<LeieSelskapslokale />} />
             <Route path="/leie/gaard" element={<LeieGaard />} />

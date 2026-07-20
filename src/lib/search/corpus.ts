@@ -33,6 +33,8 @@ const ROUTE_ITEMS: SearchItem[] = [
   { id: "r-book-demo", kind: "route", title: "Book demo", subtitle: "30–45 min, gratis", href: "/book-demo" },
   { id: "r-booking-lokaler", kind: "route", title: "Booking av lokaler og møterom", subtitle: "Landingsside", href: "/booking-av-lokaler-og-moterom" },
   { id: "r-bookingsystem-kommune", kind: "route", title: "Bookingsystem for kommuner", subtitle: "SSA-L 2026", href: "/bookingsystem-kommune" },
+  { id: "r-teknologi", kind: "route", title: "Teknologi og sikkerhet", subtitle: "Stack, arkitektur, integrasjoner, samsvar", href: "/teknologi", keywords: ["teknologi", "arkitektur", "convex", "postgresql", "iso 27001", "gdpr", "wcag", "sikkerhet", "datalagring", "integrasjoner"] },
+  { id: "r-om-oss", kind: "route", title: "Om Digilist", subtitle: "Xala Technologies AS", href: "/om-oss", keywords: ["om oss", "xala", "selskap", "leverandør", "kolofon"] },
   { id: "r-personvern", kind: "route", title: "Personvern", subtitle: "GDPR + ISO 27001/27701", href: "/personvern" },
   { id: "r-salgsvilkar", kind: "route", title: "Salgsvilkår", subtitle: "Avtalevilkår", href: "/salgsvilkar" },
   { id: "r-cookies", kind: "route", title: "Cookies", subtitle: "Cookie-policy", href: "/cookies" },
