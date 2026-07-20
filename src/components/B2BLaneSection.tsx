@@ -1,10 +1,7 @@
 import { LayoutGrid, Users2, Gauge, Scaling, ArrowUpRight, type LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
-import {
-  SectionRule,
-  EditorialHeading,
-  EditorialButton,
-} from "@/components/editorial";
+import { EditorialButton } from "@/components/editorial";
+import { SectionHeader } from "@/components/SectionHeader";
 import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
 import { getFraunces } from "@/lib/fonts";
 
@@ -58,29 +55,20 @@ const B2BLaneSection = () => {
       className="py-10 lg:py-14 bg-paper"
     >
       <div className="container mx-auto md:px-8 lg:px-12">
-        <SectionRule label="FOR UTLEIERE OG KOMMUNER" />
-
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-10 lg:mb-14 items-end">
-          <div className="lg:col-span-7">
-            <EditorialHeading as="h2" size="section" id="for-utleiere-heading">
-              Fra ett lokale til{" "}
-              <em
-                className="italic"
-                style={{ fontVariationSettings: getFraunces("display") }}
-              >
-                hele kommunen
-              </em>
-              .
-            </EditorialHeading>
-          </div>
-          <div className="lg:col-span-5 flex items-end">
-            <p className="text-lg text-ink-soft leading-relaxed">
-              Digilist drifter privat utleie og kommunal booking i samme
-              løsning: privatbookinger, sesongleie til lag og foreninger,
-              sambruk mellom avdelinger og innbyggerdialog med ID-porten.
-            </p>
-          </div>
-        </div>
+        <SectionHeader
+          label="FOR UTLEIERE OG KOMMUNER"
+          headingId="for-utleiere-heading"
+          intro="Digilist drifter privat utleie og kommunal booking i samme løsning: privatbookinger, sesongleie til lag og foreninger, sambruk mellom avdelinger og innbyggerdialog med ID-porten."
+        >
+          Fra ett lokale til{" "}
+          <em
+            className="italic"
+            style={{ fontVariationSettings: getFraunces("display") }}
+          >
+            hele kommunen
+          </em>
+          .
+        </SectionHeader>
 
         {/* Four principles */}
         <motion.div

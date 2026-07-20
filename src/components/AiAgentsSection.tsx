@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ShieldCheck, MessagesSquare, CalendarClock, Sunrise, Compass, Wand2 } from "lucide-react";
-import { SectionRule, EditorialHeading, EditorialButton } from "@/components/editorial";
+import { EditorialButton } from "@/components/editorial";
+import { SectionHeader } from "@/components/SectionHeader";
 import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
 import { getFraunces } from "@/lib/fonts";
 
@@ -54,31 +55,19 @@ const AiAgentsSection = () => {
   return (
     <section id="agenter" className="py-10 lg:py-14 bg-paper-tinted border-y border-rule">
       <div className="container mx-auto md:px-8 lg:px-12">
-        <SectionRule label="INNEBYGD INTELLIGENS" />
-
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-8 lg:mb-10">
-          <div className="lg:col-span-7">
-            <EditorialHeading as="h2" size="section">
-              Agenter og{" "}
-              <em
-                className="italic"
-                style={{ fontVariationSettings: getFraunces("display") }}
-              >
-                automatisering
-              </em>
-              .
-            </EditorialHeading>
-          </div>
-          <div className="lg:col-span-5 flex items-end">
-            <p
-              className="text-xl text-ink-soft italic"
-              style={{ fontVariationSettings: getFraunces("sub") }}
-            >
-              Under overflaten jobber en flåte av AI-agenter som godkjenner,
-              svarer, forklarer og varsler, så administrasjonen slipper.
-            </p>
-          </div>
-        </div>
+        <SectionHeader
+          label="INNEBYGD INTELLIGENS"
+          intro="Under overflaten jobber en flåte av AI-agenter som godkjenner, svarer, forklarer og varsler, så administrasjonen slipper."
+        >
+          Agenter og{" "}
+          <em
+            className="italic"
+            style={{ fontVariationSettings: getFraunces("display") }}
+          >
+            automatisering
+          </em>
+          .
+        </SectionHeader>
 
         {/* Framework trust row — what every listing is checked against */}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-10 lg:mb-14 pb-8 border-b border-rule">

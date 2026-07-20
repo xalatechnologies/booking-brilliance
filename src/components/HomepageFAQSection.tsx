@@ -1,8 +1,5 @@
-import {
-  SectionRule,
-  EditorialHeading,
-  EditorialButton,
-} from "@/components/editorial";
+import { EditorialButton } from "@/components/editorial";
+import { SectionHeader } from "@/components/SectionHeader";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { HOMEPAGE_FAQ } from "@/content/faq";
 import { getFraunces } from "@/lib/fonts";
@@ -21,31 +18,25 @@ const HomepageFAQSection = () => {
       className="py-10 lg:py-14 bg-paper"
     >
       <div className="container mx-auto md:px-8 lg:px-12">
-        <SectionRule label="OFTE STILTE SPØRSMÅL" />
-
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-10 lg:mb-14 items-end">
-          <div className="lg:col-span-7">
-            <EditorialHeading as="h2" size="section" id="faq-heading">
-              Ofte stilte{" "}
-              <em
-                className="italic"
-                style={{ fontVariationSettings: getFraunces("display") }}
-              >
-                spørsmål
-              </em>
-              .
-            </EditorialHeading>
-          </div>
-          <div className="lg:col-span-5 flex flex-col gap-6 lg:items-end">
-            <p className="text-lg text-ink-soft leading-relaxed lg:text-right">
-              Det folk lurer mest på om Digilist: booking, betaling, sesongleie
-              og samsvar. Finner du ikke svaret?
-            </p>
+        <SectionHeader
+          label="OFTE STILTE SPØRSMÅL"
+          headingId="faq-heading"
+          intro="Det folk lurer mest på om Digilist: booking, betaling, sesongleie og samsvar. Finner du ikke svaret?"
+          action={
             <EditorialButton variant="link" size="md" href="/faq">
               Se alle spørsmål
             </EditorialButton>
-          </div>
-        </div>
+          }
+        >
+          Ofte stilte{" "}
+          <em
+            className="italic"
+            style={{ fontVariationSettings: getFraunces("display") }}
+          >
+            spørsmål
+          </em>
+          .
+        </SectionHeader>
 
         <FAQAccordion items={HOMEPAGE_FAQ} />
 

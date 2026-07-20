@@ -2,11 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
-import {
-  SectionRule,
-  EditorialHeading,
-  EditorialButton,
-} from "@/components/editorial";
+import { EditorialButton } from "@/components/editorial";
+import { SectionHeader } from "@/components/SectionHeader";
 import { getAllPosts, formatPostDate } from "@/lib/posts";
 import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
 import { getFraunces } from "@/lib/fonts";
@@ -56,39 +53,11 @@ const BlogPreviewSection = () => {
       className="py-10 lg:py-14 bg-paper-tinted border-y border-rule"
     >
       <div className="container mx-auto md:px-8 lg:px-12">
-        <SectionRule label="INNSIKT" />
-
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-12 lg:mb-20">
-          <div className="lg:col-span-7">
-            <EditorialHeading
-              as="h2"
-              size="section"
-              id="blogg-preview-heading"
-            >
-              Lesestoff fra{" "}
-              <em
-                className="italic"
-                style={{
-                  fontVariationSettings:
-                    '"opsz" 96, "wght" 400, "SOFT" 30, "WONK" 0',
-                }}
-              >
-                redaksjonen
-              </em>
-              .
-            </EditorialHeading>
-          </div>
-          <div className="lg:col-span-5 flex flex-col justify-end gap-8">
-            <p
-              className="text-xl lg:text-2xl text-ink-soft italic measure"
-              style={{
-                fontVariationSettings: getFraunces("sub"),
-                lineHeight: 1.45,
-              }}
-            >
-              Tre artikler om kommunal booking, sesongleie og samsvar, skrevet
-              for saksbehandlere, kulturkonsulenter og digitaliseringsledere.
-            </p>
+        <SectionHeader
+          label="INNSIKT"
+          headingId="blogg-preview-heading"
+          intro="Tre artikler om kommunal booking, sesongleie og samsvar, skrevet for saksbehandlere, kulturkonsulenter og digitaliseringsledere."
+          action={
             <div className="flex items-center justify-between border-t border-rule pt-6">
               <EditorialButton variant="link" size="md" href="/blogg">
                 Se alle artikler
@@ -120,8 +89,20 @@ const BlogPreviewSection = () => {
                 </button>
               </div>
             </div>
-          </div>
-        </div>
+          }
+        >
+          Lesestoff fra{" "}
+          <em
+            className="italic"
+            style={{
+              fontVariationSettings:
+                '"opsz" 96, "wght" 400, "SOFT" 30, "WONK" 0',
+            }}
+          >
+            redaksjonen
+          </em>
+          .
+        </SectionHeader>
 
         <motion.div
           initial="hidden"
