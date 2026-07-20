@@ -63,12 +63,12 @@ const B2BLaneSection = () => {
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-10 lg:mb-14 items-end">
           <div className="lg:col-span-7">
             <EditorialHeading as="h2" size="section" id="for-utleiere-heading">
-              Én plattform,{" "}
+              Fra ett lokale til{" "}
               <em
                 className="italic"
                 style={{ fontVariationSettings: getFraunces("display") }}
               >
-                fra ett lokale til hele kommunen
+                hele kommunen
               </em>
               .
             </EditorialHeading>
