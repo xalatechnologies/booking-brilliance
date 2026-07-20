@@ -63,7 +63,7 @@ const Footer = () => {
   ];
 
   const linkClass =
-    "group inline-flex items-baseline gap-1.5 font-serif text-lg text-ink-soft hover:text-ink transition-colors duration-quick ease-editorial";
+    "group inline-flex items-baseline gap-1.5 font-serif text-lg text-ink-soft hover:text-ink transition-colors duration-quick ease-editorial no-underline";
   const linkUnderline =
     "border-b border-transparent group-hover:border-ink transition-colors duration-quick ease-editorial pb-0.5";
 
