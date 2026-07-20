@@ -1,9 +1,12 @@
 /**
- * Fraunces variable-axis presets.
- * opsz (optical size)  — 9..144
- * wght (weight)        — 300..900
- * SOFT (softness)      — 0..100
- * WONK (wonky/sharp)   — 0..1
+ * Serif display variable-axis presets (Newsreader).
+ * opsz (optical size)  — 6..72
+ * wght (weight)        — 300..800
+ *
+ * getFraunces / FrauncesSize keep their legacy names for call-site stability
+ * across ~60 files; the presets themselves now target Newsreader (the site's
+ * serif since the Fraunces → Newsreader switch). No SOFT/WONK axes exist on
+ * Newsreader, so those are intentionally absent.
  */
 
 export type FrauncesSize =
@@ -15,22 +18,18 @@ export type FrauncesSize =
   | "dropcap"
   | "body-italic";
 
-// Unified Fraunces voice — heavier than browser default for WCAG AA
-// legibility on cream paper, especially at sub/quote sizes where light
-// serifs read as anemic. Weight bumps:
-//   hero/display 400 → 460
-//   section 400 → 480
-//   sub 420 → 540 (small headings need most weight)
-//   quote 400 → 460
-//   dropcap 480 → 540
+// Newsreader voice. Variable axes: opsz (6..72) + wght (300..800) — no
+// SOFT/WONK (that was Fraunces). opsz is set to the display end (72) for large
+// headings and lower for small ones; wght gives the hierarchy, with small
+// headings carrying the most weight so they don't read as anemic.
 const PRESETS: Record<FrauncesSize, string> = {
-  hero: '"opsz" 144, "wght" 460, "SOFT" 30, "WONK" 0',
-  display: '"opsz" 120, "wght" 460, "SOFT" 30, "WONK" 0',
-  section: '"opsz" 96, "wght" 480, "SOFT" 30, "WONK" 0',
-  sub: '"opsz" 36, "wght" 540, "SOFT" 30, "WONK" 0',
-  quote: '"opsz" 72, "wght" 460, "SOFT" 30, "WONK" 0',
-  dropcap: '"opsz" 144, "wght" 540, "SOFT" 30, "WONK" 0',
-  "body-italic": '"opsz" 16, "wght" 460, "SOFT" 30, "WONK" 0',
+  hero: '"opsz" 72, "wght" 500',
+  display: '"opsz" 72, "wght" 500',
+  section: '"opsz" 60, "wght" 540',
+  sub: '"opsz" 30, "wght" 580',
+  quote: '"opsz" 44, "wght" 440',
+  dropcap: '"opsz" 72, "wght" 620',
+  "body-italic": '"opsz" 18, "wght" 480',
 };
 
 export function getFraunces(size: FrauncesSize): string {

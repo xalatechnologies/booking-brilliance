@@ -142,7 +142,7 @@ const PilotInvitationSection = () => {
                       className="italic"
                       style={{
                         fontVariationSettings:
-                          '"opsz" 36, "wght" 420, "SOFT" 60',
+                          '"opsz" 36, "wght" 420',
                       }}
                     >
                       leverer
@@ -196,7 +196,7 @@ const PilotInvitationSection = () => {
                       className="italic"
                       style={{
                         fontVariationSettings:
-                          '"opsz" 36, "wght" 420, "SOFT" 60',
+                          '"opsz" 36, "wght" 420',
                       }}
                     >
                       fra kommunen
@@ -227,9 +227,9 @@ const PilotInvitationSection = () => {
               <p
                 className="mt-6 italic text-sm lg:text-base text-ink-faint border-t border-rule pt-5"
                 style={{
-                  fontFamily: '"Fraunces", Georgia, serif',
+                  fontFamily: '"Newsreader", Georgia, serif',
                   fontVariationSettings:
-                    '"opsz" 24, "wght" 380, "SOFT" 60',
+                    '"opsz" 24, "wght" 380',
                 }}
               >
                 Pilotfasen er gratis. Kommunen forplikter seg ikke til

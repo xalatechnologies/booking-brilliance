@@ -34,10 +34,10 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['"Public Sans"', 'system-ui', 'sans-serif'],
-        serif: ['"Fraunces"', 'Iowan Old Style', 'Georgia', 'serif'],
-        display: ['"Fraunces"', 'Iowan Old Style', 'Georgia', 'serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        sans: ['"Inter"', 'system-ui', 'sans-serif'],
+        serif: ['"Newsreader"', 'Iowan Old Style', 'Georgia', 'serif'],
+        display: ['"Newsreader"', 'Iowan Old Style', 'Georgia', 'serif'],
+        mono: ['"IBM Plex Mono"', 'ui-monospace', 'SFMono-Regular', 'monospace'],
       },
       spacing: {
         '18': '4.5rem',

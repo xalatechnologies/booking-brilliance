@@ -54,12 +54,12 @@ const HeroSection = () => {
               Bookingplattform · 2026 · Norge
             </span>
 
-            <EditorialHeading as="h1" size="hero" wonk>
+            <EditorialHeading as="h1" size="hero">
               Lokaler du trenger,{" "}
               <em
                 className="italic"
                 style={{
-                  fontVariationSettings: '"opsz" 144, "wght" 400, "SOFT" 30, "WONK" 0',
+                  fontVariationSettings: '"opsz" 144, "wght" 400',
                 }}
               >
                 og plattformen som drifter det
@@ -98,7 +98,8 @@ const HeroSection = () => {
               </h2>
               <p className="mt-2 text-base text-ink-soft leading-relaxed">
                 Grendehus, kulturhus og selskapslokaler samlet, med ekte pris,
-                ledig dato og betaling med Vipps.
+                ledig dato og betaling med Vipps. Book direkte, uten ringerunder
+                eller ventetid på svar, med alt samlet på ett sted.
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {["Selskapslokale", "Møterom", "Kulturhus", "Idrettshall"].map((c) => (
@@ -134,7 +135,11 @@ const HeroSection = () => {
               </h2>
               <p className="mt-2 text-base text-ink-soft leading-relaxed">
                 Booking, sesongtildeling og innbyggerdialog i én plattform, med
-                innebygd etterlevelse (GDPR, universell utforming, NSM).
+                innebygd etterlevelse (GDPR, universell utforming, NSM). Ett
+                system som erstatter regneark, e-post og løse betalingsløsninger,
+                slik at dere beholder full oversikt og kontroll. Innbyggere, lag
+                og foreninger booker selv, hele døgnet, uten telefonkø og uten
+                dobbeltbookinger.
               </p>
               <div className="mt-5 flex flex-col sm:flex-row gap-3">
                 <EditorialButton

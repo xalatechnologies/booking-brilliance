@@ -245,7 +245,7 @@ const TechnologyStackSection = () => {
                 className="italic"
                 style={{
                   fontVariationSettings:
-                    '"opsz" 96, "wght" 400, "SOFT" 30, "WONK" 0',
+                    '"opsz" 96, "wght" 400',
                 }}
               >
                 pålitelighet.
@@ -314,7 +314,7 @@ const TechnologyStackSection = () => {
             aria-hidden="true"
             className="absolute -top-6 lg:-top-10 left-4 lg:left-10 font-serif text-[10rem] lg:text-[16rem] leading-none text-accent-text/15 select-none pointer-events-none"
             style={{
-              fontVariationSettings: '"opsz" 144, "wght" 380, "SOFT" 60',
+              fontVariationSettings: '"opsz" 144, "wght" 380',
             }}
           >
             &ldquo;
@@ -332,7 +332,7 @@ const TechnologyStackSection = () => {
                 className="font-serif text-3xl md:text-4xl lg:text-5xl xl:text-[3.5rem] text-ink leading-[1.18]"
                 style={{
                   fontVariationSettings:
-                    '"opsz" 96, "wght" 380, "SOFT" 40, "WONK" 0',
+                    '"opsz" 96, "wght" 380',
                   letterSpacing: "-0.018em",
                 }}
               >
@@ -391,7 +391,7 @@ const TechnologyStackSection = () => {
                   className="italic"
                   style={{
                     fontVariationSettings:
-                      '"opsz" 96, "wght" 400, "SOFT" 30, "WONK" 0',
+                      '"opsz" 96, "wght" 400',
                   }}
                 >
                   oppfyller

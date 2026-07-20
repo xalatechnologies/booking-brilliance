@@ -70,27 +70,14 @@
          text-render critical path (HTML + inlined critical CSS + font). The
          hero loads at normal priority during parse instead. -->
 
-    <!-- Editorial Nordic typography: Fraunces (variable serif display) +
-         Public Sans (body) + JetBrains Mono (specs).
-         Non-blocking load via media="print" trick so the hero image isn't
-         held back by font CSS. `display=optional` ensures text renders
-         immediately in the fallback stack while the variable font streams. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=optional"
-    />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=optional"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,0..100,0..1&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=optional" />
-    </noscript>
+    <!-- Editorial Nordic typography: Newsreader (variable serif display) +
+         Inter (variable body) + IBM Plex Mono (specs). Self-hosted from
+         /public/fonts via @font-face in src/fonts.css — no third-party font
+         CDN request, so no connection to any external font host and no
+         visitor-IP leak (GDPR). font-display: optional keeps the text-first
+         LCP behavior: the H1 renders immediately in the fallback stack and the
+         variable font applies only if it streams in time (no layout shift). -->
+
     
     <!-- Primary Meta Tags -->
     <title>Digilist — Én plattform for alt som leies ut</title>

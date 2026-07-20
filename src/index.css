@@ -1,13 +1,15 @@
+@import "./fonts.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /*
  * Digilist — Editorial Nordic
- * Typography:  Fraunces (variable serif display, opsz/wght/SOFT/WONK)
- *              Public Sans (USWDS body)
- *              JetBrains Mono (specs)
- * Loaded in index.html via Google Fonts <link>.
+ * Typography:  Newsreader (variable serif display, opsz 6..72 / wght 300..800)
+ *              Inter (variable body)
+ *              IBM Plex Mono (specs)
+ * Self-hosted — see src/fonts.css (zero third-party font requests, GDPR).
  */
 
 @layer base {
@@ -169,7 +171,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: "Public Sans", system-ui, sans-serif;
+    font-family: "Inter", system-ui, sans-serif;
     font-optical-sizing: auto;
     font-size: 1.0625rem;
     line-height: 1.6;
@@ -191,7 +193,7 @@
     }
   }
   .post-body h2 {
-    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-family: "Newsreader", "Iowan Old Style", Georgia, serif;
     font-size: 2rem;
     font-variation-settings: "opsz" 96, "wght" 400, "SOFT" 30, "WONK" 0;
     color: hsl(var(--ink));
@@ -200,7 +202,7 @@
     line-height: 1.15;
   }
   .post-body h3 {
-    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-family: "Newsreader", "Iowan Old Style", Georgia, serif;
     font-size: 1.5rem;
     font-variation-settings: "opsz" 48, "wght" 420, "SOFT" 30, "WONK" 0;
     color: hsl(var(--ink));
@@ -270,13 +272,13 @@
 
   h1, h2, h3, h4, h5, h6,
   .font-serif, .font-display {
-    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-family: "Newsreader", "Iowan Old Style", Georgia, serif;
     font-optical-sizing: auto;
     font-feature-settings: "liga", "dlig", "ss01";
   }
 
   code, kbd, pre, samp, .font-mono {
-    font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
     font-feature-settings: "ss02", "ss03", "calt";
   }
 
@@ -340,7 +342,7 @@
 
   /* Drop cap — applied to a paragraph */
   .dropcap::first-letter {
-    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-family: "Newsreader", "Iowan Old Style", Georgia, serif;
     font-size: 4.5rem;
     line-height: 0.85;
     float: left;
@@ -372,21 +374,21 @@
 
   /* Editorial typography helpers */
   .editorial-display {
-    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-family: "Newsreader", "Iowan Old Style", Georgia, serif;
     font-variation-settings: "opsz" 144, "wght" 360, "SOFT" 30, "WONK" 1;
     letter-spacing: -0.02em;
     line-height: 0.95;
   }
 
   .editorial-section {
-    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-family: "Newsreader", "Iowan Old Style", Georgia, serif;
     font-variation-settings: "opsz" 96, "wght" 400, "SOFT" 20, "WONK" 0;
     letter-spacing: -0.015em;
     line-height: 1.05;
   }
 
   .editorial-sub {
-    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-family: "Newsreader", "Iowan Old Style", Georgia, serif;
     font-variation-settings: "opsz" 36, "wght" 380, "SOFT" 40, "WONK" 0;
     font-style: italic;
     letter-spacing: 0;
@@ -394,7 +396,7 @@
   }
 
   .editorial-mono-caption {
-    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
     font-size: 0.8125rem;          /* 13px — WCAG 2.1 AA legible */
     line-height: 1.4;
     letter-spacing: 0.08em;
@@ -405,7 +407,7 @@
 
   /* Headings utility — replaces the old gradient text */
   .section-heading {
-    font-family: "Fraunces", "Iowan Old Style", Georgia, serif;
+    font-family: "Newsreader", "Iowan Old Style", Georgia, serif;
     font-variation-settings: "opsz" 96, "wght" 400, "SOFT" 20;
     @apply text-4xl md:text-5xl lg:text-6xl tracking-tight;
     color: hsl(var(--ink));
