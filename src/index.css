@@ -1,13 +1,15 @@
+@import "./fonts.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /*
  * Digilist — Editorial Nordic
- * Typography:  Newsreader (variable serif display, opsz/wght/SOFT/WONK)
- *              Inter (USWDS body)
+ * Typography:  Newsreader (variable serif display, opsz 6..72 / wght 300..800)
+ *              Inter (variable body)
  *              IBM Plex Mono (specs)
- * Loaded in index.html via Google Fonts <link>.
+ * Self-hosted — see src/fonts.css (zero third-party font requests, GDPR).
  */
 
 @layer base {
