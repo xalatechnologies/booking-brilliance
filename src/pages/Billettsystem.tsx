@@ -219,8 +219,13 @@ export default function Billettsystem() {
                 />
               </div>
 
+            </div>
+          </section>
+
+          <section className="py-12 lg:py-16 bg-paper-tinted border-y border-rule">
+            <div className="container mx-auto md:px-8 lg:px-12">
               {/* Features */}
-              <div className="mb-14 lg:mb-20">
+              <div>
                 <div className="flex items-baseline justify-between mb-8 border-b border-rule pb-3">
                   <h2 className="editorial-mono-caption text-accent-text">
                     HVA DU KAN GJØRE
@@ -257,8 +262,13 @@ export default function Billettsystem() {
                 </div>
               </div>
 
+            </div>
+          </section>
+
+          <section className="py-12 lg:py-16 bg-paper">
+            <div className="container mx-auto md:px-8 lg:px-12">
               {/* How it works */}
-              <div className="mb-14 lg:mb-20">
+              <div>
                 <div className="flex items-baseline justify-between mb-6 border-b border-rule pb-3">
                   <h2 className="editorial-mono-caption text-accent-text">
                     SLIK FUNKER DET
@@ -309,8 +319,13 @@ export default function Billettsystem() {
                 </ol>
               </div>
 
+            </div>
+          </section>
+
+          <section className="py-12 lg:py-16 bg-paper-tinted border-y border-rule">
+            <div className="container mx-auto md:px-8 lg:px-12">
               {/* FAQ */}
-              <div className="mb-14 lg:mb-20">
+              <div>
                 <div className="flex items-baseline justify-between mb-6 border-b border-rule pb-3">
                   <h2 className="editorial-mono-caption text-accent-text">
                     OFTE STILTE SPØRSMÅL
@@ -330,6 +345,11 @@ export default function Billettsystem() {
                 </dl>
               </div>
 
+            </div>
+          </section>
+
+          <section className="py-12 lg:py-16 bg-paper">
+            <div className="container mx-auto md:px-8 lg:px-12">
               {/* Closing CTA */}
               <EditorialCard className="bg-paper-deep/40">
                 <div className="grid lg:grid-cols-12 gap-6 lg:gap-gutter items-center p-2 lg:p-6">
