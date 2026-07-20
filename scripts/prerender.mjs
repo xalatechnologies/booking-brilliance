@@ -511,6 +511,15 @@ const ROUTES = [
       { name: "Hjem", url: `${BASE_URL}/` },
       { name: "Overnatting", url: `${BASE_URL}/overnatting` },
     ],
+    howTo: {
+      name: "Slik finner og booker du overnatting",
+      description: "Finn, book og betal med Vipps på tre steg.",
+      steps: [
+        { name: "Finn", text: "Søk på sted og datoer. Du ser hytter, leiligheter og rom i nærområdet med totalpris uten skjulte gebyrer." },
+        { name: "Book", text: "Velg ledige netter og book direkte. Innsjekk, kapasitet og vilkår er synlig før du bekrefter." },
+        { name: "Betal med Vipps", text: "Betal trygt med Vipps eller kort. Bekreftelse og innsjekkinfo kommer med en gang." },
+      ],
+    },
     faq: [
       {
         q: "Hva slags overnatting finner jeg?",
@@ -625,6 +634,15 @@ const ROUTES = [
       { name: "Hjem", url: `${BASE_URL}/` },
       { name: "Utstyr", url: `${BASE_URL}/utstyr` },
     ],
+    howTo: {
+      name: "Slik finner og leier du utstyr",
+      description: "Finn, book og betal med Vipps på tre steg.",
+      steps: [
+        { name: "Finn", text: "Søk på sted og dato. Du ser festutstyr, verktøy, maskiner, lyd og lys i nærområdet med pris per dag og depositum synlig." },
+        { name: "Book leieperiode", text: "Velg leieperioden og book direkte. Vilkår, depositum og om du henter eller får levert er synlig før du bekrefter." },
+        { name: "Hent eller få levert", text: "Betal med Vipps eller kort. Depositum håndteres digitalt og frigjøres etter retur." },
+      ],
+    },
     faq: [
       {
         q: "Hva slags utstyr kan jeg leie?",
@@ -739,6 +757,15 @@ const ROUTES = [
       { name: "Hjem", url: `${BASE_URL}/` },
       { name: "Tjenester", url: `${BASE_URL}/tjenester` },
     ],
+    howTo: {
+      name: "Slik finner og booker du tjenester",
+      description: "Finn, sjekk ledig dato og betal med Vipps på tre steg.",
+      steps: [
+        { name: "Finn leverandør", text: "Søk på sted og dato. Du ser cateringleverandører, DJ-er, musikere og dekoratører i nærområdet med pris synlig." },
+        { name: "Sjekk ledig dato", text: "Leverandørens kalender viser om datoen din er ledig. Du booker direkte, uten forespørsel og venting på tilbud." },
+        { name: "Book og betal med Vipps", text: "Betal med Vipps eller kort. Bekreftelse og kvittering kommer med en gang." },
+      ],
+    },
     faq: [
       {
         q: "Hvilke tjenester kan jeg booke?",
@@ -853,6 +880,15 @@ const ROUTES = [
       { name: "Hjem", url: `${BASE_URL}/` },
       { name: "Arrangementer", url: `${BASE_URL}/arrangementer` },
     ],
+    howTo: {
+      name: "Slik kjøper du billetter til arrangementer",
+      description: "Finn arrangement, velg billett og betal med Vipps på tre steg.",
+      steps: [
+        { name: "Finn arrangement", text: "Søk på sted og dato. Du ser konserter, forestillinger og festivaler nær deg med pris og hvilke billetter som er igjen." },
+        { name: "Velg billett", text: "Velg billettype og antall. Rabattkoder og gavekort legges inn i kassen, og totalen vises før du bekrefter." },
+        { name: "Betal med Vipps", text: "Betal med Vipps eller kort, og få QR-billetten rett på mobilen. Vis den ved inngangen, ferdig." },
+      ],
+    },
     faq: [
       {
         q: "Hva slags arrangementer finner jeg?",

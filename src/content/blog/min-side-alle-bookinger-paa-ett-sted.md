@@ -63,7 +63,7 @@ For sesong­leie og lengre­varige avtaler. Lag og foreninger ser her:
 
 ## Samtaletråder: én pr. booking
 
-Hver booking har sin egen samtale­tråd (se [Forespørsel og chat](/blogg/forespørsel-chat-kommunikasjon)). Fra Min Side ser kunden alle samtaler de har hatt, ordnet etter siste aktivitet. Klikk en samtale, så er du i tråden, klar til å svare.
+Hver booking har sin egen samtale­tråd (se [Forespørsel og chat](/blogg/foresporsel-chat-kommunikasjon)). Fra Min Side ser kunden alle samtaler de har hatt, ordnet etter siste aktivitet. Klikk en samtale, så er du i tråden, klar til å svare.
 
 Ulest melding fra saks­behandler? Min Side har et lite tall-merke i navigasjonen, og kunden får e-post + push-varsel hvis den har installert plattformen som PWA på telefonen.
 

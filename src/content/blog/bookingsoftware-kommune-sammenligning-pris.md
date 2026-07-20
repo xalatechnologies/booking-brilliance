@@ -129,6 +129,6 @@ Prisbildet for bookingsoftware i kommunal sektor er mer sammensatt enn listepris
 
 **Last ned sammenligningstabellen** med pris og funksjonalitet side om side, oppdatert med fullstendige spesifikasjoner for Digilist og de vanligste alternativene vi møter i kommunale anskaffelsesprosesser.
 
-[Last ned sammenligningstabellen →](/ressurser/sammenligning-bookingsoftware-kommune)
+[Se Digilists bookingsystem for kommuner →](/bookingsystem-kommune)
 
 Har du spørsmål om hva Digilist faktisk koster for din kommunes størrelse og behov? Ta kontakt direkte, vi gir deg et konkret estimat uten forpliktelse.

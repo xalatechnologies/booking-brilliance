@@ -38,6 +38,51 @@ const ROUTE_ITEMS: SearchItem[] = [
   { id: "r-cookies", kind: "route", title: "Cookies", subtitle: "Cookie-policy", href: "/cookies" },
 ];
 
+// The B2C marketplace (the "Finn" menu) — hubs + every category guide, so the
+// intelligent search AND the chatbot (which feeds search hits to the LLM as
+// "relevante sider") can surface the new pages and their content.
+const MARKETPLACE_ITEMS: SearchItem[] = [
+  // hubs
+  { id: "m-leie", kind: "route", title: "Finn lokale", subtitle: "Selskapslokale, møterom, kulturhus, idrettshall", href: "/leie", keywords: ["leie lokale", "finn lokale", "festlokale", "book lokale"] },
+  { id: "m-overnatting", kind: "route", title: "Overnatting", subtitle: "Hytte, leilighet, rom, feriehus", href: "/overnatting", keywords: ["overnatting", "leie overnatting", "book overnatting"] },
+  { id: "m-arrangementer", kind: "route", title: "Arrangementer", subtitle: "Billetter til konsert, teater, festival, sport", href: "/arrangementer", keywords: ["billetter", "kjøp billett", "arrangement", "event"] },
+  { id: "m-utstyr", kind: "route", title: "Leie utstyr", subtitle: "Festutstyr, verktøy, lyd og lys, sport", href: "/utstyr", keywords: ["leie utstyr", "utstyr til leie"] },
+  { id: "m-tjenester", kind: "route", title: "Tjenester", subtitle: "Catering, DJ, musiker, dekor", href: "/tjenester", keywords: ["tjenester", "book tjeneste", "arrangement"] },
+  { id: "m-billettsystem", kind: "route", title: "Billettsystem", subtitle: "Selg billetter med rabatt, kupong og gavekort", href: "/billettsystem", keywords: ["billettsystem", "selge billetter", "rabattkode", "kupong", "gavekort"] },
+  // leie
+  { id: "m-selskapslokale", kind: "route", title: "Leie selskapslokale", subtitle: "Bryllup, jubileum, konfirmasjon, fest", href: "/leie/selskapslokale", keywords: ["selskapslokale", "festlokale", "bryllupslokale", "leie lokale til fest"] },
+  { id: "m-gaard", kind: "route", title: "Leie gård", subtitle: "Gårdsbryllup, låve, selskap", href: "/leie/gaard", keywords: ["leie gård", "gårdsbryllup", "leie låve", "bryllupsgård"] },
+  { id: "m-bursdagslokale", kind: "route", title: "Leie bursdagslokale", subtitle: "Barnebursdag og voksenbursdag", href: "/leie/bursdagslokale", keywords: ["bursdagslokale", "lokale til bursdag", "barnebursdag lokale"] },
+  { id: "m-kulturhus", kind: "route", title: "Leie kulturhus", subtitle: "Konsert, forestilling, samfunnshus, grendehus", href: "/leie/kulturhus", keywords: ["leie kulturhus", "samfunnshus", "grendehus", "leie sal"] },
+  { id: "m-moterom", kind: "route", title: "Leie møterom", subtitle: "Møte, workshop, kurs per time", href: "/leie/moterom", keywords: ["leie møterom", "møterom til leie", "book møterom"] },
+  { id: "m-konferanselokale", kind: "route", title: "Leie konferanselokale", subtitle: "Konferanse, seminar, kurs", href: "/leie/konferanselokale", keywords: ["konferanselokale", "konferansesal", "kurslokale"] },
+  { id: "m-kontorlokaler", kind: "route", title: "Leie kontorlokaler", subtitle: "Privat kontor, fleksibel leie", href: "/leie/kontorlokaler", keywords: ["leie kontor", "kontorlokaler", "kontor til leie"] },
+  { id: "m-coworking", kind: "route", title: "Coworking", subtitle: "Dagplass, kontorfellesskap", href: "/leie/coworking", keywords: ["coworking", "kontorfellesskap", "leie kontorplass", "dagplass"] },
+  { id: "m-idrettshall", kind: "route", title: "Leie idrettshall", subtitle: "Enkelttimer, gymsal, trening", href: "/leie/idrettshall", keywords: ["leie idrettshall", "leie gymsal", "hall til leie"] },
+  { id: "m-padelbane", kind: "route", title: "Leie padelbane", subtitle: "Book padel per time", href: "/leie/padelbane", keywords: ["leie padelbane", "book padel", "padel"] },
+  { id: "m-svommehall", kind: "route", title: "Leie svømmehall", subtitle: "Basseng til bursdag og grupper", href: "/leie/svommehall", keywords: ["leie svømmehall", "leie basseng", "svømmehall"] },
+  // overnatting
+  { id: "m-hytte", kind: "route", title: "Leie hytte", subtitle: "Helgetur, ferie, familiesamling", href: "/overnatting/hytte", keywords: ["leie hytte", "hytte til leie", "hytteutleie"] },
+  { id: "m-leilighet", kind: "route", title: "Leie leilighet", subtitle: "Korttidsleie, byferie, jobbreise", href: "/overnatting/leilighet", keywords: ["leie leilighet", "korttidsleie leilighet"] },
+  { id: "m-rom", kind: "route", title: "Leie rom", subtitle: "Gjesterom, rimelig overnatting", href: "/overnatting/rom", keywords: ["leie rom", "gjesterom", "rimelig overnatting"] },
+  { id: "m-feriehus", kind: "route", title: "Leie feriehus", subtitle: "Familieferie, gjenforening", href: "/overnatting/feriehus", keywords: ["leie feriehus", "feriehus til leie"] },
+  // arrangementer
+  { id: "m-konsert", kind: "route", title: "Konsertbilletter", subtitle: "Kjøp billett med Vipps", href: "/arrangementer/konsert", keywords: ["konsertbilletter", "billetter til konsert", "konsert"] },
+  { id: "m-teater", kind: "route", title: "Teaterbilletter", subtitle: "Teater, standup, revy", href: "/arrangementer/teater-og-scene", keywords: ["teaterbilletter", "billetter til teater", "forestilling", "standup"] },
+  { id: "m-festival", kind: "route", title: "Festivalbilletter", subtitle: "Dagspass, helgepass", href: "/arrangementer/festival", keywords: ["festivalbilletter", "festivalpass", "festival"] },
+  { id: "m-sport", kind: "route", title: "Sportsbilletter", subtitle: "Billetter til kamp og idrettsarrangement", href: "/arrangementer/sport", keywords: ["sportsbilletter", "billetter til kamp", "fotballbilletter"] },
+  // utstyr
+  { id: "m-festutstyr", kind: "route", title: "Leie festutstyr", subtitle: "Telt, bord, stoler, servise", href: "/utstyr/festutstyr", keywords: ["leie festutstyr", "leie telt", "leie bord og stoler"] },
+  { id: "m-verktoy", kind: "route", title: "Leie verktøy og maskiner", subtitle: "Minigraver, høytrykksspyler, stillas", href: "/utstyr/verktoy-maskiner", keywords: ["leie verktøy", "leie maskiner", "leie minigraver"] },
+  { id: "m-lyd-lys", kind: "route", title: "Leie lyd og lys", subtitle: "Lydanlegg, scenelys, projektor", href: "/utstyr/lyd-og-lys", keywords: ["leie lydanlegg", "leie lyd og lys", "leie projektor"] },
+  { id: "m-sport-friluft", kind: "route", title: "Leie sport- og friluftsutstyr", subtitle: "Sykkel, ski, kajakk, telt", href: "/utstyr/sport-og-friluft", keywords: ["leie sportsutstyr", "leie sykkel", "leie ski", "leie kajakk"] },
+  // tjenester
+  { id: "m-catering", kind: "route", title: "Bestille catering", subtitle: "Koldtbord, tapas, middag", href: "/tjenester/catering", keywords: ["bestille catering", "catering til bryllup", "catering"] },
+  { id: "m-dj", kind: "route", title: "Leie DJ", subtitle: "DJ til bryllup, fest, firmafest", href: "/tjenester/dj", keywords: ["leie dj", "dj til bryllup", "dj til fest"] },
+  { id: "m-musiker", kind: "route", title: "Leie musiker", subtitle: "Band, solist, livemusikk", href: "/tjenester/musiker", keywords: ["leie musiker", "leie band", "livemusikk bryllup"] },
+  { id: "m-dekor", kind: "route", title: "Leie dekor og pynt", subtitle: "Blomster, bordpynt, ballongbue", href: "/tjenester/dekor", keywords: ["leie dekor", "bordpynt", "blomsterdekor", "ballongbue"] },
+];
+
 const ACTION_ITEMS: SearchItem[] = [
   { id: "a-chatbot", kind: "action", title: "Snakk med oss", subtitle: "Åpne chat: svar på under et minutt", href: "#chat", action: "open-chatbot", keywords: ["chat", "spørsmål", "kontakt"] },
 ];
@@ -68,6 +113,7 @@ export function getSearchCorpus(): SearchItem[] {
   cached = [
     ...SECTION_ITEMS,
     ...ROUTE_ITEMS,
+    ...MARKETPLACE_ITEMS,
     ...blogItems,
     ...faqItems,
     ...ACTION_ITEMS,
