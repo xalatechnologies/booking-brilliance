@@ -89,12 +89,16 @@ const AiAgentsSection = () => {
           whileInView="visible"
           viewport={viewportOnce}
           variants={staggerParent}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-rule border border-rule"
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6"
         >
           {agents.map((a) => {
             const Icon = a.icon;
             return (
-              <motion.div key={a.title} variants={staggerChild} className="bg-paper p-7 flex flex-col">
+              <motion.div
+                key={a.title}
+                variants={staggerChild}
+                className="group bg-gradient-to-br from-paper to-paper-deep rounded-lg border border-rule p-7 flex flex-col shadow-[0_2px_10px_-4px_rgba(10,18,40,0.12)] transition-all duration-normal ease-editorial hover:-translate-y-0.5 hover:border-accent-text/30 hover:shadow-[0_16px_34px_-18px_rgba(10,18,40,0.4)]"
+              >
                 <div className="flex items-center gap-3 mb-4">
                   <span className="w-10 h-10 shrink-0 inline-flex items-center justify-center bg-accent-text/10 ring-1 ring-accent-text/25 rounded-md text-accent-text transition-transform duration-normal ease-editorial group-hover:scale-105">
                     <Icon className="h-5 w-5" strokeWidth={1.5} />

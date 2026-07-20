@@ -33,7 +33,7 @@ const BrukerhistorierSection = () => {
           variants={staggerParent}
           className="grid lg:grid-cols-2 gap-6 lg:gap-8"
         >
-          <motion.div variants={staggerChild}>
+          <motion.div variants={staggerChild} className="h-full">
             <StoryCard
               meta={["Kunde", "Selskapslokale", "Live 2025"]}
               customer="Rønningen Selskapslokale"
@@ -79,7 +79,7 @@ const BrukerhistorierSection = () => {
             />
           </motion.div>
 
-          <motion.div variants={staggerChild}>
+          <motion.div variants={staggerChild} className="h-full">
             <StoryCard
               meta={["Kunde", "Kommune", "Live 2024"]}
               customer="Nordre Follo kommune"

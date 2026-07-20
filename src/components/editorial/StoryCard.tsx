@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { getFraunces } from "@/lib/fonts";
-import { SpecRow } from "./SpecRow";
 
 interface StoryStat {
   label: string;
@@ -36,11 +35,11 @@ export function StoryCard({
   return (
     <article
       className={cn(
-        "flex flex-col gap-6 p-8 lg:p-10 border-hairline border-rule bg-paper rounded-sm",
-        className
+        "group flex flex-col h-full gap-6 p-8 lg:p-10 rounded-lg border border-rule bg-gradient-to-br from-paper to-paper-deep shadow-[0_2px_14px_-6px_rgba(10,18,40,0.15)] transition-all duration-normal ease-editorial hover:-translate-y-1 hover:border-accent-text/30 hover:shadow-[0_22px_48px_-24px_rgba(10,18,40,0.45)]",
+        className,
       )}
     >
-      <header className="flex items-start justify-between gap-4">
+      <header className="flex items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-3 editorial-mono-caption">
           {meta.map((label, i) => (
             <span key={label} className="flex items-center gap-3">
@@ -52,12 +51,14 @@ export function StoryCard({
           ))}
         </div>
         {logoSrc ? (
-          <img
-            src={logoSrc}
-            alt={customer}
-            className="h-6 w-auto object-contain grayscale opacity-80"
-            loading="lazy"
-          />
+          <span className="shrink-0 inline-flex items-center justify-center h-12 px-3 rounded-md border border-rule bg-paper">
+            <img
+              src={logoSrc}
+              alt={customer}
+              className="h-6 w-auto object-contain"
+              loading="lazy"
+            />
+          </span>
         ) : (
           <span
             className="font-serif text-sm text-ink-faint"
@@ -81,16 +82,18 @@ export function StoryCard({
 
       {dek && <p className="text-lg text-ink-soft measure">{dek}</p>}
 
-      <div className="text-base text-ink-soft measure leading-relaxed">{body}</div>
+      <div className="text-base text-ink-soft measure leading-relaxed">
+        {body}
+      </div>
 
       {quote && (
         <blockquote
-          className="border-l-2 border-navy pl-4 text-lg italic text-ink"
+          className="border-l-2 border-accent-text pl-5 text-lg lg:text-xl italic text-ink"
           style={{ fontVariationSettings: getFraunces("body-italic") }}
         >
           &ldquo;{quote.text}&rdquo;
           {(quote.byline || quote.role) && (
-            <footer className="mt-2 editorial-mono-caption not-italic">
+            <footer className="mt-3 editorial-mono-caption not-italic">
               {quote.byline}
               {quote.byline && quote.role && " · "}
               {quote.role}
@@ -100,14 +103,27 @@ export function StoryCard({
       )}
 
       {stats && stats.length > 0 && (
-        <div className="border-t border-rule pt-4">
+        <div className="mt-auto grid grid-cols-3 gap-4 border-t border-rule pt-6">
           {stats.map((s) => (
-            <SpecRow key={s.label} label={s.label} value={s.value} />
+            <div key={s.label} className="flex flex-col gap-1.5">
+              <span
+                className="font-serif text-3xl lg:text-[2.5rem] leading-none text-ink tabular-nums"
+                style={{
+                  fontVariationSettings: getFraunces("section"),
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                {s.value}
+              </span>
+              <span className="editorial-mono-caption text-ink-faint leading-tight">
+                {s.label}
+              </span>
+            </div>
           ))}
         </div>
       )}
 
-      {cta && <div className="mt-2">{cta}</div>}
+      {cta && <div className="pt-1">{cta}</div>}
     </article>
   );
 }
