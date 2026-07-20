@@ -2,7 +2,7 @@
 slug: moterom-kommune-finn-og-book-ledige-lokaler
 title: "Møterom i kommunen: finn og book ledige lokaler i sanntid"
 description: "Slik finner og booker du ledige kommunale møterom i ditt nærområde via Digilists portal, med sanntidskalender, ID-porten-innlogging og priser forklart."
-date: 2026-07-19
+date: 2026-07-20
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8

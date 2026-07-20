@@ -1,8 +1,8 @@
 ---
 slug: bryllupslokale-kommune-pris-leie-booking
-title: "Hva koster det å leie bryllupslokale? Pris, depositum og booking"
+title: "Bryllupslokale i kommunen: pris, kapasitet og booking på nett"
 description: "Hva koster et kommunalt bryllupslokale, hva er inkludert, og hvordan booker du på nett med depositum og dato synlig før du betaler? Full guide."
-date: 2026-07-14
+date: 2026-07-20
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8

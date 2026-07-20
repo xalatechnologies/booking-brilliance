@@ -2,7 +2,7 @@
 slug: leie-sal-billigst-kommune
 title: "Leie sal billigst i kommunen: slik settes prisen og finner du ledig lokale"
 description: "Forstå soner, foreningsrabatt og skjulte tillegg når du leier sal, gymsal eller møterom av kommunen, og finn det billigste ledige lokalet på nett."
-date: 2026-07-19
+date: 2026-07-20
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8
