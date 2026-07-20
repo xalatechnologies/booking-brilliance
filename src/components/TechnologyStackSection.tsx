@@ -235,7 +235,7 @@ const TechnologyStackSection = () => {
   return (
     <section id="teknologi" className="py-14 lg:py-20 bg-paper-deep/40">
       <div className="container mx-auto md:px-8 lg:px-12">
-        <SectionRule label="VI. TEKNOLOGI" />
+        <SectionRule label="TEKNOLOGI" />
 
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-10 lg:mb-14">
           <div className="lg:col-span-7">

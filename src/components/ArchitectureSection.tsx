@@ -7,13 +7,16 @@ import {
   GitBranch,
   ScrollText,
   Plug,
+  ChevronDown,
 } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   SectionRule,
   EditorialHeading,
   Sidenote,
 } from "@/components/editorial";
 import { getFraunces } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
 
 type Node = {
   id: string;
@@ -85,17 +88,25 @@ const infra: Node[] = [
 const ArchNode = ({
   node,
   size = "md",
+  accent = false,
 }: {
   node: Node;
   size?: "md" | "lg";
+  /** Highlight this as the hero of the diagram (the reactive runtime). */
+  accent?: boolean;
 }) => {
   const Icon = node.Icon;
   const isLg = size === "lg";
   return (
     <article
-      className={`group relative bg-paper border border-hairline-strong rounded-sm flex flex-col h-full transition-all duration-quick ease-editorial hover:border-ink hover:shadow-hairline ${
-        isLg ? "p-6 lg:p-8" : "p-5 lg:p-6"
-      }`}
+      className={cn(
+        "group relative flex flex-col h-full rounded-md bg-gradient-to-br from-paper to-paper-deep border transition-all duration-quick ease-editorial",
+        "shadow-[0_2px_10px_-4px_rgba(10,18,40,0.14)] hover:-translate-y-0.5 hover:shadow-[0_14px_34px_-16px_rgba(10,18,40,0.4)]",
+        accent
+          ? "border-accent-text/40 ring-1 ring-accent-text/15"
+          : "border-hairline-strong hover:border-ink/40",
+        isLg ? "p-6 lg:p-8" : "p-5 lg:p-6",
+      )}
     >
       {node.marker && (
         <span
@@ -105,15 +116,32 @@ const ArchNode = ({
           {node.marker}
         </span>
       )}
+
+      {/* live badge on the reactive runtime */}
+      {accent && (
+        <span className="absolute top-4 right-4 inline-flex items-center gap-1.5 editorial-mono-caption text-accent-text">
+          <span className="relative flex h-2 w-2">
+            <span className="motion-reduce:hidden absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-text/70" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-text" />
+          </span>
+          Sanntid
+        </span>
+      )}
+
       <div
-        className={`flex items-center gap-3 lg:gap-4 ${
-          isLg ? "mb-2" : "mb-1.5"
-        }`}
+        className={cn(
+          "flex items-center gap-3 lg:gap-4",
+          isLg ? "mb-2" : "mb-1.5",
+        )}
       >
         <span
-          className={`inline-flex items-center justify-center border border-hairline-strong rounded-sm text-accent-text shrink-0 ${
-            isLg ? "w-14 h-14" : "w-11 h-11 lg:w-12 lg:h-12"
-          }`}
+          className={cn(
+            "inline-flex items-center justify-center rounded-md shrink-0 ring-1",
+            accent
+              ? "bg-accent-text/10 text-accent-text ring-accent-text/25"
+              : "bg-navy/[0.04] text-accent-text ring-hairline-strong",
+            isLg ? "w-14 h-14" : "w-11 h-11 lg:w-12 lg:h-12",
+          )}
         >
           <Icon
             className={isLg ? "h-7 w-7" : "h-5 w-5 lg:h-6 lg:w-6"}
@@ -122,11 +150,10 @@ const ArchNode = ({
           />
         </span>
         <h3
-          className={`font-serif text-ink leading-tight ${
-            isLg
-              ? "text-3xl lg:text-4xl"
-              : "text-xl lg:text-2xl"
-          }`}
+          className={cn(
+            "font-serif text-ink leading-tight",
+            isLg ? "text-3xl lg:text-4xl" : "text-xl lg:text-2xl",
+          )}
           style={{
             fontVariationSettings: getFraunces("sub"),
             letterSpacing: "-0.015em",
@@ -136,9 +163,10 @@ const ArchNode = ({
         </h3>
       </div>
       <p
-        className={`text-ink-soft leading-snug ${
-          isLg ? "text-base lg:text-lg" : "text-sm lg:text-base"
-        }`}
+        className={cn(
+          "text-ink-soft leading-snug",
+          isLg ? "text-base lg:text-lg" : "text-sm lg:text-base",
+        )}
       >
         {node.sub}
       </p>
@@ -146,11 +174,52 @@ const ArchNode = ({
   );
 };
 
+/**
+ * Vertical flow connector between two architecture layers. Centered, so it
+ * stays aligned to the converging/diverging node rows at any width (unlike a
+ * fixed-viewBox SVG). A signal dot travels down the spine to convey the
+ * reactive data flow; it's hidden under prefers-reduced-motion.
+ */
+const FlowConnector = ({ note }: { note?: string }) => {
+  const reduce = useReducedMotion();
+  return (
+    <div
+      aria-hidden="true"
+      className="relative flex flex-col items-center my-2 lg:my-3"
+    >
+      {note && (
+        <span className="editorial-mono-caption text-ink-faint text-center px-2 mb-1.5">
+          {note}
+        </span>
+      )}
+      <div className="relative h-9 lg:h-12 w-px bg-gradient-to-b from-rule-strong/20 via-rule-strong to-rule-strong/20">
+        {!reduce && (
+          <motion.span
+            className="absolute left-1/2 h-2 w-2 -translate-x-1/2 rounded-full bg-accent-text ring-4 ring-accent-text/15"
+            initial={{ top: "0%", opacity: 0 }}
+            animate={{ top: ["0%", "100%"], opacity: [0, 1, 1, 0] }}
+            transition={{
+              duration: 2.4,
+              repeat: Infinity,
+              ease: "linear",
+              repeatDelay: 0.5,
+            }}
+          />
+        )}
+        <ChevronDown
+          className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 h-4 w-4 text-rule-strong"
+          strokeWidth={1.5}
+        />
+      </div>
+    </div>
+  );
+};
+
 const ArchitectureSection = () => {
   return (
     <section id="arkitektur" className="py-16 lg:py-24 bg-paper">
       <div className="container mx-auto md:px-8 lg:px-12">
-        <SectionRule label="VII. ARKITEKTUR" />
+        <SectionRule label="ARKITEKTUR" />
 
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-12 lg:mb-16">
           <div className="lg:col-span-7">
@@ -171,7 +240,7 @@ const ArchitectureSection = () => {
 
         {/* Architecture diagram — hand-laid editorial illustration */}
         <figure className="relative">
-          <div className="relative bg-paper-deep/40 border border-hairline-strong rounded-sm p-6 sm:p-10 lg:p-14 overflow-hidden">
+          <div className="relative bg-gradient-to-br from-paper-deep/50 to-paper border border-hairline-strong rounded-lg p-6 sm:p-10 lg:p-14 overflow-hidden">
             {/* Decorative grid background */}
             <svg
               aria-hidden="true"
@@ -196,6 +265,12 @@ const ArchitectureSection = () => {
               <rect width="100%" height="100%" fill="url(#arch-grid)" />
             </svg>
 
+            {/* Soft glow behind the reactive core */}
+            <div
+              aria-hidden="true"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2/3 h-2/5 rounded-full bg-accent-text/[0.05] blur-3xl pointer-events-none"
+            />
+
             <div className="relative">
               {/* Layer label — KLIENTER */}
               <div className="flex items-center gap-3 mb-4 lg:mb-5">
@@ -204,43 +279,14 @@ const ArchitectureSection = () => {
                 </span>
                 <span className="flex-1 h-px bg-rule" />
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6 mb-8 lg:mb-10">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
                 {clients.map((n) => (
                   <ArchNode key={n.id} node={n} />
                 ))}
               </div>
 
               {/* Connector — clients → runtime */}
-              <div
-                aria-hidden="true"
-                className="relative h-12 lg:h-16 mb-4 lg:mb-5"
-              >
-                <svg
-                  className="absolute inset-0 w-full h-full text-rule-strong"
-                  preserveAspectRatio="none"
-                  viewBox="0 0 600 64"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M 100 0 V 32 H 300 V 64"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="0.5"
-                  />
-                  <path
-                    d="M 300 0 V 64"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="0.5"
-                  />
-                  <path
-                    d="M 500 0 V 32 H 300 V 64"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="0.5"
-                  />
-                </svg>
-              </div>
+              <FlowConnector note="Sanntidsabonnement" />
 
               {/* Layer label — RUNTIME */}
               <div className="flex items-center gap-3 mb-4 lg:mb-5">
@@ -249,47 +295,12 @@ const ArchitectureSection = () => {
                 </span>
                 <span className="flex-1 h-px bg-rule" />
               </div>
-              <div className="max-w-2xl mx-auto mb-8 lg:mb-10">
-                <ArchNode node={runtime} size="lg" />
+              <div className="max-w-2xl mx-auto">
+                <ArchNode node={runtime} size="lg" accent />
               </div>
 
               {/* Connector — runtime → infra */}
-              <div
-                aria-hidden="true"
-                className="relative h-12 lg:h-16 mb-4 lg:mb-5"
-              >
-                <svg
-                  className="absolute inset-0 w-full h-full text-rule-strong"
-                  preserveAspectRatio="none"
-                  viewBox="0 0 600 64"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M 300 0 V 32 H 75 V 64"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="0.5"
-                  />
-                  <path
-                    d="M 300 0 V 32 H 225 V 64"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="0.5"
-                  />
-                  <path
-                    d="M 300 0 V 32 H 375 V 64"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="0.5"
-                  />
-                  <path
-                    d="M 300 0 V 32 H 525 V 64"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="0.5"
-                  />
-                </svg>
-              </div>
+              <FlowConnector note="Transaksjonell skriving" />
 
               {/* Layer label — INFRA */}
               <div className="flex items-center gap-3 mb-4 lg:mb-5">
@@ -298,7 +309,7 @@ const ArchitectureSection = () => {
                 </span>
                 <span className="flex-1 h-px bg-rule" />
               </div>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
                 {infra.map((n) => (
                   <ArchNode key={n.id} node={n} />
                 ))}

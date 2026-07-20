@@ -5,7 +5,7 @@ const CTASection = () => {
   return (
     <section id="kontakt" className="relative py-14 lg:py-20 bg-accent-tinted">
       <div className="container mx-auto md:px-8 lg:px-12">
-        <SectionRule label="IX. KONTAKT" />
+        <SectionRule label="KONTAKT" />
         <BookDemoBlock source="homepage-kontakt" />
       </div>
     </section>

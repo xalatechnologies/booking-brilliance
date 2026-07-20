@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import {
   EditorialButton,
   EditorialHeading,
-  IntegrationLogo,
 } from "@/components/editorial";
 import { HeroPlatformPreview } from "./HeroPlatformPreview";
 import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
@@ -30,33 +29,6 @@ const customers = [
     name: "Lier Bygdetun",
     sector: "Selskapslokale",
     location: "Lierbyen",
-  },
-];
-
-const integrationsByCategory = [
-  {
-    category: "Betaling",
-    items: ["Vipps", "Stripe Connect"],
-  },
-  {
-    category: "Autentisering",
-    items: ["BankID", "ID-porten", "Signicat"],
-  },
-  {
-    category: "Offentlig",
-    items: ["Altinn", "EHF / Peppol", "Brønnøysund"],
-  },
-  {
-    category: "Regnskap",
-    items: ["Visma", "Tripletex", "Fiken", "PowerOffice"],
-  },
-  {
-    category: "Kalender & nøkkel",
-    items: ["Microsoft 365", "Outlook", "Salto KS"],
-  },
-  {
-    category: "Samsvar",
-    items: ["ISO 27001/27701", "GDPR", "WCAG 2.0 AA"],
   },
 ];
 
@@ -267,45 +239,6 @@ const HeroSection = () => {
         </div>
       </motion.div>
 
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewportOnce}
-        variants={staggerParent}
-        className="border-b border-rule bg-paper-deep/40"
-      >
-        <div className="container mx-auto md:px-8 lg:px-12 py-12 lg:py-14">
-          <div className="flex items-baseline justify-between gap-6 mb-10">
-            <span className="editorial-mono-caption">
-              Integrasjoner & samsvar
-            </span>
-            <span className="editorial-mono-caption text-ink-faint hidden md:inline">
-              Bygget for det norske utleiemarkedet
-            </span>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-px bg-rule border-y border-rule">
-            {integrationsByCategory.map((col) => (
-              <motion.div
-                key={col.category}
-                variants={staggerChild}
-                className="bg-paper-deep/40 px-5 py-8 flex flex-col gap-3"
-              >
-                <span className="editorial-mono-caption text-accent-text">
-                  {col.category}
-                </span>
-                <ul className="space-y-2.5 mt-2">
-                  {col.items.map((item) => (
-                    <li key={item}>
-                      <IntegrationLogo brand={item} />
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </motion.div>
     </section>
   );
 };

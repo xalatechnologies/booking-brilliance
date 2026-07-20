@@ -1634,6 +1634,9 @@ const HOMEPAGE = {
       },
     ],
   },
+  // Homepage FAQ — MIRROR of HOMEPAGE_FAQ in src/content/faq.ts. This copy is
+  // what crawlers index in the static HTML; keep both byte-for-byte identical
+  // (Google requires the visible accordion text to match this FAQPage markup).
   faq: [
     {
       q: "Hva er Digilist?",
