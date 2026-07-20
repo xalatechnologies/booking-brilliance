@@ -114,7 +114,7 @@ export function MobileMenu() {
               className="font-serif text-2xl text-ink leading-none"
               style={{
                 fontVariationSettings:
-                  '"opsz" 96, "wght" 460, "SOFT" 25, "WONK" 1',
+                  '"opsz" 96, "wght" 460',
                 letterSpacing: "-0.02em",
               }}
             >

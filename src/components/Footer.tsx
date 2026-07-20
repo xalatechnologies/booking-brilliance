@@ -101,7 +101,7 @@ const Footer = () => {
                   className="font-serif text-5xl lg:text-6xl text-ink leading-none"
                   style={{
                     fontVariationSettings:
-                      '"opsz" 96, "wght" 460, "SOFT" 25, "WONK" 1',
+                      '"opsz" 96, "wght" 460',
                     letterSpacing: "-0.02em",
                   }}
                 >
@@ -116,7 +116,7 @@ const Footer = () => {
                     className="font-serif italic text-base lg:text-lg text-ink-soft leading-none"
                     style={{
                       fontVariationSettings:
-                        '"opsz" 16, "wght" 420, "SOFT" 60',
+                        '"opsz" 16, "wght" 420',
                     }}
                   >
                     Enkel booking
@@ -294,7 +294,7 @@ const Footer = () => {
               </a>
             </p>
             <p className="editorial-mono-caption text-ink-faint md:text-right">
-              TRYKKET DIGITALT · OSLO · SATT MED FRAUNCES OG PUBLIC SANS
+              TRYKKET DIGITALT · OSLO · SATT MED NEWSREADER OG INTER
             </p>
           </div>
         </div>

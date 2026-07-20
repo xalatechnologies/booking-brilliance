@@ -130,7 +130,7 @@ const Navbar = () => {
               className="font-serif text-3xl md:text-[2rem] text-ink leading-none"
               style={{
                 fontVariationSettings:
-                  '"opsz" 96, "wght" 460, "SOFT" 25, "WONK" 1',
+                  '"opsz" 96, "wght" 460',
                 letterSpacing: "-0.02em",
               }}
             >
@@ -145,7 +145,7 @@ const Navbar = () => {
                 className="font-serif italic text-sm md:text-[0.95rem] text-ink-soft leading-none"
                 style={{
                   fontVariationSettings:
-                    '"opsz" 16, "wght" 420, "SOFT" 60',
+                    '"opsz" 16, "wght" 420',
                   letterSpacing: "0.005em",
                 }}
               >

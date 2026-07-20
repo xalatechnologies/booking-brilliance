@@ -84,7 +84,7 @@ export function Chatbot() {
                   className="font-serif text-lg text-ink leading-snug"
                   style={{
                     fontVariationSettings:
-                      '"opsz" 48, "wght" 460, "SOFT" 30',
+                      '"opsz" 48, "wght" 460',
                     letterSpacing: "-0.015em",
                   }}
                 >

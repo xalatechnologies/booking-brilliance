@@ -43,7 +43,7 @@ const AudienceSection = () => {
               <em
                 className="italic"
                 style={{
-                  fontVariationSettings: '"opsz" 96, "wght" 400, "SOFT" 30, "WONK" 0',
+                  fontVariationSettings: '"opsz" 96, "wght" 400',
                 }}
               >
                 Mange bruksområder.

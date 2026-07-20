@@ -52,7 +52,7 @@ export function InquiryFlow({
           <em
             className="italic"
             style={{
-              fontVariationSettings: '"opsz" 36, "wght" 420, "SOFT" 60',
+              fontVariationSettings: '"opsz" 36, "wght" 420',
             }}
           >
             saken.
@@ -108,7 +108,7 @@ export function InquiryFlow({
             <em
               className="italic"
               style={{
-                fontVariationSettings: '"opsz" 36, "wght" 420, "SOFT" 60',
+                fontVariationSettings: '"opsz" 36, "wght" 420',
               }}
             >
               spør
@@ -160,7 +160,7 @@ export function InquiryFlow({
             <em
               className="italic"
               style={{
-                fontVariationSettings: '"opsz" 36, "wght" 420, "SOFT" 60',
+                fontVariationSettings: '"opsz" 36, "wght" 420',
               }}
             >
               hjelp med
@@ -233,7 +233,7 @@ export function InquiryFlow({
             <em
               className="italic"
               style={{
-                fontVariationSettings: '"opsz" 36, "wght" 420, "SOFT" 60',
+                fontVariationSettings: '"opsz" 36, "wght" 420',
               }}
             >
               deg

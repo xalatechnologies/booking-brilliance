@@ -7,7 +7,6 @@ interface EditorialHeadingProps {
   size?: "hero" | "display" | "section" | "sub";
   children: ReactNode;
   className?: string;
-  wonk?: boolean;
 }
 
 const SIZE_CLASSES: Record<NonNullable<EditorialHeadingProps["size"]>, string> = {
@@ -29,12 +28,8 @@ export function EditorialHeading({
   size = "section",
   children,
   className,
-  wonk = false,
 }: EditorialHeadingProps) {
-  const baseFraunces = getFraunces(SIZE_TO_FRAUNCES[size]);
-  const variation = wonk
-    ? baseFraunces.replace(/"WONK"\s*\d+/, '"WONK" 1')
-    : baseFraunces;
+  const variation = getFraunces(SIZE_TO_FRAUNCES[size]);
 
   return (
     <Tag

@@ -180,7 +180,7 @@ export default function Transparens() {
                   className="font-serif text-5xl lg:text-7xl text-ink leading-[1.05] tracking-tight"
                   style={{
                     fontVariationSettings:
-                      '"opsz" 144, "wght" 360, "SOFT" 30, "WONK" 1',
+                      '"opsz" 144, "wght" 360',
                   }}
                 >
                   Transparens.
@@ -549,7 +549,7 @@ export default function Transparens() {
                         className="font-serif text-4xl lg:text-5xl text-ink leading-tight mb-4"
                         style={{
                           fontVariationSettings:
-                            '"opsz" 96, "wght" 400, "SOFT" 25',
+                            '"opsz" 96, "wght" 400',
                         }}
                       >
                         Vil du se mer?

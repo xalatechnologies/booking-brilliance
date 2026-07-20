@@ -99,7 +99,7 @@ const AboutUsSection = () => {
                 className="italic"
                 style={{
                   fontVariationSettings:
-                    '"opsz" 96, "wght" 400, "SOFT" 30, "WONK" 0',
+                    '"opsz" 96, "wght" 400',
                 }}
               >
                 Digilist.
@@ -122,7 +122,7 @@ const AboutUsSection = () => {
                 ISO 27001 og GDPR til samsvar.{" "}
                 <em
                   className="italic"
-                  style={{ fontVariationSettings: '"opsz" 16, "wght" 420, "SOFT" 60' }}
+                  style={{ fontVariationSettings: '"opsz" 16, "wght" 420' }}
                 >
                   Ikke amerikansk SaaS oversatt til bokmål,
                 </em>{" "}
@@ -241,7 +241,7 @@ const AboutUsSection = () => {
             aria-hidden="true"
             className="absolute -top-6 lg:-top-12 left-4 lg:left-10 font-serif text-[10rem] lg:text-[16rem] leading-none text-accent-text/10 select-none pointer-events-none"
             style={{
-              fontVariationSettings: '"opsz" 144, "wght" 380, "SOFT" 60',
+              fontVariationSettings: '"opsz" 144, "wght" 380',
             }}
           >
             &ldquo;
@@ -259,7 +259,7 @@ const AboutUsSection = () => {
                 className="font-serif text-3xl md:text-4xl lg:text-5xl text-ink leading-[1.18]"
                 style={{
                   fontVariationSettings:
-                    '"opsz" 96, "wght" 380, "SOFT" 40, "WONK" 0',
+                    '"opsz" 96, "wght" 380',
                   letterSpacing: "-0.018em",
                 }}
               >

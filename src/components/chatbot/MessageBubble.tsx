@@ -29,7 +29,7 @@ export function MessageBubble({ message }: Props) {
             isUser
               ? undefined
               : {
-                  fontFamily: '"Fraunces", Georgia, serif',
+                  fontFamily: '"Newsreader", Georgia, serif',
                   fontVariationSettings: getFraunces("sub"),
                   letterSpacing: "-0.005em",
                 }

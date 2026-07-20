@@ -54,12 +54,12 @@ const HeroSection = () => {
               Bookingplattform · 2026 · Norge
             </span>
 
-            <EditorialHeading as="h1" size="hero" wonk>
+            <EditorialHeading as="h1" size="hero">
               Lokaler du trenger,{" "}
               <em
                 className="italic"
                 style={{
-                  fontVariationSettings: '"opsz" 144, "wght" 400, "SOFT" 30, "WONK" 0',
+                  fontVariationSettings: '"opsz" 144, "wght" 400',
                 }}
               >
                 og plattformen som drifter det

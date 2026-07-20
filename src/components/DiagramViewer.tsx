@@ -291,7 +291,7 @@ export const DiagramViewer: React.FC<DiagramViewerProps> = ({ data }) => {
       .attr("fill", isDarkMode ? '#f1f5f9' : '#0f172a')
       .attr("font-weight", "700")
       .attr("font-size", "18px")
-      .attr("font-family", "Public Sans, system-ui, sans-serif");
+      .attr("font-family", "Inter, system-ui, sans-serif");
 
     // Sublabel - wraps to 2 lines max if too wide
     const subFontSize = 14;
@@ -322,7 +322,7 @@ export const DiagramViewer: React.FC<DiagramViewerProps> = ({ data }) => {
         .attr("y", subYStart)
         .attr("fill", '#64748b')
         .attr("font-size", `${subFontSize}px`)
-        .attr("font-family", "Public Sans, system-ui, sans-serif")
+        .attr("font-family", "Inter, system-ui, sans-serif")
         .attr("font-weight", "500");
       capped.forEach((ln, i) => {
         sub.append("tspan")
