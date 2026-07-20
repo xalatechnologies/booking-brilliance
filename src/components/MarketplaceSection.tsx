@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import {
   GlassWater,
   TreePine,
+  Dumbbell,
   Music,
   PartyPopper,
   Sparkles,
@@ -24,7 +25,7 @@ interface Tile {
 const TILES: Tile[] = [
   {
     title: "Lokaler",
-    tag: "Selskap · møte · idrett",
+    tag: "Selskap · møte · kultur",
     to: "/leie",
     image: "/images/cat/selskapslokale.jpg",
     Icon: GlassWater,
@@ -35,6 +36,13 @@ const TILES: Tile[] = [
     to: "/overnatting",
     image: "/images/cat/hytte.jpg",
     Icon: TreePine,
+  },
+  {
+    title: "Sport og aktivitet",
+    tag: "Idrettshall · padel · svømming",
+    to: "/leie/idrettshall",
+    image: "/images/cat/idrettshall.jpg",
+    Icon: Dumbbell,
   },
   {
     title: "Arrangementer",
@@ -86,7 +94,7 @@ const MarketplaceSection = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 lg:gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
           {TILES.map((t) => {
             const Icon = t.Icon;
             return (
@@ -94,7 +102,7 @@ const MarketplaceSection = () => {
                 key={t.to}
                 to={t.to}
                 className="group relative block overflow-hidden rounded-lg shadow-sm transition-all duration-300 ease-editorial hover:-translate-y-1 hover:shadow-xl"
-                style={{ aspectRatio: "4 / 5" }}
+                style={{ aspectRatio: "16 / 10" }}
               >
                 <img
                   src={t.image}

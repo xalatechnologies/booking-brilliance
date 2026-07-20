@@ -88,10 +88,13 @@ const Navbar = () => {
       </a>
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 lg:right-[var(--rail-w,22rem)] z-40 bg-paper border-b transition-all duration-normal ease-editorial",
+        // Height is constant on scroll (py-3 both states) so the navbar's
+        // bottom border stays aligned with the assistant rail's 76px header;
+        // only the border weight + shadow change as the scroll cue.
+        "fixed top-0 left-0 right-0 lg:right-[var(--rail-w,22rem)] z-40 bg-paper border-b py-3 transition-all duration-normal ease-editorial",
         isScrolled
-          ? "border-rule-strong py-2 shadow-[0_1px_0_0_hsl(var(--rule))]"
-          : "border-rule py-3"
+          ? "border-rule-strong shadow-[0_1px_0_0_hsl(var(--rule))]"
+          : "border-rule"
       )}
     >
       <div className="container mx-auto md:px-8 lg:px-12 grid grid-cols-[auto_1fr_auto] items-center gap-4">
