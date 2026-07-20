@@ -7,6 +7,11 @@ import { cn } from "@/lib/utils";
 
 const ROUTES: Array<{ label: string; to: string; eyebrow?: string }> = [
   { label: "Forsiden", to: "/", eyebrow: "Hjem" },
+  { label: "Lokaler", to: "/leie", eyebrow: "Selskap · møte · idrett · kultur" },
+  { label: "Overnatting", to: "/overnatting", eyebrow: "Hytte · leilighet · rom" },
+  { label: "Arrangementer", to: "/arrangementer", eyebrow: "Konsert · teater · festival" },
+  { label: "Utstyr", to: "/utstyr", eyebrow: "Fest · verktøy · lyd & lys" },
+  { label: "Tjenester", to: "/tjenester", eyebrow: "Catering · DJ · musiker · dekor" },
   { label: "Blogg", to: "/blogg", eyebrow: "Artikler" },
   { label: "FAQ", to: "/faq", eyebrow: "Vanlige spørsmål" },
   { label: "Transparens", to: "/transparens", eyebrow: "Live kvalitetsrapport" },
@@ -19,6 +24,11 @@ const ROUTES: Array<{ label: string; to: string; eyebrow?: string }> = [
     label: "Bookingsystem for kommuner",
     to: "/bookingsystem-kommune",
     eyebrow: "SSA-L 2026",
+  },
+  {
+    label: "Billettsystem",
+    to: "/billettsystem",
+    eyebrow: "Rabatt · kupong · gavekort",
   },
   { label: "Book demo", to: "/book-demo", eyebrow: "30–45 min" },
 ];
@@ -154,6 +164,14 @@ export function MobileMenu() {
         <footer className="border-t border-hairline-strong px-5 py-5 space-y-3 bg-accent-tinted">
           <EditorialButton
             variant="primary"
+            size="lg"
+            href="/leie"
+            className="w-full"
+          >
+            Finn lokale
+          </EditorialButton>
+          <EditorialButton
+            variant="outline"
             size="lg"
             href="/book-demo"
             className="w-full"

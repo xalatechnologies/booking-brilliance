@@ -76,23 +76,21 @@ const HeroSection = () => {
           variants={staggerParent}
           className="grid grid-cols-12 gap-6 lg:gap-gutter items-start"
         >
-          <motion.div
-            variants={staggerChild}
-            className="col-span-12 lg:col-span-7"
-          >
+          {/* Unified H1 spanning both audiences */}
+          <motion.div variants={staggerChild} className="col-span-12">
             <span className="editorial-mono-caption mb-6 inline-block">
               Bookingplattform · 2026 · Norge
             </span>
 
             <EditorialHeading as="h1" size="hero" wonk>
-              Én plattform for alt som{" "}
+              Lokalet du trenger{" "}
               <em
                 className="italic"
                 style={{
                   fontVariationSettings: '"opsz" 144, "wght" 400, "SOFT" 30, "WONK" 0',
                 }}
               >
-                leies ut
+                — og plattformen som drifter det
               </em>
               .
             </EditorialHeading>
@@ -101,83 +99,101 @@ const HeroSection = () => {
               className="mt-8 text-lg lg:text-xl text-ink-soft measure leading-relaxed"
               style={{ fontVariationSettings: '"wght" 380' }}
             >
-              Selskapslokaler, idrettshaller, møterom, kantiner og kulturhus.
-              Sanntidskalender, betaling, sesongleie og fakturering:{" "}
-              <em
+              Digilist samler lokaler du kan leie, og gir utleiere og kommuner
+              plattformen som drifter dem. Finn et lokale, eller book en demo.
+            </p>
+          </motion.div>
+
+          {/* Two doors: renter (Privat) + operator (Bedrift) */}
+          <motion.div
+            variants={staggerChild}
+            className="col-span-12 lg:col-span-7 flex flex-col gap-4 mt-8 lg:mt-10"
+          >
+            {/* Privat door */}
+            <div className="border border-rule rounded-sm p-6 lg:p-7 bg-paper">
+              <p className="editorial-mono-caption text-accent-text mb-3">
+                ◆ For deg som skal leie
+              </p>
+              <h2
+                className="font-serif text-2xl lg:text-3xl text-ink"
                 style={{
-                  fontVariationSettings: '"wght" 420, "SOFT" 30',
-                  fontStyle: "italic",
+                  fontVariationSettings: getFraunces("sub"),
+                  letterSpacing: "-0.015em",
+                  lineHeight: 1.1,
                 }}
               >
-                én digital plattform
-              </em>{" "}
-              for det norske utleiemarkedet.
-            </p>
-
-            <div className="mt-8 border-y border-rule py-5">
-              <p className="editorial-mono-caption mb-4">
-                Sertifisert · Integrert · Norsk
+                Finn og book lokale, der du bor
+              </h2>
+              <p className="mt-2 text-base text-ink-soft leading-relaxed">
+                Grendehus, kulturhus og selskapslokaler samlet, med ekte pris,
+                ledig dato og betaling med Vipps.
               </p>
-              <ul
-                className="flex flex-wrap items-center gap-x-5 gap-y-3"
-                aria-label="Sertifiseringer og integrasjoner"
-              >
-                {[
-                  "ISO 27001",
-                  "ISO 27701",
-                  "GDPR",
-                  "WCAG 2.0 AA",
-                  "Vipps",
-                  "BankID",
-                  "ID-porten",
-                  "EHF / Peppol",
-                  "Visma",
-                  "RCO",
-                  "Outlook",
-                ].map((brand) => (
-                  <li key={brand}>
-                    <IntegrationLogo brand={brand} />
-                  </li>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {["Selskapslokale", "Møterom", "Kulturhus", "Idrettshall"].map((c) => (
+                  <span
+                    key={c}
+                    className="font-mono text-[0.65rem] uppercase tracking-widest text-ink-soft border border-rule rounded-full px-3 py-1"
+                  >
+                    {c}
+                  </span>
                 ))}
-              </ul>
+              </div>
+              <div className="mt-5">
+                <EditorialButton variant="primary" size="lg" href="/leie">
+                  Finn lokale
+                </EditorialButton>
+              </div>
             </div>
 
-            <p className="mt-6 text-base text-ink-soft measure">
-              I daglig bruk hos{" "}
-              <span className="text-ink font-medium">Nordre Follo kommune</span>,{" "}
-              <span className="text-ink font-medium">Rønningen Selskapslokale</span>,{" "}
-              <span className="text-ink font-medium">Lier Bygdetun</span> og{" "}
-              <span className="text-ink font-medium">RightSize Group</span>.
-            </p>
-
-            <div className="mt-8 flex flex-col sm:flex-row gap-4">
-              <EditorialButton
-                variant="primary"
-                size="lg"
-                href="https://app.digilist.no"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Åpne plattformen
-              </EditorialButton>
-              <EditorialButton
-                variant="outline"
-                size="lg"
-                icon={false}
-                onClick={(e) => {
-                  e.preventDefault();
-                  const el = document.getElementById("kontakt");
-                  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+            {/* Bedrift door */}
+            <div className="border border-rule rounded-sm p-6 lg:p-7 bg-paper-deep/30">
+              <p className="editorial-mono-caption text-ink-faint mb-3">
+                ■ For utleier &amp; kommune
+              </p>
+              <h2
+                className="font-serif text-2xl lg:text-3xl text-ink"
+                style={{
+                  fontVariationSettings: getFraunces("sub"),
+                  letterSpacing: "-0.015em",
+                  lineHeight: 1.1,
                 }}
               >
-                Book demo
-              </EditorialButton>
+                Plattformen som drifter utleien
+              </h2>
+              <p className="mt-2 text-base text-ink-soft leading-relaxed">
+                Booking, sesongtildeling og innbyggerdialog i én plattform, med
+                innebygd etterlevelse (GDPR, universell utforming, NSM).
+              </p>
+              <div className="mt-5 flex flex-col sm:flex-row gap-3">
+                <EditorialButton
+                  variant="primary"
+                  size="lg"
+                  icon={false}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    const el = document.getElementById("kontakt");
+                    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }}
+                >
+                  Book demo
+                </EditorialButton>
+                <EditorialButton
+                  variant="outline"
+                  size="lg"
+                  href="https://app.digilist.no"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Åpne plattformen
+                </EditorialButton>
+              </div>
             </div>
           </motion.div>
 
+          {/* Product preview */}
           <motion.div
             variants={staggerChild}
-            className="col-span-12 lg:col-span-5 mt-12 lg:mt-0"
+            className="col-span-12 lg:col-span-5 mt-8 lg:mt-10"
           >
             <HeroPlatformPreview />
           </motion.div>

@@ -39,11 +39,17 @@ const Footer = () => {
   ];
 
   const ressurser = [
+    { label: "Lokaler", href: "/leie" },
+    { label: "Overnatting", href: "/overnatting" },
+    { label: "Arrangementer", href: "/arrangementer" },
+    { label: "Utstyr", href: "/utstyr" },
+    { label: "Tjenester", href: "/tjenester" },
     { label: "Blogg", href: "/blogg" },
     { label: "FAQ", href: "/faq" },
     { label: "Transparens", href: "/transparens" },
     { label: "Booking av lokaler og møterom", href: "/booking-av-lokaler-og-moterom" },
     { label: "Bookingsystem for kommuner", href: "/bookingsystem-kommune" },
+    { label: "Billettsystem", href: "/billettsystem" },
     { label: "Pilot for kommuner", href: "/#pilot" },
   ];
 
@@ -123,8 +129,8 @@ const Footer = () => {
               className="text-2xl lg:text-3xl text-ink-soft italic measure leading-snug"
               style={{ fontVariationSettings: getFraunces("sub") }}
             >
-              Én plattform for norske kommuner og utleiere: booking,
-              betaling, kalender og rapportering, sammenhengende.
+              Én plattform for norske lokaler. Finn og book som privatperson,
+              drift og forvalt som kommune eller utleier.
             </p>
           </div>
           <div className="lg:col-span-5 lg:border-l lg:border-rule lg:pl-8 flex flex-col justify-end gap-3">

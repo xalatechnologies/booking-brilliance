@@ -35,6 +35,26 @@
       })();
     </script>
 
+    <!--
+      Assistant-rail width: publish --rail-w before hydration so the
+      prerendered content reserves the correct right gutter from first paint
+      (no reflow when the lazy AssistantRail mounts, and no wrong-width gutter
+      for users who collapsed it). Mirrors ChatbotProvider's persistence
+      (key "digilist-rail-expanded-v1", "0" = collapsed, default expanded).
+      Desktop-only in effect — the `lg:pr-[var(--rail-w)]` utility gates it,
+      so mobile ignores the value.
+    -->
+    <script>
+      (function () {
+        try {
+          var expanded = localStorage.getItem("digilist-rail-expanded-v1") !== "0";
+          document.documentElement.style.setProperty("--rail-w", expanded ? "22rem" : "0px");
+        } catch (_) {
+          document.documentElement.style.setProperty("--rail-w", "22rem");
+        }
+      })();
+    </script>
+
     <!-- Favicons -->
     <!-- 5.5KB favicon instead of the 145KB logo.svg / 228KB icon.png the
          browser used to fetch on every page (competed for the LCP window on

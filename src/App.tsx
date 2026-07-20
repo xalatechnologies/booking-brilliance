@@ -13,6 +13,39 @@ import Index from "./pages/Index";
 import BookDemo from "./pages/BookDemo";
 import BookingsystemKommune from "./pages/BookingsystemKommune";
 import BookingLokalerMoterom from "./pages/BookingLokalerMoterom";
+import Billettsystem from "./pages/Billettsystem";
+import Leie from "./pages/Leie";
+import LeieSelskapslokale from "./pages/LeieSelskapslokale";
+import LeieMoterom from "./pages/LeieMoterom";
+import LeieKonferanselokale from "./pages/LeieKonferanselokale";
+import LeieKontorlokaler from "./pages/LeieKontorlokaler";
+import LeieCoworking from "./pages/LeieCoworking";
+import LeieIdrettshall from "./pages/LeieIdrettshall";
+import LeiePadelbane from "./pages/LeiePadelbane";
+import LeieSvommehall from "./pages/LeieSvommehall";
+import LeieKulturhus from "./pages/LeieKulturhus";
+import LeieGaard from "./pages/LeieGaard";
+import LeieBursdagslokale from "./pages/LeieBursdagslokale";
+import Overnatting from "./pages/Overnatting";
+import OvernattingHytte from "./pages/OvernattingHytte";
+import OvernattingLeilighet from "./pages/OvernattingLeilighet";
+import OvernattingRom from "./pages/OvernattingRom";
+import OvernattingFeriehus from "./pages/OvernattingFeriehus";
+import Utstyr from "./pages/Utstyr";
+import UtstyrFestutstyr from "./pages/UtstyrFestutstyr";
+import UtstyrVerktoyMaskiner from "./pages/UtstyrVerktoyMaskiner";
+import UtstyrLydOgLys from "./pages/UtstyrLydOgLys";
+import UtstyrSportOgFriluft from "./pages/UtstyrSportOgFriluft";
+import Tjenester from "./pages/Tjenester";
+import TjenesteCatering from "./pages/TjenesteCatering";
+import TjenesteDj from "./pages/TjenesteDj";
+import TjenesteMusiker from "./pages/TjenesteMusiker";
+import TjenesteDekor from "./pages/TjenesteDekor";
+import Arrangementer from "./pages/Arrangementer";
+import ArrangementKonsert from "./pages/ArrangementKonsert";
+import ArrangementTeaterOgScene from "./pages/ArrangementTeaterOgScene";
+import ArrangementFestival from "./pages/ArrangementFestival";
+import ArrangementSport from "./pages/ArrangementSport";
 import Blog from "./pages/Blog";
 import FAQ from "./pages/FAQ";
 import AiAgenter from "./pages/AiAgenter";
@@ -24,6 +57,7 @@ import Personvern from "./pages/Personvern";
 import Cookies from "./pages/Cookies";
 import NotFound from "./pages/NotFound";
 import Transparens from "./pages/Transparens";
+import { ChatbotProvider } from "./components/chatbot/ChatbotProvider";
 import UseCaseSelskapslokaler from "./pages/UseCaseSelskapslokaler";
 import UseCaseMoterom from "./pages/UseCaseMoterom";
 import UseCaseIdrettshaller from "./pages/UseCaseIdrettshaller";
@@ -106,6 +140,11 @@ import RumReporter from "./components/RumReporter";
 const Chatbot = lazy(() =>
   import("./components/chatbot").then((m) => ({ default: m.Chatbot })),
 );
+const AssistantRail = lazy(() =>
+  import("./components/chatbot/AssistantRail").then((m) => ({
+    default: m.AssistantRail,
+  })),
+);
 
 // Tiny shared Suspense fallback — invisible, just maintains layout.
 const RouteFallback = () => (
@@ -141,6 +180,36 @@ function ChatbotMount() {
     <Suspense fallback={null}>
       <Chatbot />
     </Suspense>
+  );
+}
+
+// The persistent desktop assistant rail (lg+). Same skip rules as the chatbot.
+function AssistantRailMount() {
+  const location = useLocation();
+  const skip =
+    location.pathname.startsWith("/admin") ||
+    location.pathname.startsWith("/blogg/preview");
+  if (skip) return null;
+  return (
+    <Suspense fallback={null}>
+      <AssistantRail />
+    </Suspense>
+  );
+}
+
+// Reserves right space for the desktop rail so page content never hides behind
+// it. Uses the same --rail-w variable the rail publishes (0 when collapsed or on
+// unmount), so the body and the navbar stay aligned to one content box. Rail is
+// lg+ only (so is the padding); admin/preview routes never reserve space.
+function ContentShell({ children }: { children: ReactNode }) {
+  const location = useLocation();
+  const skip =
+    location.pathname.startsWith("/admin") ||
+    location.pathname.startsWith("/blogg/preview");
+  return (
+    <div className={`transition-[padding] duration-300 ease-out ${skip ? "" : "lg:pr-[var(--rail-w,22rem)]"}`}>
+      {children}
+    </div>
   );
 }
 
@@ -207,6 +276,8 @@ export function AppShell() {
           <Sonner />
           <ScrollToTop />
           <RumReporter />
+          <ChatbotProvider>
+          <ContentShell>
           <Suspense fallback={<RouteFallback />}>
           <AnimatedRoutesWrap>
           <Routes>
@@ -214,6 +285,39 @@ export function AppShell() {
             <Route path="/book-demo" element={<BookDemo />} />
             <Route path="/bookingsystem-kommune" element={<BookingsystemKommune />} />
             <Route path="/booking-av-lokaler-og-moterom" element={<BookingLokalerMoterom />} />
+            <Route path="/billettsystem" element={<Billettsystem />} />
+            <Route path="/leie" element={<Leie />} />
+            <Route path="/leie/selskapslokale" element={<LeieSelskapslokale />} />
+            <Route path="/leie/gaard" element={<LeieGaard />} />
+            <Route path="/leie/bursdagslokale" element={<LeieBursdagslokale />} />
+            <Route path="/leie/kulturhus" element={<LeieKulturhus />} />
+            <Route path="/leie/moterom" element={<LeieMoterom />} />
+            <Route path="/leie/konferanselokale" element={<LeieKonferanselokale />} />
+            <Route path="/leie/kontorlokaler" element={<LeieKontorlokaler />} />
+            <Route path="/leie/coworking" element={<LeieCoworking />} />
+            <Route path="/leie/idrettshall" element={<LeieIdrettshall />} />
+            <Route path="/leie/padelbane" element={<LeiePadelbane />} />
+            <Route path="/leie/svommehall" element={<LeieSvommehall />} />
+            <Route path="/overnatting" element={<Overnatting />} />
+            <Route path="/overnatting/hytte" element={<OvernattingHytte />} />
+            <Route path="/overnatting/leilighet" element={<OvernattingLeilighet />} />
+            <Route path="/overnatting/rom" element={<OvernattingRom />} />
+            <Route path="/overnatting/feriehus" element={<OvernattingFeriehus />} />
+            <Route path="/utstyr" element={<Utstyr />} />
+            <Route path="/utstyr/festutstyr" element={<UtstyrFestutstyr />} />
+            <Route path="/utstyr/verktoy-maskiner" element={<UtstyrVerktoyMaskiner />} />
+            <Route path="/utstyr/lyd-og-lys" element={<UtstyrLydOgLys />} />
+            <Route path="/utstyr/sport-og-friluft" element={<UtstyrSportOgFriluft />} />
+            <Route path="/tjenester" element={<Tjenester />} />
+            <Route path="/tjenester/catering" element={<TjenesteCatering />} />
+            <Route path="/tjenester/dj" element={<TjenesteDj />} />
+            <Route path="/tjenester/musiker" element={<TjenesteMusiker />} />
+            <Route path="/tjenester/dekor" element={<TjenesteDekor />} />
+            <Route path="/arrangementer" element={<Arrangementer />} />
+            <Route path="/arrangementer/konsert" element={<ArrangementKonsert />} />
+            <Route path="/arrangementer/teater-og-scene" element={<ArrangementTeaterOgScene />} />
+            <Route path="/arrangementer/festival" element={<ArrangementFestival />} />
+            <Route path="/arrangementer/sport" element={<ArrangementSport />} />
             <Route path="/blogg" element={<Blog />} />
             <Route
               path="/blogg/preview/:draftId"
@@ -338,8 +442,11 @@ export function AppShell() {
           </Routes>
           </AnimatedRoutesWrap>
           </Suspense>
+          </ContentShell>
           <CookieConsent />
           <ChatbotMount />
+          <AssistantRailMount />
+          </ChatbotProvider>
         </TooltipProvider>
         </MotionFirstPaintShim>
       </ThemeProvider>

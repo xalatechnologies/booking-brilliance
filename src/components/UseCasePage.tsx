@@ -17,6 +17,12 @@ import {
   ProgressRail,
   SectionRule,
 } from "@/components/editorial";
+import {
+  CategoryVisual,
+  iconForSlug,
+  imageForSlug,
+} from "@/components/CategoryVisual";
+import { VideoPlaceholder } from "@/components/VideoPlaceholder";
 import { getFraunces } from "@/lib/fonts";
 
 export interface UseCaseAudience {
@@ -82,6 +88,20 @@ export interface UseCasePageProps {
   pullQuote?: { text: string; byline: string };
   /** Optional inline ReactNode injected before FAQ. */
   extra?: ReactNode;
+  /** URL segment these slug pages live under. Default "/bruksomrader". Set "/leie" for the B2C track. */
+  basePath?: string;
+  /** Parent breadcrumb (name + route). Defaults to the Bruksområder hub. */
+  parentCrumb?: { name: string; path: string };
+  /** Mono section label shown top-right. Default "BRUKSOMRÅDE". */
+  sectionLabel?: string;
+  /** Optional hero photo (the large image in the stack). Placeholder when absent. */
+  heroImage?: string;
+  heroImageAlt?: string;
+  /** Optional smaller stacked photos under the hero image (up to 2 used). */
+  heroImages?: string[];
+  /** Optional explainer clip. A swap-ready placeholder shows when absent. */
+  video?: string;
+  videoPoster?: string;
 }
 
 export default function UseCasePage({
@@ -103,6 +123,13 @@ export default function UseCasePage({
   siblings,
   pullQuote,
   extra,
+  basePath = "/bruksomrader",
+  parentCrumb = { name: "Bruksområder", path: "/booking-av-lokaler-og-moterom" },
+  sectionLabel = "BRUKSOMRÅDE",
+  heroImage,
+  heroImageAlt,
+  video,
+  videoPoster,
 }: UseCasePageProps) {
   return (
     <div className="min-h-screen bg-paper overflow-x-hidden">
@@ -110,16 +137,16 @@ export default function UseCasePage({
         title={seoTitle}
         description={seoDescription}
         keywords={keywords}
-        canonical={`https://digilist.no/bruksomrader/${slug}`}
+        canonical={`https://digilist.no${basePath}/${slug}`}
         breadcrumbs={[
           { name: "Hjem", url: "https://digilist.no/" },
           {
-            name: "Bruksområder",
-            url: "https://digilist.no/booking-av-lokaler-og-moterom",
+            name: parentCrumb.name,
+            url: `https://digilist.no${parentCrumb.path}`,
           },
           {
             name: breadcrumb,
-            url: `https://digilist.no/bruksomrader/${slug}`,
+            url: `https://digilist.no${basePath}/${slug}`,
           },
         ]}
         faq={faq}
@@ -143,22 +170,22 @@ export default function UseCasePage({
                   </Link>
                   <span aria-hidden className="text-ink-faint">·</span>
                   <Link
-                    to="/booking-av-lokaler-og-moterom"
+                    to={parentCrumb.path}
                     className="hover:underline"
                   >
-                    Bruksområder
+                    {parentCrumb.name}
                   </Link>
                   <span aria-hidden className="text-ink-faint">·</span>
                   <span className="text-ink">{breadcrumb}</span>
                 </nav>
                 <p className="editorial-mono-caption text-ink-faint hidden lg:block">
-                  BRUKSOMRÅDE
+                  {sectionLabel}
                 </p>
               </div>
 
-              {/* Hero */}
-              <header className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-14 lg:mb-20 items-end">
-                <div className="lg:col-span-8">
+              {/* Hero — title + dek left, photo right (no long lead column) */}
+              <header className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-14 lg:mb-20 items-center">
+                <div className="lg:col-span-7">
                   <h1
                     className="font-serif text-5xl lg:text-7xl text-ink leading-[1.04] tracking-tight"
                     style={{ fontVariationSettings: getFraunces("hero") }}
@@ -172,29 +199,76 @@ export default function UseCasePage({
                     {dek}
                   </p>
                 </div>
-                <div className="lg:col-span-4 lg:pl-8 lg:border-l lg:border-rule">
-                  <p className="text-base text-ink leading-relaxed">{lead}</p>
+                <div className="lg:col-span-5">
+                  {heroImage ?? imageForSlug(slug) ? (
+                    <CategoryVisual
+                      icon={iconForSlug(slug)}
+                      label={`DIGILIST · ${breadcrumb.toUpperCase()}`}
+                      src={heroImage ?? imageForSlug(slug)}
+                      alt={heroImageAlt ?? title}
+                      aspect="4 / 3"
+                      variant="primary"
+                      eager
+                    />
+                  ) : (
+                    <div className="grid grid-cols-2 gap-3 lg:gap-4">
+                      <CategoryVisual
+                        icon={iconForSlug(slug)}
+                        label={`DIGILIST · ${breadcrumb.toUpperCase()}`}
+                        aspect="16 / 10"
+                        variant="primary"
+                        className="col-span-2"
+                      />
+                      <CategoryVisual
+                        icon={iconForSlug(slug)}
+                        aspect="1 / 1"
+                        variant="texture"
+                      />
+                      <CategoryVisual
+                        icon={iconForSlug(slug)}
+                        aspect="1 / 1"
+                        variant="texture"
+                      />
+                    </div>
+                  )}
                 </div>
               </header>
+
+              {/* Lead — shown as a code-block-style "use case" callout */}
+              <figure className="mb-14 lg:mb-20 overflow-hidden rounded-md border border-rule bg-paper-deep/40">
+                <figcaption className="flex items-center gap-2 px-4 py-2.5 border-b border-rule bg-paper-deep/60">
+                  <span aria-hidden className="flex gap-1.5">
+                    <span className="w-2.5 h-2.5 rounded-full border border-rule-strong" />
+                    <span className="w-2.5 h-2.5 rounded-full border border-rule-strong" />
+                    <span className="w-2.5 h-2.5 rounded-full border border-rule-strong" />
+                  </span>
+                  <span className="editorial-mono-caption text-ink-faint ml-1.5">
+                    BRUKSTILFELLE · {breadcrumb.toUpperCase()}
+                  </span>
+                </figcaption>
+                <p className="px-5 py-4 font-mono text-sm text-ink-soft leading-relaxed">
+                  {lead}
+                </p>
+              </figure>
 
               {/* Audience */}
               <section className="mb-14 lg:mb-20">
                 <SectionRule label="HVEM BRUKER DETTE" />
-                <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-rule border border-rule">
+                <div className="mt-8 grid sm:grid-cols-2 gap-px bg-rule border border-rule">
                   {audience.map((a, i) => (
-                    <div key={a.persona} className="bg-paper p-6 lg:p-7">
+                    <div key={a.persona} className="bg-paper p-7 lg:p-8">
                       <header className="flex items-center gap-3 mb-3">
-                        <span className="font-mono text-[0.65rem] text-navy bg-navy/5 border border-navy/15 rounded-sm w-8 h-8 inline-flex items-center justify-center tabular-nums">
+                        <span className="font-mono text-xs text-navy bg-navy/5 border border-navy/15 rounded-sm w-8 h-8 inline-flex items-center justify-center tabular-nums">
                           {String(i + 1).padStart(2, "0")}
                         </span>
                         <h3
-                          className="font-serif text-xl text-ink leading-tight flex-1"
+                          className="font-serif text-2xl text-ink leading-tight flex-1"
                           style={{ fontVariationSettings: getFraunces("sub") }}
                         >
                           {a.persona}
                         </h3>
                       </header>
-                      <p className="text-base text-ink leading-relaxed">
+                      <p className="text-lg text-ink leading-relaxed">
                         {a.context}
                       </p>
                     </div>
@@ -261,6 +335,19 @@ export default function UseCasePage({
                 </div>
               </section>
 
+              {/* Explainer video */}
+              <section className="mb-14 lg:mb-20">
+                <SectionRule label="SE HVORDAN DET FUNGERER" />
+                <div className="mt-8">
+                  <VideoPlaceholder
+                    label={`FILM · ${breadcrumb.toUpperCase()}`}
+                    caption={`Kort film om ${title.toLowerCase()}`}
+                    src={video}
+                    poster={videoPoster}
+                  />
+                </div>
+              </section>
+
               {/* Pull quote */}
               {pullQuote && (
                 <section className="mb-14 lg:mb-20">
@@ -288,7 +375,7 @@ export default function UseCasePage({
                   Hvordan kunder bruker det
                 </h2>
                 <div className="grid lg:grid-cols-2 gap-px bg-rule border border-rule">
-                  {stories.map((s, i) => (
+                  {stories.slice(0, 2).map((s, i) => (
                     <article key={i} className="bg-paper p-8">
                       <p className="editorial-mono-caption text-accent-text">
                         {s.customer.toUpperCase()} · {s.role.toUpperCase()}
@@ -333,7 +420,7 @@ export default function UseCasePage({
                         key={i}
                         className="grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-2 sm:gap-6 px-5 py-4"
                       >
-                        <dt className="font-mono text-xs uppercase tracking-widest text-ink-faint pt-1">
+                        <dt className="font-mono text-sm uppercase tracking-widest text-ink-faint pt-1">
                           {t.label}
                         </dt>
                         <dd className="text-base text-ink leading-relaxed">
@@ -441,7 +528,7 @@ export default function UseCasePage({
                     {siblings.map((s) => (
                       <Link
                         key={s.slug}
-                        to={`/bruksomrader/${s.slug}`}
+                        to={`${basePath}/${s.slug}`}
                         className="inline-flex items-center gap-1.5 border border-hairline rounded-sm px-3 py-1.5 text-sm hover:bg-paper-deep transition-colors text-ink"
                       >
                         {s.title}

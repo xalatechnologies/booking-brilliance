@@ -1,4 +1,5 @@
 import { FAQ_CATEGORIES, allFAQEntries } from "@/content/faq";
+import type { SearchItem } from "@/lib/search/corpus";
 
 export interface RagHit {
   q: string;
@@ -112,6 +113,7 @@ export function buildLLMContext(
   query: string,
   hits: RagHit[],
   history: Array<{ role: string; text: string }>,
+  pages: SearchItem[] = [],
 ): { system: string; messages: Array<{ role: string; content: string }> } {
   const corpus = hits
     .map(
@@ -119,14 +121,22 @@ export function buildLLMContext(
         `[${i + 1}] (${h.category})\nSpørsmål: ${h.q}\nSvar: ${h.a}`,
     )
     .join("\n\n");
+  const sider = pages
+    .slice(0, 6)
+    .map((p) => `- ${p.title}${p.subtitle ? `: ${p.subtitle}` : ""} (${p.href})`)
+    .join("\n");
   const system = `Du er Digilist-assistenten, en norsk AI-rådgiver for Digilist, en bookingplattform for norske utleiere og kommuner. Svar kort, presist og på norsk bokmål. Hold deg til informasjonen i KILDER nedenfor og henvis til /faq for utfyllende svar. Hvis du ikke vet svaret, foreslå at brukeren snakker med en rådgiver via skjemaet.
 
 KILDER:
 ${corpus || "(ingen relevante treff i kunnskapsbasen)"}
 
+RELEVANTE SIDER (fra søk på hele nettstedet):
+${sider || "(ingen)"}
+
 REGLER:
 - Svar maks 3 setninger.
 - Bruk norsk bokmål.
+- Der en side under RELEVANTE SIDER passer svaret, nevn den kort.
 - Hvis spørsmålet ikke kan besvares fra KILDER, si det ærlig og foreslå skjemaet.
 - Ikke fabriker pris, dato, navn eller tall som ikke står i KILDER.`;
 

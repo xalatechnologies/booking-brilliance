@@ -1,3 +1,5 @@
+import type { SearchItem } from "@/lib/search/corpus";
+
 export type Role = "user" | "assistant" | "system";
 
 export interface ChatMessage {
@@ -12,6 +14,8 @@ export interface ChatMessage {
   showInquiryCta?: boolean;
   /** Optional CTA to book demo */
   showDemoCta?: boolean;
+  /** Whole-site intelligent-search results shown as clickable cards under the answer */
+  results?: SearchItem[];
   timestamp: number;
 }
 

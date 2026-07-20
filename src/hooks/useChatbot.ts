@@ -4,9 +4,9 @@ import {
   answerFrom,
   followUpSuggestions,
   FALLBACK_NO_MATCH,
-  FAQ_COUNT,
   buildLLMContext,
 } from "@/lib/chatbot/rag";
+import { getSearchCorpus, searchCorpus } from "@/lib/search/corpus";
 import type {
   ChatMessage,
   ChatState,
@@ -29,25 +29,10 @@ const emptyDraft: InquiryDraft = {
   contextSummary: "",
 };
 
-const greeting = (): ChatMessage => ({
-  id: cryptoId(),
-  role: "assistant",
-  text: `Hei, jeg er Digilist-assistenten. Jeg kan svare på spørsmål om plattformen vår basert på ${FAQ_COUNT} ofte stilte spørsmål, eller sette deg i kontakt med en rådgiver.`,
-  suggestions: [
-    "Hva er Digilist?",
-    "Pris for kommuner",
-    "SSA-L 2026",
-    "Pilot for kommune",
-    "Sesongleie",
-    "Book demo",
-  ],
-  timestamp: Date.now(),
-});
-
 const initialState = (): ChatState => ({
   open: false,
   mode: "chat",
-  messages: [greeting()],
+  messages: [],
   inquiry: { ...emptyDraft },
   thinking: false,
   error: null,
@@ -169,6 +154,9 @@ export function useChatbot() {
       dispatch({ type: "SET_ERROR", error: null });
 
       const hits = retrieve(trimmed, 3);
+      // Whole-site intelligent search — shown as clickable cards under the reply
+      // and fed to the LLM so it can cite pages/blog, not just FAQ.
+      const results = searchCorpus(trimmed, getSearchCorpus()).slice(0, 6);
 
       // Path A — call the digilist-api /api/chat endpoint (Anthropic proxy).
       // Falls through to local FAQ retrieval if the service is unreachable
@@ -178,7 +166,7 @@ export function useChatbot() {
           .filter((m) => m.role !== "system")
           .slice(-8)
           .map((m) => ({ role: m.role, text: m.text }));
-        const ctx = buildLLMContext(trimmed, hits, history);
+        const ctx = buildLLMContext(trimmed, hits, history, results);
         const res = await fetch(CHAT_ENDPOINT, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -198,6 +186,7 @@ export function useChatbot() {
               sourceQ: hits[0]?.q,
               suggestions: followUpSuggestions(hits[0]),
               showInquiryCta: hits.length === 0,
+              results,
               timestamp: Date.now(),
             };
             dispatch({ type: "ADD_MESSAGE", message: assistantMsg });
@@ -228,6 +217,7 @@ export function useChatbot() {
           text: `${lead}${answerFrom(top)}`,
           sourceQ: top.q,
           suggestions: followUpSuggestions(top),
+          results,
           timestamp: Date.now(),
         };
       } else {
@@ -242,6 +232,7 @@ export function useChatbot() {
           suggestions: ["Send forespørsel", "Book demo"],
           showInquiryCta: true,
           showDemoCta: true,
+          results,
           timestamp: Date.now(),
         };
       }

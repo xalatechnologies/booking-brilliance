@@ -28,11 +28,27 @@ const SOLUTIONS = [
     to: "/bookingsystem-kommune",
     eyebrow: "SSA-L 2026",
   },
+  {
+    label: "Billettsystem",
+    to: "/billettsystem",
+    eyebrow: "Rabatt · kupong · gavekort",
+  },
+] as const;
+
+// The four B2C marketplaces — grouped under a "Finn" dropdown. These are
+// separate rental/service verticals, so they can't hang off a single
+// "Finn lokale" link.
+const MARKETPLACES = [
+  { label: "Lokaler", to: "/leie", eyebrow: "Selskap · møte · idrett · kultur" },
+  { label: "Overnatting", to: "/overnatting", eyebrow: "Hytte · leilighet · rom" },
+  { label: "Arrangementer", to: "/arrangementer", eyebrow: "Konsert · teater · festival" },
+  { label: "Utstyr", to: "/utstyr", eyebrow: "Fest · verktøy · lyd & lys" },
+  { label: "Tjenester", to: "/tjenester", eyebrow: "Catering · DJ · musiker · dekor" },
 ] as const;
 
 // Primary desktop navigation — the curated top-level links that sit inline. The
-// remaining routes live in the Løsninger dropdown and the MobileMenu drawer
-// (the fallback below `xl` and on mobile).
+// remaining routes live in the Finn/Løsninger dropdowns and the MobileMenu
+// drawer (the fallback below `xl` and on mobile).
 const PRIMARY_NAV = [
   { label: "Blogg", to: "/blogg" },
   { label: "FAQ", to: "/faq" },
@@ -50,6 +66,9 @@ const Navbar = () => {
   const location = useLocation();
   const solutionsActive = SOLUTIONS.some((s) =>
     location.pathname.startsWith(s.to),
+  );
+  const finnActive = MARKETPLACES.some((m) =>
+    location.pathname.startsWith(m.to),
   );
 
   useEffect(() => {
@@ -69,13 +88,13 @@ const Navbar = () => {
       </a>
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-40 bg-paper border-b transition-all duration-normal ease-editorial",
+        "fixed top-0 left-0 right-0 lg:right-[var(--rail-w,22rem)] z-40 bg-paper border-b transition-all duration-normal ease-editorial",
         isScrolled
           ? "border-rule-strong py-2 shadow-[0_1px_0_0_hsl(var(--rule))]"
           : "border-rule py-3"
       )}
     >
-      <div className="container mx-auto md:px-8 lg:px-12 flex items-center gap-4 lg:gap-6">
+      <div className="container mx-auto md:px-8 lg:px-12 grid grid-cols-[auto_1fr_auto] items-center gap-4">
         <Link
           to="/"
           aria-label="Digilist, gå til forsiden"
@@ -122,18 +141,54 @@ const Navbar = () => {
           </span>
         </Link>
 
-        {/* Search — left-aligned, right after the logo. Flexes: grows toward
-            360px on wide screens, shrinks first when the nav needs room. */}
-        <div className="hidden md:flex shrink min-w-[150px] w-[240px] lg:w-[300px] xl:w-[360px]">
-          <GlobalSearch />
-        </div>
-
-        {/* Right group: primary nav (xl+) + actions, pushed to the far edge */}
-        <div className="flex items-center gap-4 lg:gap-6 ml-auto shrink-0">
+        {/* Center: primary nav (xl+) + søk (md–lg only; the desktop rail
+            replaces search at lg+). */}
+        <div className="flex items-center justify-center gap-6 min-w-0">
+          <div className="hidden md:flex lg:hidden w-full max-w-[320px]">
+            <GlobalSearch />
+          </div>
           <nav
             aria-label="Hovednavigasjon"
             className="hidden xl:flex items-center gap-6"
           >
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                className={cn(
+                  NAV_LINK,
+                  "inline-flex items-center gap-1 outline-none focus-visible:underline focus-visible:underline-offset-8 data-[state=open]:text-ink",
+                  finnActive && NAV_LINK_ACTIVE,
+                )}
+              >
+                Finn
+                <ChevronDown
+                  className="h-3.5 w-3.5 transition-transform duration-quick ease-editorial"
+                  strokeWidth={1.75}
+                  aria-hidden="true"
+                />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                align="start"
+                sideOffset={12}
+                className="min-w-[18rem] bg-paper border-hairline-strong rounded-sm p-1.5"
+              >
+                {MARKETPLACES.map((m) => (
+                  <DropdownMenuItem key={m.to} asChild>
+                    <Link
+                      to={m.to}
+                      className="w-full flex flex-col !items-start text-left gap-0.5 px-3 py-2.5 rounded-sm cursor-pointer focus:bg-paper-deep hover:bg-paper-deep"
+                    >
+                      <span className="editorial-mono-caption text-ink-faint">
+                        {m.eyebrow}
+                      </span>
+                      <span className="font-sans text-[0.95rem] text-ink">
+                        {m.label}
+                      </span>
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
             <DropdownMenu>
               <DropdownMenuTrigger
                 className={cn(
@@ -158,7 +213,7 @@ const Navbar = () => {
                   <DropdownMenuItem key={s.to} asChild>
                     <Link
                       to={s.to}
-                      className="flex flex-col items-start gap-0.5 px-3 py-2.5 rounded-sm cursor-pointer focus:bg-paper-deep hover:bg-paper-deep"
+                      className="w-full flex flex-col !items-start text-left gap-0.5 px-3 py-2.5 rounded-sm cursor-pointer focus:bg-paper-deep hover:bg-paper-deep"
                     >
                       <span className="editorial-mono-caption text-ink-faint">
                         {s.eyebrow}
@@ -183,21 +238,22 @@ const Navbar = () => {
               </NavLink>
             ))}
           </nav>
+        </div>
 
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
-            <EditorialButton
-              variant="primary"
-              size="md"
-              href="https://app.digilist.no"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden lg:inline-flex"
-            >
-              Åpne plattformen
-            </EditorialButton>
-            <MobileMenu />
-          </div>
+        {/* Actions */}
+        <div className="flex items-center gap-3 justify-self-end">
+          <ThemeToggle />
+          <EditorialButton
+            variant="primary"
+            size="md"
+            href="https://app.digilist.no"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden lg:inline-flex"
+          >
+            Åpne plattformen
+          </EditorialButton>
+          <MobileMenu />
         </div>
       </div>
     </nav>

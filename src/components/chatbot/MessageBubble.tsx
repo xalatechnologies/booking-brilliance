@@ -1,6 +1,6 @@
-import { useMemo } from "react";
 import type { ChatMessage } from "@/lib/chatbot/types";
 import { getFraunces } from "@/lib/fonts";
+import { ResultCards } from "./ResultCards";
 
 interface Props {
   message: ChatMessage;
@@ -8,14 +8,6 @@ interface Props {
 
 export function MessageBubble({ message }: Props) {
   const isUser = message.role === "user";
-  const time = useMemo(
-    () =>
-      new Date(message.timestamp).toLocaleTimeString("nb-NO", {
-        hour: "2-digit",
-        minute: "2-digit",
-      }),
-    [message.timestamp],
-  );
   return (
     <div
       className={`flex ${isUser ? "justify-end" : "justify-start"} px-1`}
@@ -29,11 +21,6 @@ export function MessageBubble({ message }: Props) {
             : "bg-paper text-ink border-hairline-strong"
         } px-4 py-3`}
       >
-        {!isUser && (
-          <div className="editorial-mono-caption text-accent-text mb-1.5">
-            DIGILIST-ASSISTENT
-          </div>
-        )}
         <p
           className={`whitespace-pre-wrap leading-relaxed ${
             isUser ? "text-sm" : "text-base"
@@ -55,13 +42,9 @@ export function MessageBubble({ message }: Props) {
             Kilde: {message.sourceQ}
           </p>
         )}
-        <div
-          className={`mt-2 text-[10px] tracking-widest tabular-nums font-mono ${
-            isUser ? "text-on-navy/70" : "text-ink-faint"
-          }`}
-        >
-          {time}
-        </div>
+        {!isUser && message.results && message.results.length > 0 && (
+          <ResultCards results={message.results} />
+        )}
       </div>
     </div>
   );

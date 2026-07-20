@@ -213,6 +213,772 @@ async function loadBlogPosts() {
 /** @type {Array<{route: string, title: string, description: string, ogType?: string, faq?: Array<{q: string, a: string}>, breadcrumbs?: Array<{name: string, url: string}>}>} */
 const ROUTES = [
   {
+    route: "/leie",
+    title: "Finn og book lokale — selskapslokale, møterom, kulturhus | Digilist",
+    description:
+      "Finn og book lokale til bryllup, selskap, møte eller arrangement. Grendehus, kulturhus og selskapslokaler samlet ett sted, med ekte priser, ledige datoer og betaling med Vipps.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Leie", url: `${BASE_URL}/leie` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie et lokale?",
+        a: "Prisen varierer med type lokale, sted og varighet. Et grendehus kan koste fra noen hundre til noen tusen kroner for en helg, mens kulturhus og selskapslokaler ligger høyere. På Digilist ser du totalprisen for din dato, inkludert depositum, før du booker.",
+      },
+      {
+        q: "Kan jeg se ledige datoer og booke på nett?",
+        a: "Ja. Du søker på sted og dato, ser hva som faktisk er ledig i sanntid, og booker direkte. Ingen uforpliktende forespørsel og ingen venting, du får bekreftelsen med en gang.",
+      },
+      {
+        q: "Er det gratis å bruke Digilist?",
+        a: "Ja, det er gratis å søke, sammenligne og booke som privatperson. Du betaler kun leieprisen til utleier, med Vipps eller kort.",
+      },
+    ],
+    howTo: {
+      name: "Slik finner og booker du lokale",
+      description: "Finn, book og betal med Vipps på tre steg.",
+      steps: [
+        { name: "Finn", text: "Søk på sted og dato. Du ser lokaler i nærområdet med ekte priser og hva som faktisk er ledig." },
+        { name: "Book", text: "Velg ledig tid og book direkte. Vilkår, depositum og kapasitet er synlig før du bekrefter." },
+        { name: "Betal med Vipps", text: "Betal trygt med Vipps eller kort. Bekreftelse og kvittering kommer med en gang." },
+      ],
+    },
+  },
+  {
+    route: "/leie/selskapslokale",
+    title: "Leie selskapslokale: pris, kapasitet og booking | Digilist",
+    description:
+      "Leie selskapslokale til bryllup, jubileum eller fest: finn ledige datoer, se ekte pris og kapasitet, og book på nett med Vipps. Lokaler nær deg, samlet ett sted.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Leie", url: `${BASE_URL}/leie` },
+      { name: "Selskapslokale", url: `${BASE_URL}/leie/selskapslokale` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie et selskapslokale?",
+        a: "Prisen varierer med type lokale, sted, varighet og dag. Et grendehus kan koste fra noen hundre til noen tusen kroner for en helg, mens et større selskapslokale eller kulturhussal ligger høyere. På Digilist ser du totalprisen for din dato, inkludert depositum, før du booker.",
+      },
+      {
+        q: "Kan jeg booke på nett og se ledige datoer?",
+        a: "Ja. Du søker på sted og dato, ser hva som er ledig i sanntid, og booker direkte uten uforpliktende forespørsel. Bekreftelsen kommer med en gang.",
+      },
+    ],
+  },
+  {
+    route: "/leie/gaard",
+    title: "Leie gård til bryllup og selskap: pris og booking | Digilist",
+    description:
+      "Leie gård eller låve til gårdsbryllup, selskap eller firmatur: finn ledige gårder nær deg, se ekte pris og hva som er inkludert, og book på nett med Vipps.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Leie", url: `${BASE_URL}/leie` },
+      { name: "Gård", url: `${BASE_URL}/leie/gaard` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie en gård til bryllup eller selskap?",
+        a: "Prisen varierer med sted, sesong og hva som er inkludert. En enkel låve for en kveld kan koste noen tusen kroner, mens en hel bryllupshelg med overnatting gjerne ligger fra ti tusen og oppover. På Digilist ser du totalprisen for din dato, inkludert depositum, før du booker.",
+      },
+      {
+        q: "Kan jeg leie gård til bryllup?",
+        a: "Ja. Mange gårder leies ut nettopp til gårdsbryllup, med låve til middag og fest, tun til vielse og fotografering, og ofte overnatting til de nærmeste gjestene.",
+      },
+    ],
+  },
+  {
+    route: "/leie/bursdagslokale",
+    title: "Leie bursdagslokale: pris, ledige datoer og booking | Digilist",
+    description:
+      "Leie bursdagslokale til barnebursdag eller voksenbursdag: finn ledig lokale til bursdag nær deg, se ekte pris og book med Vipps. Alt samlet ett sted.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Leie", url: `${BASE_URL}/leie` },
+      { name: "Bursdagslokale", url: `${BASE_URL}/leie/bursdagslokale` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie et bursdagslokale?",
+        a: "Prisen varierer med type lokale, sted og varighet. Et festrom eller grendehus til barnebursdag kan koste fra noen hundrelapper for noen timer, mens et større lokale med kjøkken til voksenbursdag gjerne ligger fra tusenlappen og oppover for en kveld. På Digilist ser du totalprisen for din dato før du booker.",
+      },
+      {
+        q: "Hvor finner jeg lokale til barnebursdag?",
+        a: "Søk på sted og dato på Digilist, så ser du festrom, grendehus, aktivitetslokaler og gymsaler i nærområdet som faktisk er ledige, med pris og hva som er inkludert synlig før du booker direkte.",
+      },
+    ],
+  },
+  {
+    route: "/leie/kulturhus",
+    title: "Leie kulturhus: pris, kapasitet og booking | Digilist",
+    description:
+      "Leie kulturhus, samfunnshus eller grendehus til konsert, forestilling eller storselskap: se pris, kapasitet og scene- og lydfasiliteter, finn ledig dato og book med Vipps.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Leie", url: `${BASE_URL}/leie` },
+      { name: "Kulturhus", url: `${BASE_URL}/leie/kulturhus` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie et kulturhus eller samfunnshus?",
+        a: "Prisen varierer mye med hus, sal, varighet og om du er privatperson eller forening. Et grendehus kan koste fra noen hundre til noen tusen kroner for en helg, mens en kulturhussal med scene og lydanlegg gjerne ligger høyere. På Digilist ser du totalprisen for din dato før du booker.",
+      },
+      {
+        q: "Kan jeg leie kulturhus som privatperson?",
+        a: "Ja, de fleste kulturhus, samfunnshus og grendehus leies ut til privatpersoner til selskap, markeringer og arrangementer. Noen hus har egne satser for lag og foreninger. Vilkårene står på lokalet før du booker.",
+      },
+    ],
+  },
+  {
+    route: "/leie/moterom",
+    title: "Leie møterom: pris per time og booking på nett | Digilist",
+    description:
+      "Leie møterom til møte, workshop, kurs eller intervju: se pris per time, ledige tider i sanntid, og book på nett med Vipps. Møterom nær deg, samlet ett sted.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Leie", url: `${BASE_URL}/leie` },
+      { name: "Møterom", url: `${BASE_URL}/leie/moterom` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie et møterom?",
+        a: "Prisen varierer med sted, størrelse og utstyr. Et enkelt rom for fire til seks personer kan koste fra et par hundre kroner per time, mens større rom med videomøteutstyr ligger høyere. Kommunale rom er ofte rimelige. På Digilist ser du totalen for dine timer før du booker.",
+      },
+      {
+        q: "Kan jeg leie møterom for bare noen timer?",
+        a: "Ja. De fleste rommene bookes per time, så du betaler for de timene du faktisk trenger, enten det er et møte på en time eller en workshop over en hel dag.",
+      },
+    ],
+  },
+  {
+    route: "/leie/konferanselokale",
+    title: "Leie konferanselokale: pris, kapasitet og booking | Digilist",
+    description:
+      "Leie konferanselokale eller konferansesal til seminar, kurs og konferanse: se pris, kapasitet og ledige datoer, og book på nett. Lokaler samlet ett sted.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Leie", url: `${BASE_URL}/leie` },
+      { name: "Konferanselokale", url: `${BASE_URL}/leie/konferanselokale` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie et konferanselokale?",
+        a: "Prisen varierer med sted, størrelse og varighet. Et mindre kurslokale kan koste fra et par tusen kroner for en halv dag, mens en konferansesal med plass til hundrevis ligger betydelig høyere. På Digilist står prisen for hel og halv dag på hvert lokale før du booker.",
+      },
+      {
+        q: "Hvor mange deltakere er det plass til?",
+        a: "Kapasiteten står oppgitt per oppsett på hvert lokale. Kinooppsett gir plass til flest, klasserom og øyer krever mer plass per deltaker. Du filtrerer på antall deltakere når du søker.",
+      },
+    ],
+  },
+  {
+    route: "/leie/kontorlokaler",
+    title: "Leie kontorlokaler: pris, vilkår og fleksibel leie | Digilist",
+    description:
+      "Leie kontorlokaler til din bedrift: finn ledige kontor nær deg, se pris med felleskostnader og vilkår, og reserver digitalt. Fleksibel leie uten lang binding.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Leie", url: `${BASE_URL}/leie` },
+      { name: "Kontorlokaler", url: `${BASE_URL}/leie/kontorlokaler` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie kontorlokaler?",
+        a: "Prisen avhenger av by, beliggenhet, størrelse og hva som er inkludert. Et enkelt cellekontor kan koste fra noen tusen kroner i måneden, mens større teamkontor i sentrale strøk ligger høyere. På Digilist ser du månedsleie og felleskostnader samlet på hvert lokale.",
+      },
+      {
+        q: "Kan jeg leie kontor på korttid eller uten lang binding?",
+        a: "Ja. Mange lokaler på Digilist tilbys med kort bindingstid, løpende leie eller ren korttidsleie. Det passer for prosjekter, satellittkontor eller bedrifter som vil teste et område før de binder seg.",
+      },
+    ],
+  },
+  {
+    route: "/leie/coworking",
+    title: "Leie coworking-plass: dagplass og kontorfellesskap | Digilist",
+    description:
+      "Leie kontorplass i coworking eller kontorfellesskap: finn ledig dagplass nær deg, se dagspris og hva som er inkludert, og book på nett med Vipps. Uten medlemskap.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Leie", url: `${BASE_URL}/leie` },
+      { name: "Coworking", url: `${BASE_URL}/leie/coworking` },
+    ],
+    faq: [
+      {
+        q: "Hva koster en dagplass i coworking?",
+        a: "Prisen varierer med by og sted. En dagplass ligger typisk mellom 150 og 500 kroner, klippekort gir lavere pris per dag, og månedspris passer deg som kommer ofte. På Digilist ser du prisen på hvert sted før du booker.",
+      },
+      {
+        q: "Trenger jeg medlemskap for å bruke et kontorfellesskap?",
+        a: "Nei, ikke på steder som tilbyr dagplass via Digilist. Du booker dagen du trenger og betaler for den, uten registrering, binding eller oppsigelsesfrist. Kommer du ofte, kan klippekort eller månedspris lønne seg.",
+      },
+    ],
+  },
+  {
+    route: "/leie/idrettshall",
+    title: "Leie idrettshall: ledige enkelttimer og booking | Digilist",
+    description:
+      "Leie idrettshall eller gymsal til trening, turnering eller bursdag: se ledige enkelttimer i sanntid, book direkte og betal med Vipps. Ingen søknad, ingen venting.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Leie", url: `${BASE_URL}/leie` },
+      { name: "Idrettshall", url: `${BASE_URL}/leie/idrettshall` },
+    ],
+    faq: [
+      {
+        q: "Kan jeg leie idrettshall eller gymsal som privatperson?",
+        a: "Ja. Ledige enkelttimer i kommunale haller kan bookes av privatpersoner og grupper, til trening, bursdag, turnering eller annen aktivitet. Du trenger ikke være klubb eller forening, og du trenger ikke søke.",
+      },
+      {
+        q: "Hva koster det å leie en time i idrettshall?",
+        a: "Prisen settes av kommunen eller utleier og varierer med hallstørrelse, om du leier hel eller halv flate, og tidspunkt. En gymsal koster gjerne mindre enn full flate i en stor hall. På Digilist står timeprisen på hallen.",
+      },
+    ],
+  },
+  {
+    route: "/leie/padelbane",
+    title: "Leie padelbane: book padel per time nær deg | Digilist",
+    description:
+      "Leie padelbane per time: finn ledige padelbaner nær deg, se pris og ledige tider i sanntid, og book padel med Vipps. Utstyrsleie og innendørs og utendørs baner.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Leie", url: `${BASE_URL}/leie` },
+      { name: "Padelbane", url: `${BASE_URL}/leie/padelbane` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie en padelbane?",
+        a: "Prisen varierer med sted, tidspunkt og om banen er innendørs eller utendørs. En time koster typisk fra rundt 200 til 500 kroner for hele banen, altså delt på fire spillere ved dobbel. På Digilist står prisen per time på hver bane før du booker.",
+      },
+      {
+        q: "Hvordan booker jeg en padelbane?",
+        a: "Søk på sted og tidspunkt, se hvilke baner som er ledige i sanntid, velg en time og betal med Vipps eller kort. Bekreftelsen kommer med en gang, og du trenger ikke lage konto hos hvert enkelt anlegg.",
+      },
+    ],
+  },
+  {
+    route: "/leie/svommehall",
+    title: "Leie svømmehall og basseng: se ledige tider og book | Digilist",
+    description:
+      "Leie svømmehall eller basseng til bursdag, svømmegruppe eller kurs: se ledige tider utenom klubbtidene, pris og regler, og book direkte på nett. Samlet ett sted.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Leie", url: `${BASE_URL}/leie` },
+      { name: "Svømmehall", url: `${BASE_URL}/leie/svommehall` },
+    ],
+    faq: [
+      {
+        q: "Kan jeg leie svømmehall privat?",
+        a: "Ja. Mange kommunale svømmehaller leier ut enkelttimer til private utenom klubbtider og publikumsbading, både enkeltbaner og hele basseng. Reglene for badevakt og antall badende varierer per hall og står oppgitt før du booker.",
+      },
+      {
+        q: "Hva koster det å leie svømmehall eller basseng?",
+        a: "Prisen varierer med hall, tidspunkt og om du leier en bane eller hele bassenget. En enkeltbane koster gjerne noen hundre kroner per time, hele basseng mer. På Digilist ser du prisen for akkurat din time før du bekrefter.",
+      },
+    ],
+  },
+  {
+    route: "/overnatting",
+    title: "Overnatting: leie hytte, leilighet eller rom | Digilist",
+    description:
+      "Finn og book overnatting i Norge: leie hytte, leilighet eller rom. Se totalpris uten skjulte gebyrer og ledige netter, og book trygt med Vipps. Samlet ett sted.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Overnatting", url: `${BASE_URL}/overnatting` },
+    ],
+    faq: [
+      {
+        q: "Hva slags overnatting finner jeg?",
+        a: "Hytter, korttidsleiligheter og private rom og gjesterom, samlet på ett sted. Du ser totalpris og ledige netter før du booker, uten å lete gjennom Finn, Airbnb og Facebook-grupper hver for seg.",
+      },
+      {
+        q: "Er totalprisen synlig, eller kommer det gebyrer på slutten?",
+        a: "Totalprisen, inkludert vask og eventuelle gebyrer, vises før du booker. Ingen tillegg som dukker opp i siste steg, slik at du vet nøyaktig hva oppholdet koster.",
+      },
+    ],
+  },
+  {
+    route: "/overnatting/hytte",
+    title: "Leie hytte: ledige netter, totalpris og booking | Digilist",
+    description:
+      "Leie hytte til helgetur, ferie eller påske: se ledige netter og totalpris uten skjulte gebyrer, og book trygt med Vipps. Hytter i hele Norge, samlet ett sted.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Overnatting", url: `${BASE_URL}/overnatting` },
+      { name: "Hytte", url: `${BASE_URL}/overnatting/hytte` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie hytte?",
+        a: "Prisen varierer med sted, standard, sesong og antall netter. En enkel hytte kan koste fra rundt tusenlappen per natt, mens større hytter med badstue og høy standard ligger høyere, spesielt i vinterferie og påske. På Digilist ser du totalprisen for dine netter før du booker.",
+      },
+      {
+        q: "Hva er inkludert i leien?",
+        a: "Sengeplasser, ved, strøm, wifi, badstue, båt og vask vises tydelig på hver hytte før du booker, og totalprisen viser hva som er med og hva som eventuelt koster ekstra.",
+      },
+    ],
+  },
+  {
+    route: "/overnatting/leilighet",
+    title: "Leie leilighet: korttidsleie, totalpris og booking | Digilist",
+    description:
+      "Leie leilighet for korttid: byferie, jobbreise eller mellombolig. Se ledige netter, totalpris med rengjøring og gebyr, og book korttidsleie av leilighet med Vipps.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Overnatting", url: `${BASE_URL}/overnatting` },
+      { name: "Leilighet", url: `${BASE_URL}/overnatting/leilighet` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie leilighet for korttid?",
+        a: "Prisen varierer med by, størrelse, standard og sesong. En liten leilighet utenfor sentrum kan koste noen hundrelapper per natt, mens en stor og sentral leilighet i høysesong ligger høyere. På Digilist ser du totalprisen for dine netter før du booker.",
+      },
+      {
+        q: "Kan jeg leie leilighet som mellombolig i noen uker?",
+        a: "Ja. Mange leiligheter kan bookes for alt fra én natt til flere uker, og passer som mellombolig ved flytting, oppussing eller ventetid mellom to boliger. Du ser totalprisen for hele oppholdet.",
+      },
+    ],
+  },
+  {
+    route: "/overnatting/rom",
+    title: "Leie rom og gjesterom: rimelig overnatting | Digilist",
+    description:
+      "Leie rom eller gjesterom for en natt eller flere: finn ledige rom nær deg, se pris per natt og hva som er inkludert, og book med Vipps. Rimelig alternativ til hotell.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Overnatting", url: `${BASE_URL}/overnatting` },
+      { name: "Rom", url: `${BASE_URL}/overnatting/rom` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie rom?",
+        a: "Prisen varierer med sted, standard og sesong. Et enkelt gjesterom ligger ofte fra noen hundre kroner per natt, godt under hotellpris. På Digilist ser du pris per natt og totalpris for dine netter før du booker.",
+      },
+      {
+        q: "Er badet delt eller eget?",
+        a: "Det varierer per rom, og det står tydelig på hvert rom før du booker. Mange gjesterom har delt bad, mens noen har eget bad. Du ser det i beskrivelsen før du velger.",
+      },
+    ],
+  },
+  {
+    route: "/overnatting/feriehus",
+    title: "Leie feriehus: ledige netter, totalpris og booking | Digilist",
+    description:
+      "Leie feriehus til familieferie, gjenforening eller storfamilie: se ledige netter og totalpris uten skjulte gebyrer, og book trygt med Vipps. Feriehus i hele Norge.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Overnatting", url: `${BASE_URL}/overnatting` },
+      { name: "Feriehus", url: `${BASE_URL}/overnatting/feriehus` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie feriehus?",
+        a: "Prisen varierer med sted, størrelse, standard og sesong. Et mindre feriehus kan koste noen tusenlapper for en helg, mens store hus ved sjøen med mange soverom ligger høyere. På Digilist ser du totalprisen for dine netter, inkludert vask og gebyrer, før du booker.",
+      },
+      {
+        q: "Hvor mange er det plass til i et feriehus?",
+        a: "Feriehus har typisk flere soverom og sengeplasser enn en hytte eller leilighet, ofte plass til åtte, tolv eller flere. Antall soverom, bad og sengeplasser står tydelig på hvert hus, og du kan filtrere på antall gjester når du søker.",
+      },
+    ],
+  },
+  {
+    route: "/utstyr",
+    title: "Leie utstyr: festutstyr, verktøy, maskiner, lyd og lys | Digilist",
+    description:
+      "Leie utstyr på ett sted: festutstyr og telt, verktøy og maskiner, lyd og lys. Se pris per dag, depositum og ledighet, og book med Vipps. Henting eller levering.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Utstyr", url: `${BASE_URL}/utstyr` },
+    ],
+    faq: [
+      {
+        q: "Hva slags utstyr kan jeg leie?",
+        a: "Festutstyr som telt, bord, stoler og servise, verktøy og maskiner til oppussing og hage, og lyd- og lysutstyr til arrangementer. Alt samlet på ett sted, med pris og ledighet synlig før du booker.",
+      },
+      {
+        q: "Kan jeg få utstyret levert, eller må jeg hente selv?",
+        a: "Det varierer per utleier, og begge deler finnes. Hvert utstyr viser om levering tilbys og hva det koster, eller om du henter selv, slik at du vet det før du booker.",
+      },
+    ],
+  },
+  {
+    route: "/utstyr/festutstyr",
+    title: "Leie festutstyr: telt, bord, stoler og servise | Digilist",
+    description:
+      "Leie festutstyr til bryllup, selskap eller bursdag: leie telt, bord, stoler og servise nær deg. Se pris og ledige datoer, og book med Vipps. Henting eller levering.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Utstyr", url: `${BASE_URL}/utstyr` },
+      { name: "Festutstyr", url: `${BASE_URL}/utstyr/festutstyr` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie festutstyr og telt?",
+        a: "Bord og stoler leies ofte per stykk for noen titalls kroner per døgn, mens et partytelt gjerne koster fra rundt tusenlappen til flere tusen kroner for en helg. På Digilist ser du pris per dag og eventuelt depositum for din leieperiode før du booker.",
+      },
+      {
+        q: "Må jeg betale depositum?",
+        a: "Mange utleiere krever depositum på festutstyr, særlig telt og servise. Det håndteres digitalt i samme betaling som leien, og frigjøres automatisk etter at utstyret er levert tilbake i avtalt stand.",
+      },
+    ],
+  },
+  {
+    route: "/utstyr/verktoy-maskiner",
+    title: "Leie verktøy og maskiner: pris og booking | Digilist",
+    description:
+      "Leie verktøy og maskiner til oppussing, hage og bygg: minigraver, høytrykksspyler og stillas. Se pris per dag, ledighet og depositum, og book med Vipps.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Utstyr", url: `${BASE_URL}/utstyr` },
+      { name: "Verktøy og maskiner", url: `${BASE_URL}/utstyr/verktoy-maskiner` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie verktøy eller minigraver?",
+        a: "En slagbormaskin eller høytrykksspyler kan koste fra et par hundre kroner per dag, mens en minigraver gjerne ligger fra rundt tusen kroner per dag og oppover. På Digilist ser du pris per dag eller helg og eventuelt depositum før du booker.",
+      },
+      {
+        q: "Kan jeg få utstyret levert, eller må jeg hente selv?",
+        a: "Det varierer per annonse. Mange utleiere tilbyr henting til avtalt tid, og noen leverer større maskiner mot et tillegg. Hva som gjelder står på utstyret før du booker.",
+      },
+    ],
+  },
+  {
+    route: "/utstyr/lyd-og-lys",
+    title: "Leie lyd og lys: lydanlegg, scenelys og booking | Digilist",
+    description:
+      "Leie lydanlegg, mikrofon, scenelys og projektor til fest, konsert eller konferanse: se pris per dag, sjekk ledige datoer og book lyd og lys med Vipps. Nær deg.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Utstyr", url: `${BASE_URL}/utstyr` },
+      { name: "Lyd og lys", url: `${BASE_URL}/utstyr/lyd-og-lys` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie et lydanlegg?",
+        a: "Et lite anlegg til tale og bakgrunnsmusikk kan koste fra noen hundrelapper per dag, mens et komplett PA-anlegg med mikser, mikrofoner og scenelys gjerne ligger fra tusen kroner og oppover. Prisen står på hvert utstyr før du booker.",
+      },
+      {
+        q: "Kan jeg få med tekniker som rigger og styrer lyden?",
+        a: "Ja, der utleier tilbyr det, legger du til tekniker som tilvalg i samme booking. Teknikeren rigger, lydsjekker og styrer anlegget under arrangementet.",
+      },
+    ],
+  },
+  {
+    route: "/utstyr/sport-og-friluft",
+    title: "Leie sportsutstyr: sykkel, ski og kajakk nær deg | Digilist",
+    description:
+      "Leie sportsutstyr og friluftsutstyr nær deg: leie sykkel, ski, kajakk, SUP og telt per dag eller helg. Se pris og depositum, og book med Vipps.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Utstyr", url: `${BASE_URL}/utstyr` },
+      { name: "Sport og friluft", url: `${BASE_URL}/utstyr/sport-og-friluft` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie sykkel, ski eller kajakk?",
+        a: "En vanlig sykkel eller et par langrennsski leies gjerne for noen hundrelapper per dag, mens elsykkel, alpinutstyr og havkajakk ofte koster noe mer. På Digilist ser du dagspris og eventuelt depositum for din leieperiode før du booker.",
+      },
+      {
+        q: "Kan jeg få utstyret levert, eller må jeg hente selv?",
+        a: "Det varierer per utleier, og begge deler finnes. Hvert utstyr viser om levering tilbys og hva det koster, eller om du henter selv. Kajakker leies ofte ut rett ved vannet, mens sykler og ski som regel hentes hos utleier.",
+      },
+    ],
+  },
+  {
+    route: "/tjenester",
+    title: "Book tjenester: catering, DJ, musiker og dekor | Digilist",
+    description:
+      "Book tjenester til arrangementet: catering, DJ, musiker og dekor. Se pris, sjekk ledig dato og book leverandør nær deg med Vipps. Alt samlet ett sted.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Tjenester", url: `${BASE_URL}/tjenester` },
+    ],
+    faq: [
+      {
+        q: "Hvilke tjenester kan jeg booke?",
+        a: "Catering, DJ, musiker og dekor til bryllup, selskap og firmaarrangement, samlet på ett sted. Du ser pris og ledig dato på hver leverandør, og booker direkte i stedet for å sende forespørsler og vente på tilbud.",
+      },
+      {
+        q: "Hvordan vet jeg om leverandøren er ledig?",
+        a: "Hver leverandør har en kalender som viser om datoen din er ledig i sanntid. Du booker direkte og får bekreftelsen med en gang, uten forespørsel og venting på svar.",
+      },
+    ],
+  },
+  {
+    route: "/tjenester/catering",
+    title: "Bestille catering: meny, pris per kuvert og booking | Digilist",
+    description:
+      "Bestille catering til bryllup, konfirmasjon eller firmafest: se meny og pris per kuvert, sjekk ledige datoer, og book cateringleverandør nær deg med Vipps.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Tjenester", url: `${BASE_URL}/tjenester` },
+      { name: "Catering", url: `${BASE_URL}/tjenester/catering` },
+    ],
+    faq: [
+      {
+        q: "Hva koster catering per kuvert?",
+        a: "Et enkelt koldtbord ligger ofte fra rundt 200 til 400 kroner per kuvert, tapas og buffet gjerne fra 300 til 500, og en flerretters middag fra 500 kroner og oppover. På Digilist ser du prisen per kuvert på hver leverandør før du bestiller.",
+      },
+      {
+        q: "Kan leverandøren ta hensyn til allergier og spesialkost?",
+        a: "Ja. Allergener er merket på menyene, og du noterer allergier og spesialkost direkte i bestillingen, så leverandøren får beskjeden sammen med bestillingen.",
+      },
+    ],
+  },
+  {
+    route: "/tjenester/dj",
+    title: "Leie DJ til bryllup og fest: pris og booking | Digilist",
+    description:
+      "Leie DJ til bryllup, fest eller firmafest: se sjanger, pris per kveld og utstyr, sjekk ledig dato og book med Vipps. Finn DJ-er nær deg, samlet ett sted.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Tjenester", url: `${BASE_URL}/tjenester` },
+      { name: "DJ", url: `${BASE_URL}/tjenester/dj` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie en DJ?",
+        a: "En vanlig kveld ligger ofte mellom 5 000 og 15 000 kroner, mens bryllup med lang spilletid eller etterspurte DJ-er kan koste mer. På Digilist står prisen per kveld på hver DJ, så du ser hva det koster før du booker.",
+      },
+      {
+        q: "Har DJ-en eget lydanlegg og lys?",
+        a: "De fleste profesjonelle DJ-er tar med eget lydanlegg og lys, men det varierer. På Digilist står det tydelig på hver DJ hva som er inkludert.",
+      },
+    ],
+  },
+  {
+    route: "/tjenester/musiker",
+    title: "Leie musiker eller band til bryllup og fest | Digilist",
+    description:
+      "Leie musiker eller band til bryllup og selskap: se sjanger, besetning og pris, sjekk ledig dato og book med Vipps. Finn ledige musikere nær deg, samlet ett sted.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Tjenester", url: `${BASE_URL}/tjenester` },
+      { name: "Musiker", url: `${BASE_URL}/tjenester/musiker` },
+    ],
+    faq: [
+      {
+        q: "Hva koster det å leie musiker eller band?",
+        a: "En solist til en vielse ligger ofte fra noen tusen kroner, mens et fullt band til en hel kveld gjerne koster fra ti tusen og oppover. På Digilist ser du prisen på hver profil før du booker.",
+      },
+      {
+        q: "Kan jeg ønske meg bestemte sanger til vielsen?",
+        a: "Ja, de fleste solister og musikere tar imot sangønsker. Repertoaret står på profilen, og du kan sende ønsker i bookingen.",
+      },
+    ],
+  },
+  {
+    route: "/tjenester/dekor",
+    title: "Leie dekor og pynt til fest: pakker, pris og booking | Digilist",
+    description:
+      "Leie dekor til bryllup og fest: blomsterdekor, bordpynt og ballongbuer i ferdige pakker. Se pris, sjekk ledig dato og book dekoratør nær deg med Vipps.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Tjenester", url: `${BASE_URL}/tjenester` },
+      { name: "Dekor", url: `${BASE_URL}/tjenester/dekor` },
+    ],
+    faq: [
+      {
+        q: "Hva koster dekor til bryllup eller fest?",
+        a: "En enkel bordpyntpakke kan koste noen hundre kroner per bord, en ballongbue fra rundt tusenlappen, mens helhetlig bryllupsdekor med blomster, bakvegg og rigging gjerne ligger fra noen tusen kroner og oppover. Prisen per pakke står synlig før du booker.",
+      },
+      {
+        q: "Rigger dekoratøren selv, eller må jeg gjøre det?",
+        a: "Mange pakker inkluderer at dekoratøren rigger i lokalet før festen og henter alt etterpå. Der rigging tilbys, står det på pakken.",
+      },
+    ],
+  },
+  {
+    route: "/arrangementer",
+    title: "Arrangementer: kjøp billetter til konsert, teater og festival | Digilist",
+    description:
+      "Finn arrangementer nær deg og kjøp billetter til konsert, teater og festival. Betal med Vipps, få QR-billett på mobilen, bruk rabattkode og gavekort. Samlet ett sted.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Arrangementer", url: `${BASE_URL}/arrangementer` },
+    ],
+    faq: [
+      {
+        q: "Hva slags arrangementer finner jeg?",
+        a: "Konserter, teater og forestillinger, standup, revy og festivaler, samlet på ett sted. Du søker på sted og dato, ser pris og hvilke billetter som er igjen, og kjøper direkte uten å lete gjennom hver arrangørs egen billettside.",
+      },
+      {
+        q: "Får jeg billetten på mobilen?",
+        a: "Ja. Billetten kommer som en QR-kode rett på mobilen etter kjøpet. Ved inngangen viser du QR-koden, den skannes, og du er inne. Ingen papirlapp, ingen e-post å lete etter.",
+      },
+    ],
+  },
+  {
+    route: "/arrangementer/konsert",
+    title: "Konsertbilletter: finn konserter og kjøp med Vipps | Digilist",
+    description:
+      "Konsertbilletter samlet ett sted: finn konserter nær deg, se pris og ledige billetter, og kjøp billetter til konsert med Vipps. QR-billett rett på mobilen.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Arrangementer", url: `${BASE_URL}/arrangementer` },
+      { name: "Konsert", url: `${BASE_URL}/arrangementer/konsert` },
+    ],
+    faq: [
+      {
+        q: "Hva koster konsertbilletter?",
+        a: "Prisen varierer med artist, scene og billettype. En klubbkonsert kan koste noen hundre kroner, mens større navn ligger høyere, og VIP koster mer enn ståplass. På Digilist ser du prisen per billett før du kjøper, uten gebyrer som dukker opp i siste steg.",
+      },
+      {
+        q: "Får jeg billetten på mobilen?",
+        a: "Ja. Billetten leveres som QR-kode på mobilen med en gang kjøpet er gjennomført, og ligger i oversikten din frem til konserten. Du viser bare QR-koden ved inngangen.",
+      },
+    ],
+  },
+  {
+    route: "/arrangementer/teater-og-scene",
+    title: "Teaterbilletter: finn forestilling og kjøp billett | Digilist",
+    description:
+      "Teaterbilletter og billetter til forestilling, standup og revy nær deg. Se pris og ledige seter, velg plass og kjøp med Vipps. QR-billett med sete på mobilen.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Arrangementer", url: `${BASE_URL}/arrangementer` },
+      { name: "Teater og scene", url: `${BASE_URL}/arrangementer/teater-og-scene` },
+    ],
+    faq: [
+      {
+        q: "Kan jeg velge sete?",
+        a: "Ja, der salen har nummererte plasser velger du sete direkte i salkartet og ser hvilke plasser som er ledige. Noen forestillinger har fri plassering, og da står det tydelig på arrangementet før du kjøper.",
+      },
+      {
+        q: "Hvordan kjøper jeg billetter til en forestilling?",
+        a: "Søk på sted og dato, velg forestilling, antall billetter og eventuelt seter, og betal med Vipps eller kort. Billettene kommer som QR-koder på mobilen med en gang, uten at du må opprette ny konto.",
+      },
+    ],
+  },
+  {
+    route: "/arrangementer/festival",
+    title: "Festivalbilletter og festivalpass: finn og kjøp | Digilist",
+    description:
+      "Finn festivalbilletter og festivalpass nær deg: musikk-, mat- og kulturfestivaler samlet ett sted. Kjøp dagspass eller helgepass med Vipps, QR-billett på mobilen.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Arrangementer", url: `${BASE_URL}/arrangementer` },
+      { name: "Festival", url: `${BASE_URL}/arrangementer/festival` },
+    ],
+    faq: [
+      {
+        q: "Hva er forskjellen på dagspass og helgepass?",
+        a: "Dagspass gjelder én bestemt dag av festivalen, helgepass gjelder alle dagene. Skal du bare se ett program, holder ofte dagspasset. Skal du ha med deg hele festivalen, er helgepasset som regel billigere enn flere dagspass.",
+      },
+      {
+        q: "Hva koster et festivalpass?",
+        a: "Et dagspass til en lokal festival kan koste fra noen hundrelapper, mens helgepass til større musikkfestivaler gjerne ligger fra rundt tusen kroner og oppover. På Digilist ser du prisen for hvert pass, inkludert gebyrer, før du kjøper.",
+      },
+    ],
+  },
+  {
+    route: "/arrangementer/sport",
+    title: "Sportsbilletter: billetter til kamp, kjøp med Vipps | Digilist",
+    description:
+      "Sportsbilletter samlet ett sted: finn kamper og idrettsarrangement nær deg, se pris og ledige seter, og kjøp billetter til kamp med Vipps. QR-billett på mobilen.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Arrangementer", url: `${BASE_URL}/arrangementer` },
+      { name: "Sport", url: `${BASE_URL}/arrangementer/sport` },
+    ],
+    faq: [
+      {
+        q: "Kan jeg velge sete eller felt?",
+        a: "Ja, der arrangøren har satt opp seter eller felt. Du ser hvilke plasser som er ledige og velger i kjøpet, og skal dere flere sammen, kan dere velge seter ved siden av hverandre. På mindre arrangementer er billettene ofte uplasserte.",
+      },
+      {
+        q: "Finnes det sesongkort?",
+        a: "Ja, der klubben tilbyr det. Sesongkortet kjøpes på samme måte som en enkeltbillett, gjerne med fast plass, og ligger på mobilen gjennom hele sesongen. Du viser samme QR-kode ved inngangen på hver hjemmekamp.",
+      },
+    ],
+  },
+  {
+    route: "/billettsystem",
+    title: "Billettsystem: selg billetter med rabatt, kupong og gavekort | Digilist",
+    description:
+      "Digilist billettsystem: selg billetter til arrangementet med rabattkoder, kuponger og gavekort. Vipps og kort, QR-billett, skanning ved inngang og oppgjør. Sanntid.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Billettsystem", url: `${BASE_URL}/billettsystem` },
+    ],
+    faq: [
+      {
+        q: "Hvordan fungerer rabattkoder og kuponger?",
+        a: "Du lager rabattkoder med fast beløp eller prosent, med gyldighetsperiode og maks antall bruk. Kuponger kan knyttes til bestemte billettyper eller hele arrangementet. Kjøperen legger inn koden i kassen, og rabatten trekkes fra med en gang.",
+      },
+      {
+        q: "Kan jeg selge og løse inn gavekort?",
+        a: "Ja. Gavekort selges digitalt og kan brukes til å betale for billetter og booking. Saldo og gyldighet håndteres i systemet, og gjenstående beløp følger med til neste kjøp.",
+      },
+    ],
+  },
+  {
     route: "/ai-agenter",
     title: "AI-agenter for booking og utleie — GDPR-sikker automatisering | Digilist",
     description:
@@ -1038,6 +1804,47 @@ async function main() {
     { loc: `${BASE_URL}/salgsvilkar`, priority: "0.3", changefreq: "yearly" },
     { loc: `${BASE_URL}/cookies`, priority: "0.3", changefreq: "yearly" },
     { loc: `${BASE_URL}/transparens`, priority: "0.7", changefreq: "daily" },
+    { loc: `${BASE_URL}/leie`, priority: "0.9", changefreq: "weekly" },
+    { loc: `${BASE_URL}/leie/selskapslokale`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/leie/gaard`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/leie/bursdagslokale`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/leie/kulturhus`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/leie/moterom`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/leie/konferanselokale`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/leie/kontorlokaler`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/leie/coworking`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/leie/idrettshall`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/leie/padelbane`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/leie/svommehall`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/overnatting`, priority: "0.9", changefreq: "weekly" },
+    { loc: `${BASE_URL}/overnatting/hytte`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/overnatting/leilighet`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/overnatting/rom`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/overnatting/feriehus`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/utstyr`, priority: "0.9", changefreq: "weekly" },
+    { loc: `${BASE_URL}/utstyr/festutstyr`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/utstyr/verktoy-maskiner`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/utstyr/lyd-og-lys`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/utstyr/sport-og-friluft`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/tjenester`, priority: "0.9", changefreq: "weekly" },
+    { loc: `${BASE_URL}/tjenester/catering`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/tjenester/dj`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/tjenester/musiker`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/tjenester/dekor`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/bruksomrader/selskapslokaler`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/bruksomrader/moterom`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/bruksomrader/idrettshaller-gymsaler`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/bruksomrader/kulturhus-kantiner`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/arrangementer`, priority: "0.9", changefreq: "weekly" },
+    { loc: `${BASE_URL}/arrangementer/konsert`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/arrangementer/teater-og-scene`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/arrangementer/festival`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/arrangementer/sport`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/billettsystem`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/ai-agenter`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/ai-agenter/sesongtildeling`, priority: "0.7", changefreq: "monthly" },
+    { loc: `${BASE_URL}/ai-agenter/compliance-godkjenning`, priority: "0.7", changefreq: "monthly" },
+    { loc: `${BASE_URL}/ai-agenter/importer-oppforing`, priority: "0.7", changefreq: "monthly" },
   ];
   const sitemapXML = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
