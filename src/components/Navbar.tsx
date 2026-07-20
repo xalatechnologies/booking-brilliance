@@ -52,7 +52,12 @@ const MARKETPLACES = [
 const PRIMARY_NAV = [
   { label: "Blogg", to: "/blogg" },
   { label: "FAQ", to: "/faq" },
-  { label: "Transparens", to: "/transparens" },
+  // Lowest-priority item: dropped first when the desktop assistant rail
+  // (permanently reserving 22rem, see `--rail-w` below) leaves this nav too
+  // little room, so higher-priority items — notably "Book demo" — don't
+  // overflow into and get covered by the actions column at `xl`. Still
+  // reachable via the mobile drawer and footer at every width.
+  { label: "Transparens", to: "/transparens", collapseBelow2xl: true },
   { label: "Book demo", to: "/book-demo" },
 ] as const;
 
@@ -152,7 +157,7 @@ const Navbar = () => {
           </div>
           <nav
             aria-label="Hovednavigasjon"
-            className="hidden xl:flex items-center gap-6"
+            className="hidden xl:flex items-center gap-3"
           >
             <DropdownMenu>
               <DropdownMenuTrigger
@@ -234,7 +239,10 @@ const Navbar = () => {
               <NavLink
                 key={item.to}
                 to={item.to}
-                className={NAV_LINK}
+                className={cn(
+                  NAV_LINK,
+                  "collapseBelow2xl" in item && item.collapseBelow2xl && "hidden 2xl:inline",
+                )}
                 activeClassName={NAV_LINK_ACTIVE}
               >
                 {item.label}
