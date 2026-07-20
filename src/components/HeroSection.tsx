@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import {
   EditorialButton,
   EditorialHeading,
-  IntegrationLogo,
 } from "@/components/editorial";
 import { HeroPlatformPreview } from "./HeroPlatformPreview";
 import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
@@ -33,33 +32,6 @@ const customers = [
   },
 ];
 
-const integrationsByCategory = [
-  {
-    category: "Betaling",
-    items: ["Vipps", "Stripe Connect"],
-  },
-  {
-    category: "Autentisering",
-    items: ["BankID", "ID-porten", "Signicat"],
-  },
-  {
-    category: "Offentlig",
-    items: ["Altinn", "EHF / Peppol", "Brønnøysund"],
-  },
-  {
-    category: "Regnskap",
-    items: ["Visma", "Tripletex", "Fiken", "PowerOffice"],
-  },
-  {
-    category: "Kalender & nøkkel",
-    items: ["Microsoft 365", "Outlook", "Salto KS"],
-  },
-  {
-    category: "Samsvar",
-    items: ["ISO 27001/27701", "GDPR", "WCAG 2.0 AA"],
-  },
-];
-
 const HeroSection = () => {
   return (
     <section
@@ -83,14 +55,14 @@ const HeroSection = () => {
             </span>
 
             <EditorialHeading as="h1" size="hero" wonk>
-              Lokalet du trenger{" "}
+              Lokaler du trenger,{" "}
               <em
                 className="italic"
                 style={{
                   fontVariationSettings: '"opsz" 144, "wght" 400, "SOFT" 30, "WONK" 0',
                 }}
               >
-                — og plattformen som drifter det
+                og plattformen som drifter det
               </em>
               .
             </EditorialHeading>
@@ -205,29 +177,32 @@ const HeroSection = () => {
         whileInView="visible"
         viewport={viewportOnce}
         variants={staggerParent}
-        className="border-y border-rule"
+        className="border-y border-rule bg-paper-tinted"
       >
         <div className="container mx-auto md:px-8 lg:px-12 py-12 lg:py-14">
-          <div className="flex items-baseline justify-between gap-6 mb-10">
-            <span className="editorial-mono-caption">Kunder · I bruk</span>
+          <div className="flex items-baseline justify-between gap-6 mb-8 lg:mb-10">
+            <span className="editorial-mono-caption text-accent-text">
+              Kunder · I bruk
+            </span>
             <span className="editorial-mono-caption text-ink-faint hidden md:inline">
               To av flere: referanser på forespørsel
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-rule border border-rule rounded-sm overflow-hidden">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-5">
             {customers.map((c) => (
-              <article
+              <motion.article
                 key={c.name}
+                variants={staggerChild}
                 aria-label={c.name}
-                className="bg-paper px-6 lg:px-10 py-8 lg:py-10 flex items-center gap-6 min-h-[7.5rem]"
+                className="group bg-paper rounded-lg border border-rule shadow-[0_2px_10px_-4px_rgba(10,18,40,0.12)] px-6 lg:px-7 py-6 lg:py-7 flex items-center gap-5 transition-all duration-normal ease-editorial hover:-translate-y-0.5 hover:border-accent-text/30 hover:shadow-[0_16px_34px_-18px_rgba(10,18,40,0.45)]"
               >
-                <div className="shrink-0 w-20 h-20 rounded-sm border border-rule bg-paper-deep flex items-center justify-center overflow-hidden">
+                <div className="shrink-0 w-16 h-16 lg:w-[4.5rem] lg:h-[4.5rem] rounded-lg border border-rule bg-paper-deep flex items-center justify-center overflow-hidden">
                   {c.src ? (
                     <img
                       src={c.src}
                       alt={`${c.name} logo`}
-                      className="max-w-[80%] max-h-[80%] object-contain"
+                      className="max-w-[78%] max-h-[78%] object-contain"
                       loading="lazy"
                     />
                   ) : (
@@ -239,21 +214,21 @@ const HeroSection = () => {
                     </span>
                   )}
                 </div>
-                <div className="flex flex-col gap-2 min-w-0">
-                  {/* Customer label — not a heading: these cards sit right
-                      under the hero <h1>, so an <h3> here skipped a level
-                      (H1→H3) and tripped the a11y heading-order audit. The
-                      <article aria-label> keeps each card named for AT. */}
+                <div className="flex flex-col gap-1.5 min-w-0">
+                  {/* Customer label, not a heading: these cards sit right under
+                      the hero <h1>, so an <h3> here would skip a level (H1->H3)
+                      and trip the a11y heading-order audit. The <article
+                      aria-label> keeps each card named for assistive tech. */}
                   <p
-                    className="font-serif text-2xl lg:text-[1.75rem] text-ink leading-tight"
+                    className="font-serif text-xl lg:text-2xl text-ink leading-tight"
                     style={{
-                      fontVariationSettings: getFraunces("section"),
+                      fontVariationSettings: getFraunces("sub"),
                       letterSpacing: "-0.015em",
                     }}
                   >
                     {c.name}
                   </p>
-                  <div className="flex items-center gap-3 flex-wrap">
+                  <div className="flex items-center gap-2.5 flex-wrap">
                     <span className="editorial-mono-caption text-accent-text">
                       {c.sector}
                     </span>
@@ -261,51 +236,12 @@ const HeroSection = () => {
                     <span className="editorial-mono-caption">{c.location}</span>
                   </div>
                 </div>
-              </article>
+              </motion.article>
             ))}
           </div>
         </div>
       </motion.div>
 
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={viewportOnce}
-        variants={staggerParent}
-        className="border-b border-rule bg-paper-deep/40"
-      >
-        <div className="container mx-auto md:px-8 lg:px-12 py-12 lg:py-14">
-          <div className="flex items-baseline justify-between gap-6 mb-10">
-            <span className="editorial-mono-caption">
-              Integrasjoner & samsvar
-            </span>
-            <span className="editorial-mono-caption text-ink-faint hidden md:inline">
-              Bygget for det norske utleiemarkedet
-            </span>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-px bg-rule border-y border-rule">
-            {integrationsByCategory.map((col) => (
-              <motion.div
-                key={col.category}
-                variants={staggerChild}
-                className="bg-paper-deep/40 px-5 py-8 flex flex-col gap-3"
-              >
-                <span className="editorial-mono-caption text-accent-text">
-                  {col.category}
-                </span>
-                <ul className="space-y-2.5 mt-2">
-                  {col.items.map((item) => (
-                    <li key={item}>
-                      <IntegrationLogo brand={item} />
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </motion.div>
     </section>
   );
 };

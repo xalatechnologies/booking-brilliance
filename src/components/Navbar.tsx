@@ -33,6 +33,16 @@ const SOLUTIONS = [
     to: "/billettsystem",
     eyebrow: "Rabatt · kupong · gavekort",
   },
+  {
+    label: "Teknologi og sikkerhet",
+    to: "/teknologi",
+    eyebrow: "Plattform · samsvar",
+  },
+  {
+    label: "Om oss",
+    to: "/om-oss",
+    eyebrow: "Xala Technologies",
+  },
 ] as const;
 
 // The four B2C marketplaces — grouped under a "Finn" dropdown. These are

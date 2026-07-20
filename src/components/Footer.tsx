@@ -32,25 +32,28 @@ const Footer = () => {
   const navigasjon = [
     { label: "Funksjonalitet", hash: "#funksjonalitet" },
     { label: "Brukerhistorier", hash: "#brukerhistorier" },
-    { label: "Teknologi", hash: "#teknologi" },
-    { label: "Arkitektur", hash: "#arkitektur" },
-    { label: "Om oss", hash: "#om-oss" },
+    { label: "Spørsmål", hash: "#faq" },
     { label: "Kontakt", hash: "#kontakt" },
   ];
 
-  const ressurser = [
+  const markedsplass = [
     { label: "Lokaler", href: "/leie" },
     { label: "Overnatting", href: "/overnatting" },
     { label: "Arrangementer", href: "/arrangementer" },
     { label: "Utstyr", href: "/utstyr" },
     { label: "Tjenester", href: "/tjenester" },
+    { label: "Billettsystem", href: "/billettsystem" },
+    { label: "Booking av lokaler og møterom", href: "/booking-av-lokaler-og-moterom" },
+  ];
+
+  const losninger = [
+    { label: "Bookingsystem for kommuner", href: "/bookingsystem-kommune" },
+    { label: "Pilot for kommuner", href: "/bookingsystem-kommune#pilot" },
+    { label: "Teknologi og sikkerhet", href: "/teknologi" },
+    { label: "Om oss", href: "/om-oss" },
     { label: "Blogg", href: "/blogg" },
     { label: "FAQ", href: "/faq" },
     { label: "Transparens", href: "/transparens" },
-    { label: "Booking av lokaler og møterom", href: "/booking-av-lokaler-og-moterom" },
-    { label: "Bookingsystem for kommuner", href: "/bookingsystem-kommune" },
-    { label: "Billettsystem", href: "/billettsystem" },
-    { label: "Pilot for kommuner", href: "/#pilot" },
   ];
 
   const juridisk = [
@@ -60,9 +63,9 @@ const Footer = () => {
   ];
 
   const linkClass =
-    "group inline-flex items-baseline gap-1.5 font-serif text-lg text-ink-soft hover:text-ink transition-colors duration-quick ease-editorial";
+    "group inline-flex items-baseline gap-1.5 font-serif text-lg text-ink-soft hover:text-ink transition-colors duration-quick ease-editorial no-underline";
   const linkUnderline =
-    "border-b border-rule group-hover:border-ink transition-colors duration-quick ease-editorial pb-0.5";
+    "border-b border-transparent group-hover:border-ink transition-colors duration-quick ease-editorial pb-0.5";
 
   // Footer nav sections are top-level page landmarks — use h2, not h3. On
   // pages whose main content is client-fetched (e.g. /transparens renders a
@@ -78,9 +81,9 @@ const Footer = () => {
 
   return (
     <footer className="bg-paper-deep border-t border-hairline-strong">
-      <div className="container mx-auto md:px-8 lg:px-12 py-16 lg:py-24">
+      <div className="container mx-auto md:px-8 lg:px-12 pt-16 lg:pt-24 pb-8 lg:pb-10">
         {/* Editorial colophon header */}
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-14 lg:mb-20 pb-10 lg:pb-14 border-b border-rule">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-14 lg:mb-20">
           <div className="lg:col-span-7">
             <Link
               to="/"
@@ -232,10 +235,23 @@ const Footer = () => {
             </ul>
           </nav>
 
-          <nav aria-label="Ressurser">
-            <ColumnHeading>II · RESSURSER</ColumnHeading>
+          <nav aria-label="Markedsplass">
+            <ColumnHeading>II · MARKEDSPLASS</ColumnHeading>
             <ul className="space-y-3.5">
-              {ressurser.map((link) => (
+              {markedsplass.map((link) => (
+                <li key={link.href}>
+                  <Link to={link.href} className={linkClass}>
+                    <span className={linkUnderline}>{link.label}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <nav aria-label="Løsninger">
+            <ColumnHeading>III · LØSNINGER</ColumnHeading>
+            <ul className="space-y-3.5">
+              {losninger.map((link) => (
                 <li key={link.href}>
                   <Link to={link.href} className={linkClass}>
                     <span className={linkUnderline}>{link.label}</span>
@@ -246,7 +262,7 @@ const Footer = () => {
           </nav>
 
           <nav aria-label="Juridisk">
-            <ColumnHeading>III · JURIDISK</ColumnHeading>
+            <ColumnHeading>IV · JURIDISK</ColumnHeading>
             <ul className="space-y-3.5">
               {juridisk.map((link) => (
                 <li key={link.href}>
@@ -257,27 +273,6 @@ const Footer = () => {
               ))}
             </ul>
           </nav>
-
-          <div>
-            <ColumnHeading>IV · PLATTFORMEN</ColumnHeading>
-            <p className="font-serif text-lg text-ink-soft leading-relaxed mb-5 measure-narrow">
-              Logg inn som administrator, kunde eller leverandør i
-              Digilist-plattformen.
-            </p>
-            <a
-              href="https://app.digilist.no"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 border border-hairline-strong px-4 py-2.5 rounded-sm font-serif text-lg text-ink hover:bg-paper hover:border-ink transition-all duration-quick ease-editorial"
-              style={{ fontVariationSettings: getFraunces("sub") }}
-            >
-              <span>app.digilist.no</span>
-              <ArrowUpRight
-                className="h-4 w-4 text-accent-text transition-transform duration-quick ease-editorial group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                aria-hidden="true"
-              />
-            </a>
-          </div>
         </div>
 
         {/* Bottom colophon */}

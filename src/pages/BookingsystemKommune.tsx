@@ -13,6 +13,7 @@ import {
   IntegrationLogo,
 } from "@/components/editorial";
 import { getFraunces } from "@/lib/fonts";
+import PilotInvitationSection from "@/components/PilotInvitationSection";
 
 const FAQ = [
   {
@@ -169,7 +170,7 @@ const BookingsystemKommune = () => {
           </div>
         </section>
 
-        <section className="py-14 lg:py-20 bg-paper-deep/40">
+        <section className="py-14 lg:py-20 bg-paper-tinted border-y border-rule">
           <div className="container mx-auto md:px-8 lg:px-12">
             <SectionRule label="I. SSA-L 2026 KRAV" />
             <div className="grid lg:grid-cols-12 gap-8 mb-10">
@@ -238,7 +239,7 @@ const BookingsystemKommune = () => {
           </div>
         </section>
 
-        <section className="py-14 lg:py-20 bg-paper-deep/40">
+        <section className="py-14 lg:py-20 bg-paper-tinted border-y border-rule">
           <div className="container mx-auto md:px-8 lg:px-12">
             <SectionRule label="III. NORSKE INTEGRASJONER" />
             <div className="grid lg:grid-cols-12 gap-8 mb-10">
@@ -274,6 +275,8 @@ const BookingsystemKommune = () => {
             </div>
           </div>
         </section>
+
+        <PilotInvitationSection />
 
         <section className="py-14 lg:py-20 bg-accent-tinted">
           <div className="container mx-auto md:px-8 lg:px-12">

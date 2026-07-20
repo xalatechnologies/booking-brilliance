@@ -61,12 +61,17 @@ type Props = {
   /** Heading level for the "Book en demo." title. Use h1 on /book-demo where
    *  it's the primary heading; default h2 keeps the homepage's hero h1 dominant. */
   headingAs?: "h1" | "h2";
+  /** Render the visible "Book en demo." display heading. Set false on the
+   *  homepage, where a "BOOK EN DEMO" section eyebrow labels it instead (an
+   *  sr-only heading keeps the document outline intact). */
+  heading?: boolean;
 };
 
 export function BookDemoBlock({
   source,
   showByline = false,
   headingAs = "h2",
+  heading = true,
 }: Props) {
   // Section sub-headings sit exactly one level below the main heading so the
   // outline never skips: H1→H2 on /book-demo (headingAs="h1"), H2→H3 on the
@@ -139,16 +144,20 @@ export function BookDemoBlock({
     <div className="grid lg:grid-cols-12 gap-10 lg:gap-gutter mt-10 lg:mt-14">
       {/* Left: editorial copy */}
       <div className="lg:col-span-5">
-        <EditorialHeading as={headingAs} size="display" className="mb-6">
-          Book en{" "}
-          <em
-            className="italic"
-            style={{ fontVariationSettings: getFraunces("display") }}
-          >
-            demo
-          </em>
-          .
-        </EditorialHeading>
+        {heading ? (
+          <EditorialHeading as={headingAs} size="display" className="mb-6">
+            Book en{" "}
+            <em
+              className="italic"
+              style={{ fontVariationSettings: getFraunces("display") }}
+            >
+              demo
+            </em>
+            .
+          </EditorialHeading>
+        ) : (
+          <h2 className="sr-only">Book en demo</h2>
+        )}
         <p
           className="text-xl text-ink-soft italic measure leading-relaxed mb-10"
           style={{ fontVariationSettings: getFraunces("sub") }}
@@ -402,7 +411,7 @@ export function BookDemoBlock({
                 </div>
               )}
 
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-6 border-t border-rule">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-6">
                 <EditorialButton
                   type="submit"
                   variant="primary"

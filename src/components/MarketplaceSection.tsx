@@ -9,8 +9,8 @@ import {
   ArrowUpRight,
   type LucideIcon,
 } from "lucide-react";
-import { SectionRule, EditorialHeading } from "@/components/editorial";
 import { getFraunces } from "@/lib/fonts";
+import { SectionHeader } from "@/components/SectionHeader";
 import { bundledSrcSet } from "@/components/CategoryVisual";
 
 interface Tile {
@@ -70,30 +70,21 @@ const TILES: Tile[] = [
 
 const MarketplaceSection = () => {
   return (
-    <section id="marketplace" className="py-14 lg:py-20 bg-paper">
+    <section id="marketplace" className="py-10 lg:py-14 bg-paper">
       <div className="container mx-auto md:px-8 lg:px-12">
-        <SectionRule label="FINN OG BOOK" />
-
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-8 lg:mb-10 items-end">
-          <div className="lg:col-span-8">
-            <EditorialHeading as="h2" size="section">
-              Alt du kan finne og booke,{" "}
-              <em
-                className="italic"
-                style={{ fontVariationSettings: getFraunces("display") }}
-              >
-                som privatperson
-              </em>
-              .
-            </EditorialHeading>
-          </div>
-          <div className="lg:col-span-4">
-            <p className="text-lg text-ink-soft leading-relaxed">
-              Lokaler, overnatting, arrangementer, utstyr og tjenester, samlet på
-              ett sted. Ekte priser, ledige tider og betaling med Vipps.
-            </p>
-          </div>
-        </div>
+        <SectionHeader
+          label="FINN OG BOOK"
+          intro="Lokaler, overnatting, arrangementer, utstyr og tjenester, samlet på ett sted. Ekte priser, ledige tider og betaling med Vipps."
+        >
+          Alt du kan finne og{" "}
+          <em
+            className="italic"
+            style={{ fontVariationSettings: getFraunces("display") }}
+          >
+            booke
+          </em>
+          .
+        </SectionHeader>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6">
           {TILES.map((t) => {

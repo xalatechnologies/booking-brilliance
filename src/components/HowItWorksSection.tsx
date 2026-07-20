@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { SectionRule, EditorialHeading } from "@/components/editorial";
+import { SectionHeader } from "@/components/SectionHeader";
 import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
 import { getFraunces } from "@/lib/fonts";
 
@@ -34,34 +34,23 @@ const HowItWorksSection = () => {
   return (
     <section
       id="funksjonalitet"
-      className="py-14 lg:py-20 bg-paper-deep/40"
+      className="py-10 lg:py-14 bg-paper-tinted border-y border-rule"
     >
       <div className="container mx-auto md:px-8 lg:px-12">
-        <SectionRule label="IV. FUNKSJONALITET" />
-
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-10 lg:mb-14">
-          <div className="lg:col-span-7">
-            <EditorialHeading as="h2" size="section">
-              Booking med{" "}
-              <em
-                className="italic"
-                style={{
-                  fontVariationSettings: '"opsz" 96, "wght" 400, "SOFT" 30, "WONK" 0',
-                }}
-              >
-                få steg.
-              </em>
-            </EditorialHeading>
-          </div>
-          <div className="lg:col-span-5 flex items-end">
-            <p
-              className="text-xl text-ink-soft italic"
-              style={{ fontVariationSettings: getFraunces("sub") }}
-            >
-              Fra forespørsel til oppgjør: én sammenhengende prosess.
-            </p>
-          </div>
-        </div>
+        <SectionHeader
+          label="FUNKSJONALITET"
+          intro="Fra forespørsel til oppgjør: én sammenhengende prosess."
+        >
+          Booking med{" "}
+          <em
+            className="italic"
+            style={{
+              fontVariationSettings: '"opsz" 96, "wght" 400, "SOFT" 30, "WONK" 0',
+            }}
+          >
+            få steg.
+          </em>
+        </SectionHeader>
 
         <motion.ol
           initial="hidden"
@@ -74,7 +63,7 @@ const HowItWorksSection = () => {
             <motion.li
               key={s.step}
               variants={staggerChild}
-              className={`relative grid grid-cols-12 gap-6 lg:gap-gutter py-12 lg:py-16 ${
+              className={`relative grid grid-cols-12 gap-6 lg:gap-gutter py-10 lg:py-14 ${
                 idx > 0 ? "border-t border-rule" : ""
               }`}
             >

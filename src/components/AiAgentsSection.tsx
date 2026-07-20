@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { ShieldCheck, MessagesSquare, CalendarClock, Sunrise, Compass, Wand2 } from "lucide-react";
-import { SectionRule, EditorialHeading, EditorialButton } from "@/components/editorial";
+import { EditorialButton } from "@/components/editorial";
+import { SectionHeader } from "@/components/SectionHeader";
 import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
 import { getFraunces } from "@/lib/fonts";
 
@@ -16,62 +17,57 @@ const agents = [
     icon: ShieldCheck,
     title: "Godkjenning & compliance",
     description:
-      "Hver oppføring gjennomgås mot GDPR, NSM, SOC 2 og universell utforming — i både tekst og bilder — før den publiseres. Rent innhold godkjennes, resten stoppes med konkret veiledning.",
+      "Hver oppføring gjennomgås mot GDPR, NSM, SOC 2 og universell utforming, i både tekst og bilder, før den publiseres. Rent innhold godkjennes, resten stoppes med konkret veiledning.",
   },
   {
     icon: MessagesSquare,
     title: "Svar på henvendelser",
     description:
-      "Kundeforespørsler får et varmt, korrekt førstesvar med én gang — leser formål, dato og antall. Klager, pris og juss løftes alltid til en saksbehandler.",
+      "Kundeforespørsler får et varmt, korrekt førstesvar med én gang, og leser formål, dato og antall. Klager, pris og juss løftes alltid til en saksbehandler.",
   },
   {
     icon: CalendarClock,
     title: "Sesongtildeling",
     description:
-      "Gjennomgår og forklarer sesongtildeling av halltid — fanger klubber som faller utenfor, vurderer om resultatet er forsvarlig, og gir hver klubb en begrunnelse. Aldri «systemet bestemte».",
+      "Gjennomgår og forklarer sesongtildeling av halltid. Fanger klubber som faller utenfor, vurderer om resultatet er forsvarlig, og gir hver klubb en begrunnelse. Aldri «systemet bestemte».",
   },
   {
     icon: Sunrise,
     title: "Dagens oversikt",
     description:
-      "Vaktmester, renhold, vakthold og brannvern får en rolig, personlig oversikt over dagen — tidene i riktig rekkefølge og det som må følges opp. Aldri en tom melding.",
+      "Vaktmester, renhold, vakthold og brannvern får en rolig, personlig oversikt over dagen, med tidene i riktig rekkefølge og det som må følges opp. Aldri en tom melding.",
   },
   {
     icon: Compass,
     title: "Markedsinnsikt",
     description:
-      "Leser tilbud og etterspørsel på tvers av markedsplassen og finner hullene — hvor det mangler lokaler folk faktisk leter etter — som en kort, rangert mulighetsoversikt.",
+      "Leser tilbud og etterspørsel på tvers av markedsplassen og finner hullene, der det mangler lokaler folk faktisk leter etter, som en kort, rangert mulighetsoversikt.",
   },
   {
     icon: Wand2,
     title: "Lag utkast fra en lenke",
     description:
-      "Har du lokalet på Airbnb, Booking.com, Finn eller Eventum — eller i et Word-dokument? Lim inn lenken eller last opp filen, så analyserer agenten innholdet og lager et ferdig utkast til oppføring du bare finpusser.",
+      "Har du lokalet på Airbnb, Booking.com, Finn eller Eventum, eller i et Word-dokument? Lim inn lenken eller last opp filen, så analyserer agenten innholdet og lager et ferdig utkast til oppføring du bare finpusser.",
   },
 ];
 
 const AiAgentsSection = () => {
   return (
-    <section id="agenter" className="py-14 lg:py-20 bg-paper-tinted">
+    <section id="agenter" className="py-10 lg:py-14 bg-paper-tinted border-y border-rule">
       <div className="container mx-auto md:px-8 lg:px-12">
-        <SectionRule label="INNEBYGD INTELLIGENS" />
-
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-8 lg:mb-10">
-          <div className="lg:col-span-7">
-            <EditorialHeading as="h2" size="section">
-              Agenter som gjør jobben.
-            </EditorialHeading>
-          </div>
-          <div className="lg:col-span-5 flex items-end">
-            <p
-              className="text-xl text-ink-soft italic"
-              style={{ fontVariationSettings: getFraunces("sub") }}
-            >
-              Under overflaten jobber en flåte av AI-agenter — de godkjenner,
-              svarer, forklarer og varsler, så administrasjonen slipper.
-            </p>
-          </div>
-        </div>
+        <SectionHeader
+          label="INNEBYGD INTELLIGENS"
+          intro="Under overflaten jobber en flåte av AI-agenter som godkjenner, svarer, forklarer og varsler, så administrasjonen slipper."
+        >
+          Agenter og{" "}
+          <em
+            className="italic"
+            style={{ fontVariationSettings: getFraunces("display") }}
+          >
+            automatisering
+          </em>
+          .
+        </SectionHeader>
 
         {/* Framework trust row — what every listing is checked against */}
         <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-10 lg:mb-14 pb-8 border-b border-rule">
@@ -93,14 +89,18 @@ const AiAgentsSection = () => {
           whileInView="visible"
           viewport={viewportOnce}
           variants={staggerParent}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-rule border border-rule"
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6"
         >
           {agents.map((a) => {
             const Icon = a.icon;
             return (
-              <motion.div key={a.title} variants={staggerChild} className="bg-paper p-7 flex flex-col">
+              <motion.div
+                key={a.title}
+                variants={staggerChild}
+                className="group bg-gradient-to-br from-paper to-paper-deep rounded-lg border border-rule p-7 flex flex-col shadow-[0_2px_10px_-4px_rgba(10,18,40,0.12)] transition-all duration-normal ease-editorial hover:-translate-y-0.5 hover:border-accent-text/30 hover:shadow-[0_16px_34px_-18px_rgba(10,18,40,0.4)]"
+              >
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="w-10 h-10 shrink-0 inline-flex items-center justify-center bg-accent-text/5 border border-accent-text/15 rounded-sm text-accent-text">
+                  <span className="w-10 h-10 shrink-0 inline-flex items-center justify-center bg-accent-text/10 ring-1 ring-accent-text/25 rounded-md text-accent-text transition-transform duration-normal ease-editorial group-hover:scale-105">
                     <Icon className="h-5 w-5" strokeWidth={1.5} />
                   </span>
                   <h3

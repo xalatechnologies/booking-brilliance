@@ -232,3 +232,39 @@ export function allFAQEntries(): Array<{ q: string; a: string; category: string 
     cat.questions.map((q) => ({ ...q, category: cat.label })),
   );
 }
+
+/**
+ * Homepage FAQ — the six questions rendered in the visible accordion on `/`
+ * AND emitted as the homepage FAQPage JSON-LD (via <SEO faq>). Single source
+ * of truth for the React app.
+ *
+ * IMPORTANT: keep this byte-for-byte in sync with the `/` route `faq` array in
+ * scripts/prerender.mjs — that copy is what crawlers index in the static HTML,
+ * and Google requires the visible FAQ text to match the FAQPage markup.
+ */
+export const HOMEPAGE_FAQ: Array<{ q: string; a: string }> = [
+  {
+    q: "Hva er Digilist?",
+    a: "Digilist er en norsk digital plattform for utleie av selskapslokaler, idrettshaller, møterom, kantiner og kulturhus. Plattformen håndterer booking, betaling, kalender, sesongleie og fakturering i én løsning.",
+  },
+  {
+    q: "Hvilke kommuner og utleiere bruker Digilist?",
+    a: "Digilist brukes av norske kommuner og private utleiere, blant andre Nordre Follo kommune, Rønningen Selskapslokale, Lier Bygdetun og RightSize Group.",
+  },
+  {
+    q: "Hvilke betalingsmetoder støttes?",
+    a: "Vipps, BankID, Stripe Connect for kort, samt EHF/Peppol-fakturering. Integrasjoner med Visma, Tripletex, Fiken, PowerOffice og DNB Regnskap er aktive.",
+  },
+  {
+    q: "Er Digilist GDPR- og ISO-sertifisert?",
+    a: "Ja. Digilist oppfyller GDPR, er ISO 27001 og ISO 27701 sertifisert og følger WCAG 2.0 AA. Data lagres i Norge og EU.",
+  },
+  {
+    q: "Hvordan håndteres sesongleie til lag og foreninger?",
+    a: "Digilist har en egen sesongleie-modul med søknadsbehandling, regelstyrt fordeling og rapportering.",
+  },
+  {
+    q: "Støtter Digilist sanntidstilgjengelighet?",
+    a: "Ja. Kalenderen viser ledig, opptatt og blokkert tid i sanntid og oppdateres umiddelbart.",
+  },
+];

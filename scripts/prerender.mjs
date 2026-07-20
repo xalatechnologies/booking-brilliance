@@ -1015,6 +1015,40 @@ const ROUTES = [
     ],
   },
   {
+    route: "/teknologi",
+    title: "Teknologi og sikkerhet: stack, arkitektur og samsvar | Digilist",
+    description:
+      "Teknologien bak Digilist: React 19, Convex reaktiv runtime, PostgreSQL 16 i Norge og EU, ISO 27001/27701, GDPR, WCAG 2.1 AA, ID-porten, EHF/Peppol og norske integrasjoner.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Teknologi", url: `${BASE_URL}/teknologi` },
+    ],
+    // Mirror of TEKNOLOGI_FAQ in src/pages/Teknologi.tsx — keep byte-for-byte
+    // identical (this copy is what crawlers index; visible text must match).
+    faq: [
+      { q: "Hvilken teknologi er Digilist bygget på?", a: "Frontend: React 19, React Router 7, TypeScript strict, Tailwind CSS og Digdir Designsystemet. Backend: Convex (self-hosted) reaktiv runtime, Node.js 20 LTS, Zod. Database: PostgreSQL 16. Mobil: bare React Native (iOS, iPadOS, Android). Sikkerhet: TLS 1.3, AES-256-GCM, RBAC, ID-porten." },
+      { q: "Hvilke integrasjoner støttes?", a: "Betaling: Vipps, Stripe Connect, EHF/Peppol. Autentisering: BankID (via Signicat), ID-porten, BRREG. Regnskap: Visma eAccounting, Tripletex, Fiken, PowerOffice, DNB Regnskap. Kalender: Microsoft 365, Outlook. Adgang: Salto KS. Migrasjon: RCO booking." },
+      { q: "Hvor lagres dataene?", a: "All kundedata lagres i Norge og EU på PostgreSQL hostet av Convex i EU-regioner. Backup og redundans følger samme regel. Ingen data lagres utenfor EØS uten eksplisitte garantier." },
+      { q: "Er Digilist ISO 27001 og 27701-sertifisert?", a: "Ja. Digilist er sertifisert mot både ISO 27001 (informasjonssikkerhetsstyringssystem) og ISO 27701 (personvernsutvidelse). Sertifikater er tilgjengelige på forespørsel." },
+      { q: "Oppfyller Digilist WCAG 2.0 AA?", a: "Ja. Digilist tester mot WCAG 2.1 AA og kjører automatiserte axe-core-revisjoner på hvert deploy. Tilgjengelighetserklæring publiseres i samsvar med Digdirs mal." },
+      { q: "Hvor høy oppetid garanterer Digilist?", a: "Digilist har 99,9 % oppetid som SLA. Plattformen er bygget med transaksjonelle hendelseslogger (outbox-pattern) som garanterer konsistens selv ved feil. Statusside og insident-rapportering er tilgjengelig." },
+    ],
+  },
+  {
+    route: "/om-oss",
+    title: "Om Digilist: norsk bookingplattform fra Xala Technologies | Digilist",
+    description:
+      "Digilist er utviklet av Xala Technologies AS, et norsk teknologiselskap på Nesbru. Vi bygger én plattform for utleie og kommunal booking, med samsvar og norsk datalagring.",
+    ogType: "website",
+    aboutPage: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Om oss", url: `${BASE_URL}/om-oss` },
+    ],
+  },
+  {
     route: "/ai-agenter",
     title: "AI-agenter for booking og utleie — GDPR-sikker automatisering | Digilist",
     description:
@@ -1357,7 +1391,7 @@ const baseLD = (description) => [
     "@type": "Organization",
     "@id": `${BASE_URL}/#organization`,
     name: "Digilist",
-    alternateName: "Digilist — Enkel booking",
+    alternateName: "Digilist · Enkel booking",
     url: BASE_URL,
     logo: `${BASE_URL}/logo.svg`,
     image: `${BASE_URL}/og-image.png`,
@@ -1605,7 +1639,7 @@ function patchHTML(template, meta) {
 
 const HOMEPAGE = {
   route: "/",
-  title: "Digilist — Én plattform for alt som leies ut",
+  title: "Digilist · Én plattform for alt som leies ut",
   description:
     "Digital bookingplattform for selskapslokaler, idrettshaller, møterom og kulturhus. Sanntidskalender, Vipps, BankID, EHF, sesongleie. ISO 27001-sertifisert.",
   breadcrumbs: [{ name: "Hjem", url: `${BASE_URL}/` }],
@@ -1614,7 +1648,7 @@ const HOMEPAGE = {
   howTo: {
     name: "Slik booker du med Digilist",
     description:
-      "Fra forespørsel til oppgjør på fire steg — gjennom Digilist-plattformen.",
+      "Fra forespørsel til oppgjør på fire steg, gjennom Digilist-plattformen.",
     steps: [
       {
         name: "Søknad",
@@ -1626,7 +1660,7 @@ const HOMEPAGE = {
       },
       {
         name: "Bekreftelse",
-        text: "Automatisk bekreftelse med detaljer og betaling via Vipps eller kort. Driftsroller — vaktmester, renhold, vekter — varsles automatisk.",
+        text: "Automatisk bekreftelse med detaljer og betaling via Vipps eller kort. Driftsroller som vaktmester, renhold og vekter varsles automatisk.",
       },
       {
         name: "Oppfølging",
@@ -1634,6 +1668,9 @@ const HOMEPAGE = {
       },
     ],
   },
+  // Homepage FAQ — MIRROR of HOMEPAGE_FAQ in src/content/faq.ts. This copy is
+  // what crawlers index in the static HTML; keep both byte-for-byte identical
+  // (Google requires the visible accordion text to match this FAQPage markup).
   faq: [
     {
       q: "Hva er Digilist?",
@@ -1641,7 +1678,7 @@ const HOMEPAGE = {
     },
     {
       q: "Hvilke kommuner og utleiere bruker Digilist?",
-      a: "Digilist brukes av norske kommuner og private utleiere — blant andre Nordre Follo kommune, Rønningen Selskapslokale, Lier Bygdetun og RightSize Group.",
+      a: "Digilist brukes av norske kommuner og private utleiere, blant andre Nordre Follo kommune, Rønningen Selskapslokale, Lier Bygdetun og RightSize Group.",
     },
     {
       q: "Hvilke betalingsmetoder støttes?",
@@ -1877,6 +1914,8 @@ async function main() {
     { loc: `${BASE_URL}/arrangementer/festival`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/arrangementer/sport`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/billettsystem`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/teknologi`, priority: "0.7", changefreq: "monthly" },
+    { loc: `${BASE_URL}/om-oss`, priority: "0.6", changefreq: "monthly" },
     { loc: `${BASE_URL}/ai-agenter`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/ai-agenter/sesongtildeling`, priority: "0.7", changefreq: "monthly" },
     { loc: `${BASE_URL}/ai-agenter/compliance-godkjenning`, priority: "0.7", changefreq: "monthly" },

@@ -1,10 +1,6 @@
 import { motion } from "framer-motion";
-import {
-  SectionRule,
-  EditorialHeading,
-  StoryCard,
-  EditorialButton,
-} from "@/components/editorial";
+import { StoryCard, EditorialButton } from "@/components/editorial";
+import { SectionHeader } from "@/components/SectionHeader";
 import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
 import { getFraunces } from "@/lib/fonts";
 
@@ -12,35 +8,23 @@ const BrukerhistorierSection = () => {
   return (
     <section
       id="brukerhistorier"
-      className="py-14 lg:py-20 bg-paper"
+      className="py-10 lg:py-14 bg-paper"
     >
       <div className="container mx-auto md:px-8 lg:px-12">
-        <SectionRule label="III. BRUKERHISTORIER" />
-
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-gutter mb-10 lg:mb-14">
-          <div className="lg:col-span-7">
-            <EditorialHeading as="h2" size="section">
-              Hvem bruker{" "}
-              <em
-                className="italic"
-                style={{
-                  fontVariationSettings: '"opsz" 96, "wght" 400, "SOFT" 30, "WONK" 0',
-                }}
-              >
-                Digilist?
-              </em>
-            </EditorialHeading>
-          </div>
-          <div className="lg:col-span-5 flex items-end">
-            <p
-              className="text-xl text-ink-soft italic"
-              style={{ fontVariationSettings: getFraunces("sub") }}
-            >
-              Hverdagshistorier fra norske utleiere. Bookinger, automatisering og
-              regnskap, sammenhengende.
-            </p>
-          </div>
-        </div>
+        <SectionHeader
+          label="BRUKERHISTORIER"
+          intro="Hverdagshistorier fra norske utleiere. Bookinger, automatisering og regnskap, sammenhengende."
+        >
+          Hvem bruker{" "}
+          <em
+            className="italic"
+            style={{
+              fontVariationSettings: '"opsz" 96, "wght" 400, "SOFT" 30, "WONK" 0',
+            }}
+          >
+            Digilist?
+          </em>
+        </SectionHeader>
 
         <motion.div
           initial="hidden"
@@ -49,7 +33,7 @@ const BrukerhistorierSection = () => {
           variants={staggerParent}
           className="grid lg:grid-cols-2 gap-6 lg:gap-8"
         >
-          <motion.div variants={staggerChild}>
+          <motion.div variants={staggerChild} className="h-full">
             <StoryCard
               meta={["Kunde", "Selskapslokale", "Live 2025"]}
               customer="Rønningen Selskapslokale"
@@ -95,7 +79,7 @@ const BrukerhistorierSection = () => {
             />
           </motion.div>
 
-          <motion.div variants={staggerChild}>
+          <motion.div variants={staggerChild} className="h-full">
             <StoryCard
               meta={["Kunde", "Kommune", "Live 2024"]}
               customer="Nordre Follo kommune"

@@ -59,5 +59,5 @@ En kommune som har en bookingkalender på nettsiden, men håndterer alt annet ma
 
 Det er året da terskelen flyttet seg. Innbyggerne forventer det. Regelverket krever det. Regnestykket favoriserer det. Det er ikke lenger en politisk avgjørelse om kommunen skal digitalisere booking. Det er et spørsmål om _hvordan_, og _hvor raskt_.
 
-Den beste tilnærmingen er ikke å vente på en stor anskaffelse. Det er å starte med en pilot på ett anlegg, bygge tillit i organisasjonen, og skalere når innbyggerne og saksbehandlerne har sett at det fungerer. Det er nettopp den modellen [Digilists pilotprogram](/#pilot) er bygget for.
+Den beste tilnærmingen er ikke å vente på en stor anskaffelse. Det er å starte med en pilot på ett anlegg, bygge tillit i organisasjonen, og skalere når innbyggerne og saksbehandlerne har sett at det fungerer. Det er nettopp den modellen [Digilists pilotprogram](/bookingsystem-kommune#pilot) er bygget for.
 

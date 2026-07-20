@@ -224,8 +224,13 @@ const BookingLokalerMoterom = () => {
                 </div>
               </div>
 
+            </div>
+          </section>
+
+          <section className="py-12 lg:py-16 bg-paper-tinted border-y border-rule">
+            <div className="container mx-auto md:px-8 lg:px-12">
               {/* Benefits grid */}
-              <div className="mb-14 lg:mb-20">
+              <div>
                 <div className="flex items-baseline justify-between mb-6 border-b border-rule pb-3">
                   {/* Real <h2> (styled as the caption) so the benefit-card
                       <h3>s below don't skip straight from the hero <h1>
@@ -269,8 +274,13 @@ const BookingLokalerMoterom = () => {
                 </div>
               </div>
 
+            </div>
+          </section>
+
+          <section className="py-12 lg:py-16 bg-paper">
+            <div className="container mx-auto md:px-8 lg:px-12">
               {/* Use cases */}
-              <div className="mb-14 lg:mb-20">
+              <div>
                 <div className="flex items-baseline justify-between mb-6 border-b border-rule pb-3">
                   <span className="editorial-mono-caption text-accent-text">
                     BRUKSOMRÅDER
@@ -319,8 +329,13 @@ const BookingLokalerMoterom = () => {
                 </div>
               </div>
 
+            </div>
+          </section>
+
+          <section className="py-12 lg:py-16 bg-paper-tinted border-y border-rule">
+            <div className="container mx-auto md:px-8 lg:px-12">
               {/* How it works */}
-              <div className="mb-14 lg:mb-20">
+              <div>
                 <div className="flex items-baseline justify-between mb-6 border-b border-rule pb-3">
                   <span className="editorial-mono-caption text-accent-text">
                     SLIK BOOKER DU
@@ -384,8 +399,13 @@ const BookingLokalerMoterom = () => {
                 </ol>
               </div>
 
+            </div>
+          </section>
+
+          <section className="py-12 lg:py-16 bg-paper">
+            <div className="container mx-auto md:px-8 lg:px-12">
               {/* FAQ inline */}
-              <div className="mb-14 lg:mb-20">
+              <div>
                 <div className="flex items-baseline justify-between mb-6 border-b border-rule pb-3">
                   <span className="editorial-mono-caption text-accent-text">
                     OFTE STILTE SPØRSMÅL
@@ -421,6 +441,11 @@ const BookingLokalerMoterom = () => {
                 </dl>
               </div>
 
+            </div>
+          </section>
+
+          <section className="py-12 lg:py-16 bg-paper-tinted border-y border-rule">
+            <div className="container mx-auto md:px-8 lg:px-12">
               {/* Closing CTA */}
               <EditorialCard className="bg-paper-deep/40">
                 <div className="grid lg:grid-cols-12 gap-6 lg:gap-gutter items-center p-2 lg:p-6">

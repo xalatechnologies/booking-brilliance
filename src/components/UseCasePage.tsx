@@ -157,7 +157,8 @@ export default function UseCasePage({
 
       <PageTransition>
         <main id="main">
-          <article className="pt-20 lg:pt-24 pb-16 lg:pb-24">
+          <article>
+          <section className="pt-20 lg:pt-24 pb-12 lg:pb-16 bg-paper">
             <div className="container mx-auto md:px-8 lg:px-12">
               {/* Breadcrumb + section label */}
               <div className="flex items-baseline justify-between gap-4 mb-10 pb-4 border-b border-rule">
@@ -305,6 +306,11 @@ export default function UseCasePage({
               </section>
 
               {/* Features */}
+            </div>
+          </section>
+
+          <section className="py-12 lg:py-16 bg-paper-tinted border-y border-rule">
+            <div className="container mx-auto md:px-8 lg:px-12">
               <section className="mb-14 lg:mb-20">
                 <SectionRule label="SLIK FUNGERER DET" />
                 <h2
@@ -405,6 +411,11 @@ export default function UseCasePage({
               </section>
 
               {/* Technical specs */}
+            </div>
+          </section>
+
+          <section className="py-12 lg:py-16 bg-paper">
+            <div className="container mx-auto md:px-8 lg:px-12">
               <section className="mb-14 lg:mb-20">
                 <SectionRule label="TEKNISKE DETALJER" />
                 <h2
@@ -487,6 +498,11 @@ export default function UseCasePage({
                 </section>
               )}
 
+            </div>
+          </section>
+
+          <section className="py-12 lg:py-16 bg-paper-tinted border-y border-rule">
+            <div className="container mx-auto md:px-8 lg:px-12">
               {/* CTA */}
               <section className="mb-12">
                 <SectionRule label="NESTE STEG" />
@@ -539,6 +555,7 @@ export default function UseCasePage({
                 </section>
               )}
             </div>
+          </section>
           </article>
         </main>
       </PageTransition>
