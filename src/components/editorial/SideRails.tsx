@@ -306,12 +306,15 @@ export function SideRails({ chapters = CHAPTERS }: { chapters?: Chapter[] }) {
 
   if (!onHomepage) return null;
 
+  // Right rail temporarily hidden — flip to bring back the reading-progress
+  // indicator. Typed `boolean` so it reads as a real toggle, not a constant
+  // expression the linter rejects.
+  const showRightRail: boolean = false;
+
   return (
     <>
       <LeftRail chapters={chapters} activeId={activeId} onJump={handleJump} />
-      {/* Right rail temporarily hidden — bring back when we want the
-          reading-progress indicator visible again. */}
-      {false && (
+      {showRightRail && (
         <SlimRightRail
           chapters={chapters}
           activeId={activeId}

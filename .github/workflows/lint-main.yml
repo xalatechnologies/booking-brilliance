@@ -1,0 +1,26 @@
+name: Lint (main)
+# pr-check.yml gates lint on pull_requests. This ALSO runs it on direct pushes to
+# main — e.g. the nightly blog runner commits straight to main, bypassing the PR
+# gate — so a lint regression can no longer slip in un-checked. main was never
+# lint-gated before, which is how ~50 lint errors accumulated unnoticed.
+on:
+  push:
+    branches: [main]
+concurrency:
+  group: lint-main-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # pnpm version comes from packageManager in package.json.
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm lint
