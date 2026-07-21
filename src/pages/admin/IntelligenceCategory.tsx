@@ -57,6 +57,13 @@ export function IntelligenceCategoryPage({
     [snap, auditType],
   );
 
+  // Performance gets a "Run PSI" trigger since it bypasses the normal
+  // site-intelligence orchestrator (no Lighthouse on VPS). Hooks must run before
+  // the early return below (rules-of-hooks); none depend on `snap`.
+  const psiScan = useAction(api.audits.performance.scan);
+  const [psiBusy, setPsiBusy] = useState(false);
+  const [psiError, setPsiError] = useState<string | null>(null);
+
   if (!snap) {
     return (
       <div className="flex items-center gap-2 text-ink-soft">
@@ -87,11 +94,6 @@ export function IntelligenceCategoryPage({
   const surfacesScanned = runs.length;
   const surfaceMap = new Map(snap.targets.map((t) => [t.name, t]));
 
-  // Performance gets a "Run PSI" trigger since it bypasses the
-  // normal site-intelligence orchestrator (no Lighthouse on VPS).
-  const psiScan = useAction(api.audits.performance.scan);
-  const [psiBusy, setPsiBusy] = useState(false);
-  const [psiError, setPsiError] = useState<string | null>(null);
   const runPsi = async () => {
     setPsiBusy(true);
     setPsiError(null);
