@@ -2,7 +2,7 @@
 slug: bryllupslokale-kommune-pris-guide
 title: "Bryllupslokale i kommunen: pris, kapasitet og bookingregler samlet"
 description: "Finn ut hva kommunale bryllupslokaler koster, hva prisen inkluderer, kapasitet fra 30 til 200 gjester og hvordan du sammenligner ledige lokaler før du booker."
-date: 2026-07-20
+date: 2026-07-19
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8

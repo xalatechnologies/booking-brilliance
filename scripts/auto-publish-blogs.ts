@@ -28,6 +28,20 @@ const token = Buffer.from(ADMIN, "utf-8").toString("base64");
 
 async function main() {
   let published = 0;
+  const norm = (s: string) => s.toLowerCase().replace(/\s+/g, " ").trim();
+  // SEO guard: never publish a blog draft whose <title> already exists on a
+  // published post (or was just published this run). Duplicate <title>s are a
+  // real SEO defect the post-deploy live-verify catches AFTER deploy, which
+  // fails the WHOLE deploy. Catch it here: a colliding draft is skipped (left
+  // for a human to retitle) instead of shipping and breaking the deploy.
+  const takenTitles = new Set(
+    ((await client.query(api.content.drafts.listByStatus, {
+      adminToken: token,
+      status: "published",
+    })) as Array<{ channel: string; title: string }>)
+      .filter((r) => r.channel === "blog")
+      .map((r) => norm(r.title)),
+  );
   // Pending → approve first; approved → publish. Both statuses get published.
   for (const status of ["pending", "approved"]) {
     const rows = (await client.query(api.content.drafts.listByStatus, {
@@ -37,6 +51,10 @@ async function main() {
     const blogs = rows.filter((r) => r.channel === "blog");
     for (const d of blogs) {
       try {
+        if (takenTitles.has(norm(d.title))) {
+          console.warn(`[auto-publish] ⊘ skipped "${d.title}" — duplicate title already published (SEO); left as ${status} for retitling`);
+          continue;
+        }
         if (status === "pending") {
           await client.mutation(api.content.drafts.approve, {
             adminToken: token,
@@ -52,6 +70,7 @@ async function main() {
         if (r.ok) {
           console.log(`[auto-publish] ✓ ${d.title} → ${r.externalUrl ?? "ok"}`);
           published++;
+          takenTitles.add(norm(d.title));
         } else {
           console.warn(`[auto-publish] ✗ ${d.title}: ${r.error}`);
         }

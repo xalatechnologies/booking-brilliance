@@ -2,7 +2,7 @@
 slug: kommunalt-bryllupslokale-pris-booking
 title: "Bryllupslokale hos kommunen: priser, regler og booking"
 description: "Konkrete leiepriser, depositum og bookingregler for kommunale bryllupslokaler, med eksempel fra Lillestrøm der digital booking viser prisen før du ringer."
-date: 2026-07-20
+date: 2026-07-18
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8
