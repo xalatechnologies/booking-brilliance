@@ -2,7 +2,7 @@
 slug: leie-sal-pris-kommune
 title: "Leie sal i kommunen: hva koster det, og hvor er det billigst?"
 description: "Komplett prisguide for å leie sal, gymsal, kulturhus og møterom i norske kommuner. Se hva prisen bestemmes av, hvor lag og foreninger leier billigst, skjulte kostnader og hvordan du booker digitalt."
-date: 2026-07-20
+date: 2026-07-21
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8

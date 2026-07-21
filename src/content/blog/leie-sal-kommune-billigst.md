@@ -2,7 +2,7 @@
 slug: leie-sal-kommune-billigst
 title: "Leie sal i kommunen: slik finner du billigste ledige lokale"
 description: "Prisspenn, lokaltyper, skjulte gebyrer og gratisordninger for lag: slik sammenligner du kommunale saler og booker billigste ledige lokale online."
-date: 2026-07-20
+date: 2026-07-21
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8

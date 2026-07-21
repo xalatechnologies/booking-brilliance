@@ -2,7 +2,7 @@
 slug: bryllupslokale-kommune-godkjenning-vigsel-skjenkebevilling-catering-depositum
 title: "Bryllupslokale i kommunen: alt du må godkjenne, ikke bare booke"
 description: "Vigsel, skjenkebevilling, catering, pynt, støygrenser, forsikring og depositum: dette må du avklare med kommunen før bryllupslokalet er godkjent, ikke bare booket."
-date: 2026-07-19
+date: 2026-07-21
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 6
@@ -17,7 +17,7 @@ Prisen på salen er det enkleste å finne ut av. Det vanskelige er alt kommunen 
 
 Kommunale lokaler faller i to grupper. Et selskapslokale er en festsal du leier for middag og fest. Et vigsellokale er stedet kommunen gjennomfører den borgerlige vielsen, ofte et rådhus eller en representasjonssal. Noen steder er dette samme rom, andre steder to adresser du må koordinere selv.
 
-Avklar tidlig om du trenger begge. Skal dere vies og feire på samme sted, søk om det som én pakke. Skal vielsen skje i kommunehuset og festen et annet sted, må du booke to lokaler og passe på at tidene henger sammen med reisevei og rigging. En vielse klokken 14 og en middag som starter klokken 18 gir gjestene tid til å forflytte seg, men gir dere også fire timer der to lokaler står booket samtidig. Regn inn begge leiene når dere setter budsjettet. Vil du sammenligne hva selve lokalet koster først, har vi en egen gjennomgang av [pris og booking av bryllupslokale](/blogg/leie-bryllupslokale).
+Avklar tidlig om du trenger begge. Skal dere vies og feire på samme sted, søk om det som én pakke. Skal vielsen skje i kommunehuset og festen et annet sted, må du booke to lokaler og passe på at tidene henger sammen med reisevei og rigging. En vielse klokken 14 og en middag som starter klokken 18 gir gjestene tid til å forflytte seg, men gir dere også fire timer der to lokaler står booket samtidig. Regn inn begge leiene når dere setter budsjettet. Vil du sammenligne hva selve lokalet koster først, har vi en egen gjennomgang av [pris og booking av bryllupslokale i kommunen](/blogg/bryllupslokale-kommune-pris-og-booking).
 
 ## Vigsel i kommunen: book vielse og festlokale samtidig
 
