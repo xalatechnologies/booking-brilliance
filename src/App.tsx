@@ -82,6 +82,7 @@ const IntelligenceOverview = lazy(() => import("./pages/admin/IntelligenceOvervi
 const IntelligenceIssues = lazy(() => import("./pages/admin/IntelligenceIssues"));
 const IntelligenceAgents = lazy(() => import("./pages/admin/IntelligenceAgents"));
 const IntelligenceCompliance = lazy(() => import("./pages/admin/IntelligenceCompliance"));
+const IntelligenceSeo = lazy(() => import("./pages/admin/IntelligenceSeo"));
 const IntelligenceCategoryPage = lazy(() =>
   import("./pages/admin/IntelligenceCategory").then((m) => ({
     default: m.IntelligenceCategoryPage,
@@ -422,6 +423,7 @@ export function AppShell() {
                 }
               />
               <Route path="overflater" element={<IntelligenceSurfaces />} />
+              <Route path="seo-historikk" element={<IntelligenceSeo />} />
               <Route path="agenter" element={<IntelligenceAgents />} />
               <Route path="vekst" element={<VekstOverview />} />
               <Route path="vekst/keywords" element={<VekstKeywords />} />

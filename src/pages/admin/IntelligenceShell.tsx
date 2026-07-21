@@ -22,6 +22,7 @@ import {
   Globe2,
   KeyRound,
   LayoutGrid,
+  LineChart,
   Link2,
   Loader2,
   Plug,
@@ -63,6 +64,7 @@ const PRIMARY_NAV: NavItem[] = [
   { to: "/admin/intelligence/uptime", label: "SLA · Oppetid", icon: Wifi, hint: "Tilgjengelighet" },
   { to: "/admin/intelligence/ytelse", label: "Ytelse", icon: CircleGauge, hint: "Fart" },
   { to: "/admin/intelligence/seo", label: "SEO", icon: Search, hint: "Synlighet" },
+  { to: "/admin/intelligence/seo-historikk", label: "SEO-historikk", icon: LineChart, hint: "Over tid" },
 ];
 
 // Operational tooling that supports the three pillars — diagnostics, scan
