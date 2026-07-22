@@ -67,11 +67,12 @@ function LeftRail({
       aria-label="Kapittelnavigasjon"
       onMouseMove={(e) => mouseY.set(e.clientY)}
       onMouseLeave={() => mouseY.set(Infinity)}
-      // Primary navigation now lives in the top bar, so this floating rail is a
-      // supplementary reading indicator only. Surface it exclusively on ultra-wide
-      // viewports where the 1600px-capped container leaves a real left gutter
-      // (≥1740px), so it can never sit on top of the page text.
-      className="hidden min-[1740px]:flex fixed left-6 top-1/2 -translate-y-1/2 z-30 flex-col items-center gap-2 py-3 px-2 bg-paper/85 backdrop-blur-md border border-hairline-strong rounded-full shadow-[0_6px_24px_-12px_hsl(var(--ink)/0.25)]"
+      // Primary navigation now lives in the top bar, so this floating left rail is
+      // retired — kept in the tree but hidden at every breakpoint. (It used to
+      // resurface on ultra-wide viewports ≥1740px, which is what still leaked it
+      // onto large screens.) To bring it back as a reading indicator, restore the
+      // `min-[1740px]:flex` utility below.
+      className="hidden fixed left-6 top-1/2 -translate-y-1/2 z-30 flex-col items-center gap-2 py-3 px-2 bg-paper/85 backdrop-blur-md border border-hairline-strong rounded-full shadow-[0_6px_24px_-12px_hsl(var(--ink)/0.25)]"
     >
       {chapters.map((c) => (
         <DockItem
