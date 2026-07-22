@@ -55,6 +55,10 @@ const HeroSection = () => {
               Bookingplattform · 2026 · Norge
             </span>
 
+            {/* XAL-316: this H1 is the confirmed LCP element (verified via
+                PerformanceObserver's largest-contentful-paint entry, not a
+                guess) — not the hero image below. Don't add an image
+                preload/fetchpriority here; see docs/xal-316-lcp-handoff.md. */}
             <EditorialHeading as="h1" size="hero">
               Lokaler du trenger,{" "}
               <em
