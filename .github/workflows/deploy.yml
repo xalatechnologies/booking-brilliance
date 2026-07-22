@@ -57,13 +57,15 @@ jobs:
           # fast-failed the ENTIRE deploy — dropping a whole day of blog posts
           # even though the build was fine. Retry until the key lands, then
           # fail loudly (not silently) only if the host is truly unreachable.
+          # NB: -H hashes the hostname, so known_hosts never contains the literal
+          # IP — check the file is non-empty (a key landed), not for the IP text.
           for i in 1 2 3 4 5; do
             ssh-keyscan -T 10 -H 72.61.23.56 >> ~/.ssh/known_hosts 2>/dev/null || true
-            if grep -q "72.61.23.56" ~/.ssh/known_hosts; then break; fi
+            if [ -s ~/.ssh/known_hosts ]; then break; fi
             echo "ssh-keyscan attempt $i produced no host key, retrying in 5s…"
             sleep 5
           done
-          grep -q "72.61.23.56" ~/.ssh/known_hosts
+          [ -s ~/.ssh/known_hosts ]
           eval "$(ssh-agent -s)"
           ssh-add ~/.ssh/id_deploy
           echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> "$GITHUB_ENV"
