@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { render } from "./entry-server";
-import { getPostBySlug } from "@/lib/posts";
+import { getPostBySlug } from "@/lib/postContent";
 
 /**
  * Guards the actual template-level invariant behind XAL-310: every

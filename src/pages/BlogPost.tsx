@@ -12,7 +12,8 @@ import {
   ProgressRail,
   EditorialButton,
 } from "@/components/editorial";
-import { getPostBySlug, getAllPosts, formatPostDate } from "@/lib/posts";
+import { getAllPosts, formatPostDate } from "@/lib/posts";
+import { getPostBySlug } from "@/lib/postContent";
 import { getFraunces } from "@/lib/fonts";
 import { openChatbot } from "@/lib/chatbot/open";
 

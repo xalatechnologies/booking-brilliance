@@ -53,7 +53,11 @@ export function GlobalSearch() {
   const [query, setQuery] = useState("");
   const [selectedIdx, setSelectedIdx] = useState(0);
 
-  const corpus = useMemo(() => getSearchCorpus(), []);
+  // Deferred until the user actually opens search — every page mounts this
+  // component (it's in the Navbar), so building the ~150-item corpus (blog
+  // posts + FAQ entries) up front cost hydration time on every page view
+  // for a feature most visits never use.
+  const corpus = useMemo(() => (open ? getSearchCorpus() : []), [open]);
   const results = useMemo(
     () => (query.trim() ? searchCorpus(query, corpus) : []),
     [query, corpus],

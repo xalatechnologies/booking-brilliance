@@ -1,95 +1,25 @@
-export interface PostFrontmatter {
-  slug: string;
-  title: string;
-  description: string;
-  date: string;
-  author: string;
-  role?: string;
-  readingMinutes?: number;
-  tag?: string;
-  cover?: string;
-  keywords?: string[];
-}
+// Metadata only — no article body. Every consumer of this module (homepage
+// blog teaser, blog listing, sitewide search corpus) only ever needs
+// frontmatter fields, but the full ~560KB of combined article text used to
+// ride along anyway because a single eager `import.meta.glob(..., {raw})`
+// inlines each file's entire contents into whichever chunk imports it — and
+// this module is reachable eagerly from the homepage (BlogPreviewSection)
+// and the sitewide search (Navbar -> search/corpus.ts). `virtual:blog-meta`
+// (see vite.config.ts) extracts just the frontmatter at build time in Node,
+// so only that stays in the browser bundle. The one page that needs the full
+// body — the article itself — reads it from @/lib/postContent instead,
+// which only BlogPost.tsx imports, so that content lives in BlogPost's own
+// lazy-loaded chunk.
+import blogMeta from "virtual:blog-meta";
+import type { BlogFrontmatter } from "./blogFrontmatter";
 
-export interface Post extends PostFrontmatter {
-  content: string;
-}
+export type PostFrontmatter = BlogFrontmatter;
+export type Post = BlogFrontmatter;
 
-function parseFrontmatter(raw: string): { data: Record<string, unknown>; content: string } {
-  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
-  if (!match) return { data: {}, content: raw };
-  const data: Record<string, unknown> = {};
-  for (const line of match[1].split(/\r?\n/)) {
-    const kv = line.match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
-    if (!kv) continue;
-    const key = kv[1];
-    let value: string = kv[2].trim();
-    if (
-      (value.startsWith('"') && value.endsWith('"')) ||
-      (value.startsWith("'") && value.endsWith("'"))
-    ) {
-      value = value.slice(1, -1);
-    }
-    if (value.startsWith("[") && value.endsWith("]")) {
-      const inner = value.slice(1, -1).trim();
-      data[key] = inner
-        ? inner
-            .split(",")
-            .map((s) => s.trim().replace(/^["']|["']$/g, ""))
-            .filter(Boolean)
-        : [];
-      continue;
-    }
-    if (/^-?\d+$/.test(value)) {
-      data[key] = parseInt(value, 10);
-      continue;
-    }
-    if (/^-?\d+\.\d+$/.test(value)) {
-      data[key] = parseFloat(value);
-      continue;
-    }
-    data[key] = value;
-  }
-  return { data, content: match[2] };
-}
-
-const modules = import.meta.glob("/src/content/blog/*.md", {
-  query: "?raw",
-  import: "default",
-  eager: true,
-}) as Record<string, string>;
-
-const posts: Post[] = Object.entries(modules)
-  .map(([path, raw]) => {
-    const { data, content } = parseFrontmatter(raw);
-    const slug =
-      (data.slug as string) ||
-      path
-        .split("/")
-        .pop()!
-        .replace(/\.md$/, "");
-    return {
-      slug,
-      title: (data.title as string) || "",
-      description: (data.description as string) || "",
-      date: data.date ? new Date(data.date as string).toISOString().slice(0, 10) : "",
-      author: (data.author as string) || "",
-      role: data.role as string | undefined,
-      readingMinutes: data.readingMinutes as number | undefined,
-      tag: data.tag as string | undefined,
-      cover: data.cover as string | undefined,
-      keywords: data.keywords as string[] | undefined,
-      content,
-    };
-  })
-  .sort((a, b) => (a.date < b.date ? 1 : -1));
+const posts: Post[] = [...blogMeta].sort((a, b) => (a.date < b.date ? 1 : -1));
 
 export function getAllPosts(): Post[] {
   return posts;
-}
-
-export function getPostBySlug(slug: string): Post | undefined {
-  return posts.find((p) => p.slug === slug);
 }
 
 /**
