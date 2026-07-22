@@ -28,6 +28,13 @@
  * than the local 0.85-0.96 range above. 0.80 sits below that observed
  * floor, so the gate still catches real regressions without going red on
  * unrelated PRs from runner variance alone.
+ *
+ * Observed evidence for that variance: on the GitHub Actions runner for
+ * this PR, one run (job 88963958555, before this threshold was lowered)
+ * passed the median at 0.90; a separate local run on a busier sandbox
+ * machine produced a 0.79/0.83/0.96 spread (median 0.83) for an identical
+ * build. Both are within the 0.80 floor; neither would have been safely
+ * blocking at 0.90.
  */
 module.exports = {
   ci: {
