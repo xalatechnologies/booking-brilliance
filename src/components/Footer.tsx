@@ -94,6 +94,8 @@ const Footer = () => {
                 src="/logo-64.webp"
                 alt=""
                 aria-hidden="true"
+                width={64}
+                height={64}
                 className="h-16 lg:h-20 w-auto transition-opacity group-hover:opacity-80"
               />
               <span className="flex flex-col items-start leading-none">

@@ -51,7 +51,12 @@ export function StoryCard({
           ))}
         </div>
         {logoSrc ? (
-          <span className="shrink-0 inline-flex items-center justify-center h-12 px-3 rounded-md border border-rule bg-paper">
+          // Fixed w+h box (not h-12 + w-auto) so the badge's footprint is
+          // reserved before the logo decodes, regardless of its intrinsic
+          // aspect ratio — same technique as the customer logos in
+          // HeroSection, which avoids a CLS-scoring shift of the header's
+          // justify-between layout as each image loads in.
+          <span className="shrink-0 inline-flex items-center justify-center h-12 w-20 px-3 rounded-md border border-rule bg-paper">
             <picture>
               {logoWebpSrc(logoSrc) && (
                 <source type="image/webp" srcSet={logoWebpSrc(logoSrc)} />
@@ -59,7 +64,7 @@ export function StoryCard({
               <img
                 src={logoSrc}
                 alt={customer}
-                className="h-6 w-auto object-contain"
+                className="max-h-6 max-w-full object-contain"
                 loading="lazy"
               />
             </picture>
