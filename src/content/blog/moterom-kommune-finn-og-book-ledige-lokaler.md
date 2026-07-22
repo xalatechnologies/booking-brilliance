@@ -7,7 +7,7 @@ author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8
 tag: "Innbygger"
-cover: "/images/blog/somlos_betaling_hero_no-preview.webp"
+cover: "/images/blog/somlos_betaling_hero_no.webp"
 keywords: ["møterom kommune", "ledige møterom", "book møterom online", "møterom for foreninger", "møterom pris leie", "avbestille møterom"]
 ---
 

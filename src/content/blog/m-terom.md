@@ -7,7 +7,7 @@ author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8
 tag: "Innbygger"
-cover: "/images/blog/accessibility_hero_no-preview.webp"
+cover: "/images/blog/accessibility_hero_no.webp"
 keywords: ["møterom kommune", "ledige møterom i mitt område", "mine møterom bookinger", "møterom for foreninger", "pris på møterom kommune", "booke møterom uten saksbehandler"]
 ---
 

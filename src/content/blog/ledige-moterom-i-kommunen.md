@@ -7,7 +7,7 @@ author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8
 tag: "Innbygger"
-cover: "/images/blog/integrations_idporten_hero_no-preview.webp"
+cover: "/images/blog/integrations_idporten_hero_no.webp"
 keywords: ["møterom kommune", "ledige møterom", "booke møterom", "mine bookinger", "møterom nær meg", "kommunale lokaler"]
 ---
 
