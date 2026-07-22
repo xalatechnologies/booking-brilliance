@@ -109,7 +109,7 @@ export function MobileMenu() {
             className="inline-flex items-center gap-3"
             aria-label="Digilist, forsiden"
           >
-            <img src="/logo.svg" alt="" aria-hidden="true" className="h-9 w-auto" />
+            <img src="/logo-64.webp" alt="" aria-hidden="true" className="h-9 w-auto" />
             <span
               className="font-serif text-2xl text-ink leading-none"
               style={{

@@ -34,7 +34,24 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          if (!id.includes("node_modules")) return;
+          if (!id.includes("node_modules")) {
+            // These small shared UI atoms + utilities are each pulled in by
+            // many different lazy-loaded pages, so Rollup's default
+            // splitting shatters them into a dozen ~0.5-3 KB chunks —
+            // every one a separate "High"-priority request competing with
+            // the actually-critical JS/CSS/fonts on slow connections.
+            // Grouping them keeps the byte count the same but cuts the
+            // request count.
+            if (id.includes("/src/components/editorial/")) return "editorial";
+            if (
+              id.includes("/src/lib/motion.ts") ||
+              id.includes("/src/lib/fonts.ts") ||
+              id.includes("/src/lib/utils.ts")
+            ) {
+              return "shared-lib";
+            }
+            return;
+          }
           // Admin-only / Convex-backed
           if (id.includes("convex/")) return "vendor-convex";
           // Markdown rendering (blog detail page only)

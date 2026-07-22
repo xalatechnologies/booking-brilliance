@@ -4,16 +4,19 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { AnimatePresence, MotionConfig } from "framer-motion";
 
-// Eagerly bundled — the homepage, prerendered by SSR and the entry point
-// for almost every visit. Every other route below is lazy: the SSR
-// prerender loop in entry-server.tsx resolves React.lazy Suspense
-// boundaries into real HTML at build time, so crawlers still get full
-// static content — only the browser defers the JS until that route loads.
-import Index from "./pages/Index";
+// Lazy-loaded — every route's JS only loads once a visitor actually lands
+// on it. The SSR prerender loop in entry-server.tsx resolves React.lazy
+// Suspense boundaries into real HTML at build time, so crawlers still get
+// full static content for every route (including "/") — only the browser
+// defers the JS until that route loads. Index used to be bundled eagerly
+// on the theory that most visits land on "/" first, but that dragged its
+// HeroSection/MarketplaceSection weight (~90 KiB) into the shared entry
+// chunk every OTHER page pays for too, which was the single biggest
+// contributor to status.digilist.no's Lighthouse LCP regression.
+const Index = lazy(() => import("./pages/Index"));
 
-// Lazy-loaded — real visitors land on the homepage first; every other page
-// only needs its JS once the visitor actually navigates there. Keeps the
-// homepage's initial bundle to just what the homepage renders.
+// Lazy-loaded — every page only needs its JS once the visitor actually
+// navigates there. Keeps each route's initial bundle to just what it renders.
 //   - Blog detail page + preview: react-markdown + remark-gfm
 //   - Status page: Convex client + Recharts-adjacent code paths
 //   - All /admin/intelligence/* routes: dashboard, Vekst, charts, etc.
@@ -168,6 +171,30 @@ const RouteFallback = () => (
  * `initial={false}` skips entry animation on the very first paint
  * (which is the SSR'd HTML — we don't want to re-fade it in).
  */
+// Delays a value from false -> true until the main thread is idle (or a
+// short timeout elapses, for browsers without requestIdleCallback). Used
+// below so the chatbot/assistant-rail dynamic imports don't fire at page
+// load and compete — as "High"-priority module fetches — with the JS/CSS/
+// fonts actually on the critical rendering path. Neither widget is above
+// the fold or needed for LCP, so there's nothing to regress by letting
+// their chunks load a beat later.
+function useIdleFlag(): boolean {
+  const [idle, setIdle] = useState(false);
+  useEffect(() => {
+    const w = window as typeof window & {
+      requestIdleCallback?: (cb: () => void) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    if (w.requestIdleCallback) {
+      const id = w.requestIdleCallback(() => setIdle(true));
+      return () => w.cancelIdleCallback?.(id);
+    }
+    const id = window.setTimeout(() => setIdle(true), 200);
+    return () => window.clearTimeout(id);
+  }, []);
+  return idle;
+}
+
 // The chatbot widget is a marketing-site feature — admins don't need a
 // support bubble floating over their dashboards, and it also reduces
 // noise + bundle work on /admin/* and /blogg/preview/* routes. The host
@@ -175,10 +202,11 @@ const RouteFallback = () => (
 // public, so we treat it like marketing.
 function ChatbotMount() {
   const location = useLocation();
+  const idle = useIdleFlag();
   const skip =
     location.pathname.startsWith("/admin") ||
     location.pathname.startsWith("/blogg/preview");
-  if (skip) return null;
+  if (skip || !idle) return null;
   return (
     <Suspense fallback={null}>
       <Chatbot />
@@ -189,10 +217,11 @@ function ChatbotMount() {
 // The persistent desktop assistant rail (lg+). Same skip rules as the chatbot.
 function AssistantRailMount() {
   const location = useLocation();
+  const idle = useIdleFlag();
   const skip =
     location.pathname.startsWith("/admin") ||
     location.pathname.startsWith("/blogg/preview");
-  if (skip) return null;
+  if (skip || !idle) return null;
   return (
     <Suspense fallback={null}>
       <AssistantRail />
