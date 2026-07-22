@@ -214,6 +214,25 @@ export default defineSchema({
     .index("by_run", ["run_id"])
     .index("by_severity", ["severity"]),
 
+  // SEO agent — one summary row per seo-agent run (crawl score + SERP + AEO
+  // baselines), mirrored from the fleet for the /admin/intelligence SEO history
+  // view. AEO metrics are nullable because a run may skip the AEO stage.
+  seo_runs: defineTable({
+    origin: v.string(),
+    run_at: v.string(),
+    avg_score: v.number(),
+    pages_scanned: v.number(),
+    findings_total: v.number(),
+    serp_keywords_tracked: v.number(),
+    serp_our_top10: v.number(),
+    aeo_brand_mention_rate: v.union(v.number(), v.null()),
+    aeo_citation_rate: v.union(v.number(), v.null()),
+    aeo_share_of_voice: v.union(v.number(), v.null()),
+    aeo_queries: v.union(v.number(), v.null()),
+  })
+    .index("by_origin_time", ["origin", "run_at"])
+    .index("by_run_at", ["run_at"]),
+
   /*
    * Real-User Monitoring beacons — one row per Web Vitals metric
    * reported by a real visitor on a real device. Aggregations (p75

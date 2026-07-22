@@ -70,16 +70,10 @@ export default function IntelligenceCompliance() {
   const [running, setRunning] = useState(false);
   const [filterStatus, setFilterStatus] = useState<string>("all");
 
-  if (!data) {
-    return (
-      <div className="px-8 xl:px-12 py-12 flex items-center gap-3 text-ink-faint">
-        <Loader2 className="h-4 w-4 animate-spin" />
-        Henter etterlevelsesdata …
-      </div>
-    );
-  }
-
-  const visibleControls = data.controls
+  // Computed before the early return so the useMemo (a hook) always runs
+  // (rules-of-hooks). `data?.controls ?? []` guards the loading state — its value
+  // then is unused because the early return below renders the spinner.
+  const visibleControls = (data?.controls ?? [])
     .filter((c) => c.framework === framework)
     .filter((c) => filterStatus === "all" || c.status === filterStatus);
 
@@ -92,6 +86,15 @@ export default function IntelligenceCompliance() {
     }
     return Array.from(map.entries()).sort(([a], [b]) => a.localeCompare(b));
   }, [visibleControls]);
+
+  if (!data) {
+    return (
+      <div className="px-8 xl:px-12 py-12 flex items-center gap-3 text-ink-faint">
+        <Loader2 className="h-4 w-4 animate-spin" />
+        Henter etterlevelsesdata …
+      </div>
+    );
+  }
 
   const handleCollect = async () => {
     if (!token) return;

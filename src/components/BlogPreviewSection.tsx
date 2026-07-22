@@ -4,7 +4,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { EditorialButton } from "@/components/editorial";
 import { SectionHeader } from "@/components/SectionHeader";
-import { getAllPosts, formatPostDate } from "@/lib/posts";
+import { getAllPosts, formatPostDate, previewCover } from "@/lib/posts";
 import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
 import { getFraunces } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
@@ -116,7 +116,10 @@ const BlogPreviewSection = () => {
               "flex gap-8 lg:gap-10 overflow-x-auto pb-8 -mx-4 px-4 snap-x snap-mandatory scrollbar-hide",
             )}
           >
-            {posts.map((post, i) => (
+            {posts.map((post, i) => {
+              const preview = previewCover(post.cover);
+              const hasWebpPreview = preview && preview !== post.cover;
+              return (
               <motion.article
                 key={post.slug}
                 data-slide
@@ -128,21 +131,26 @@ const BlogPreviewSection = () => {
                   className="group flex flex-col h-full bg-paper border border-hairline-strong hover:border-ink transition-all duration-normal ease-editorial rounded-sm overflow-hidden hover:-translate-y-1"
                 >
                   <div className="relative aspect-[16/10] overflow-hidden bg-navy">
-                    <img
-                      src={post.cover || FALLBACK_COVER}
-                      alt={post.title}
-                      loading="lazy"
-                      decoding="async"
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-slow ease-editorial group-hover:scale-[1.04]"
-                      onError={(e) => {
-                        const img = e.currentTarget;
-                        if (img.src.endsWith(FALLBACK_COVER)) {
-                          img.style.display = "none";
-                          return;
-                        }
-                        img.src = FALLBACK_COVER;
-                      }}
-                    />
+                    <picture>
+                      {hasWebpPreview && (
+                        <source type="image/webp" srcSet={preview} />
+                      )}
+                      <img
+                        src={post.cover || FALLBACK_COVER}
+                        alt={post.title}
+                        loading="lazy"
+                        decoding="async"
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-slow ease-editorial group-hover:scale-[1.04]"
+                        onError={(e) => {
+                          const img = e.currentTarget;
+                          if (img.src.endsWith(FALLBACK_COVER)) {
+                            img.style.display = "none";
+                            return;
+                          }
+                          img.src = FALLBACK_COVER;
+                        }}
+                      />
+                    </picture>
                     <div className="absolute inset-0 bg-gradient-to-t from-ink/40 via-transparent to-transparent pointer-events-none" />
                     {post.tag && (
                       <span className="absolute top-4 left-4 editorial-mono-caption bg-paper/95 backdrop-blur-sm text-accent-text px-2.5 py-1 border border-hairline-strong">
@@ -187,7 +195,8 @@ const BlogPreviewSection = () => {
                   </div>
                 </Link>
               </motion.article>
-            ))}
+              );
+            })}
           </div>
         </motion.div>
 

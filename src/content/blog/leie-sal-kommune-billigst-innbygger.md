@@ -2,12 +2,12 @@
 slug: leie-sal-kommune-billigst-innbygger
 title: "Leie sal i kommunen: slik finner du den billigste ledige salen"
 description: "Hva koster det å leie sal i kommunen, hvorfor prisen varierer, og hvordan du finner det billigste ledige lokalet raskt uten å ringe rundt."
-date: 2026-07-14
+date: 2026-07-22
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8
 tag: "Innbygger"
-cover: "/images/blog/availability_calendar_hero_no.webp"
+cover: "/images/blog/gdpr_iso27001_hero_no.webp"
 keywords: ["leie sal kommune", "leie sal billig", "leie forsamlingshus", "leie grendehus", "leie sal til fest", "medlemspris lag og foreninger"]
 ---
 

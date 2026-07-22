@@ -1,20 +1,28 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import SEO from "@/components/SEO";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import MarketplaceSection from "@/components/MarketplaceSection";
-import AiAgentsSection from "@/components/AiAgentsSection";
-import B2BLaneSection from "@/components/B2BLaneSection";
-import HowItWorksSection from "@/components/HowItWorksSection";
-import BrukerhistorierSection from "@/components/BrukerhistorierSection";
-import BlogPreviewSection from "@/components/BlogPreviewSection";
-import HomepageFAQSection from "@/components/HomepageFAQSection";
-import CTASection from "@/components/CTASection";
-import Footer from "@/components/Footer";
 import { GrainOverlay, ProgressRail } from "@/components/editorial";
 import { SideRails } from "@/components/editorial/SideRails";
 import { HOMEPAGE_FAQ } from "@/content/faq";
+
+// Below-the-fold homepage sections — lazy so the initial hydration only
+// has to run the JS for what's visible without scrolling (Hero + the
+// marketplace tiles). The SSR prerender loop (entry-server.tsx) still
+// resolves this Suspense boundary into real static HTML at build time, so
+// there's no fallback flash for real visitors or crawlers; it just delays
+// *hydrating* this subtree until its chunk loads, which cuts the JS the
+// browser must parse/execute before the page becomes interactive.
+const AiAgentsSection = lazy(() => import("@/components/AiAgentsSection"));
+const B2BLaneSection = lazy(() => import("@/components/B2BLaneSection"));
+const HowItWorksSection = lazy(() => import("@/components/HowItWorksSection"));
+const BrukerhistorierSection = lazy(() => import("@/components/BrukerhistorierSection"));
+const BlogPreviewSection = lazy(() => import("@/components/BlogPreviewSection"));
+const HomepageFAQSection = lazy(() => import("@/components/HomepageFAQSection"));
+const CTASection = lazy(() => import("@/components/CTASection"));
+const Footer = lazy(() => import("@/components/Footer"));
 
 const Index = () => {
   const location = useLocation();
@@ -82,15 +90,19 @@ const Index = () => {
       <main id="main">
         <HeroSection />
         <MarketplaceSection />
-        <AiAgentsSection />
-        <B2BLaneSection />
-        <HowItWorksSection />
-        <BrukerhistorierSection />
-        <BlogPreviewSection />
-        <HomepageFAQSection />
-        <CTASection />
+        <Suspense fallback={null}>
+          <AiAgentsSection />
+          <B2BLaneSection />
+          <HowItWorksSection />
+          <BrukerhistorierSection />
+          <BlogPreviewSection />
+          <HomepageFAQSection />
+          <CTASection />
+        </Suspense>
       </main>
-      <Footer />
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
     </div>
   );
 };

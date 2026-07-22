@@ -2,12 +2,12 @@
 slug: konferansesal-kultursal-kommune-pris-kapasitet-booking
 title: "Konferansesal og kultursal i kommunen: pris, kapasitet og booking"
 description: "Slik finner lag og foreninger pris, ledig kapasitet og teknisk utstyr for kommunale kultursaler til konsert, utstilling og seminar, før du ringer kommunen."
-date: 2026-07-14
+date: 2026-07-22
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8
 tag: "Lag og foreninger"
-cover: "/images/blog/accessibility_hero_no.webp"
+cover: "/images/blog/gdpr_iso27001_hero_no-preview.webp"
 keywords: ["konferanse sal kommune priser", "leie sal til konsert", "utstillingslokale kommune", "seminarrom stor kapasitet", "kultursal booking pris", "sal med scene og lyd", "ledige datoer kultursal"]
 ---
 

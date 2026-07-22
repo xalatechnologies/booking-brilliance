@@ -2,12 +2,12 @@
 slug: leie-kultursal-kommune-priser-og-kapasitet
 title: "Leie kultursal i kommunen: priser, kapasitet og booking"
 description: "Alt en arrangør trenger for å velge riktig kultursal: saltyper, ledig kapasitet, pris, teknisk utstyr og booking steg for steg, samlet på ett sted."
-date: 2026-07-20
+date: 2026-07-22
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8
 tag: "Lag og foreninger"
-cover: "/images/blog/digital_booking_importance_hero_no.webp"
+cover: "/images/blog/booking_calendar_hero_no.webp"
 keywords: ["konferanse sal kommune priser", "leie kultursal konsert", "booking sal utstilling", "seminarrom kommune priser", "kapasitet sitteplasser sal", "teknisk utstyr scene lyd lys", "rabatt lag og foreninger"]
 ---
 

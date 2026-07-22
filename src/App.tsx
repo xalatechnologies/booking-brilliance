@@ -1,79 +1,79 @@
 import { ReactNode, lazy, Suspense, useEffect, useState } from "react";
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { ThemeProvider } from "next-themes";
 import { AnimatePresence, MotionConfig } from "framer-motion";
 
-// Eagerly bundled — small marketing pages prerendered by SSR. Suspense
-// fallbacks would show blank HTML to crawlers if we lazy-loaded these.
+// Eagerly bundled — the homepage, prerendered by SSR and the entry point
+// for almost every visit. Every other route below is lazy: the SSR
+// prerender loop in entry-server.tsx resolves React.lazy Suspense
+// boundaries into real HTML at build time, so crawlers still get full
+// static content — only the browser defers the JS until that route loads.
 import Index from "./pages/Index";
-import BookDemo from "./pages/BookDemo";
-import BookingsystemKommune from "./pages/BookingsystemKommune";
-import BookingLokalerMoterom from "./pages/BookingLokalerMoterom";
-import Billettsystem from "./pages/Billettsystem";
-import Teknologi from "./pages/Teknologi";
-import OmOss from "./pages/OmOss";
-import Leie from "./pages/Leie";
-import LeieSelskapslokale from "./pages/LeieSelskapslokale";
-import LeieMoterom from "./pages/LeieMoterom";
-import LeieKonferanselokale from "./pages/LeieKonferanselokale";
-import LeieKontorlokaler from "./pages/LeieKontorlokaler";
-import LeieCoworking from "./pages/LeieCoworking";
-import LeieIdrettshall from "./pages/LeieIdrettshall";
-import LeiePadelbane from "./pages/LeiePadelbane";
-import LeieSvommehall from "./pages/LeieSvommehall";
-import LeieKulturhus from "./pages/LeieKulturhus";
-import LeieGaard from "./pages/LeieGaard";
-import LeieBursdagslokale from "./pages/LeieBursdagslokale";
-import Overnatting from "./pages/Overnatting";
-import OvernattingHytte from "./pages/OvernattingHytte";
-import OvernattingLeilighet from "./pages/OvernattingLeilighet";
-import OvernattingRom from "./pages/OvernattingRom";
-import OvernattingFeriehus from "./pages/OvernattingFeriehus";
-import Utstyr from "./pages/Utstyr";
-import UtstyrFestutstyr from "./pages/UtstyrFestutstyr";
-import UtstyrVerktoyMaskiner from "./pages/UtstyrVerktoyMaskiner";
-import UtstyrLydOgLys from "./pages/UtstyrLydOgLys";
-import UtstyrSportOgFriluft from "./pages/UtstyrSportOgFriluft";
-import Tjenester from "./pages/Tjenester";
-import TjenesteCatering from "./pages/TjenesteCatering";
-import TjenesteDj from "./pages/TjenesteDj";
-import TjenesteMusiker from "./pages/TjenesteMusiker";
-import TjenesteDekor from "./pages/TjenesteDekor";
-import Arrangementer from "./pages/Arrangementer";
-import ArrangementKonsert from "./pages/ArrangementKonsert";
-import ArrangementTeaterOgScene from "./pages/ArrangementTeaterOgScene";
-import ArrangementFestival from "./pages/ArrangementFestival";
-import ArrangementSport from "./pages/ArrangementSport";
-import Blog from "./pages/Blog";
-import FAQ from "./pages/FAQ";
-import AiAgenter from "./pages/AiAgenter";
-import AgentSesongtildeling from "./pages/agents/Sesongtildeling";
-import AgentComplianceGodkjenning from "./pages/agents/ComplianceGodkjenning";
-import AgentImporterOppforing from "./pages/agents/ImporterOppforing";
-import Salgsvilkar from "./pages/Salgsvilkar";
-import Personvern from "./pages/Personvern";
-import Cookies from "./pages/Cookies";
-import NotFound from "./pages/NotFound";
-import Transparens from "./pages/Transparens";
-import { ChatbotProvider } from "./components/chatbot/ChatbotProvider";
-import UseCaseSelskapslokaler from "./pages/UseCaseSelskapslokaler";
-import UseCaseMoterom from "./pages/UseCaseMoterom";
-import UseCaseIdrettshaller from "./pages/UseCaseIdrettshaller";
-import UseCaseKulturhus from "./pages/UseCaseKulturhus";
 
-// Lazy-loaded — heavyweight code paths that real visitors never hit on
-// the homepage. Cuts the initial JS bundle from ~1.28MB to ~300KB on the
-// marketing routes.
+// Lazy-loaded — real visitors land on the homepage first; every other page
+// only needs its JS once the visitor actually navigates there. Keeps the
+// homepage's initial bundle to just what the homepage renders.
 //   - Blog detail page + preview: react-markdown + remark-gfm
 //   - Status page: Convex client + Recharts-adjacent code paths
 //   - All /admin/intelligence/* routes: dashboard, Vekst, charts, etc.
 // Scoped Convex provider — lazy so `convex/react` stays out of the marketing
 // entry bundle; wraps only the routes below that call Convex.
 const ConvexScope = lazy(() => import("./components/ConvexScope"));
+const BookDemo = lazy(() => import("./pages/BookDemo"));
+const BookingsystemKommune = lazy(() => import("./pages/BookingsystemKommune"));
+const BookingLokalerMoterom = lazy(() => import("./pages/BookingLokalerMoterom"));
+const Billettsystem = lazy(() => import("./pages/Billettsystem"));
+const Teknologi = lazy(() => import("./pages/Teknologi"));
+const OmOss = lazy(() => import("./pages/OmOss"));
+const Leie = lazy(() => import("./pages/Leie"));
+const LeieSelskapslokale = lazy(() => import("./pages/LeieSelskapslokale"));
+const LeieMoterom = lazy(() => import("./pages/LeieMoterom"));
+const LeieKonferanselokale = lazy(() => import("./pages/LeieKonferanselokale"));
+const LeieKontorlokaler = lazy(() => import("./pages/LeieKontorlokaler"));
+const LeieCoworking = lazy(() => import("./pages/LeieCoworking"));
+const LeieIdrettshall = lazy(() => import("./pages/LeieIdrettshall"));
+const LeiePadelbane = lazy(() => import("./pages/LeiePadelbane"));
+const LeieSvommehall = lazy(() => import("./pages/LeieSvommehall"));
+const LeieKulturhus = lazy(() => import("./pages/LeieKulturhus"));
+const LeieGaard = lazy(() => import("./pages/LeieGaard"));
+const LeieBursdagslokale = lazy(() => import("./pages/LeieBursdagslokale"));
+const Overnatting = lazy(() => import("./pages/Overnatting"));
+const OvernattingHytte = lazy(() => import("./pages/OvernattingHytte"));
+const OvernattingLeilighet = lazy(() => import("./pages/OvernattingLeilighet"));
+const OvernattingRom = lazy(() => import("./pages/OvernattingRom"));
+const OvernattingFeriehus = lazy(() => import("./pages/OvernattingFeriehus"));
+const Utstyr = lazy(() => import("./pages/Utstyr"));
+const UtstyrFestutstyr = lazy(() => import("./pages/UtstyrFestutstyr"));
+const UtstyrVerktoyMaskiner = lazy(() => import("./pages/UtstyrVerktoyMaskiner"));
+const UtstyrLydOgLys = lazy(() => import("./pages/UtstyrLydOgLys"));
+const UtstyrSportOgFriluft = lazy(() => import("./pages/UtstyrSportOgFriluft"));
+const Tjenester = lazy(() => import("./pages/Tjenester"));
+const TjenesteCatering = lazy(() => import("./pages/TjenesteCatering"));
+const TjenesteDj = lazy(() => import("./pages/TjenesteDj"));
+const TjenesteMusiker = lazy(() => import("./pages/TjenesteMusiker"));
+const TjenesteDekor = lazy(() => import("./pages/TjenesteDekor"));
+const Arrangementer = lazy(() => import("./pages/Arrangementer"));
+const ArrangementKonsert = lazy(() => import("./pages/ArrangementKonsert"));
+const ArrangementTeaterOgScene = lazy(() => import("./pages/ArrangementTeaterOgScene"));
+const ArrangementFestival = lazy(() => import("./pages/ArrangementFestival"));
+const ArrangementSport = lazy(() => import("./pages/ArrangementSport"));
+const Blog = lazy(() => import("./pages/Blog"));
+const FAQ = lazy(() => import("./pages/FAQ"));
+const AiAgenter = lazy(() => import("./pages/AiAgenter"));
+const AgentSesongtildeling = lazy(() => import("./pages/agents/Sesongtildeling"));
+const AgentComplianceGodkjenning = lazy(() => import("./pages/agents/ComplianceGodkjenning"));
+const AgentImporterOppforing = lazy(() => import("./pages/agents/ImporterOppforing"));
+const Salgsvilkar = lazy(() => import("./pages/Salgsvilkar"));
+const Personvern = lazy(() => import("./pages/Personvern"));
+const Cookies = lazy(() => import("./pages/Cookies"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Transparens = lazy(() => import("./pages/Transparens"));
+const UseCaseSelskapslokaler = lazy(() => import("./pages/UseCaseSelskapslokaler"));
+const UseCaseMoterom = lazy(() => import("./pages/UseCaseMoterom"));
+const UseCaseIdrettshaller = lazy(() => import("./pages/UseCaseIdrettshaller"));
+const UseCaseKulturhus = lazy(() => import("./pages/UseCaseKulturhus"));
+import { ChatbotProvider } from "./components/chatbot/ChatbotProvider";
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const BlogPreview = lazy(() => import("./pages/BlogPreview"));
 const Status = lazy(() => import("./pages/Status"));
@@ -82,6 +82,7 @@ const IntelligenceOverview = lazy(() => import("./pages/admin/IntelligenceOvervi
 const IntelligenceIssues = lazy(() => import("./pages/admin/IntelligenceIssues"));
 const IntelligenceAgents = lazy(() => import("./pages/admin/IntelligenceAgents"));
 const IntelligenceCompliance = lazy(() => import("./pages/admin/IntelligenceCompliance"));
+const IntelligenceSeo = lazy(() => import("./pages/admin/IntelligenceSeo"));
 const IntelligenceCategoryPage = lazy(() =>
   import("./pages/admin/IntelligenceCategory").then((m) => ({
     default: m.IntelligenceCategoryPage,
@@ -224,8 +225,6 @@ function AnimatedRoutesWrap({ children }: { children: ReactNode }) {
   );
 }
 
-const queryClient = new QueryClient();
-
 // Convex is no longer provided at the app root — only the routes that call it
 // (status, blog preview, admin dashboard) are wrapped in <ConvexScope>, which
 // lazy-imports `convex/react`. This keeps the ~69KB Convex client out of the
@@ -270,12 +269,9 @@ function MotionFirstPaintShim({ children }: { children: ReactNode }) {
 
 export function AppShell() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+    <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
         <MotionFirstPaintShim>
         <TooltipProvider>
-          <Toaster />
-          <Sonner />
           <ScrollToTop />
           <RumReporter />
           <ChatbotProvider>
@@ -422,6 +418,7 @@ export function AppShell() {
                 }
               />
               <Route path="overflater" element={<IntelligenceSurfaces />} />
+              <Route path="seo-historikk" element={<IntelligenceSeo />} />
               <Route path="agenter" element={<IntelligenceAgents />} />
               <Route path="vekst" element={<VekstOverview />} />
               <Route path="vekst/keywords" element={<VekstKeywords />} />
@@ -453,8 +450,7 @@ export function AppShell() {
           </ChatbotProvider>
         </TooltipProvider>
         </MotionFirstPaintShim>
-      </ThemeProvider>
-    </QueryClientProvider>
+    </ThemeProvider>
   );
 }
 
