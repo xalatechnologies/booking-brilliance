@@ -1,21 +1,21 @@
 ---
 slug: leie-sal-billigst-kommune-lag-foreninger-reell-pris
-title: "Leie sal: slik finner foreningen den reelle prisen"
+title: "Leie sal billigst i kommunen: slik finner foreningen reell pris"
 description: "Listepris er sjelden det laget faktisk betaler. Slik regner foreningen ut reell pris med frivillighetsrabatt, friplass og sesongleie, og booker billigst."
-date: 2026-07-19
+date: 2026-07-23
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 6
 tag: "Lag og foreninger"
 cover: "/images/blog/sesongleie_hero_no.webp"
-keywords: ["leie sal forening reell pris", "foreningsrabatt leie lokale", "leie sal pris", "gratis leie lag og foreninger", "søke om fritak leie kommunalt lokale", "depositum leie lokale", "leie sal fast pris sesong"]
+keywords: ["leie sal billigst kommune", "leie lokale billigst", "leie sal pris", "gratis leie lag og foreninger", "søke om fritak leie kommunalt lokale", "depositum leie lokale", "leie sal fast pris sesong"]
 ---
 
 Prisen kommunen viser i regulativet er nesten aldri det laget faktisk betaler. For registrerte lag og foreninger finnes rabatter, friplasser og sesongavtaler som kutter kostnaden kraftig, men de ligger spredt i vedtak, prislister og PDF-vedlegg. Resultatet er at mange foreninger booker dyrere enn de trenger, rett og slett fordi den reelle prisen er vanskelig å regne ut på forhånd. Denne guiden viser hva som styrer prisen, hvordan du finner den reelle laveste, og hvordan Digilist regner den ut for deg før du bekrefter.
 
-## Hva bestemmer prisen på salen
+## Hva bestemmer prisen på en kommunal sal
 
-De fleste kommuner deler leietakere inn i sonekategorier: barn og unge, frivillige lag og foreninger, egen aktivitet, og kommersielle aktører. Samme sal kan koste 300 kroner timen for et idrettslag og 1 200 kroner for et firma. Prismodellen kombinerer denne kategorien med lokaltype, tidspunkt (dag mot kveld og helg) og varighet.
+De fleste kommuner deler leietakere inn i sonekategorier: barn og unge, frivillige lag og foreninger, kommunal aktivitet, og kommersielle aktører. Samme sal kan koste 300 kroner timen for et idrettslag og 1 200 kroner for et firma. Prismodellen kombinerer denne kategorien med lokaltype, tidspunkt (dag mot kveld og helg) og varighet.
 
 Det betyr at "leie sal pris" ikke har ett svar. En gymsal i Lillestrøm kommune har for eksempel én sats for treningstid på hverdager og en annen for helgearrangement. En festsal med scene og lyd ligger høyere enn et nakent møterom i samme bygg. Uten å kjenne egen kategori er det lett å lese av feil pris og tro at salen er dyrere enn den er.
 
@@ -26,7 +26,7 @@ Det praktiske rådet er å avklare tre ting før dere sammenligner tall: hvilken
 Listeprisen er utgangspunktet. Den reelle prisen for en forening er ofte 40 til 100 prosent lavere:
 
 - **Frivillighetsrabatt:** registrerte lag får typisk 50 prosent avslag på ordinær sats.
-- **Barne- og ungdomssatser:** aktivitet for medlemmer under 19 år er ofte gratis eller symbolsk priset.
+- **Barne- og ungdomssatser:** aktivitet for medlemmer under 19 år er i mange kommuner gratis eller symbolsk priset.
 - **Gratis trening i skoletidsbygg:** flere kommuner gir fri leie av gymsaler og klasserom til organisert barneidrett på kveldstid.
 
 "Gratis leie for lag og foreninger" er altså ofte reelt, men betinget av at foreningen er registrert i Frivillighetsregisteret og at aktiviteten faller i riktig kategori. Et konkret eksempel: en håndballgruppe som trener tirsdager fra 18 til 20 kan lande på null i leie for selve treningen, men betale full sats hvis det samme laget arrangerer en åpen turnering med inngangsbillett en lørdag. Samme lag, samme sal, to helt ulike priser.
@@ -43,7 +43,7 @@ I Digilist ligger søknad om fritak i samme flyt som selve bookingen. Du velger 
 
 ## Sammenlign priser mellom lokaler og kommuner
 
-Den billigste salen er ikke alltid den nærmeste. En forening som holder til på grensen mellom to kommuner kan spare mye på å booke en sal to kilometer unna i nabokommunen. Problemet har vært at hver har egen portal, eget regulativ og egen innlogging, så en reell sammenligning krever at noen setter seg ned med fem nettsider og en kalkulator.
+Den billigste salen er ikke alltid den nærmeste. En forening som holder til på grensen mellom to kommuner kan spare mye på å booke en sal to kilometer unna i nabokommunen. Problemet har vært at hver kommune har egen portal, eget regulativ og egen innlogging, så en reell sammenligning krever at noen setter seg ned med fem nettsider og en kalkulator.
 
 Digilist samler ledige lokaler på tvers av kommuner i én søkbar oversikt. Du filtrerer på kapasitet, dato og pris, og ser foreningsprisen for hvert alternativ side om side. Skal dere ha en sal til 80 personer neste lørdag, ser dere umiddelbart hvilket lokale som er billigst av de ledige. Like viktig: dere ser bare de som faktisk er ledige på datoen, så dere slipper å regne på et lokale som allerede er opptatt.
 

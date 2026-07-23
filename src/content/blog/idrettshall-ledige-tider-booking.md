@@ -2,7 +2,7 @@
 slug: idrettshall-ledige-tider-booking
 title: "Idrettshall: finn ledige tider og book uten telefonrunder"
 description: "Slik ser laget ditt ledige tider i idrettshall i sanntid, booker enkelttimer eller fast leie, og slipper dobbeltbooking og telefonkø til vaktmester."
-date: 2026-07-22
+date: 2026-07-23
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8

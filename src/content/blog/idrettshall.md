@@ -1,8 +1,8 @@
 ---
-slug: idrettshall
+slug: idrettshall-ledige-tider-booking
 title: "Idrettshall: ledige tider og booking uten dobbeltbooking"
 description: "Slik gir sanntids ledig-tid-oversikt i idrettshallen færre tomme timer og telefonhenvendelser, mens saksbehandler og lag jobber mot samme tall."
-date: 2026-07-19
+date: 2026-07-23
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8
