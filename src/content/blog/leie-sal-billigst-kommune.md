@@ -7,7 +7,7 @@ author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8
 tag: "Innbygger"
-cover: "/images/blog/digilist_app_hero_no.webp"
+cover: "/images/blog/realtime_updates_hero_no.webp"
 keywords: ["leie sal kommune", "gratis lokale lag og foreninger", "leie gymsal pris", "leie møterom kommune", "booke lokale kommune på nett"]
 ---
 

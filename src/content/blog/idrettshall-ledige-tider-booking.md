@@ -7,7 +7,7 @@ author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8
 tag: "Lag og foreninger"
-cover: "/images/blog/booking_calendar_hero_no.webp"
+cover: "/images/blog/digital_booking_importance_hero_no.webp"
 keywords: ["idrettshall ledige tider", "booking idrettshall", "faste treningstider idrettslag", "kommunale idrettsanlegg", "søknad om leie av idrettshall", "avbestilling frigitte timer"]
 ---
 

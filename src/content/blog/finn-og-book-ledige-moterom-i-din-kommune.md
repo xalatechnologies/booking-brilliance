@@ -7,7 +7,7 @@ author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 8
 tag: "Innbygger"
-cover: "/images/blog/sanntidskalender_hero_no.webp"
+cover: "/images/blog/gdpr_iso27001_hero_no.webp"
 keywords: ["møterom kommune", "ledige møterom nær meg", "book møterom online", "gratis møterom lag og foreninger", "møterom pris leie", "finn møterom bydel"]
 ---
 
