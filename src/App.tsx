@@ -23,6 +23,13 @@ const ConvexScope = lazy(() => import("./components/ConvexScope"));
 const BookDemo = lazy(() => import("./pages/BookDemo"));
 const BookingsystemKommune = lazy(() => import("./pages/BookingsystemKommune"));
 const BookingsystemUtleie = lazy(() => import("./pages/BookingsystemUtleie"));
+const LokalerTilLeie = lazy(() => import("./pages/LokalerTilLeie"));
+const LokalerTilLeieBy = lazy(() => import("./pages/LokalerTilLeieBy"));
+const LeieKonfirmasjonslokale = lazy(() => import("./pages/LeieKonfirmasjonslokale"));
+const LeieFirmafest = lazy(() => import("./pages/LeieFirmafest"));
+const LeieMinnestund = lazy(() => import("./pages/LeieMinnestund"));
+const LeieDaap = lazy(() => import("./pages/LeieDaap"));
+const LeieJubileum = lazy(() => import("./pages/LeieJubileum"));
 const Sikkerhet = lazy(() => import("./pages/Sikkerhet"));
 const BookingLokalerMoterom = lazy(() => import("./pages/BookingLokalerMoterom"));
 const Billettsystem = lazy(() => import("./pages/Billettsystem"));
@@ -286,6 +293,13 @@ export function AppShell() {
             <Route path="/book-demo" element={<BookDemo />} />
             <Route path="/bookingsystem-kommune" element={<BookingsystemKommune />} />
             <Route path="/bookingsystem-utleie" element={<BookingsystemUtleie />} />
+            <Route path="/lokaler-til-leie" element={<LokalerTilLeie />} />
+            <Route path="/lokaler-til-leie/:by" element={<LokalerTilLeieBy />} />
+            <Route path="/leie/konfirmasjonslokale" element={<LeieKonfirmasjonslokale />} />
+            <Route path="/leie/firmafest" element={<LeieFirmafest />} />
+            <Route path="/leie/minnestund" element={<LeieMinnestund />} />
+            <Route path="/leie/daap" element={<LeieDaap />} />
+            <Route path="/leie/jubileum" element={<LeieJubileum />} />
             <Route path="/sikkerhet" element={<Sikkerhet />} />
             <Route path="/booking-av-lokaler-og-moterom" element={<BookingLokalerMoterom />} />
             <Route path="/billettsystem" element={<Billettsystem />} />
