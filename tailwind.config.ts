@@ -130,11 +130,11 @@ export default {
       },
       borderRadius: {
         none: '0',
-        sm: '0.125rem',
-        DEFAULT: '0.125rem',
-        md: '0.25rem',
-        lg: 'var(--radius)',
-        xl: '0.375rem',
+        sm: '0.1875rem',        /* 3px */
+        DEFAULT: 'var(--radius)', /* 5px global */
+        md: 'var(--radius)',      /* 5px global */
+        lg: 'var(--radius)',      /* 5px global */
+        xl: '0.5rem',           /* 8px */
         full: '9999px',
       },
       boxShadow: {

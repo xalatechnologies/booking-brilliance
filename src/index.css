@@ -18,9 +18,9 @@
     /* Aligned to @digilist/ds (Digdir Designsystemet)                     */
     /* Brand navy #003057, cool slate neutrals.                            */
     /* ------------------------------------------------------------------ */
-    --paper: 0 0% 100%;               /* #ffffff — ds neutral-background */
-    --paper-deep: 210 40% 98%;        /* #f8fafc — ds neutral-background-tinted */
-    --paper-tinted: 210 27% 92%;      /* #e2e8f0 — ds neutral-surface-tinted */
+    --paper: 40 46% 96%;              /* #FAF4EA — warm cream base (Scandinavian, cozy) */
+    --paper-deep: 37 40% 91%;         /* #EEE4D2 — warm oat (cards / subtle fills) */
+    --paper-tinted: 38 46% 90%;       /* #F0E6D2 — light warm oat (section bands, cozy) */
     --ink: 222 47% 11%;               /* #0f172a — ds neutral-text-default */
     --ink-soft: 215 25% 27%;          /* #334155 — slate-700 */
     --ink-faint: 215 19% 40%;         /* #525c6c — AA 5.1:1 on paper-deep */
@@ -29,8 +29,8 @@
     --navy: 207 100% 17%;             /* #003057 — ds accent-base-default (button bg) */
     --navy-soft: 215 91% 31%;         /* #1e40af — ds accent-border-default */
     --accent-text: 207 100% 17%;      /* #003057 — accent text on paper (light) */
-    --accent-tinted: 213 65% 96%;     /* #eef4fb — ds accent-background-tinted */
-    --accent-surface: 211 50% 88%;    /* #dce7f3 — ds accent-surface-tinted */
+    --accent-tinted: 40 52% 93%;      /* #F6EBD4 — warm cream-gold highlight band (was cool #eef4fb) */
+    --accent-surface: 36 40% 83%;     /* #E3D5BD — warm sand accent surface (was cool #dce7f3) */
     --on-navy: 0 0% 100%;             /* always white — text on navy buttons */
     --aqua: 190 60% 76%;
     --green: 88 50% 53%;
@@ -62,7 +62,7 @@
     --border: var(--rule);
     --input: var(--rule);
     --ring: var(--navy);
-    --radius: 0.125rem;               /* 2px — rectilinear cards */
+    --radius: 5px;                    /* global corner radius */
 
     /* Charts (kept for any chart libs; restrained palette) */
     --chart-1: var(--navy);
@@ -91,6 +91,25 @@
 
     /* Grain texture opacity — minimal on white DS background */
     --grain-opacity: 0.015;
+  }
+
+  /* Warm cozy dark contrast band — LIGHT MODE ONLY. Scope-overrides the surface
+     + text tokens so token-based children (bg-paper, text-ink, border-rule,
+     accent-text…) render warm-dark without touching their classNames. In dark
+     mode the whole page is already dark, so this selector doesn't match and the
+     section just inherits the normal .dark theme (no clash). */
+  :root:not(.dark) .theme-cozy-dark {
+    --paper: 26 16% 18%;             /* warm espresso card top */
+    --paper-deep: 26 17% 14%;        /* warm espresso card bottom */
+    --paper-tinted: 24 20% 11%;      /* deep espresso band background */
+    --ink: 38 34% 91%;               /* warm cream text */
+    --ink-soft: 36 22% 78%;
+    --ink-faint: 34 16% 62%;
+    --rule: 34 26% 58% / 0.20;
+    --rule-strong: 34 26% 62% / 0.34;
+    --accent-text: 40 66% 70%;       /* warm gold accent on dark */
+    --accent-tinted: 30 22% 22%;
+    --accent-surface: 28 20% 26%;
   }
 
   .dark {

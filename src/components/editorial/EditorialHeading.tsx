@@ -10,10 +10,10 @@ interface EditorialHeadingProps {
 }
 
 const SIZE_CLASSES: Record<NonNullable<EditorialHeadingProps["size"]>, string> = {
-  hero: "text-5xl md:text-7xl lg:text-8xl tracking-tight",
-  display: "text-4xl md:text-6xl lg:text-7xl tracking-tight",
-  section: "text-4xl md:text-5xl lg:text-6xl tracking-tight",
-  sub: "text-xl md:text-2xl",
+  hero: "text-4xl md:text-5xl lg:text-6xl tracking-tight",
+  display: "text-3xl md:text-4xl lg:text-5xl tracking-tight",
+  section: "text-2xl md:text-3xl lg:text-4xl tracking-tight",
+  sub: "text-lg md:text-xl",
 };
 
 const SIZE_TO_FRAUNCES: Record<NonNullable<EditorialHeadingProps["size"]>, FrauncesSize> = {
@@ -41,8 +41,8 @@ export function EditorialHeading({
       )}
       style={{
         fontVariationSettings: variation,
-        lineHeight: size === "hero" ? 0.95 : size === "display" ? 0.98 : 1.05,
-        letterSpacing: size === "hero" ? "-0.025em" : "-0.015em",
+        lineHeight: size === "hero" ? 1.0 : size === "display" ? 1.02 : 1.08,
+        letterSpacing: size === "hero" ? "-0.02em" : "-0.015em",
       }}
     >
       {children}
