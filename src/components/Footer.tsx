@@ -55,6 +55,7 @@ const Footer = () => {
     { label: "Sikkerhet og personvern", href: "/sikkerhet" },
     { label: "Om oss", href: "/om-oss" },
     { label: "Blogg", href: "/blogg" },
+    { label: "Utleiemarkedet 2026", href: "/rapport/utleiemarkedet-norge-2026" },
     { label: "FAQ", href: "/faq" },
     { label: "Transparens", href: "/transparens" },
   ];

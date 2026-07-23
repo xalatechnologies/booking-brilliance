@@ -14,6 +14,7 @@ const ROUTES: Array<{ label: string; to: string; eyebrow?: string }> = [
   { label: "Utstyr", to: "/utstyr", eyebrow: "Fest · verktøy · lyd & lys" },
   { label: "Tjenester", to: "/tjenester", eyebrow: "Catering · DJ · musiker · dekor" },
   { label: "Verktøy", to: "/verktoy", eyebrow: "Priskalkulator · kapasitet" },
+  { label: "Utleiemarkedet 2026", to: "/rapport/utleiemarkedet-norge-2026", eyebrow: "Rapport · datastudie" },
   { label: "Blogg", to: "/blogg", eyebrow: "Artikler" },
   { label: "FAQ", to: "/faq", eyebrow: "Vanlige spørsmål" },
   { label: "Transparens", to: "/transparens", eyebrow: "Live kvalitetsrapport" },

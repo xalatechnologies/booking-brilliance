@@ -44,6 +44,11 @@ const SOLUTIONS = [
     eyebrow: "Plattform · samsvar",
   },
   {
+    label: "Utleiemarkedet 2026",
+    to: "/rapport/utleiemarkedet-norge-2026",
+    eyebrow: "Rapport · datastudie",
+  },
+  {
     label: "Om oss",
     to: "/om-oss",
     eyebrow: "Xala Technologies",

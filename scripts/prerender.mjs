@@ -213,6 +213,40 @@ async function loadBlogPosts() {
 /** @type {Array<{route: string, title: string, description: string, ogType?: string, faq?: Array<{q: string, a: string}>, breadcrumbs?: Array<{name: string, url: string}>}>} */
 const ROUTES = [
   {
+    route: "/rapport/utleiemarkedet-norge-2026",
+    title: "Utleiemarkedet i Norge 2026 – data, priser og etterspørsel | Digilist",
+    description:
+      "Datastudie om det norske utleiemarkedet for lokaler i 2026: søkeetterspørsel (DataForSEO), veiledende priser, sesong og bookingatferd, og det digitale gapet mellom e-post og sanntidsbooking. Frie tall og grafer for journalister og bransjen.",
+    ogType: "article",
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Rapport", url: `${BASE_URL}/rapport/utleiemarkedet-norge-2026` },
+    ],
+    faq: [
+      { q: "Hvor stort er utleiemarkedet for lokaler i Norge?", a: "Etterspørselen er betydelig og fragmentert. Alene på søkeordene for «lokaler til leie» og geografiske varianter finnes over 5 000 søk i måneden i Google Norge (DataForSEO), i tillegg til livshendelser som driver privat leie: SSB rapporterer ~20 000 bryllup, ~44 000 gravferder og ~50 000 fødte i året." },
+      { q: "Hva koster det å leie lokale i Norge?", a: "Prisen varierer med lokaltype, kapasitet, ukedag og sesong. Veiledende intervaller pr dag: møterom 300–2 500 kr, grendehus 1 000–5 000 kr, konferanselokale 2 000–15 000 kr, kulturhus 3 000–20 000 kr og selskapslokale 5 000–30 000 kr. Idrettshall ligger typisk 200–1 500 kr pr time. Dette er pekepinner, ikke tilbud." },
+      { q: "Når bør man booke et festlokale?", a: "Populære selskaps- og festlokaler til lørdager i høysesong (mai–september) bookes ofte 6–12 måneder i forveien. Med fleksible datoer – hverdager eller utenfor høysesong – er utvalget større og prisen lavere." },
+      { q: "Hvorfor er markedet så fragmentert?", a: "Tilbudet er spredt over kommunale bookingsider, katalogsider og enkeltstående booking-SaaS, og en stor del av utleien skjer fortsatt via e-post og telefon uten sanntids tilgjengelighet. Det gjør det tidkrevende å finne og booke ledige lokaler på tvers." },
+    ],
+    article: {
+      headline: "Utleiemarkedet i Norge 2026",
+      description:
+        "Datastudie om det norske utleiemarkedet for lokaler: etterspørsel, priser, sesong og det digitale gapet.",
+      datePublished: "2026-07-24",
+      dateModified: "2026-07-24",
+      author: "Ibrahim Rahmani",
+      keywords: ["utleiemarkedet", "lokaler til leie", "leiepriser", "bookingsystem"],
+    },
+    dataset: {
+      name: "Utleiemarkedet i Norge 2026 – søkeetterspørsel og priser",
+      description:
+        "Månedlig søkeetterspørsel (DataForSEO Labs, Google Norge) for utleie-relaterte søkeord, veiledende prisintervaller pr lokaltype, og SSB-tall for livshendelser som driver privat lokalleie.",
+      datePublished: "2026-07-24",
+      keywords: ["lokaler til leie", "leiepriser", "søkevolum", "utleiemarkedet Norge"],
+      variables: ["søkevolum per måned", "keyword difficulty", "prisintervall per lokaltype", "livshendelser per år"],
+    },
+  },
+  {
     route: "/verktoy",
     title: "Gratis verktøy for å leie lokale – pris og kapasitet | Digilist",
     description:
@@ -2008,6 +2042,39 @@ function patchHTML(template, meta) {
       url: canonical,
     });
   }
+  if (meta.dataset) {
+    ldBlocks.push({
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      name: meta.dataset.name,
+      description: meta.dataset.description,
+      url: canonical,
+      creator: { "@id": `${BASE_URL}/#organization` },
+      datePublished: meta.dataset.datePublished,
+      inLanguage: "nb-NO",
+      keywords: meta.dataset.keywords,
+      isAccessibleForFree: true,
+      license: "https://creativecommons.org/licenses/by/4.0/",
+      ...(meta.dataset.variables
+        ? { variableMeasured: meta.dataset.variables }
+        : {}),
+    });
+  }
+  if (meta.article) {
+    ldBlocks.push({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: meta.article.headline,
+      description: meta.article.description || meta.description,
+      datePublished: meta.article.datePublished,
+      dateModified: meta.article.dateModified || meta.article.datePublished,
+      author: { "@type": "Person", name: meta.article.author },
+      publisher: { "@id": `${BASE_URL}/#organization` },
+      mainEntityOfPage: canonical,
+      inLanguage: "nb-NO",
+      ...(meta.article.keywords ? { keywords: meta.article.keywords } : {}),
+    });
+  }
   const ldHTML = ldBlocks
     .map(
       (b) =>
@@ -2330,6 +2397,7 @@ async function main() {
     { loc: `${BASE_URL}/verktoy`, priority: "0.7", changefreq: "monthly" },
     { loc: `${BASE_URL}/verktoy/leiepriskalkulator`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/verktoy/kapasitetskalkulator`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/rapport/utleiemarkedet-norge-2026`, priority: "0.85", changefreq: "monthly" },
     { loc: `${BASE_URL}/leie/konfirmasjonslokale`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/leie/firmafest`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/leie/minnestund`, priority: "0.8", changefreq: "monthly" },
