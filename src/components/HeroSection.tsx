@@ -128,11 +128,11 @@ const HeroSection = () => {
                 loop
                 playsInline
                 preload="auto"
-                poster="/videos/digilist-book-venue-poster.jpg"
-                aria-label="Digilist booking i praksis"
+                poster="/videos/digilist-hero-demo-poster.jpg"
+                aria-label="Digilist i praksis — fra søk til booking"
               >
-                <source src="/videos/digilist-book-venue.webm" type="video/webm" />
-                <source src="/videos/digilist-book-venue.mp4" type="video/mp4" />
+                <source src="/videos/digilist-hero-demo.webm" type="video/webm" />
+                <source src="/videos/digilist-hero-demo.mp4" type="video/mp4" />
               </video>
             </div>
           </motion.div>
