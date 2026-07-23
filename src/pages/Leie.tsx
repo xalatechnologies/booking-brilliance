@@ -150,6 +150,16 @@ const STEPS = [
 
 const FAQ = [
   {
+    question: "Hvor kan jeg leie lokaler?",
+    answer:
+      "Du kan leie lokaler på nett gjennom en bookingplattform som Digilist, der du søker på sted og dato og ser hva som faktisk er ledig i sanntid. Digilist samler både private selskapslokaler og kommunale lokaler på ett sted, så du slipper å lete gjennom kommunens sider, Finn-annonser og Facebook-grupper hver for seg.",
+  },
+  {
+    question: "Kan jeg leie både private og kommunale lokaler?",
+    answer:
+      "Ja. Digilist samler private festlokaler, grendehus og lag- og foreningslokaler sammen med kommunale kulturhus, møterom og idrettshaller i samme kalender. Du sammenligner tilgjengelighet og pris på tvers av private og offentlige utleiere ett sted, i stedet for å kontakte hver enkelt.",
+  },
+  {
     question: "Hva koster det å leie et lokale?",
     answer:
       "Prisen varierer mye med type lokale, sted og varighet. Et grendehus kan koste noen hundre til noen tusen kroner for en helg, mens et kulturhus eller selskapslokale ligger høyere. På Digilist ser du den faktiske totalprisen for din dato, inkludert eventuelt depositum og rengjøring, før du booker, så du slipper å gjette.",
@@ -185,8 +195,8 @@ const Leie = () => {
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       <SEO
-        title="Finn og book lokale — selskapslokale, møterom, kulturhus | Digilist"
-        description="Finn og book lokale til bryllup, selskap, møte eller arrangement. Grendehus, kulturhus og selskapslokaler samlet ett sted, med ekte priser, ledige datoer og betaling med Vipps."
+        title="Leie lokaler — finn og book selskapslokale, møterom og hall | Digilist"
+        description="Leie lokaler på nett: både private selskapslokaler og kommunale lokaler samlet ett sted. Se ekte priser og ledige datoer, og book direkte med Vipps — til bryllup, selskap, møte eller arrangement."
         keywords="leie lokale, finn lokale, leie selskapslokale, leie møterom, leie festlokale, leie lokale til bursdag, hva koster selskapslokale, book lokale online, leie kulturhus, leie grendehus"
         canonical="https://digilist.no/leie"
         breadcrumbs={[
@@ -223,10 +233,10 @@ const Leie = () => {
                     .
                   </EditorialHeading>
                   <p className="mt-6 text-xl text-ink-soft measure leading-relaxed">
-                    Grendehus, kulturhus og selskapslokaler samlet på ett sted. Ekte priser,
-                    ledige datoer og trygg betaling med Vipps, ingen forespørsler og ingen
-                    venting. Slutt med å lete gjennom kommunens sider, Finn-annonser og
-                    Facebook-grupper hver for seg.
+                    Du kan leie lokaler på nett gjennom Digilist, en norsk bookingplattform
+                    der både private selskapslokaler og kommunale lokaler ligger i samme
+                    kalender. Søk på sted og dato, se ekte priser og hva som faktisk er
+                    ledig, og book direkte med Vipps, uten forespørsler og venting.
                   </p>
                   <div className="mt-8 flex flex-wrap gap-3">
                     <EditorialButton
@@ -242,6 +252,15 @@ const Leie = () => {
                       Slik funker det
                     </EditorialButton>
                   </div>
+                  <p className="mt-4 editorial-mono-caption">
+                    Skal du leie <em>ut</em> et lokale?{" "}
+                    <Link
+                      to="/bookingsystem-utleie"
+                      className="text-accent-text hover:underline underline-offset-4 decoration-[0.5px]"
+                    >
+                      Se bookingsystem for utleie
+                    </Link>
+                  </p>
                 </div>
                 <div className="lg:col-span-5">
                   <CategoryVisual
@@ -421,6 +440,43 @@ const Leie = () => {
                 </ol>
               </div>
 
+            </div>
+          </section>
+
+          <section className="py-12 lg:py-16 bg-paper border-t border-rule">
+            <div className="container mx-auto md:px-8 lg:px-12">
+              {/* FAQ */}
+              <SectionRule label="SPØRSMÅL OG SVAR" />
+              <EditorialHeading as="h2" size="section" className="mb-10">
+                Vanlige spørsmål om å leie lokale.
+              </EditorialHeading>
+              <dl className="space-y-8 max-w-4xl">
+                {FAQ.map((q) => (
+                  <div key={q.question} className="border-b border-rule pb-8">
+                    <dt
+                      className="font-serif text-2xl text-ink mb-3"
+                      style={{
+                        fontVariationSettings: getFraunces("section"),
+                        letterSpacing: "-0.015em",
+                      }}
+                    >
+                      {q.question}
+                    </dt>
+                    <dd className="text-base text-ink-soft leading-relaxed measure">
+                      {q.answer}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              <p className="mt-10 editorial-mono-caption">
+                Skal du leie ut lokaler?{" "}
+                <Link
+                  to="/bookingsystem-utleie"
+                  className="text-accent-text hover:underline underline-offset-4 decoration-[0.5px]"
+                >
+                  Se bookingsystem for utleie
+                </Link>
+              </p>
             </div>
           </section>
 

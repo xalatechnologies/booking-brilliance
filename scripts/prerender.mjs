@@ -214,9 +214,9 @@ async function loadBlogPosts() {
 const ROUTES = [
   {
     route: "/leie",
-    title: "Finn og book lokale — selskapslokale, møterom, kulturhus | Digilist",
+    title: "Leie lokaler — finn og book selskapslokale, møterom og hall | Digilist",
     description:
-      "Finn og book lokale til bryllup, selskap, møte eller arrangement. Grendehus, kulturhus og selskapslokaler samlet ett sted, med ekte priser, ledige datoer og betaling med Vipps.",
+      "Leie lokaler på nett: både private selskapslokaler og kommunale lokaler samlet ett sted. Se ekte priser og ledige datoer, og book direkte med Vipps — til bryllup, selskap, møte eller arrangement.",
     ogType: "website",
     service: true,
     breadcrumbs: [
@@ -224,6 +224,14 @@ const ROUTES = [
       { name: "Leie", url: `${BASE_URL}/leie` },
     ],
     faq: [
+      {
+        q: "Hvor kan jeg leie lokaler?",
+        a: "Du kan leie lokaler på nett gjennom en bookingplattform som Digilist, der du søker på sted og dato og ser hva som faktisk er ledig i sanntid. Digilist samler både private selskapslokaler og kommunale lokaler på ett sted, så du slipper å lete gjennom kommunens sider, Finn-annonser og Facebook-grupper hver for seg.",
+      },
+      {
+        q: "Kan jeg leie både private og kommunale lokaler?",
+        a: "Ja. Digilist samler private festlokaler, grendehus og lag- og foreningslokaler sammen med kommunale kulturhus, møterom og idrettshaller i samme kalender, så du sammenligner tilgjengelighet og pris på tvers av private og offentlige utleiere ett sted.",
+      },
       {
         q: "Hva koster det å leie et lokale?",
         a: "Prisen varierer med type lokale, sted og varighet. Et grendehus kan koste fra noen hundre til noen tusen kroner for en helg, mens kulturhus og selskapslokaler ligger høyere. På Digilist ser du totalprisen for din dato, inkludert depositum, før du booker.",
