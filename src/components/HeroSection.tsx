@@ -3,7 +3,7 @@ import {
   EditorialButton,
   EditorialHeading,
 } from "@/components/editorial";
-import { Check, CalendarClock } from "lucide-react";
+import { Check, Zap, Accessibility, ShieldCheck, CalendarCheck } from "lucide-react";
 import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
 import { getFraunces } from "@/lib/fonts";
 import { logoWebpSrc } from "@/lib/utils";
@@ -114,15 +114,15 @@ const HeroSection = () => {
             </ul>
           </motion.div>
 
-          {/* Product preview — a browser-window mockup of the live app that
-              fills the hero column height, with a floating availability card
-              (Guesty-style depth). The reel is dark-themed, so the matte reads
-              as window padding rather than letterboxing. */}
+          {/* Product preview — a browser-window mockup of the live app, with a
+              row of feature cards beneath it. The reel is cropped near-native
+              16:9 so the app fills the window edge-to-edge (no letterbox band
+              under the URL bar). */}
           <motion.div
             variants={staggerChild}
-            className="col-span-12 lg:col-span-5 mt-8 lg:mt-0 flex items-center"
+            className="col-span-12 lg:col-span-5 mt-8 lg:mt-0"
           >
-            <div className="relative w-full pl-3 lg:pl-6 pb-10 lg:pb-12">
+            <div className="w-full">
               {/* Browser window */}
               <div className="rounded-xl border border-rule bg-[#0a1628] shadow-[0_44px_100px_-44px_rgba(10,18,40,0.65)] overflow-hidden">
                 {/* Chrome bar */}
@@ -137,7 +137,7 @@ const HeroSection = () => {
                 </div>
                 <video
                   className="w-full block"
-                  style={{ aspectRatio: "4 / 3" }}
+                  style={{ aspectRatio: "16 / 9" }}
                   autoPlay
                   muted
                   loop
@@ -151,21 +151,28 @@ const HeroSection = () => {
                 </video>
               </div>
 
-              {/* Floating availability / price card */}
-              <div className="absolute bottom-0 left-0 flex items-center gap-3 rounded-lg border border-rule bg-paper px-4 py-3 shadow-[0_22px_44px_-18px_rgba(10,18,40,0.5)]">
-                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-accent-tinted text-accent-text ring-1 ring-accent-text/20">
-                  <CalendarClock className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
-                </span>
-                <div className="leading-tight">
-                  <p className="editorial-mono-caption text-accent-text">Ledig i dag</p>
-                  <p
-                    className="font-serif text-lg text-ink"
-                    style={{ fontVariationSettings: getFraunces("sub"), letterSpacing: "-0.01em" }}
+              {/* Feature cards — the value + norske-krav story, under the demo. */}
+              <ul className="mt-4 grid grid-cols-2 gap-2.5 sm:gap-3">
+                {[
+                  { icon: Zap, label: "Book på 90 sekunder", sub: "Enkelt og raskt" },
+                  { icon: Accessibility, label: "Universelt utformet", sub: "WCAG 2.1 AA" },
+                  { icon: ShieldCheck, label: "BankID & Vipps", sub: "Trygg betaling" },
+                  { icon: CalendarCheck, label: "Ledige datoer i sanntid", sub: "Ekte priser" },
+                ].map(({ icon: Icon, label, sub }) => (
+                  <li
+                    key={label}
+                    className="group flex items-center gap-3 rounded-lg border border-rule bg-gradient-to-br from-paper to-paper-deep/60 px-3.5 py-3 shadow-[0_1px_2px_rgba(10,18,40,0.05),0_10px_24px_-18px_rgba(10,18,40,0.3)] transition-all duration-quick ease-editorial hover:-translate-y-0.5 hover:border-accent-text/30 hover:shadow-[0_16px_30px_-16px_rgba(10,18,40,0.4)]"
                   >
-                    fra 400 kr
-                  </p>
-                </div>
-              </div>
+                    <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-accent-tinted text-accent-text ring-1 ring-accent-text/20">
+                      <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+                    </span>
+                    <div className="min-w-0 leading-tight">
+                      <p className="text-sm font-semibold text-ink truncate">{label}</p>
+                      <p className="editorial-mono-caption text-ink-faint mt-0.5 truncate">{sub}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
             </div>
           </motion.div>
 

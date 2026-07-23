@@ -71,10 +71,11 @@ const PRIMARY_NAV = [
   { label: "Book demo", to: "/book-demo" },
 ] as const;
 
+// Editorial hover/active: an animated hairline that grows from the left on
+// hover and stays lit for the active route or an open dropdown.
 const NAV_LINK =
-  "font-sans text-[0.95rem] text-ink-soft hover:text-ink transition-colors duration-quick ease-editorial whitespace-nowrap";
-const NAV_LINK_ACTIVE =
-  "text-ink underline underline-offset-8 decoration-[0.5px] decoration-ink";
+  "relative font-sans text-[0.95rem] text-ink-soft hover:text-ink transition-colors duration-quick ease-editorial whitespace-nowrap after:pointer-events-none after:absolute after:inset-x-0 after:-bottom-1.5 after:h-px after:origin-left after:scale-x-0 after:bg-ink after:transition-transform after:duration-normal after:ease-editorial hover:after:scale-x-100";
+const NAV_LINK_ACTIVE = "text-ink after:scale-x-100";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -169,13 +170,13 @@ const Navbar = () => {
           </div>
           <nav
             aria-label="Hovednavigasjon"
-            className="hidden xl:flex items-center gap-3"
+            className="hidden xl:flex items-center gap-6 2xl:gap-8"
           >
             <DropdownMenu>
               <DropdownMenuTrigger
                 className={cn(
                   NAV_LINK,
-                  "inline-flex items-center gap-1 outline-none focus-visible:underline focus-visible:underline-offset-8 data-[state=open]:text-ink",
+                  "inline-flex items-center gap-1 outline-none data-[state=open]:text-ink data-[state=open]:after:scale-x-100",
                   finnActive && NAV_LINK_ACTIVE,
                 )}
               >
@@ -213,7 +214,7 @@ const Navbar = () => {
               <DropdownMenuTrigger
                 className={cn(
                   NAV_LINK,
-                  "inline-flex items-center gap-1 outline-none focus-visible:underline focus-visible:underline-offset-8 data-[state=open]:text-ink",
+                  "inline-flex items-center gap-1 outline-none data-[state=open]:text-ink data-[state=open]:after:scale-x-100",
                   solutionsActive && NAV_LINK_ACTIVE,
                 )}
               >
