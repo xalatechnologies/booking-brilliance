@@ -24,6 +24,7 @@
     "content:generate": "xala-agents run content -- --phase generate",
     "convex:migrate": "tsx scripts/migrate-sqlite-to-convex.ts",
     "content:sync": "tsx scripts/sync-convex-blog-to-fs.ts",
+    "content:guard": "node scripts/guard-blog-redirects.mjs",
     "content:autopublish": "tsx scripts/auto-publish-blogs.ts",
     "content:ideas": "tsx scripts/generate-feature-ideas.ts",
     "improvements:run": "xala-agents run improvements",
