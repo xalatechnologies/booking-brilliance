@@ -4,6 +4,7 @@ import {
   EditorialHeading,
 } from "@/components/editorial";
 import { HeroPlatformPreview } from "./HeroPlatformPreview";
+import { Check } from "lucide-react";
 import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
 import { getFraunces } from "@/lib/fonts";
 import { logoWebpSrc } from "@/lib/utils";
@@ -50,7 +51,7 @@ const HeroSection = () => {
           className="grid grid-cols-12 gap-6 lg:gap-gutter items-start"
         >
           {/* Unified H1 spanning both audiences */}
-          <motion.div variants={staggerChild} className="col-span-12">
+          <motion.div variants={staggerChild} className="col-span-12 lg:col-span-7">
             <span className="editorial-mono-caption mb-6 inline-block">
               Bookingplattform · 2026 · Norge
             </span>
@@ -72,22 +73,63 @@ const HeroSection = () => {
               .
             </EditorialHeading>
 
-            <p
-              className="mt-8 text-lg lg:text-xl text-ink-soft measure leading-relaxed"
-              style={{ fontVariationSettings: '"wght" 380' }}
-            >
-              Digilist samler lokaler du kan leie, og gir utleiere og kommuner
-              plattformen som drifter dem. Finn et lokale, eller book en demo.
+            <p className="mt-8 text-lg lg:text-xl text-ink-soft measure leading-relaxed">
+              Finn og book lokaler med ekte priser og ledige datoer — betal trygt
+              med Vipps. Og for utleiere og kommuner: plattformen som drifter det
+              hele, fra kalender til oppgjør.
             </p>
+
+            <div className="mt-8 flex flex-col sm:flex-row gap-3">
+              <EditorialButton variant="primary" size="lg" href="/leie">
+                Finn ledig lokale
+              </EditorialButton>
+              <EditorialButton
+                variant="outline"
+                size="lg"
+                icon={false}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const el = document.getElementById("kontakt");
+                  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+              >
+                Book demo
+              </EditorialButton>
+            </div>
+
+            <ul className="mt-9 space-y-3">
+              {[
+                "Ekte priser og ledige datoer i sanntid",
+                "Betal trygt med Vipps eller faktura",
+                "Bygd for norske krav — BankID, GDPR og universell utforming",
+              ].map((b) => (
+                <li key={b} className="flex items-start gap-3 text-ink-soft">
+                  <Check
+                    className="mt-0.5 h-5 w-5 shrink-0 text-accent-text"
+                    strokeWidth={2}
+                    aria-hidden="true"
+                  />
+                  <span className="text-base lg:text-lg">{b}</span>
+                </li>
+              ))}
+            </ul>
           </motion.div>
 
-          {/* Two doors: renter (Privat) + operator (Bedrift) */}
+          {/* Product preview — sits to the right of the hero title + subtitle */}
           <motion.div
             variants={staggerChild}
-            className="col-span-12 lg:col-span-7 flex flex-col gap-4 mt-8 lg:mt-10"
+            className="col-span-12 lg:col-span-5 mt-8 lg:mt-0"
+          >
+            <HeroPlatformPreview />
+          </motion.div>
+
+          {/* Two doors: renter (Privat) + operator (Bedrift) — side by side */}
+          <motion.div
+            variants={staggerChild}
+            className="col-span-12 grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch mt-10 lg:mt-14"
           >
             {/* Privat door */}
-            <div className="border border-rule rounded-sm p-6 lg:p-7 bg-paper">
+            <div className="group flex flex-col border border-rule rounded-sm p-6 lg:p-7 bg-gradient-to-br from-paper to-paper-deep/60 shadow-[0_1px_2px_rgba(10,18,40,0.05),0_10px_28px_-20px_rgba(10,18,40,0.28)] transition-all duration-normal ease-editorial hover:-translate-y-1 hover:border-accent-text/30 hover:shadow-[0_24px_48px_-24px_rgba(10,18,40,0.5)]">
               <p className="editorial-mono-caption text-accent-text mb-3">
                 ◆ For deg som skal leie
               </p>
@@ -116,7 +158,7 @@ const HeroSection = () => {
                   </span>
                 ))}
               </div>
-              <div className="mt-5">
+              <div className="mt-auto pt-6">
                 <EditorialButton variant="primary" size="lg" href="/leie">
                   Finn lokale
                 </EditorialButton>
@@ -124,7 +166,7 @@ const HeroSection = () => {
             </div>
 
             {/* Bedrift door */}
-            <div className="border border-rule rounded-sm p-6 lg:p-7 bg-paper-deep/30">
+            <div className="group flex flex-col border border-rule rounded-sm p-6 lg:p-7 bg-gradient-to-br from-paper-deep/60 to-paper-tinted/40 shadow-[0_1px_2px_rgba(10,18,40,0.05),0_10px_28px_-20px_rgba(10,18,40,0.28)] transition-all duration-normal ease-editorial hover:-translate-y-1 hover:border-accent-text/30 hover:shadow-[0_24px_48px_-24px_rgba(10,18,40,0.5)]">
               <p className="editorial-mono-caption text-ink-faint mb-3">
                 ■ For utleier &amp; kommune
               </p>
@@ -146,7 +188,7 @@ const HeroSection = () => {
                 og foreninger booker selv, hele døgnet, uten telefonkø og uten
                 dobbeltbookinger.
               </p>
-              <div className="mt-5 flex flex-col sm:flex-row gap-3">
+              <div className="mt-auto pt-6 flex flex-col sm:flex-row gap-3">
                 <EditorialButton
                   variant="primary"
                   size="lg"
@@ -172,13 +214,6 @@ const HeroSection = () => {
             </div>
           </motion.div>
 
-          {/* Product preview */}
-          <motion.div
-            variants={staggerChild}
-            className="col-span-12 lg:col-span-5 mt-8 lg:mt-10"
-          >
-            <HeroPlatformPreview />
-          </motion.div>
         </motion.div>
       </div>
 

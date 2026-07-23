@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { SectionHeader } from "@/components/SectionHeader";
+import { InterestSelector } from "@/components/InterestSelector";
 import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
 import { getFraunces } from "@/lib/fonts";
 
@@ -34,7 +35,7 @@ const HowItWorksSection = () => {
   return (
     <section
       id="funksjonalitet"
-      className="py-10 lg:py-14 bg-paper-tinted border-y border-rule"
+      className="py-10 lg:py-14 bg-paper"
     >
       <div className="container mx-auto md:px-8 lg:px-12">
         <SectionHeader
@@ -51,6 +52,8 @@ const HowItWorksSection = () => {
             få steg.
           </em>
         </SectionHeader>
+
+        <InterestSelector />
 
         <motion.ol
           initial="hidden"

@@ -17,6 +17,7 @@ import { HOMEPAGE_FAQ } from "@/content/faq";
 // browser must parse/execute before the page becomes interactive.
 const AiAgentsSection = lazy(() => import("@/components/AiAgentsSection"));
 const B2BLaneSection = lazy(() => import("@/components/B2BLaneSection"));
+const ChannelSyncSection = lazy(() => import("@/components/ChannelSyncSection"));
 const HowItWorksSection = lazy(() => import("@/components/HowItWorksSection"));
 const BrukerhistorierSection = lazy(() => import("@/components/BrukerhistorierSection"));
 const BlogPreviewSection = lazy(() => import("@/components/BlogPreviewSection"));
@@ -93,6 +94,7 @@ const Index = () => {
         <Suspense fallback={null}>
           <AiAgentsSection />
           <B2BLaneSection />
+          <ChannelSyncSection />
           <HowItWorksSection />
           <BrukerhistorierSection />
           <BlogPreviewSection />
