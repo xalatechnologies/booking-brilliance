@@ -3,7 +3,7 @@ import {
   EditorialButton,
   EditorialHeading,
 } from "@/components/editorial";
-import { Check } from "lucide-react";
+import { Check, CalendarClock } from "lucide-react";
 import { staggerParent, staggerChild, viewportOnce } from "@/lib/motion";
 import { getFraunces } from "@/lib/fonts";
 import { logoWebpSrc } from "@/lib/utils";
@@ -114,26 +114,58 @@ const HeroSection = () => {
             </ul>
           </motion.div>
 
-          {/* Product preview — sits to the right of the hero title + subtitle */}
+          {/* Product preview — a browser-window mockup of the live app that
+              fills the hero column height, with a floating availability card
+              (Guesty-style depth). The reel is dark-themed, so the matte reads
+              as window padding rather than letterboxing. */}
           <motion.div
             variants={staggerChild}
-            className="col-span-12 lg:col-span-5 mt-8 lg:mt-0"
+            className="col-span-12 lg:col-span-5 mt-8 lg:mt-0 flex items-center"
           >
-            <div className="rounded-lg border border-rule bg-paper-deep/40 p-1.5 shadow-[0_24px_64px_-32px_rgba(10,18,40,0.55)] overflow-hidden">
-              <video
-                className="w-full rounded-md"
-                style={{ aspectRatio: "16 / 9" }}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
-                poster="/videos/digilist-hero-demo-poster.jpg"
-                aria-label="Digilist i praksis — fra søk til booking"
-              >
-                <source src="/videos/digilist-hero-demo.webm" type="video/webm" />
-                <source src="/videos/digilist-hero-demo.mp4" type="video/mp4" />
-              </video>
+            <div className="relative w-full pl-3 lg:pl-6 pb-10 lg:pb-12">
+              {/* Browser window */}
+              <div className="rounded-xl border border-rule bg-[#0a1628] shadow-[0_44px_100px_-44px_rgba(10,18,40,0.65)] overflow-hidden">
+                {/* Chrome bar */}
+                <div className="flex items-center gap-2 h-10 px-4 border-b border-white/[0.06] bg-[#0d1c33]">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" aria-hidden="true" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" aria-hidden="true" />
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" aria-hidden="true" />
+                  <span className="ml-3 inline-flex flex-1 max-w-[240px] items-center justify-center gap-1.5 rounded-md bg-white/[0.06] px-3 py-1 font-mono text-[0.7rem] tracking-wide text-white/55">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#28c840]" aria-hidden="true" />
+                    app.digilist.no
+                  </span>
+                </div>
+                <video
+                  className="w-full block"
+                  style={{ aspectRatio: "4 / 3" }}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                  poster="/videos/digilist-hero-demo-poster.jpg"
+                  aria-label="Digilist i praksis — fra søk til booking"
+                >
+                  <source src="/videos/digilist-hero-demo.webm" type="video/webm" />
+                  <source src="/videos/digilist-hero-demo.mp4" type="video/mp4" />
+                </video>
+              </div>
+
+              {/* Floating availability / price card */}
+              <div className="absolute bottom-0 left-0 flex items-center gap-3 rounded-lg border border-rule bg-paper px-4 py-3 shadow-[0_22px_44px_-18px_rgba(10,18,40,0.5)]">
+                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-accent-tinted text-accent-text ring-1 ring-accent-text/20">
+                  <CalendarClock className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+                </span>
+                <div className="leading-tight">
+                  <p className="editorial-mono-caption text-accent-text">Ledig i dag</p>
+                  <p
+                    className="font-serif text-lg text-ink"
+                    style={{ fontVariationSettings: getFraunces("sub"), letterSpacing: "-0.01em" }}
+                  >
+                    fra 400 kr
+                  </p>
+                </div>
+              </div>
             </div>
           </motion.div>
 
