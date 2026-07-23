@@ -476,6 +476,96 @@ const ROUTES = [
     ],
   },
   {
+    route: "/lokaler-til-leie/stavanger",
+    title: "Lokaler til leie i Stavanger — finn og book ledig lokale | Digilist",
+    description:
+      "Lokaler til leie i Stavanger: finn ledige selskapslokaler, møterom, konferanselokaler, kulturhus og haller i sanntid. Sammenlign private og kommunale lokaler, se pris og kapasitet, og book direkte.",
+    ogType: "article",
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Lokaler til leie", url: `${BASE_URL}/lokaler-til-leie` },
+      { name: "Stavanger", url: `${BASE_URL}/lokaler-til-leie/stavanger` },
+    ],
+    faq: [
+      { q: "Hvor finner jeg lokaler til leie i Stavanger?", a: "Du finner lokaler til leie i Stavanger på Digilist, der private selskapslokaler, møterom, konferanselokaler, kulturhus og kommunale lokaler i Stavanger kommune ligger samlet med ledige tider i sanntid. Du filtrerer på lokaltype, område og fasiliteter og booker direkte." },
+      { q: "Hva slags lokaler kan jeg leie i Stavanger?", a: "I Stavanger-området kan du leie selskaps- og festlokaler, møterom og konferanselokaler (mange knyttet til energinæringen på Forus), kulturhus, grendehus og idrettshaller. Både private og kommunale lokaler er samlet på Digilist." },
+      { q: "Hvor tidlig bør jeg booke lokale i Stavanger?", a: "Populære selskapslokaler og konferanselokaler bookes ofte flere måneder i forveien, særlig i vår- og høstsesongen når energinæringen har mange arrangementer. Møterom og mindre lokaler kan bookes med kortere varsel." },
+      { q: "Hva koster det å leie lokale i Stavanger?", a: "Prisen varierer med lokaltype, kapasitet, område, ukedag og sesong. Grendehus og lokaler i bydelene og nabokommunene ligger ofte lavere enn sentrale selskaps- og konferanselokaler. Se alltid prisen på det enkelte lokalet før du booker." },
+    ],
+  },
+  {
+    route: "/lokaler-til-leie/kristiansand",
+    title: "Lokaler til leie i Kristiansand — finn og book ledig lokale | Digilist",
+    description:
+      "Lokaler til leie i Kristiansand: finn ledige selskapslokaler, møterom, kulturhus og haller i sanntid. Sammenlign private og kommunale lokaler, se pris og kapasitet, og book direkte.",
+    ogType: "article",
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Lokaler til leie", url: `${BASE_URL}/lokaler-til-leie` },
+      { name: "Kristiansand", url: `${BASE_URL}/lokaler-til-leie/kristiansand` },
+    ],
+    faq: [
+      { q: "Hvor finner jeg lokaler til leie i Kristiansand?", a: "Du finner lokaler til leie i Kristiansand på Digilist, der private selskapslokaler, møterom, kulturhus og kommunale lokaler i Kristiansand kommune ligger samlet med ledige tider i sanntid. Du filtrerer på lokaltype, område og fasiliteter og booker direkte." },
+      { q: "Hva slags lokaler kan jeg leie i Kristiansand?", a: "I Kristiansand kan du leie selskaps- og festlokaler, møterom og konferanselokaler, kulturhus, grendehus og idrettshaller. Både private og kommunale lokaler er samlet på Digilist, slik at du kan sammenligne dem ett sted." },
+      { q: "Hvor tidlig bør jeg booke lokale i Kristiansand?", a: "Sommeren er høysesong på Sørlandet, og populære festlokaler til juni–august bookes ofte flere måneder i forveien. Møterom og lokaler utenom sommersesongen kan bookes med kortere varsel." },
+      { q: "Hva koster det å leie lokale i Kristiansand?", a: "Prisen varierer med lokaltype, kapasitet, område, ukedag og sesong. Grendehus i bydelene ligger ofte lavere enn sentrale selskapslokaler i Kvadraturen, og sommeren er dyrere enn resten av året. Se alltid prisen på det enkelte lokalet før du booker." },
+    ],
+  },
+  {
+    route: "/lokaler-til-leie/tromso",
+    title: "Lokaler til leie i Tromsø — finn og book ledig lokale | Digilist",
+    description:
+      "Lokaler til leie i Tromsø: finn ledige selskapslokaler, møterom, konferanselokaler, kulturhus og haller i sanntid. Sammenlign private og kommunale lokaler, se pris og kapasitet, og book direkte.",
+    ogType: "article",
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Lokaler til leie", url: `${BASE_URL}/lokaler-til-leie` },
+      { name: "Tromsø", url: `${BASE_URL}/lokaler-til-leie/tromso` },
+    ],
+    faq: [
+      { q: "Hvor finner jeg lokaler til leie i Tromsø?", a: "Du finner lokaler til leie i Tromsø på Digilist, der private selskapslokaler, møterom, konferanselokaler, kulturhus og kommunale lokaler i Tromsø kommune ligger samlet med ledige tider i sanntid. Du filtrerer på lokaltype, område og fasiliteter og booker direkte." },
+      { q: "Hva slags lokaler kan jeg leie i Tromsø?", a: "I Tromsø kan du leie selskaps- og festlokaler, møterom og konferanselokaler (mange knyttet til UiT-miljøet), kulturhus, grendehus og idrettshaller. Både private og kommunale lokaler er samlet på Digilist." },
+      { q: "Hvor tidlig bør jeg booke lokale i Tromsø?", a: "Tilbudet er mindre enn i de største byene lenger sør, så det lønner seg å være tidlig ute – særlig i nordlyssesongen om vinteren og rundt midnattssol om sommeren. Sanntidskalenderen viser umiddelbart om datoen din er ledig." },
+      { q: "Hva koster det å leie lokale i Tromsø?", a: "Prisen varierer med lokaltype, kapasitet, område, ukedag og sesong. Grendehus i bydelene ligger ofte lavere enn sentrale selskapslokaler, og de travleste sesongene er dyrere. Se alltid prisen på det enkelte lokalet før du booker." },
+    ],
+  },
+  {
+    route: "/lokaler-til-leie/drammen",
+    title: "Lokaler til leie i Drammen — finn og book ledig lokale | Digilist",
+    description:
+      "Lokaler til leie i Drammen: finn ledige selskapslokaler, møterom, kulturhus og haller i sanntid. Rimeligere alternativ til Oslo – sammenlign private og kommunale lokaler og book direkte.",
+    ogType: "article",
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Lokaler til leie", url: `${BASE_URL}/lokaler-til-leie` },
+      { name: "Drammen", url: `${BASE_URL}/lokaler-til-leie/drammen` },
+    ],
+    faq: [
+      { q: "Hvor finner jeg lokaler til leie i Drammen?", a: "Du finner lokaler til leie i Drammen på Digilist, der private selskapslokaler, møterom, kulturhus og kommunale lokaler i Drammen kommune ligger samlet med ledige tider i sanntid. Du filtrerer på lokaltype, byside og fasiliteter og booker direkte." },
+      { q: "Er Drammen et rimeligere alternativ til Oslo?", a: "For mange arrangementer, ja. Drammen ligger rundt en halvtime fra Oslo med god kollektivdekning, og lokaler her er ofte rimeligere enn tilsvarende i Oslo sentrum. På Digilist kan du sammenligne pris og tilgjengelighet før du booker." },
+      { q: "Hvor tidlig bør jeg booke lokale i Drammen?", a: "Populære selskaps- og festlokaler bookes ofte flere måneder i forveien, særlig lørdager i høysesongen. Møterom og mindre lokaler kan bookes med kortere varsel. Sanntidskalenderen viser umiddelbart om datoen din er ledig." },
+      { q: "Hva koster det å leie lokale i Drammen?", a: "Prisen varierer med lokaltype, kapasitet, område, ukedag og sesong, men ligger ofte lavere enn i Oslo. Grendehus i bydelene er som regel rimeligere enn sentrale selskapslokaler. Se alltid prisen på det enkelte lokalet før du booker." },
+    ],
+  },
+  {
+    route: "/lokaler-til-leie/baerum",
+    title: "Lokaler til leie i Bærum — finn og book ledig lokale | Digilist",
+    description:
+      "Lokaler til leie i Bærum: finn ledige konferanselokaler, møterom, selskapslokaler og velhus i sanntid. Sterkt bedriftsmarked på Fornebu og Lysaker – sammenlign og book direkte.",
+    ogType: "article",
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Lokaler til leie", url: `${BASE_URL}/lokaler-til-leie` },
+      { name: "Bærum", url: `${BASE_URL}/lokaler-til-leie/baerum` },
+    ],
+    faq: [
+      { q: "Hvor finner jeg lokaler til leie i Bærum?", a: "Du finner lokaler til leie i Bærum på Digilist, der private selskaps- og konferanselokaler, møterom, velhus og kommunale lokaler i Bærum kommune ligger samlet med ledige tider i sanntid. Du filtrerer på lokaltype, område og fasiliteter og booker direkte." },
+      { q: "Hvor egner Bærum seg for bedriftsarrangementer?", a: "Fornebu og Lysaker er sterke nærings- og konferanseområder med møte- og selskapslokaler rettet mot bedrifter, og med enkel adkomst fra Oslo. På Digilist ser du ledige tider og booker konferanselokalet direkte." },
+      { q: "Kan jeg leie grendehus eller velhus i Bærum til privat fest?", a: "Ja. Velhus, grendehus og foreningslokaler i boligområder som Bekkestua, Stabekk og Høvik leies ut til private arrangementer, ofte rimeligere enn sentrale selskapslokaler. På Digilist ligger de sammen med private lokaler." },
+      { q: "Hva koster det å leie lokale i Bærum?", a: "Prisen varierer med lokaltype, kapasitet, område, ukedag og sesong. Velhus og grendehus i boligområdene ligger ofte lavere enn konferanse- og selskapslokaler på Fornebu og i Sandvika. Se alltid prisen på det enkelte lokalet før du booker." },
+    ],
+  },
+  {
     route: "/leie/selskapslokale",
     title: "Leie selskapslokale: pris, kapasitet og booking | Digilist",
     description:
@@ -2189,6 +2279,11 @@ async function main() {
     { loc: `${BASE_URL}/lokaler-til-leie/oslo`, priority: "0.85", changefreq: "monthly" },
     { loc: `${BASE_URL}/lokaler-til-leie/bergen`, priority: "0.85", changefreq: "monthly" },
     { loc: `${BASE_URL}/lokaler-til-leie/trondheim`, priority: "0.85", changefreq: "monthly" },
+    { loc: `${BASE_URL}/lokaler-til-leie/stavanger`, priority: "0.85", changefreq: "monthly" },
+    { loc: `${BASE_URL}/lokaler-til-leie/kristiansand`, priority: "0.85", changefreq: "monthly" },
+    { loc: `${BASE_URL}/lokaler-til-leie/tromso`, priority: "0.85", changefreq: "monthly" },
+    { loc: `${BASE_URL}/lokaler-til-leie/drammen`, priority: "0.85", changefreq: "monthly" },
+    { loc: `${BASE_URL}/lokaler-til-leie/baerum`, priority: "0.85", changefreq: "monthly" },
     { loc: `${BASE_URL}/leie/selskapslokale`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/leie/gaard`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/leie/bursdagslokale`, priority: "0.8", changefreq: "monthly" },
