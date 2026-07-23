@@ -28,6 +28,7 @@ const LokalerTilLeieBy = lazy(() => import("./pages/LokalerTilLeieBy"));
 const Verktoy = lazy(() => import("./pages/Verktoy"));
 const LeieprisKalkulator = lazy(() => import("./pages/LeieprisKalkulator"));
 const KapasitetsKalkulator = lazy(() => import("./pages/KapasitetsKalkulator"));
+const UtleiemarkedetNorge2026 = lazy(() => import("./pages/UtleiemarkedetNorge2026"));
 const LeieKonfirmasjonslokale = lazy(() => import("./pages/LeieKonfirmasjonslokale"));
 const LeieFirmafest = lazy(() => import("./pages/LeieFirmafest"));
 const LeieMinnestund = lazy(() => import("./pages/LeieMinnestund"));
@@ -297,6 +298,7 @@ export function AppShell() {
             <Route path="/bookingsystem-kommune" element={<BookingsystemKommune />} />
             <Route path="/verktoy" element={<Verktoy />} />
             <Route path="/verktoy/leiepriskalkulator" element={<LeieprisKalkulator />} />
+            <Route path="/rapport/utleiemarkedet-norge-2026" element={<UtleiemarkedetNorge2026 />} />
             <Route path="/verktoy/kapasitetskalkulator" element={<KapasitetsKalkulator />} />
             <Route path="/bookingsystem-utleie" element={<BookingsystemUtleie />} />
             <Route path="/lokaler-til-leie" element={<LokalerTilLeie />} />
