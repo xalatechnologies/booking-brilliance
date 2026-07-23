@@ -8,10 +8,12 @@ import { cn } from "@/lib/utils";
 const ROUTES: Array<{ label: string; to: string; eyebrow?: string }> = [
   { label: "Forsiden", to: "/", eyebrow: "Hjem" },
   { label: "Lokaler", to: "/leie", eyebrow: "Selskap · møte · idrett · kultur" },
+  { label: "Lokaler til leie", to: "/lokaler-til-leie", eyebrow: "By · type · anledning" },
   { label: "Overnatting", to: "/overnatting", eyebrow: "Hytte · leilighet · rom" },
   { label: "Arrangementer", to: "/arrangementer", eyebrow: "Konsert · teater · festival" },
   { label: "Utstyr", to: "/utstyr", eyebrow: "Fest · verktøy · lyd & lys" },
   { label: "Tjenester", to: "/tjenester", eyebrow: "Catering · DJ · musiker · dekor" },
+  { label: "Verktøy", to: "/verktoy", eyebrow: "Priskalkulator · kapasitet" },
   { label: "Blogg", to: "/blogg", eyebrow: "Artikler" },
   { label: "FAQ", to: "/faq", eyebrow: "Vanlige spørsmål" },
   { label: "Transparens", to: "/transparens", eyebrow: "Live kvalitetsrapport" },
@@ -19,6 +21,11 @@ const ROUTES: Array<{ label: string; to: string; eyebrow?: string }> = [
     label: "Booking av lokaler og møterom",
     to: "/booking-av-lokaler-og-moterom",
     eyebrow: "Landingsside",
+  },
+  {
+    label: "Bookingsystem for utleie",
+    to: "/bookingsystem-utleie",
+    eyebrow: "Privat · utleier",
   },
   {
     label: "Bookingsystem for kommuner",

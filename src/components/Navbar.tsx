@@ -24,6 +24,11 @@ const SOLUTIONS = [
     eyebrow: "Landingsside",
   },
   {
+    label: "Bookingsystem for utleie",
+    to: "/bookingsystem-utleie",
+    eyebrow: "Privat · utleier",
+  },
+  {
     label: "Bookingsystem for kommuner",
     to: "/bookingsystem-kommune",
     eyebrow: "SSA-L 2026",
@@ -50,10 +55,12 @@ const SOLUTIONS = [
 // "Finn lokale" link.
 const MARKETPLACES = [
   { label: "Lokaler", to: "/leie", eyebrow: "Selskap · møte · idrett · kultur" },
+  { label: "Lokaler til leie", to: "/lokaler-til-leie", eyebrow: "By · type · anledning" },
   { label: "Overnatting", to: "/overnatting", eyebrow: "Hytte · leilighet · rom" },
   { label: "Arrangementer", to: "/arrangementer", eyebrow: "Konsert · teater · festival" },
   { label: "Utstyr", to: "/utstyr", eyebrow: "Fest · verktøy · lyd & lys" },
   { label: "Tjenester", to: "/tjenester", eyebrow: "Catering · DJ · musiker · dekor" },
+  { label: "Verktøy", to: "/verktoy", eyebrow: "Priskalkulator · kapasitet" },
 ] as const;
 
 // Primary desktop navigation — the curated top-level links that sit inline. The

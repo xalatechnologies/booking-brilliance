@@ -38,6 +38,7 @@ const Footer = () => {
 
   const markedsplass = [
     { label: "Lokaler", href: "/leie" },
+    { label: "Lokaler til leie", href: "/lokaler-til-leie" },
     { label: "Overnatting", href: "/overnatting" },
     { label: "Arrangementer", href: "/arrangementer" },
     { label: "Utstyr", href: "/utstyr" },
@@ -47,9 +48,11 @@ const Footer = () => {
   ];
 
   const losninger = [
+    { label: "Bookingsystem for utleie", href: "/bookingsystem-utleie" },
     { label: "Bookingsystem for kommuner", href: "/bookingsystem-kommune" },
     { label: "Pilot for kommuner", href: "/bookingsystem-kommune#pilot" },
     { label: "Teknologi og sikkerhet", href: "/teknologi" },
+    { label: "Sikkerhet og personvern", href: "/sikkerhet" },
     { label: "Om oss", href: "/om-oss" },
     { label: "Blogg", href: "/blogg" },
     { label: "FAQ", href: "/faq" },
@@ -60,6 +63,49 @@ const Footer = () => {
     { label: "Personvern", href: "/personvern" },
     { label: "Salgsvilkår", href: "/salgsvilkar" },
     { label: "Cookies", href: "/cookies" },
+  ];
+
+  // SEO internal-link cluster — the private-market pages, rendered site-wide in
+  // a dense block below the main columns so every prerendered page passes
+  // authority into them (they were previously only reachable via sitemap).
+  const byer = [
+    { label: "Oslo", href: "/lokaler-til-leie/oslo" },
+    { label: "Bergen", href: "/lokaler-til-leie/bergen" },
+    { label: "Trondheim", href: "/lokaler-til-leie/trondheim" },
+    { label: "Stavanger", href: "/lokaler-til-leie/stavanger" },
+    { label: "Kristiansand", href: "/lokaler-til-leie/kristiansand" },
+    { label: "Tromsø", href: "/lokaler-til-leie/tromso" },
+    { label: "Drammen", href: "/lokaler-til-leie/drammen" },
+    { label: "Bærum", href: "/lokaler-til-leie/baerum" },
+  ];
+
+  const lokaltyper = [
+    { label: "Selskapslokale", href: "/leie/selskapslokale" },
+    { label: "Møterom", href: "/leie/moterom" },
+    { label: "Konferanselokale", href: "/leie/konferanselokale" },
+    { label: "Kulturhus", href: "/leie/kulturhus" },
+    { label: "Idrettshall", href: "/leie/idrettshall" },
+    { label: "Hall", href: "/leie/hall" },
+    { label: "Gård", href: "/leie/gaard" },
+    { label: "Kontorlokaler", href: "/leie/kontorlokaler" },
+    { label: "Bursdagslokale", href: "/leie/bursdagslokale" },
+    { label: "Coworking", href: "/leie/coworking" },
+    { label: "Padelbane", href: "/leie/padelbane" },
+    { label: "Svømmehall", href: "/leie/svommehall" },
+  ];
+
+  const anledninger = [
+    { label: "Konfirmasjon", href: "/leie/konfirmasjonslokale" },
+    { label: "Firmafest og julebord", href: "/leie/firmafest" },
+    { label: "Minnestund", href: "/leie/minnestund" },
+    { label: "Dåp og navnefest", href: "/leie/daap" },
+    { label: "Jubileum", href: "/leie/jubileum" },
+  ];
+
+  const verktoy = [
+    { label: "Leiepriskalkulator", href: "/verktoy/leiepriskalkulator" },
+    { label: "Kapasitetskalkulator", href: "/verktoy/kapasitetskalkulator" },
+    { label: "Alle verktøy", href: "/verktoy" },
   ];
 
   const linkClass =
@@ -275,6 +321,41 @@ const Footer = () => {
               ))}
             </ul>
           </nav>
+        </div>
+
+        {/* SEO internal-link cluster — site-wide links into the private-market
+            pages (byer, lokaltyper, anledninger, verktøy). */}
+        <div className="mt-14 lg:mt-16 pt-10 border-t border-rule">
+          <h2 className="flex items-center gap-3 mb-8 editorial-mono-caption text-accent-text">
+            <span aria-hidden="true" className="w-6 h-px bg-accent-text" />
+            V · LOKALER TIL LEIE
+          </h2>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-8">
+            {[
+              { title: "BYER", items: byer, label: "Byer" },
+              { title: "LOKALTYPER", items: lokaltyper, label: "Lokaltyper" },
+              { title: "ANLEDNINGER", items: anledninger, label: "Anledninger" },
+              { title: "VERKTØY", items: verktoy, label: "Verktøy" },
+            ].map((col) => (
+              <nav key={col.title} aria-label={col.label}>
+                <p className="editorial-mono-caption text-ink-faint mb-4">
+                  {col.title}
+                </p>
+                <ul className="space-y-2.5">
+                  {col.items.map((link) => (
+                    <li key={link.href}>
+                      <Link
+                        to={link.href}
+                        className="font-sans text-[0.95rem] text-ink-soft hover:text-ink border-b border-transparent hover:border-ink transition-colors duration-quick ease-editorial no-underline pb-0.5"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            ))}
+          </div>
         </div>
 
         {/* Bottom colophon */}
