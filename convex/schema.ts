@@ -233,6 +233,24 @@ export default defineSchema({
     .index("by_origin_time", ["origin", "run_at"])
     .index("by_run_at", ["run_at"]),
 
+  // Website Intelligence Graph (XAL-686) — one row per page; each discipline's
+  // signal slice (seo/aeo/a11y/perf/security/business) is upserted independently
+  // by its agent. The semantic-brain store the Opportunity + Experiment agents reason over.
+  page_intel: defineTable({
+    site: v.string(),
+    url: v.string(),
+    seo: v.optional(v.any()),
+    aeo: v.optional(v.any()),
+    a11y: v.optional(v.any()),
+    perf: v.optional(v.any()),
+    security: v.optional(v.any()),
+    business: v.optional(v.any()),
+    updated: v.any(),
+    created_at: v.string(),
+  })
+    .index("by_site_url", ["site", "url"])
+    .index("by_site", ["site"]),
+
   /*
    * Real-User Monitoring beacons — one row per Web Vitals metric
    * reported by a real visitor on a real device. Aggregations (p75

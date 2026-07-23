@@ -28,6 +28,7 @@ import type * as content_keywords from "../content/keywords.js";
 import type * as content_publish from "../content/publish.js";
 import type * as content_runs from "../content/runs.js";
 import type * as content_state from "../content/state.js";
+import type * as intel_pageIntel from "../intel/pageIntel.js";
 import type * as seo_runs from "../seo/runs.js";
 
 import type {
@@ -57,6 +58,7 @@ declare const fullApi: ApiFromModules<{
   "content/publish": typeof content_publish;
   "content/runs": typeof content_runs;
   "content/state": typeof content_state;
+  "intel/pageIntel": typeof intel_pageIntel;
   "seo/runs": typeof seo_runs;
 }>;
 
