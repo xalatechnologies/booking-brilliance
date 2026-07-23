@@ -34,6 +34,7 @@ const LeieKonferanselokale = lazy(() => import("./pages/LeieKonferanselokale"));
 const LeieKontorlokaler = lazy(() => import("./pages/LeieKontorlokaler"));
 const LeieCoworking = lazy(() => import("./pages/LeieCoworking"));
 const LeieIdrettshall = lazy(() => import("./pages/LeieIdrettshall"));
+const LeieHall = lazy(() => import("./pages/LeieHall"));
 const LeiePadelbane = lazy(() => import("./pages/LeiePadelbane"));
 const LeieSvommehall = lazy(() => import("./pages/LeieSvommehall"));
 const LeieKulturhus = lazy(() => import("./pages/LeieKulturhus"));
@@ -298,6 +299,7 @@ export function AppShell() {
             <Route path="/leie/kontorlokaler" element={<LeieKontorlokaler />} />
             <Route path="/leie/coworking" element={<LeieCoworking />} />
             <Route path="/leie/idrettshall" element={<LeieIdrettshall />} />
+            <Route path="/leie/hall" element={<LeieHall />} />
             <Route path="/leie/padelbane" element={<LeiePadelbane />} />
             <Route path="/leie/svommehall" element={<LeieSvommehall />} />
             <Route path="/overnatting" element={<Overnatting />} />
