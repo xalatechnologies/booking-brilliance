@@ -463,6 +463,37 @@ const ROUTES = [
     ],
   },
   {
+    route: "/leie/hall",
+    title: "Leie hall: finn og book ledig hall nær deg | Digilist",
+    description:
+      "Leie hall på nett: idrettshall, gymsal, aktivitetshall og festhall. Se ledige haller i sanntid, book direkte og betal med Vipps. Både private og kommunale haller.",
+    ogType: "website",
+    service: true,
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Leie", url: `${BASE_URL}/leie` },
+      { name: "Hall", url: `${BASE_URL}/leie/hall` },
+    ],
+    faq: [
+      {
+        q: "Hvor kan jeg leie en hall?",
+        a: "Du kan leie hall på nett gjennom bookingplattformer med sanntidskalender. På Digilist ser du ledige idrettshaller, gymsaler, aktivitetshaller og festhaller nær deg, både private og kommunale, og booker og betaler direkte uten en runde med telefoner og e-post.",
+      },
+      {
+        q: "Kan jeg leie idrettshall eller gymsal til et privat arrangement?",
+        a: "Ja. Ledige enkelttimer i idrettshaller og gymsaler kan bookes av privatpersoner og grupper til trening, bursdag, turnering eller annen aktivitet. Du trenger ikke være klubb eller forening, og du trenger ikke søke for de timene som er ledige utenom sesongtildelingen.",
+      },
+      {
+        q: "Hva koster det å leie en hall?",
+        a: "Prisen settes av kommunen eller utleier og varierer med halltype, om du leier hel eller halv flate, og tidspunkt. En gymsal koster gjerne mindre enn full flate i en stor idrettshall. På Digilist står timeprisen på hver hall før du bekrefter.",
+      },
+      {
+        q: "Hvordan booker jeg en ledig hall på nett?",
+        a: "Søk på sted og tidspunkt, se hvilke haller som er ledige i sanntid, velg en time og betal med Vipps eller kort. Bekreftelsen kommer med en gang, og du slipper å lage konto hos hver enkelt hall eller kommune.",
+      },
+    ],
+  },
+  {
     route: "/leie/padelbane",
     title: "Leie padelbane: book padel per time nær deg | Digilist",
     description:
@@ -1921,6 +1952,7 @@ async function main() {
     { loc: `${BASE_URL}/leie/kontorlokaler`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/leie/coworking`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/leie/idrettshall`, priority: "0.8", changefreq: "monthly" },
+    { loc: `${BASE_URL}/leie/hall`, priority: "0.85", changefreq: "monthly" },
     { loc: `${BASE_URL}/leie/padelbane`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/leie/svommehall`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/overnatting`, priority: "0.9", changefreq: "weekly" },
