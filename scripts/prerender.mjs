@@ -1230,6 +1230,31 @@ const ROUTES = [
     ],
   },
   {
+    route: "/bookingsystem-utleie",
+    title: "Bookingsystem for utleie — Digilist | Leie ut lokaler på nett",
+    description:
+      "Bookingsystem for utleie av lokaler: sanntidskalender, online booking og betaling med Vipps, differensiert pris og kalendersynk. For private utleiere og kommuner.",
+    ogType: "website",
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Bookingsystem for utleie", url: `${BASE_URL}/bookingsystem-utleie` },
+    ],
+    faq: [
+      {
+        q: "Hva er et bookingsystem for utleie?",
+        a: "Et bookingsystem for utleie er en digital plattform der du som utleier legger ut ledige tider, og leietakere ser tilgjengelighet i sanntid og booker direkte. Digilist er et slikt system, for både private utleiere og offentlige/kommunale lokaler.",
+      },
+      {
+        q: "Kan jeg ta betalt på nett for utleien?",
+        a: "Ja. Leietaker kan betale direkte ved booking med Vipps eller kort, og du kan sette differensiert pris etter ukedag, sesong og kapasitet, samt legge til tilleggstjenester.",
+      },
+      {
+        q: "Passer Digilist for både private utleiere og kommuner?",
+        a: "Ja. Digilist er bygget for begge markeder i samme system, slik at leietakere finner både private og offentlige lokaler samlet ett sted.",
+      },
+    ],
+  },
+  {
     route: "/book-demo",
     title: "Book demo av Digilist — Norsk bookingplattform",
     description:
@@ -1863,6 +1888,7 @@ async function main() {
   const sitemapEntries = [
     { loc: `${BASE_URL}/`, priority: "1.0", changefreq: "weekly" },
     { loc: `${BASE_URL}/bookingsystem-kommune`, priority: "0.95", changefreq: "monthly" },
+    { loc: `${BASE_URL}/bookingsystem-utleie`, priority: "0.95", changefreq: "monthly" },
     { loc: `${BASE_URL}/booking-av-lokaler-og-moterom`, priority: "0.95", changefreq: "monthly" },
     { loc: `${BASE_URL}/faq`, priority: "0.9", changefreq: "monthly" },
     { loc: `${BASE_URL}/blogg`, priority: "0.9", changefreq: "weekly" },
