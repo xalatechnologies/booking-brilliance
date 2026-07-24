@@ -2,7 +2,7 @@
 slug: bryllupslokale-forening-utleie-og-booking-festsal
 title: "Bryllupslokale: slik leier foreningen ut og booker festsal selv"
 description: "Praktisk guide for lag og foreninger: leie ut eget lokale til bryllup som inntekt, booke kommunal festsal selv, og unngå dobbeltbooking og tvist."
-date: 2026-07-23
+date: 2026-07-24
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 6

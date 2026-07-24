@@ -2,7 +2,7 @@
 slug: leie-lokale-kommune-anledning-guide-innbygger
 title: "Leie lokale i kommunen: riktig sal for bursdag, konfirmasjon og mer"
 description: "Match lokaltype og kapasitet til anledningen, fra bursdag til minnestund, og finn det billigste ledige alternativet i kommunen med pris før du booker."
-date: 2026-07-23
+date: 2026-07-24
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 6

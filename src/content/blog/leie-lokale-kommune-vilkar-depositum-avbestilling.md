@@ -2,7 +2,7 @@
 slug: leie-lokale-kommune-vilkar-depositum-avbestilling
 title: "Leie lokale i kommunen: vilkår, depositum og avbestilling forklart"
 description: "Alt som står i leiekontrakten for et kommunalt lokale: hva som er inkludert, depositum, avbestillingsfrister, ansvar for skader og søknadstid før du signerer."
-date: 2026-07-23
+date: 2026-07-24
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 6

@@ -2,7 +2,7 @@
 slug: bryllupslokale-kommune-pris-privat-sammenligning
 title: "Bryllupslokale i kommunen: pris og ledighet mot private lokaler"
 description: "Se hva et kommunalt bryllupslokale faktisk koster mot private lokaler, hva som er inkludert i prisen, og hvordan du sjekker ledige bryllupsdatoer på nett før du booker."
-date: 2026-07-23
+date: 2026-07-24
 author: "Ibrahim Rahmani"
 role: "Grunnlegger, Digilist"
 readingMinutes: 6
