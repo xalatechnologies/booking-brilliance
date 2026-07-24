@@ -1838,6 +1838,24 @@ const ROUTES = [
     ],
   },
   {
+    route: "/kanaler",
+    title: "Kanaler & synk · Digilist | Toveis kalendersynk og AI-import",
+    description:
+      "Koble Airbnb, Booking.com, Bookup, Eventum og Finn til Digilist. Toveis kalendersynk i sanntid og AI-agent som importerer oppføringene dine til et ferdig utkast — behold begge plattformer.",
+    ogType: "website",
+    breadcrumbs: [
+      { name: "Hjem", url: `${BASE_URL}/` },
+      { name: "Kanaler & synk", url: `${BASE_URL}/kanaler` },
+    ],
+    faq: [
+      { q: "Hvordan fungerer toveis kalendersynk?", a: "Du kobler kanalene dine — som Airbnb, Booking.com, Bookup, Eventum eller Finn — til Digilist én gang. Deretter holdes kalender, priser og tilgjengelighet synkronisert begge veier: en booking på én kanal blokkerer tiden på alle de andre umiddelbart, og endringer i Digilist slår gjennom overalt. Slik unngår du dobbeltbookinger uten manuelt vedlikehold." },
+      { q: "Hvilke kanaler kan jeg koble til?", a: "Digilist kobler mot de vanligste kanalene norske utleiere bruker — Airbnb, Booking.com, Bookup, Eventum og Finn — samt kalenderstandarder som iCal, CalDAV, Outlook og Google Calendar." },
+      { q: "Kan AI-agenten importere oppføringene mine automatisk?", a: "Ja. Lim inn lenken til en eksisterende oppføring (eller last opp et dokument), så henter agenten tekst, bilder, kalender, priser og konfigurasjon og lager et ferdig utkast i Digilist. Du trenger bare å gjennomgå og publisere." },
+      { q: "Kan jeg fortsette å bruke Airbnb og Booking.com samtidig?", a: "Ja. Poenget med toveis synk er at du beholder kanalene du allerede tjener på. Digilist blir det samlende kalender- og driftslaget, mens du fortsetter å ta imot bookinger der kundene dine allerede er." },
+      { q: "Hindrer synk dobbeltbookinger?", a: "Ja. Fordi tilgjengeligheten holdes synkronisert i sanntid på tvers av alle tilkoblede kanaler, blir en tid som bookes ett sted umiddelbart utilgjengelig alle andre steder." },
+    ],
+  },
+  {
     route: "/sikkerhet",
     title: "Sikkerhet og personvern · Digilist | ISO 27001, GDPR og datasikkerhet",
     description:
@@ -2538,6 +2556,7 @@ async function main() {
     { loc: `${BASE_URL}/`, priority: "1.0", changefreq: "weekly" },
     { loc: `${BASE_URL}/bookingsystem-kommune`, priority: "0.95", changefreq: "monthly" },
     { loc: `${BASE_URL}/bookingsystem-utleie`, priority: "0.95", changefreq: "monthly" },
+    { loc: `${BASE_URL}/kanaler`, priority: "0.9", changefreq: "monthly" },
     { loc: `${BASE_URL}/verktoy`, priority: "0.7", changefreq: "monthly" },
     { loc: `${BASE_URL}/verktoy/leiepriskalkulator`, priority: "0.8", changefreq: "monthly" },
     { loc: `${BASE_URL}/verktoy/kapasitetskalkulator`, priority: "0.8", changefreq: "monthly" },
