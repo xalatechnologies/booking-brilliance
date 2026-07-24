@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { EditorialHeading, SectionRule, EditorialButton } from "@/components/editorial";
-import { Check, RefreshCw } from "lucide-react";
+import { Check, RefreshCw, Link2, Sparkles, FileCheck } from "lucide-react";
 import { revealUp, viewportOnce } from "@/lib/motion";
 
 const CHANNELS = ["Airbnb", "Booking.com", "Bookup", "Eventum", "Finn"];
@@ -11,6 +11,29 @@ const BENEFITS = [
   "Alltid oppdatert — aldri dobbeltbookinger",
   "Én admin for alle kanaler",
 ];
+
+// AI-agent import: paste a listing URL from any source and the agent extracts
+// everything into a ready-to-publish Digilist draft — so hosts onboard without
+// re-keying and can keep using both platforms.
+const IMPORT_STEPS = [
+  {
+    icon: Link2,
+    title: "Lim inn lenken",
+    body: "Fra Finn, Airbnb, Eventum — eller hvilken som helst kilde.",
+  },
+  {
+    icon: Sparkles,
+    title: "Agenten henter alt",
+    body: "Tekst, bilder, kalender, priser og konfigurasjon — automatisk.",
+  },
+  {
+    icon: FileCheck,
+    title: "Ferdig utkast",
+    body: "Gjennomgå, juster og publiser. Ingen manuell inntasting.",
+  },
+];
+
+const IMPORT_SOURCES = ["Finn", "Airbnb", "Eventum", "Booking.com", "+ alle kilder"];
 
 /**
  * Channel-sync ("channel manager") value prop: connect the systems the host
@@ -113,6 +136,72 @@ export function ChannelSyncSection() {
                 </p>
               </div>
             </div>
+          </div>
+        </motion.div>
+
+        {/* AI-agent import — copy an existing listing over from any source
+            (data, images, calendar, config) into a ready Digilist draft, so
+            hosts onboard without re-keying and keep using both platforms. */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+          variants={revealUp}
+          className="mt-12 lg:mt-16 rounded-lg border border-rule bg-paper p-6 lg:p-10 shadow-[0_14px_44px_-26px_rgba(10,18,40,0.4)]"
+        >
+          <div className="lg:max-w-3xl">
+            <p className="editorial-mono-caption text-accent-text mb-3">
+              AI-agent · import
+            </p>
+            <h3
+              className="font-serif text-2xl lg:text-3xl text-ink"
+              style={{ letterSpacing: "-0.015em", lineHeight: 1.1 }}
+            >
+              La agenten flytte oppføringene dine
+            </h3>
+            <p className="mt-3 text-ink-soft measure leading-relaxed">
+              Har du allerede oppføringer på Finn, Airbnb eller Eventum? Lim inn
+              lenken, så henter AI-agenten data, bilder, kalender og konfigurasjon
+              — og lager et ferdig utkast i Digilist. Du godkjenner, og kan trygt
+              fortsette å bruke begge plattformer.
+            </p>
+          </div>
+
+          <ol className="mt-8 grid gap-4 sm:grid-cols-3">
+            {IMPORT_STEPS.map(({ icon: Icon, title, body }, i) => (
+              <li
+                key={title}
+                className="group relative rounded-md border border-rule bg-gradient-to-br from-paper to-paper-deep/60 p-5 shadow-[0_1px_2px_rgba(10,18,40,0.05),0_10px_24px_-18px_rgba(10,18,40,0.3)] transition-all duration-quick ease-editorial hover:-translate-y-0.5 hover:border-accent-text/30 hover:shadow-[0_16px_30px_-16px_rgba(10,18,40,0.4)]"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-accent-tinted text-accent-text ring-1 ring-accent-text/20">
+                    <Icon className="h-5 w-5" strokeWidth={1.75} aria-hidden="true" />
+                  </span>
+                  <span className="font-mono text-[0.7rem] tracking-widest text-ink-faint">
+                    0{i + 1}
+                  </span>
+                </div>
+                <p
+                  className="mt-3 font-serif text-lg text-ink"
+                  style={{ letterSpacing: "-0.01em", lineHeight: 1.2 }}
+                >
+                  {title}
+                </p>
+                <p className="mt-1 text-sm text-ink-soft leading-relaxed">{body}</p>
+              </li>
+            ))}
+          </ol>
+
+          <div className="mt-6 flex flex-wrap items-center gap-2.5">
+            <span className="editorial-mono-caption text-ink-faint">Kilder</span>
+            {IMPORT_SOURCES.map((s) => (
+              <span
+                key={s}
+                className="rounded-full border border-rule bg-gradient-to-b from-paper to-paper-deep/70 px-3.5 py-1.5 text-sm font-medium text-ink"
+              >
+                {s}
+              </span>
+            ))}
           </div>
         </motion.div>
       </div>
