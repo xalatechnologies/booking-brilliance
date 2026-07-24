@@ -24,7 +24,7 @@ const INTERESTS: Interest[] = [
   { id: "finn", label: "Finn og book lokale", icon: Search, to: "/leie" },
   { id: "kalender", label: "Booking & kalender", icon: CalendarDays, to: "/booking-av-lokaler-og-moterom" },
   { id: "betaling", label: "Betaling & oppgjør", icon: Wallet, to: "/booking-av-lokaler-og-moterom" },
-  { id: "kanaler", label: "Kanaler & synk", icon: RefreshCw, to: "/booking-av-lokaler-og-moterom" },
+  { id: "kanaler", label: "Kanaler & synk", icon: RefreshCw, to: "/bookingsystem-utleie" },
   { id: "ai", label: "AI-agenter", icon: Sparkles, to: "/ai-agenter" },
   { id: "kommune", label: "Bookingsystem for kommune", icon: Building2, to: "/bookingsystem-kommune" },
 ];

@@ -71,7 +71,7 @@ export function ChannelSyncSection() {
               <EditorialButton
                 variant="primary"
                 size="lg"
-                href="/booking-av-lokaler-og-moterom"
+                href="/bookingsystem-utleie"
               >
                 Se hvordan synk fungerer
               </EditorialButton>
